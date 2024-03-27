@@ -21,12 +21,5 @@
       <button type="submit" class="btn btn-primary">Search</button>
     </div>
   </form>
-<!--  <p class="text mt-4 fw-light ">-->
-<!--    <small>-->
-<!--      To search: omit space, slash, hyphen, and other special characters.-->
-<!--      <br>-->
-<!--      Example: JPA: ABC1256NN12 (instead of ABC-1256/NN-12).-->
-<!--    </small>-->
-<!--  </p>-->
 </div>
 <?php
