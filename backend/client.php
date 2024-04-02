@@ -25,3 +25,8 @@ function perform_quick_pole_search($request){
 function perform_website_doc_search($request){
   return SEARCH_RESULT;
 }
+
+
+function getMigrationLogs($request) {
+    return MIGRATION_LOGS;
+}
