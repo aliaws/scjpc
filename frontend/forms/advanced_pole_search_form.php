@@ -1,7 +1,7 @@
 <div class="card p-4">
   <form class="">
     <div class="mb-3">
-      <label class="form-label">Enter Pole Number</label>
+      <label class="form-label">Pole Number</label>
       <div class="d-flex border p-2 rounded input-bg">
         <p class="col-3 m-0">
           <select name="id_pole_filter" class="form-select">

@@ -1,12 +1,12 @@
 <?php
 include_once(SCJPC_PLUGIN_FRONTEND_BASE . 'functions.php');
-function scjpc_jpg_search() {
+function scjpc_jpa_search() {
     ob_start();
       include_once SCJPC_PLUGIN_FRONTEND_BASE."pages/jpa_search.php";
     return ob_get_clean();
 }
 
-add_shortcode('scjpc_jpg_search', 'scjpc_jpg_search');
+add_shortcode('scjpc_jpa_search', 'scjpc_jpa_search');
 
 function scjpc_multiple_jpa_search() {
     ob_start();

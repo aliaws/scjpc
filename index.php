@@ -16,15 +16,15 @@ require_once(ROOT_DIR . '/const.php');
 
 require_once(ROOT_DIR . '/file.php');
 
-
-
-
+/**
+ * this method is use for the create pages when plugin active
+ */
 
 register_activation_hook( __FILE__, 'spjcp_plugin_activation' );
 
 function spjcp_plugin_activation() {
   $pages_data = array(
-    'jpa search' => '[scjpc_jpg_search]',
+    'JPA Search' => '[scjpc_jpa_search]',
     'Multiple JPA Search' => '[scjpc_multiple_jpa_search]',
     'Quick Pole Search' => '[scjpc_quick_pole_search]',
     'Advanced Pole Search' => '[scjpc_advanced_pole_search]',
