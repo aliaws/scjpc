@@ -10,7 +10,12 @@ function load_bootstrap_assets() {
   wp_enqueue_script('frontend_js', SCJPC_ASSETS_URL . 'js/frontend.js', false, '2.2', true);
 }
 
-function chnage_date_format($date) {
+/**
+ * @param $date
+ * @return false|string
+ *      December 24, 2023
+ */
+function change_date_format($date) {
   return date('F j, Y', strtotime($date));
 }
 

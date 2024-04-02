@@ -1,10 +1,12 @@
 <?php
-if (defined('RESULTS')) {
-  $recordKeys = array_keys(RESULTS['records'][0]);
+$search_result = search(($_GET));
+if (!empty($search_result)) {
+  $recordKeys = array_keys($search_result['records'][0]);
+  $no_of_pages = ceil($search_result["total"] / $search_result["per_page"]);
   ?>
   <div class="mw-100 mt-5">
     <div class="d-flex justify-content-between">
-      <p class="text-scondary">Found <?php echo RESULTS['total'] ?> results.</p>
+      <p class="text-scondary">Found <?php echo $search_result['total'] ?> results.</p>
       <div class="btn-group  btn-group-sm mb-4" role="group" aria-label="Basic outlined example">
         <button type="button" class="btn btn-outline-primary text-uppercase">Expotr as exel</button>
         <button type="button" class="btn btn-outline-primary text-uppercase">Expotr as text</button>
@@ -24,7 +26,7 @@ if (defined('RESULTS')) {
       <tbody>
       <?php
 
-      foreach (RESULTS['records'] as $record) {
+      foreach ($search_result['records'] as $record) {
         ?>
         <tr>
           <th scope="row"><?php echo $record['id']; ?></th>
@@ -40,8 +42,8 @@ if (defined('RESULTS')) {
               </svg>
             </a>
           </td>
-          <td><?php echo chnage_date_format($record['received_date']); ?></td>
-          <td><?php echo chnage_date_format($record['billed_date']); ?></td>
+          <td alt="<?php echo $record['received_date']; ?>" title="<?php echo $record['received_date']; ?>"><?php echo change_date_format($record['received_date']); ?></td>
+          <td alt="<?php echo $record['billed_date']; ?>" title="<?php echo $record['billed_date']; ?>"><?php echo change_date_format($record['billed_date']); ?></td>
         </tr>
       <?php } ?>
       </tbody>
@@ -57,6 +59,7 @@ if (defined('RESULTS')) {
           <li class="page-item"><a class="page-link" href="#">1</a></li>
           <li class="page-item"><a class="page-link" href="#">2</a></li>
           <li class="page-item"><a class="page-link" href="#">3</a></li>
+
           <li class="page-item">
             <a class="page-link" href="#" aria-label="Next">
               <span aria-hidden="true">&raquo;</span>

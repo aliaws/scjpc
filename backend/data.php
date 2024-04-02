@@ -1,6 +1,14 @@
 <?php
-$records = [];
-for ($i = 1; $i <= 100; $i++) {
+$search_result = [
+    "records" => [],
+    "page" => 1,
+    "total" => 25000,
+    "result_per_page" => [
+        50, 100, 200, 500, 1000
+    ],
+    "selected_per_page" => 50
+];
+for ($i = 0; $i < 100; $i++) {
     $record = [
         'id' => $i,
         'jpa_number' => 'E6073080' . $i,
@@ -9,9 +17,6 @@ for ($i = 1; $i <= 100; $i++) {
         'billed_date' => date('Y-m-d', strtotime("-$i days")),
     ];
 
-    $records[] = $record;
+    $search_result["records"][$i] = $record;
 }
-define("RECORDS", [
-    "total" => 100,
-    "records" => $records,
-]);
+define("SEARCH_RESULT", $search_result);

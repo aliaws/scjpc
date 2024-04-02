@@ -1,33 +1,27 @@
 <?php
 
-if($_GET){
-  if(!empty($_GET['call_method'])){
-    define("RESULTS", search());
-  }
+function search($request) {
+    $data = perform_jpa_search($request);
+    $data["per_page"] = $_GET["per_page"];
+    $data["page"] = $_GET["page"];
+    return $data;
 }
-function search() {
-
-  if (function_exists($_GET['call_method'])) {
-    return call_user_func($_GET['call_method'], $_GET);
-  } else {
-    echo "Function  does not exist.";
-  }
+function perform_jpa_search($request) {
+    //api calling curl
+  return SEARCH_RESULT;
 }
-function jpa_search() {
-  return RECORDS;
-}
-function performMultpleJpASearch(){
-  return RECORDS;
+function perform_multiple_jpa_search($request){
+  return SEARCH_RESULT;
 }
 
-function performAdvancePoleSearch(){
-  return RECORDS;
+function perform_advance_pole_search($request){
+  return SEARCH_RESULT;
 }
 
-function peformQuickPoleSearch(){
-  return RECORDS;
+function perform_quick_pole_search($request){
+  return SEARCH_RESULT;
 }
 
-function peformWebsiteDocSearch(){
-  return RECORDS;
+function perform_website_doc_search($request){
+  return SEARCH_RESULT;
 }
