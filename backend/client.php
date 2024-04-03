@@ -27,6 +27,6 @@ function perform_website_doc_search($request){
 }
 
 
-function getMigrationLogs() {
+function get_migration_logs() {
     return MIGRATION_LOGS;
 }

@@ -21,7 +21,7 @@ for ($i = 0; $i < $total; $i++) {
 define("SEARCH_RESULT", $search_result);
 
 $migration_logs = [];
-for ($i = 0; $i < 100; $i++) {
+for ($i = 0; $i < 20; $i++) {
     $log = [
         'id' => $i+1,
         'status' => array_rand(['Pending', 'Processing', 'Processed', 'Error'],1),
