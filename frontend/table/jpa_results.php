@@ -2,7 +2,11 @@
 $search_result = search(($_GET));
 if (!empty($search_result)) {
   $recordKeys = array_keys($search_result['records'][0]);
-  $no_of_pages = ceil($search_result["total"] / $search_result["per_page"]);
+  $total_pages = (int)$search_result["total"];
+  $num_results_on_page = (int)$search_result["per_page"];
+  $page = (int)$search_result["page_number"];
+  $no_of_pages = ceil($total_pages / $num_results_on_page);
+  $result_per_page = $search_result['result_per_page'];
   ?>
   <div class="mw-100 mt-5">
     <div class="d-flex justify-content-between">
@@ -42,42 +46,68 @@ if (!empty($search_result)) {
               </svg>
             </a>
           </td>
-          <td alt="<?php echo $record['received_date']; ?>" title="<?php echo $record['received_date']; ?>"><?php echo change_date_format($record['received_date']); ?></td>
-          <td alt="<?php echo $record['billed_date']; ?>" title="<?php echo $record['billed_date']; ?>"><?php echo change_date_format($record['billed_date']); ?></td>
+          <td alt="<?php echo $record['received_date']; ?>"
+              title="<?php echo $record['received_date']; ?>"><?php echo change_date_format($record['received_date']); ?></td>
+          <td alt="<?php echo $record['billed_date']; ?>"
+              title="<?php echo $record['billed_date']; ?>"><?php echo change_date_format($record['billed_date']); ?></td>
         </tr>
       <?php } ?>
       </tbody>
     </table>
     <div class="d-flex justify-content-between">
-      <nav aria-label="Page navigation example">
-        <ul class="pagination">
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-            </a>
-          </li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <?php if ($no_of_pages > 0): ?>
+        <ul class="pagination pagination-bar">
+          <?php if ($page > 1): ?>
+            <li class="prev"><a data-page="<?php echo $page - 1 ?>">Prev</a></li>
+          <?php endif; ?>
 
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-            </a>
-          </li>
+          <?php if ($page > 3): ?>
+            <li class="start"><a data-page="1">1</a></li>
+            <li class="dots">...</li>
+          <?php endif; ?>
+
+          <?php if ($page - 2 > 0): ?>
+            <li class="page"><a data-page="<?php echo $page - 2 ?>"><?php echo $page - 2 ?></a>
+            </li><?php endif; ?>
+          <?php if ($page - 1 > 0): ?>
+            <li class="page"><a data-page="<?php echo $page - 1 ?>"><?php echo $page - 1 ?></a>
+            </li><?php endif; ?>
+
+          <li class="currentpage active"><a data-page="<?php echo $page ?>"><?php echo $page ?></a></li>
+
+          <?php if ($page + 1 < $no_of_pages + 1): ?>
+            <li class="page"><a data-page="<?php echo $page + 1 ?>"><?php echo $page + 1 ?></a>
+            </li><?php endif; ?>
+          <?php if ($page + 2 < $no_of_pages + 1): ?>
+            <li class="page"><a data-page="<?php echo $page + 2 ?>"><?php echo $page + 2 ?></a>
+            </li><?php endif; ?>
+
+          <?php if ($page < $no_of_pages - 2): ?>
+            <li class="dots">...</li>
+            <li class="end"><a
+                data-page="<?php echo $no_of_pages ?>"><?php echo $no_of_pages ?></a>
+            </li>
+          <?php endif; ?>
+
+          <?php if ($page < $no_of_pages): ?>
+            <li class="next"><a data-page="<?php echo $page + 1 ?>">Next</a></li>
+          <?php endif; ?>
         </ul>
-      </nav>
+      <?php endif; ?>
+
+
       <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-end">
+        <ul class="pagination page-list justify-content-end">
           <li class="page-item disabled">
             <a class="page-link">Result per page</a>
           </li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#">All</a>
-          </li>
+          <?php foreach ($result_per_page as $result_page) {
+            $active = $result_page == $num_results_on_page ? "active" : ""; ?>
+            <li class="page-item">
+              <a class="page-link <?php echo $active; ?>"
+                 data-page="<?php echo $result_page; ?>"><?php echo $result_page; ?></a>
+            </li>
+            <?php } ?>
         </ul>
       </nav>
     </div>

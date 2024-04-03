@@ -7,3 +7,8 @@
 .w-40{
     width: 40px;
 }
+
+
+.pagination li a{
+    cursor: pointer;
+}

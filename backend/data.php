@@ -1,14 +1,13 @@
 <?php
 $search_result = [
     "records" => [],
-    "page" => 1,
     "total" => 25000,
     "result_per_page" => [
         50, 100, 200, 500, 1000
     ],
-    "selected_per_page" => 50
 ];
-for ($i = 0; $i < 100; $i++) {
+$total = isset($_GET['per_page']) ? $_GET['per_page'] : 0;
+for ($i = 0; $i < $total; $i++) {
     $record = [
         'id' => $i+1,
         'jpa_number' => 'E6073080' . $i,

@@ -3,7 +3,7 @@
 function search($request) {
     $data = perform_jpa_search($request);
     $data["per_page"] = $_GET["per_page"];
-    $data["page"] = $_GET["page"];
+    $data["page_number"] = $_GET["page_number"];
     return $data;
 }
 function perform_jpa_search($request) {
@@ -27,6 +27,6 @@ function perform_website_doc_search($request){
 }
 
 
-function getMigrationLogs($request) {
+function getMigrationLogs() {
     return MIGRATION_LOGS;
 }
