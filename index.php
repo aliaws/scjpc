@@ -25,8 +25,8 @@ register_activation_hook( __FILE__, 'spjcp_plugin_activation' );
 function spjcp_plugin_activation() {
   $pages_data = array(
     'JPA Search' => '[scjpc_jpa_search]',
-    'Multiple JPA Search' => '[scjpc_multiple_jpa_search]',
     'Quick Pole Search' => '[scjpc_quick_pole_search]',
+    'Multiple JPA Search' => '[scjpc_multiple_jpa_search]',
     'Advanced Pole Search' => '[scjpc_advanced_pole_search]',
     'Multiple Pole Search' => '[scjpc_multiple_pole_search]',
     'Website/Doc Search' => '[scjpc_website_doc_search]',

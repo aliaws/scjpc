@@ -1,6 +1,6 @@
 <?php
-$search_result = search(($_GET));
-if (!empty($search_result)) {
+if (!empty($_GET)) {
+  $search_result = search(($_GET));
   $recordKeys = array_keys($search_result['records'][0]);
   $total_pages = (int)$search_result["total"];
   $num_results_on_page = (int)$search_result["per_page"];
