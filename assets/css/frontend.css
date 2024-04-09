@@ -35,3 +35,6 @@ h6{
     padding-bottom: 5px !important;
     border-top: #cccccc 1px dotted;
 }
+.filter-form-wrapper .well{
+    width: 70%;
+}

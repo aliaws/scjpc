@@ -29,4 +29,11 @@ jQuery(document).ready(function () {
         const action = jQuery('#action').val();
         jQuery(`#${action}`).submit();
     });
+    jQuery('input[value=all]').click(function (){
+        if (!jQuery(this).prop('checked')) {
+            jQuery('input[name="choices[]"]').prop('checked', false);
+        }else{
+            jQuery('input[name="choices[]"]').prop('checked', true);
+        }
+    })
 });

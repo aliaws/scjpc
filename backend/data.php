@@ -86,3 +86,246 @@ $pole_result = [
 ];
 
 define("POLE_RESULT", $pole_result);
+
+
+$columns = [
+  'all' => [
+    "label" => "All",
+    "hidden" => true,
+    "default" => true,
+  ],
+  "unique_id" => [
+    "type" => "checkbox",
+    "label" => "Unique ID",
+    "hidden" => true,
+    "default" => false,
+
+  ],
+  "pole_number" => [
+    "label" => "Pole Number",
+    "hidden" => false,
+    "default" => false,
+  ],
+  "pole_replacement" => [
+    "label" => "Pole Replacement",
+    "hidden" => true,
+    "default" => false,
+  ],
+  "longitude" => [
+    "label" => "Longitude",
+    "hidden" => true,
+    "default" => false,
+  ],
+  "latitude" => [
+    "label" => "Latitude",
+    "hidden" => true,
+    "default" => false,
+  ],
+  "pole_class" => [
+    "label" => "Pole Class",
+    "hidden" => false,
+    "default" => false,
+  ],
+  "base_owner" => [
+    "label" => "Base Owner",
+    "hidden" => true,
+    "default" => false,
+  ],
+  "location" => [
+    "label" => "Location",
+    "hidden" => true,
+    "default" => false,
+  ],
+  "height" => [
+    "label" => "Height",
+    "hidden" => false,
+    "default" => false,
+  ],
+  "top_extenstion" => [
+    "label" => "Top Extenstion",
+    "hidden" => true,
+    "default" => false,
+  ],
+  "year_set" => [
+    "label" => "Year Set",
+    "hidden" => false,
+    "default" => false,
+  ],
+  "treatment" => [
+    "label" => "Treatment",
+    "hidden" => true,
+    "default" => false,
+  ],
+  "removal_relinquishment" => [
+    "label" => "Removal/Relinquishment",
+    "hidden" => true,
+    "default" => false,
+  ],
+  "member_to_remove" => [
+    "label" => "Member to remove pole/Member relinquished",
+    "hidden" => true,
+    "default" => false,
+  ],
+  "jpa_details" => [
+    "label" => "JPA Details",
+    "hidden" => true,
+    "default" => false,
+  ],
+  "bill_of_sale" => [
+    "label" => "Bill of Sale",
+    "hidden" => true,
+    "default" => false,
+  ],
+  "members_code" => [
+    "label" => "Members code and Grade/Space info",
+    "hidden" => true,
+    "default" => false,
+  ],
+  "antenna_info" => [
+    "label" => "Antenna info",
+    "hidden" => true,
+    "default" => false,
+  ],
+];
+define("MULTIPLE_POLE_RESULT", $columns);
+
+$extra_columns = [
+  "jpa_details" => [
+    "JPA Number",
+    "JPA Number 2",
+    "Billed Date",
+  ],
+  "members_code" => [
+    "Company 1",
+    "Company 2",
+    "Company 3",
+    "Company 4",
+    "Company 5",
+    "Company 6",
+    "Company 7",
+    "Company 8",
+    "Company 9",
+    "Company 10",
+    "Company 1 GnS",
+    "Company 2 GnS",
+    "Company 3 GnS",
+    "Company 4 GnS",
+    "Company 5 GnS",
+    "Company 6 GnS",
+    "Company 7 GnS",
+    "Company 8 GnS",
+    "Company 9 GnS",
+    "Company 10 GnS",
+    "Anc For Company 1",
+    "Anc For Company 2",
+    "Anc For Company 3",
+    "Anc For Company 4",
+    "Anc For Company 5",
+    "Anc For Company 6",
+    "Anc For Company 7",
+    "Anc For Company 8",
+    "Anc For Company 9",
+    "Anc For Company 10",
+    "Anc For Company 1a",
+    "Anc For Company 2a",
+    "Anc For Company 3a",
+  ],
+  "antenna_info" => [
+     "Antenna For Company 1",
+     "Antenna For Company 2",
+     "Antenna For Company 3",
+     "Antenna For Company 4",
+     "Antenna For Company 5",
+     "Antenna For Company 6",
+     "Antenna For Company 7",
+     "Antenna For Company 8",
+     "Antenna For Company 9",
+     "Antenna For Company 10",
+  ]
+];
+
+
+$total = 5;
+$columns_values = [];
+
+for ($i = 0; $i < $total; $i++) {
+  $columns_values = [
+    'unique_id' => uniqid('unique_id_'),
+    'pole_number' => uniqid('pole_number_'),
+    'pole_replacement' => uniqid('pole_replacement_'),
+    'longitude' => uniqid('longitude_'),
+    'latitude' => uniqid('latitude_'),
+    'pole_class' => uniqid('pole_class_'),
+    'base_owner' => uniqid('base_owner_'),
+    'location' => uniqid('location_'),
+    'height' => uniqid('height_'),
+    'top_extenstion' => uniqid('top_extenstion_'),
+    'year_set' => uniqid('year_set_'),
+    'treatment' => uniqid('treatment_'),
+    'removal_relinquishment' => uniqid('removal_relinquishment_'),
+    'member_to_remove' => uniqid('member_to_remove_'),
+    "jpa_details" => [
+      "jpa_number" => uniqid('jpa_number_'),
+      "JPA Number 2" => uniqid('JPA Number 2_'),
+      "billed_date" => uniqid('billed_date'),
+    ],
+    'bill_of_sale' => uniqid('bill_of_sale_'),
+    "members_code" => [
+      "company_1" => uniqid('company_1_'),
+      "company_2" => uniqid('company_2_'),
+      "Company 3" => uniqid('Company 3_'),
+      "company_4" => uniqid('company_4_'),
+      "company_5" => uniqid('company_5_'),
+      "company_6" => uniqid('company_6_'),
+      "company_7" => uniqid('company_7_'),
+      "company_8" => uniqid('company_8_'),
+      "company_9" => uniqid('company_9_'),
+      "company_10" => uniqid('company_10_'),
+      "company_1_gn_s" => uniqid('company_1_gn_s_'),
+      "company_2_gn_s" => uniqid('company_2_gn_s_'),
+      "company_3_gn_s" => uniqid('company_3_gn_s_'),
+      "company_4_gn_s" => uniqid('company_4_gn_s_'),
+      "company_5_gn_s" => uniqid('company_5_gn_s_'),
+      "company_6_gn_s" => uniqid('company_6_gn_s_'),
+      "company_7_gn_s" => uniqid('company_7_gn_s_'),
+      "company_8_gn_s" => uniqid('company_8_gn_s_'),
+      "company_9_gn_s" => uniqid('company_9_gn_s_'),
+      "company_10_gn_s" => uniqid('company_10_gn_s_'),
+      "anc_for_company_1" => uniqid('anc_for_company_1_'),
+      "anc_for_company_2" => uniqid('anc_for_company_2_'),
+      "anc_for_company_3" => uniqid('anc_for_company_3_'),
+      "anc_for_company_4" => uniqid('anc_for_company_4_'),
+      "anc_for_company_5" => uniqid('anc_for_company_5_'),
+      "anc_for_company_6" => uniqid('anc_for_company_6_'),
+      "anc_for_company_7" => uniqid('anc_for_company_7_'),
+      "anc_for_company_8" => uniqid('anc_for_company_8_'),
+      "anc_for_company_9" => uniqid('anc_for_company_9_'),
+      "anc_for_company_10" => uniqid('anc_for_company_10_'),
+      "anc_for_company_1a" => uniqid('anc_for_company_1a_'),
+      "anc_for_company_2a" => uniqid('anc_for_company_2a_'),
+      "anc_for_company_3a" => uniqid('anc_for_company_3a_'),
+    ],
+    "antenna_info" => [
+      "antenna_for_company_1" => uniqid('antenna_for_company_1_'),
+      "antenna_for_company_2" => uniqid('antenna_for_company_2_'),
+      "antenna_for_company_3" => uniqid('antenna_for_company_3_'),
+      "antenna_for_company_4" => uniqid('antenna_for_company_4_'),
+      "antenna_for_company_5" => uniqid('antenna_for_company_5_'),
+      "antenna_for_company_6" => uniqid('antenna_for_company_6_'),
+      "antenna_for_company_7" => uniqid('antenna_for_company_7_'),
+      "antenna_for_company_8" => uniqid('antenna_for_company_8_'),
+      "antenna_for_company_9" => uniqid('antenna_for_company_9_'),
+      "antenna_for_company_10" => uniqid('antenna_for_company_10_'),
+    ],
+  ];
+  $columns_values_index[$i] = $columns_values;
+}
+
+
+// Now $records contains the array of records with keys formatted as lowercase with spaces between words.
+
+
+define("COLUMNS_VALUES", $columns_values_index);
+define("EXTRA_COLUMNS", $extra_columns);
+
+
