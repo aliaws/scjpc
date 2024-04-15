@@ -11,7 +11,7 @@
           </select>
         </p>
         <p class="col-9 ps-3 m-0">
-          <input type="text" name="pole" class="form-control" id="pole">
+          <input type="text" name="pole" class="form-control" id="pole" />
         </p>
       </div>
     </div>
@@ -26,17 +26,17 @@
           </select>
         </p>
         <p class="col-9 ps-3 m-0">
-          <input type="text" name="location" class="form-control" id="location">
+          <input type="text" name="location" class="form-control" id="location" />
         </p>
       </div>
     </div>
     <div class="mb-3">
       <label for="id_latitude" class="form-label">Latitude</label>
-      <input type="text" name="latitude" class="form-control" id="id_latitude" aria-describedby="emailHelp">
+      <input type="text" name="latitude" class="form-control" id="id_latitude" aria-describedby="emailHelp" />
     </div>
     <div class="mb-3">
       <label for="id_longitude" class="form-label">Longitude</label>
-      <input type="text" name="longitude" class="form-control" id="id_longitude" aria-describedby="emailHelp">
+      <input type="text" name="longitude" class="form-control" id="id_longitude" aria-describedby="emailHelp" />
     </div>
     <div class="mb-4">
       <label for="id_distance" class="form-label">Distance</label>

@@ -9,3 +9,10 @@ const SCJPC_PLUGIN_BACKEND_BASE = SCJPC_PLUGIN_PATH . "backend/";
 const SCJPC_PLUGIN_ADMIN_BASE = SCJPC_PLUGIN_PATH . "admin/";
 
 define("CHOICES", !empty($_GET['choices']) ? $_GET['choices'] : '');
+const FEET = [
+  75 => '75 feet',
+  150 => '150 feet',
+  300 => '300 feet',
+];
+
+

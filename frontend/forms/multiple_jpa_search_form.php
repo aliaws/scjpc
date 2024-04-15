@@ -10,11 +10,11 @@
   <form class="">
     <div class="mb-3"">
       <label for="check_excel_csv" class="form-label d-block">Does Excel/CSV contains Header?</label>
-      <input type="checkbox" name="jpa_number" class="form-check-input" id="check_excel_csv" >
+      <input type="checkbox" name="jpa_number" class="form-check-input" id="check_excel_csv" />
     </div>
     <div class="mb-3">
       <label for="formFile" class="form-label">Select File</label>
-      <input class="form-control" type="file" id="formFile">
+      <input class="form-control" type="file" id="formFile" />
     </div>
     <div class="d-flex justify-content-between">
       <button type="button" class="clearBtn btn btn-secondary">Clear</button>
