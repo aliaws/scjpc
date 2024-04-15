@@ -91,13 +91,13 @@ define("POLE_RESULT", $pole_result);
 $columns = [
   'all' => [
     "label" => "All",
-    "hidden" => true,
+
     "default" => true,
   ],
   "unique_id" => [
     "type" => "checkbox",
     "label" => "Unique ID",
-    "hidden" => true,
+
     "default" => false,
 
   ],
@@ -108,17 +108,17 @@ $columns = [
   ],
   "pole_replacement" => [
     "label" => "Pole Replacement",
-    "hidden" => true,
+
     "default" => false,
   ],
   "longitude" => [
     "label" => "Longitude",
-    "hidden" => true,
+
     "default" => false,
   ],
   "latitude" => [
     "label" => "Latitude",
-    "hidden" => true,
+
     "default" => false,
   ],
   "pole_class" => [
@@ -128,12 +128,12 @@ $columns = [
   ],
   "base_owner" => [
     "label" => "Base Owner",
-    "hidden" => true,
+
     "default" => false,
   ],
   "location" => [
     "label" => "Location",
-    "hidden" => true,
+
     "default" => false,
   ],
   "height" => [
@@ -143,7 +143,7 @@ $columns = [
   ],
   "top_extenstion" => [
     "label" => "Top Extenstion",
-    "hidden" => true,
+
     "default" => false,
   ],
   "year_set" => [
@@ -153,41 +153,34 @@ $columns = [
   ],
   "treatment" => [
     "label" => "Treatment",
-    "hidden" => true,
     "default" => false,
   ],
   "removal_relinquishment" => [
     "label" => "Removal/Relinquishment",
-    "hidden" => true,
     "default" => false,
   ],
   "member_to_remove" => [
     "label" => "Member to remove pole/Member relinquished",
-    "hidden" => true,
     "default" => false,
   ],
   "jpa_details" => [
     "label" => "JPA Details",
-    "hidden" => true,
     "default" => false,
   ],
   "bill_of_sale" => [
     "label" => "Bill of Sale",
-    "hidden" => true,
     "default" => false,
   ],
   "members_code" => [
     "label" => "Members code and Grade/Space info",
-    "hidden" => true,
     "default" => false,
   ],
   "antenna_info" => [
     "label" => "Antenna info",
-    "hidden" => true,
     "default" => false,
   ],
 ];
-define("MULTIPLE_POLE_RESULT", $columns);
+define("CHECK_BOXES_LABELS", $columns);
 
 $extra_columns = [
   "jpa_details" => [
@@ -231,25 +224,24 @@ $extra_columns = [
     "Anc For Company 3a",
   ],
   "antenna_info" => [
-     "Antenna For Company 1",
-     "Antenna For Company 2",
-     "Antenna For Company 3",
-     "Antenna For Company 4",
-     "Antenna For Company 5",
-     "Antenna For Company 6",
-     "Antenna For Company 7",
-     "Antenna For Company 8",
-     "Antenna For Company 9",
-     "Antenna For Company 10",
+    "Antenna For Company 1",
+    "Antenna For Company 2",
+    "Antenna For Company 3",
+    "Antenna For Company 4",
+    "Antenna For Company 5",
+    "Antenna For Company 6",
+    "Antenna For Company 7",
+    "Antenna For Company 8",
+    "Antenna For Company 9",
+    "Antenna For Company 10",
   ]
 ];
-
 
 $total = 5;
 $columns_values = [];
 
 for ($i = 0; $i < $total; $i++) {
-  $columns_values = [
+  $columns_values[$i] = [
     'unique_id' => uniqid('unique_id_'),
     'pole_number' => uniqid('pole_number_'),
     'pole_replacement' => uniqid('pole_replacement_'),
@@ -318,14 +310,9 @@ for ($i = 0; $i < $total; $i++) {
       "antenna_for_company_10" => uniqid('antenna_for_company_10_'),
     ],
   ];
-  $columns_values_index[$i] = $columns_values;
 }
 
-
-// Now $records contains the array of records with keys formatted as lowercase with spaces between words.
-
-
-define("COLUMNS_VALUES", $columns_values_index);
-define("EXTRA_COLUMNS", $extra_columns);
+define("COLUMNS_VALUES", $columns_values);
+define("EXTRA_COLUMNS_LABELS", $extra_columns);
 
 

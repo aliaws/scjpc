@@ -55,46 +55,47 @@ if (!empty($_GET)) {
       </tbody>
     </table>
     <div class="d-flex justify-content-between">
+      <nav aria-label="Page navigation example">
       <?php if ($no_of_pages > 0): ?>
         <ul class="pagination pagination-bar">
           <?php if ($page > 1): ?>
-            <li class="prev"><a data-page="<?php echo $page - 1 ?>">Prev</a></li>
+            <li class="prev page-item"><a class="page-link" data-page="<?php echo $page - 1 ?>">Prev</a></li>
           <?php endif; ?>
 
           <?php if ($page > 3): ?>
-            <li class="start"><a data-page="1">1</a></li>
-            <li class="dots">...</li>
+            <li class="start page-item"><a class="page-link" data-page="1">1</a></li>
+            <li class="dots page-item">...</li>
           <?php endif; ?>
 
           <?php if ($page - 2 > 0): ?>
-            <li class="page"><a data-page="<?php echo $page - 2 ?>"><?php echo $page - 2 ?></a>
+            <li class="page page-item"><a class="page-link" data-page="<?php echo $page - 2 ?>"><?php echo $page - 2 ?></a>
             </li><?php endif; ?>
           <?php if ($page - 1 > 0): ?>
-            <li class="page"><a data-page="<?php echo $page - 1 ?>"><?php echo $page - 1 ?></a>
+            <li class="page page-item"><a class="page-link" data-page="<?php echo $page - 1 ?>"><?php echo $page - 1 ?></a>
             </li><?php endif; ?>
 
-          <li class="currentpage active"><a data-page="<?php echo $page ?>"><?php echo $page ?></a></li>
+          <li class="currentpage active page-item"><a class="page-link" data-page="<?php echo $page ?>"><?php echo $page ?></a></li>
 
           <?php if ($page + 1 < $no_of_pages + 1): ?>
-            <li class="page"><a data-page="<?php echo $page + 1 ?>"><?php echo $page + 1 ?></a>
+            <li class="page page-item"><a class="page-link" data-page="<?php echo $page + 1 ?>"><?php echo $page + 1 ?></a>
             </li><?php endif; ?>
           <?php if ($page + 2 < $no_of_pages + 1): ?>
-            <li class="page"><a data-page="<?php echo $page + 2 ?>"><?php echo $page + 2 ?></a>
+            <li class="page page-item"><a class="page-link" data-page="<?php echo $page + 2 ?>"><?php echo $page + 2 ?></a>
             </li><?php endif; ?>
 
           <?php if ($page < $no_of_pages - 2): ?>
-            <li class="dots">...</li>
-            <li class="end"><a
-                data-page="<?php echo $no_of_pages ?>"><?php echo $no_of_pages ?></a>
+            <li class="dots page-item">...</li>
+            <li class="end page-item"><a
+                class="page-link" data-page="<?php echo $no_of_pages ?>"><?php echo $no_of_pages ?></a>
             </li>
           <?php endif; ?>
 
           <?php if ($page < $no_of_pages): ?>
-            <li class="next"><a data-page="<?php echo $page + 1 ?>">Next</a></li>
+            <li class="next page-item"><a class="page-link" data-page="<?php echo $page + 1 ?>">Next</a></li>
           <?php endif; ?>
         </ul>
       <?php endif; ?>
-
+      </nav>
 
       <nav aria-label="Page navigation example">
         <ul class="pagination page-list justify-content-end">

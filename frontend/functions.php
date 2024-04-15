@@ -23,30 +23,31 @@ function change_date_format($date) {
   return date('F j, Y', strtotime($date));
 }
 
-/*
- * custom pagination with bootstrap .pagination class
- * source: http://www.ordinarycoder.com/paginate_links-class-ul-li-bootstrap/
- */
-
-function custom_bootstrap_pagination($total_pages, $current_page) {
-  $big = 999999999; // need an unlikely integer
-  echo "<br>";
-  echo str_replace($big, '%#%', esc_url(get_pagenum_link($big)));
-  echo paginate_links(array(
-    'base' => str_replace($big, '%#%', esc_url(get_pagenum_link($big))),
-    'format' => '?page_number=%#%',
-    'current' => max(1, $current_page),
-    'total' => $total_pages,
-    'prev_text' => __('« Previous', 'text-domain'),
-    'next_text' => __('Next »', 'text-domain'),
-    'type' => 'list',
-    'prev_next' => true,
-    'before_page_number' => '<span class="page-link">',
-    'after_page_number' => '</span>',
-    'show_all' => false,
-    'end_size' => 1,
-    'mid_size' => 2,
-  ));
+function get_active_columns(): array {
+  $active_columns = [];
+  foreach (CHOICES as $checked_column) {
+    $active_columns[$checked_column] = $checked_column;
+  }
+  return $active_columns;
 }
+function print_checkboxes($group): void {
+  $active_columns = CHOICES ? get_active_columns() : '';
+  foreach ($group as $key => $column) {
+    if (CHOICES) {
+      $checked = !empty($active_columns[$key]) ? 'checked' : '';
+    } else {
+      $checked = $column['default'] ? 'checked' : '';
+
+    }
+    if ($key != "all") {
+      echo '<div  class="col-md-6"><label for="id_choices_' . $key . '"><input id="id_choices_' . $key . '" name="choices[]" type="checkbox" value="' . $key . '" ' . $checked . '> ' . $column['label'] . '</label></div>';
+    } else {
+      echo '<div class="col-md-6"><label for="id_choices_' . $key . '"><input id="id_choices_' . $key . '"  type="checkbox" value="all"> ' . $column['label'] . '</label></div>';
+    }
+  }
+}
+
+
+
 
 ?>
