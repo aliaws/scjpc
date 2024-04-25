@@ -1,24 +1,24 @@
 <?php
 require_once SCJPC_PLUGIN_ADMIN_BASE . 'migration_logs.php';
-function scjpc_migrations_log_page(): void {
-  ob_start();
-  include_once(SCJPC_PLUGIN_ADMIN_BASE . 'migration_logs_table.php');
-}
+//function scjpc_migrations_log_page(): void {
+//  ob_start();
+//  include_once(SCJPC_PLUGIN_ADMIN_BASE . 'migration_logs_table.php');
+//}
 
-// Function to add the custom admin page to the WordPress admin menu
-function add_custom_admin_page(): void {
-  add_menu_page(
-    'Migration Logs', // Page title
-    'Migration Logs', // Menu title
-    'manage_options',    // Capability required to access this page
-    'migration-logs', // Menu slug
-    'scjpc_migrations_log_page', // Function to generate the page content
-    'dashicons-admin-generic',   // Icon URL or Dashicon class
-    99 // Position in the menu
-  );
-}
-
-add_action('admin_menu', 'add_custom_admin_page');
+//// Function to add the custom admin page to the WordPress admin menu
+//function add_custom_admin_page(): void {
+//  add_menu_page(
+//    'Migration Logs', // Page title
+//    'Migration Logs', // Menu title
+//    'manage_options',    // Capability required to access this page
+//    'migration-logs', // Menu slug
+//    'scjpc_migrations_log_page', // Function to generate the page content
+//    'dashicons-admin-generic',   // Icon URL or Dashicon class
+//    99 // Position in the menu
+//  );
+//}
+//
+//add_action('admin_menu', 'add_custom_admin_page');
 
 
 add_action('init', 'scjpc_register_post_type_migration_logs');
