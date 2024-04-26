@@ -70,6 +70,7 @@ function scjpc_migrations_logs_columns($columns): array {
     'poles_s3_key' => __('Poles S3 Key', 'scjpc'),
     'poles_created' => __('Poles Created', 'scjpc'),
     'poles_updated' => __('Poles Updated', 'scjpc'),
+    'request_host' => __('Request Host', 'scjpc'),
 //    'job_datetime' => __('Job Datetime', 'scjpc'),
     'date' => __('Date', 'scjpc'),
   ];
@@ -78,21 +79,23 @@ function scjpc_migrations_logs_columns($columns): array {
 
 add_action('manage_migration_logs_posts_custom_column', 'scjpc_fill_migrations_logs_columns', 10, 2);
 function scjpc_fill_migrations_logs_columns($column, $post_id): void {
-  if ($column == 'status') {
-    echo get_post_meta($post_id, 'scjpc_status')[0];
-  } elseif ($column == 'jpas_s3_key') {
-    echo get_post_meta($post_id, 'scjpc_jpas_s3_key')[0];
-  } elseif ($column == 'jpas_created') {
-    echo get_post_meta($post_id, 'scjpc_no_of_jpas_created')[0];
-  } elseif ($column == 'jpas_updated') {
-    echo get_post_meta($post_id, 'scjpc_no_of_jpas_updated')[0];
-  } elseif ($column == 'poles_s3_key') {
-    echo get_post_meta($post_id, 'scjpc_poles_s3_key')[0];
-  } elseif ($column == 'poles_created') {
-    echo get_post_meta($post_id, 'scjpc_no_of_poles_created')[0];
-  } elseif ($column == 'poles_updated') {
-    echo get_post_meta($post_id, 'scjpc_no_of_poles_updated')[0];
-  } elseif ($column == 'job_datetime') {
-    echo get_post_meta($post_id, 'scjpc_job_datetime')[0];
+  $scjpc_columns = get_scjpc_columns_array();
+  if (isset($scjpc_columns[$column])) {
+    echo get_post_meta($post_id, $scjpc_columns[$column], true);
   }
 }
+
+function get_scjpc_columns_array(): array {
+  return [
+    'status' => 'scjpc_status',
+    'jpas_s3_key' => 'scjpc_jpas_s3_key',
+    'jpas_created' => 'scjpc_no_of_jpas_created',
+    'jpas_updated' => 'scjpc_no_of_jpas_updated',
+    'poles_s3_key' => 'scjpc_poles_s3_key',
+    'poles_created' => 'scjpc_no_of_poles_created',
+    'poles_updated' => 'scjpc_no_of_poles_updated',
+//    'job_datetime' => 'scjpc_job_datetime',
+    'request_host' => 'scjpc_request_host',
+  ];
+}
+
