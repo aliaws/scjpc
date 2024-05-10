@@ -1,5 +1,7 @@
 <?php
 require_once SCJPC_PLUGIN_ADMIN_BASE . 'migration_logs.php';
+require_once SCJPC_PLUGIN_ADMIN_BASE . 'create_users.php';
+
 //function scjpc_migrations_log_page(): void {
 //  ob_start();
 //  include_once(SCJPC_PLUGIN_ADMIN_BASE . 'migration_logs_table.php');
