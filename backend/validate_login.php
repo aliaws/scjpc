@@ -2,13 +2,13 @@
 /**
  * This hock is used for send recovery password mail if user create from csv 
  */
-add_action('wp_login_failed', 'check_failed_login_for_password_recovery');
-function check_failed_login_for_password_recovery($username)
+add_action('wp_login_failed', 'ads_check_failed_login_for_password_recovery');
+function ads_check_failed_login_for_password_recovery($username)
 {
-    send_password_recovery_email_on_incorrect_password($username);
+    ads_send_password_recovery_email_on_incorrect_password($username);
 }
 
-function send_password_recovery_email_on_incorrect_password($username)
+function ads_send_password_recovery_email_on_incorrect_password($username)
 {
     $user = get_user_by('email', $username);
     if (!$user) {
@@ -31,8 +31,8 @@ function send_password_recovery_email_on_incorrect_password($username)
 /**
  * This filter is used for create custom error messag if user create from csv 
  */
-add_filter('authenticate', 'wp_authenticate_username_passworddd', 25, 3);
-function wp_authenticate_username_passworddd($user, $username, $password)
+add_filter('authenticate', 'ads_authenticate_username_password', 25, 3);
+function ads_authenticate_username_password($user, $username, $password)
 {
     $getUser = get_user_by('email', $username);
     if (!$getUser) {
@@ -40,7 +40,6 @@ function wp_authenticate_username_passworddd($user, $username, $password)
     }
     $csv_data = !is_bool($getUser) ? get_user_meta($getUser->ID, 'created_from_csv', true) : "";
     if ($csv_data === "1") {
-        $csv_data = get_user_meta($getUser->ID, 'created_from_csv', true);
         return new WP_Error(
             'incorrect_password',
             sprintf(
