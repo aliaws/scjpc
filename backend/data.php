@@ -1,12 +1,12 @@
 <?php
 $search_result = [
-  "records" => [],
+  "results" => [],
   "total" => 25000,
   "result_per_page" => [
     50, 100, 200, 500, 1000
   ],
 ];
-$total = isset($_GET['per_page']) ? $_GET['per_page'] : 0;
+$total = $_GET['per_page'] ?? 0;
 for ($i = 0; $i < $total; $i++) {
   $record = [
     'id' => $i + 1,

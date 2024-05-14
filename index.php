@@ -12,20 +12,19 @@
 
 const ROOT_DIR = __DIR__;
 
-require_once (ROOT_DIR . '/const.php');
+require_once(ROOT_DIR . '/const.php');
 
-require_once (ROOT_DIR . '/file.php');
+require_once(ROOT_DIR . '/file.php');
 
 /**
  * this method is use for the create pages when plugin active
  */
 register_activation_hook(__FILE__, 'scjpc_plugin_activation');
-function scjpc_plugin_activation(): void
-{
+function scjpc_plugin_activation(): void {
   $pages_data = array(
     'JPA Search' => '[scjpc_jpa_search]',
-    'Quick Pole Search' => '[scjpc_quick_pole_search]',
     'Multiple JPA Search' => '[scjpc_multiple_jpa_search]',
+    'Quick Pole Search' => '[scjpc_quick_pole_search]',
     'Advanced Pole Search' => '[scjpc_advanced_pole_search]',
     'Multiple Pole Search' => '[scjpc_multiple_pole_search]',
     'Website/Doc Search' => '[scjpc_website_doc_search]',
@@ -51,8 +50,8 @@ function scjpc_plugin_activation(): void
     }
   }
 }
-function scjpc_get_page_by_title(string $page_title): ?WP_Post
-{
+
+function scjpc_get_page_by_title(string $page_title): ?WP_Post {
   $query = new WP_Query(
     array(
       'post_type' => 'page',
