@@ -10,8 +10,7 @@
     </small>
   </p>
   <form class="needs-validation" id="multiple_jpa_search" action="<?php echo get_permalink(get_the_ID()); ?>"
-        method="get"
-        novalidate>
+        method="get" novalidate>
     <div class="mb-3">
       <label for="check_excel_csv" class="form-label d-block">Does Excel/CSV contains Header?</label>
       <input type="checkbox" name="jpa_number" class="form-check-input" id="check_excel_csv"/>

@@ -97,9 +97,7 @@ $columns = [
   "unique_id" => [
     "type" => "checkbox",
     "label" => "Unique ID",
-
     "default" => false,
-
   ],
   "pole_number" => [
     "label" => "Pole Number",
@@ -108,17 +106,14 @@ $columns = [
   ],
   "pole_replacement" => [
     "label" => "Pole Replacement",
-
     "default" => false,
   ],
   "longitude" => [
     "label" => "Longitude",
-
     "default" => false,
   ],
   "latitude" => [
     "label" => "Latitude",
-
     "default" => false,
   ],
   "pole_class" => [
@@ -128,12 +123,10 @@ $columns = [
   ],
   "base_owner" => [
     "label" => "Base Owner",
-
     "default" => false,
   ],
   "location" => [
     "label" => "Location",
-
     "default" => false,
   ],
   "height" => [
@@ -141,9 +134,8 @@ $columns = [
     "hidden" => false,
     "default" => false,
   ],
-  "top_extenstion" => [
-    "label" => "Top Extenstion",
-
+  "top_extension" => [
+    "label" => "Top Extension",
     "default" => false,
   ],
   "year_set" => [
@@ -155,19 +147,23 @@ $columns = [
     "label" => "Treatment",
     "default" => false,
   ],
-  "removal_relinquishment" => [
+  "req_rem" => [
     "label" => "Removal/Relinquishment",
     "default" => false,
   ],
-  "member_to_remove" => [
+  "req_rem_co" => [
     "label" => "Member to remove pole/Member relinquished",
     "default" => false,
   ],
-  "jpa_details" => [
-    "label" => "JPA Details",
+  "jpa_number" => [
+    "label" => "JPA Number",
     "default" => false,
   ],
-  "bill_of_sale" => [
+  'jpa_number_2' => [
+    "label" => "JPA Number 2",
+    "default" => ""
+  ],
+  "bos_2" => [
     "label" => "Bill of Sale",
     "default" => false,
   ],
@@ -179,6 +175,14 @@ $columns = [
     "label" => "Antenna info",
     "default" => false,
   ],
+  'status' => [
+    "label" => "Status",
+    "default" => ""
+  ],
+  'city' => [
+    "label" => "City",
+    "default" => ""
+  ]
 ];
 define("CHECK_BOXES_LABELS", $columns);
 
@@ -251,7 +255,7 @@ for ($i = 0; $i < $total; $i++) {
     'base_owner' => uniqid('base_owner_'),
     'location' => uniqid('location_'),
     'height' => uniqid('height_'),
-    'top_extenstion' => uniqid('top_extenstion_'),
+    'top_extension' => uniqid('top_extension_'),
     'year_set' => uniqid('year_set_'),
     'treatment' => uniqid('treatment_'),
     'removal_relinquishment' => uniqid('removal_relinquishment_'),

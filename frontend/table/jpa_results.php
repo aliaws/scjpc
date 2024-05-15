@@ -1,6 +1,6 @@
 <?php if (!empty($_GET)) {
   $search_result = search(($_GET));
-  $recordKeys = array_keys($search_result['results'][0] ?? []);
+  $record_keys = array_keys($search_result['results'][0] ?? []);
   $total_pages = (int)$search_result["total_pages"];
   $page = (int)$search_result["page_number"];
   $result_per_page = $search_result['result_per_page'];
@@ -17,7 +17,7 @@
     <table class="table w-100 table-striped">
       <thead>
       <tr>
-        <?php foreach ($recordKeys as $key) {
+        <?php foreach ($record_keys as $key) {
           echo "<th class='text-capitalize' scope='col'>" . str_replace("_", " ", $key) . "</th>";
         } ?>
       </tr>

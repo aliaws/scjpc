@@ -101,3 +101,26 @@ function get_scjpc_columns_array(): array {
   ];
 }
 
+
+add_action('admin_menu', 'scjpc_options_menu');
+
+function scjpc_options_menu(): void {
+  add_menu_page(
+    'SCJPC - Admin Settings', 'SCJPC Settings', 'administrator', __FILE__,
+    'scjpc_options_menu_settings_page', plugins_url('/images/icon.png', __FILE__)
+  );
+  add_action('admin_init', 'scjpc_options_menu_settings');
+}
+
+
+function scjpc_options_menu_settings(): void {
+  register_setting('scjpc-settings-group', 'scjpc_es_host');
+  register_setting('scjpc-settings-group', 'scjpc_client_auth_key');
+  register_setting('scjpc-settings-group', 'scjpc_aws_cdn');
+}
+
+function scjpc_options_menu_settings_page(): void {
+  ob_start();
+  include_once SCJPC_PLUGIN_ADMIN_BASE . 'templates/settings_group.php';
+  echo ob_get_clean();
+}
