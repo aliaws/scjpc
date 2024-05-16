@@ -112,7 +112,7 @@ function upload_and_read_file($request): string {
     return implode(" ", $searchable_numbers);
   }
   $contains_headers = isset($request['contains_header']);
-  $file_name = preg_replace('/xls$/', 'xlsx', $_FILES['uploaded_file']['full_path']);
+  $file_name = preg_replace('/xls$/', 'xlsx', $_FILES['uploaded_file']['name']);
   $upload_file_path = WP_CONTENT_DIR . '/uploads/scjpc-exports/' . $file_name;
   if (move_uploaded_file($_FILES['uploaded_file']['tmp_name'], $upload_file_path)) {
     include_once SCJPC_PLUGIN_PATH . 'excel-reader/SimpleXLSX.php';

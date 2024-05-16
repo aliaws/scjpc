@@ -1,6 +1,6 @@
 <?php
 include_once(SCJPC_PLUGIN_FRONTEND_BASE . 'functions.php');
-function scjpc_jpa_search(): bool|string {
+function scjpc_jpa_search() {
   ob_start();
   include_once SCJPC_PLUGIN_FRONTEND_BASE . "pages/jpa_search.php";
   return ob_get_clean();
@@ -8,7 +8,7 @@ function scjpc_jpa_search(): bool|string {
 
 add_shortcode('scjpc_jpa_search', 'scjpc_jpa_search');
 
-function scjpc_multiple_jpa_search(): bool|string {
+function scjpc_multiple_jpa_search() {
   ob_start();
   include_once SCJPC_PLUGIN_FRONTEND_BASE . "pages/multiple_jpa_search.php";
   return ob_get_clean();
@@ -16,7 +16,7 @@ function scjpc_multiple_jpa_search(): bool|string {
 
 add_shortcode('scjpc_multiple_jpa_search', 'scjpc_multiple_jpa_search');
 
-function scjpc_quick_pole_search(): bool|string {
+function scjpc_quick_pole_search() {
   ob_start();
   include_once SCJPC_PLUGIN_FRONTEND_BASE . "pages/quick_pole_search.php";
   return ob_get_clean();
@@ -24,14 +24,14 @@ function scjpc_quick_pole_search(): bool|string {
 
 add_shortcode('scjpc_quick_pole_search', 'scjpc_quick_pole_search');
 
-function scjpc_advanced_pole_search(): bool|string {
+function scjpc_advanced_pole_search() {
   ob_start();
   include_once SCJPC_PLUGIN_FRONTEND_BASE . "pages/advanced_pole_search.php";
   return ob_get_clean();
 }
 
 add_shortcode('scjpc_advanced_pole_search', 'scjpc_advanced_pole_search');
-function scjpc_multiple_pole_search(): bool|string {
+function scjpc_multiple_pole_search() {
   ob_start();
   include_once SCJPC_PLUGIN_FRONTEND_BASE . "pages/multiple_pole_search.php";
   return ob_get_clean();

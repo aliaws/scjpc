@@ -19,7 +19,7 @@ function load_bootstrap_assets(): void {
  * @return false|string
  * December 24, 2023
  */
-function change_date_format($date): bool|string {
+function change_date_format($date) {
   return date('F j, Y', strtotime($date));
 }
 

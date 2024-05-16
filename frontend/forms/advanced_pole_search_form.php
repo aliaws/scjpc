@@ -5,16 +5,14 @@
       <label class="form-label">Pole Number</label>
       <div class="d-flex border p-2 rounded input-bg">
         <p class="col-3 m-0">
-          <label>
-            <select name="pole_number_filter" class="form-select">
-              <?php foreach (STRING_FILTER as $key => $label) { ?>
-                <option <?php echo isset($_GET['pole_number_filter']) && $_GET['pole_number_filter'] == $key ? 'selected' : '' ?>
-                  value="<?php echo $key; ?>">
-                  <?php echo $label; ?>
-                </option>
-              <?php } ?>
-            </select>
-          </label>
+          <select name="pole_number_filter" class="form-select">
+            <?php foreach (STRING_FILTER as $key => $label) { ?>
+              <option <?php echo isset($_GET['pole_number_filter']) && $_GET['pole_number_filter'] == $key ? 'selected' : '' ?>
+                value="<?php echo $key; ?>">
+                <?php echo $label; ?>
+              </option>
+            <?php } ?>
+          </select>
         </p>
         <p class="col-9 ps-3 m-0">
           <input type="text" name="pole_number" class="form-control" id="pole"
