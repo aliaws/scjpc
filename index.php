@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Scjpc
+ * Plugin Name: SCJPC
  * Plugin URI: https://accuratedigitalsolutions.com/web-application-development/
  * Description: This plugin creates search form the search the JPAs and POLEs based on various filters
  * Version: 1.1
