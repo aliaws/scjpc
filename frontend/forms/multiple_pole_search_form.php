@@ -5,11 +5,12 @@
     </strong>
     <small>Search multiple poles by pole numbers listed in an excel file.</small>
     <small class="my-3 d-block">
-      <a href="<?php echo home_url(SCJPC_PLUGIN_FRONTEND_BASE . "multiple_jpa_search_sample_file.xlsx"); ?>">Example of
-        pole numbers (excel file) (50.0 KB)</a>
+      <a href="<?php echo SCJPC_URL . "frontend/ExamplePoleNumbers.xlsx"; ?>" download>
+        Example of Pole Numbers Excel file - (.xlsx)
+      </a>
     </small>
     <small class="my-3 d-block">
-      Click "Choose File" button, select an excel file, and click "Search multiple poles" button (one time only).
+      Click "Choose File" button, select an Excel file, and click "Search multiple poles" button (one time only).
     </small>
   </p>
   <form class="needs-validation" id="multiple_pole_search" action="<?php echo get_permalink(get_the_ID()); ?>"
@@ -21,7 +22,7 @@
     </div>
     <div class="mb-3">
       <label for="id_search_file" class="form-label">Select File</label>
-      <input class="form-control" name="uploaded_file" type="file" id="id_search_file"/>
+      <input class="form-control" name="uploaded_file" type="file" id="id_search_file" accept=".xlsx"/>
     </div>
     <p class="text  mb-3 fw-light ">
       <strong class="me-2">

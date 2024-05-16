@@ -1,13 +1,13 @@
 <?php
 /**
  * Plugin Name: Scjpc
- * Plugin URI: https://not.yet/
- * Description: create search forms
+ * Plugin URI: https://accuratedigitalsolutions.com/web-application-development/
+ * Description: This plugin creates search form the search the JPAs and POLEs based on various filters
  * Version: 1.1
  * Author: Ali Abbas
- * Author URI: https://office.com/
+ * Author URI: https://accuratedigitalsolutions.com/
  * License: GPLv2 or later
- * Text Domain: ali
+ * Text Domain: scjpc
  */
 
 const ROOT_DIR = __DIR__;
@@ -50,6 +50,7 @@ function scjpc_plugin_activation(): void {
       );
     }
   }
+  scjpc_create_files_directory_in_uploads();
 }
 
 function scjpc_get_page_by_title(string $page_title): ?WP_Post {
@@ -73,4 +74,10 @@ function scjpc_get_page_by_title(string $page_title): ?WP_Post {
     $page = null;
   }
   return $page;
+}
+
+function scjpc_create_files_directory_in_uploads(): void {
+  if (!file_exists(WP_CONTENT_DIR . '/uploads/scjpc-exports/')) {
+    wp_mkdir_p(WP_CONTENT_DIR . '/uploads/scjpc-exports');
+  }
 }

@@ -4,8 +4,8 @@
       Click "Chose File" button, select an Excel file, and click "Search multiple JPAs" button (one time only)
     </small>
     <small class="my-3 d-block">
-      <a href="<?php echo home_url(SCJPC_PLUGIN_FRONTEND_BASE . "multiple_jpa_search_sample_file.xlsx"); ?>" download>
-        Example of JPA Numbers (Excel file)
+      <a href="<?php echo SCJPC_URL . "frontend/ExampleJPANumbers.xlsx"; ?>" download>
+        Example of JPA Numbers Excel file (.xlsx)
       </a>
     </small>
   </p>
@@ -18,7 +18,7 @@
     </div>
     <div class="mb-3">
       <label for="formFile" class="form-label">Select File</label>
-      <input class="form-control" name="uploaded_file" type="file" id="formFile"/>
+      <input class="form-control" name="uploaded_file" type="file" id="formFile" accept=".xlsx"/>
     </div>
     <input type="hidden" id="action" name="action" value="multiple_jpa_search"/>
     <input type="hidden" id="per_page" name="per_page" value="<?php echo $_POST['per_page'] ?? '50'; ?>"/>
