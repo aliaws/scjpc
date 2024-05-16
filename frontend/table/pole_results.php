@@ -8,17 +8,17 @@ if (!empty($_GET)) {
   $num_results_on_page = $search_results['per_page'];
 //  echo "<pre>" . print_r($search_results, true) . "</pre>";
   if ($search_results['total_records'] == 0) {
-    echo "no result found";
+    include_once SCJPC_PLUGIN_FRONTEND_BASE . '/table/not_found.php';
   } else {
     if ($_GET['action'] == 'quick_pole_search') {
       if ($search_results['results'][0]['status'] === 'A') {
         $pole_result = $search_results['results'][0];
-        $jpa_results = $search_results['jpas'];
+        $jpa_results = $search_results['results'][0]['associated_jpas'];
         include_once SCJPC_PLUGIN_FRONTEND_BASE . "table/single_pole.php";
       } else {
         include_once SCJPC_PLUGIN_FRONTEND_BASE . "table/multiple_pole.php";
       }
-    } elseif ($_GET['action'] == 'advanced_pole_search') {
+    } elseif ($_GET['action'] == 'advanced_pole_search' || $_GET['action'] == 'jpa_detail_search') {
       include_once SCJPC_PLUGIN_FRONTEND_BASE . "table/multiple_pole.php";
     }
   }

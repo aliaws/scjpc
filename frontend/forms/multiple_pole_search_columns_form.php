@@ -19,16 +19,16 @@
     <div class="mt-3 form-group">
       <div><label for="active_only">Show Active only?</label></div>
       <input id="active_only" name="active_only"
-             type="checkbox" <?php echo isset($_GET['active_only']) && $_GET['active_only'] ? 'checked' : ''; ?>/>
+             type="checkbox" <?php echo isset($_POST['active_only']) && $_POST['active_only'] ? 'checked' : ''; ?>/>
     </div>
     <div class="d-flex justify-content-between mt-3">
       <button type="button" class="clearBtn btn btn-secondary">Clear</button>
       <!--      <button type="submit" class="btn btn-primary">Search</button>-->
     </div>
     <input type="hidden" id="action" name="action" value="multiple_pole_search"/>
-    <input type="hidden" id="per_page" name="per_page" value="<?php echo $_GET['per_page'] ?? '50'; ?>"/>
-    <input type="hidden" id="page_number" name="page_number" value="<?php echo $_GET['page_number'] ?? '1'; ?>"/>
-    <input type="hidden" id="last_id" name="last_id" value="<?php echo $_GET['last_id'] ?? ''; ?>"/>
+    <input type="hidden" id="per_page" name="per_page" value="<?php echo $_POST['per_page'] ?? '50'; ?>"/>
+    <input type="hidden" id="page_number" name="page_number" value="<?php echo $_POST['page_number'] ?? '1'; ?>"/>
+    <input type="hidden" id="last_id" name="last_id" value="<?php echo $_POST['last_id'] ?? ''; ?>"/>
     <!--    </form>-->
   </div>
 </div>

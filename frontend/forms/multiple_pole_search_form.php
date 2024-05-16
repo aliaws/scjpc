@@ -13,14 +13,15 @@
     </small>
   </p>
   <form class="needs-validation" id="multiple_pole_search" action="<?php echo get_permalink(get_the_ID()); ?>"
-        method="get" novalidate>
+        method="post" enctype="multipart/form-data" novalidate>
     <div class="mb-3">
-      <label for="id_header" class="form-label d-block">Does Excel/CSV contains Header?</label>
-      <input type="checkbox" name="header" class="form-check-input" id="id_header"/>
+      <label for="excel_contains_header" class="form-label d-block">Does Excel/CSV contains Header?</label>
+      <input type="checkbox" name="contains_header" class="form-check-input" id="excel_contains_header"
+        <?php echo isset($_POST['contains_header']) && $_POST['contains_header'] ? 'checked' : ''; ?> />
     </div>
     <div class="mb-3">
       <label for="id_search_file" class="form-label">Select File</label>
-      <input class="form-control" name="search_file" type="file" id="id_search_file"/>
+      <input class="form-control" name="uploaded_file" type="file" id="id_search_file"/>
     </div>
     <p class="text  mb-3 fw-light ">
       <strong class="me-2">
@@ -36,7 +37,7 @@
       <select class="form-select" id="base_owner" name="base_owner" aria-label="Default select example">
         <option value=""></option>
         <?php foreach (BASE_OWNERS as $key => $value) { ?>
-          <option <?php echo isset($_GET['base_owner']) && $_GET['base_owner'] == $key ? 'selected' : '' ?>
+          <option <?php echo isset($_POST['base_owner']) && $_POST['base_owner'] == $key ? 'selected' : '' ?>
             value="<?php echo $key; ?>"><?php echo $value; ?></option>
         <?php } ?>
       </select>
@@ -46,9 +47,9 @@
       <input type="checkbox" name="active" class="form-check-input" id="id_active"/>
     </div>
     <input type="hidden" id="action" name="action" value="multiple_pole_search"/>
-    <input type="hidden" id="per_page" name="per_page" value="<?php echo $_GET['per_page'] ?? '50'; ?>"/>
-    <input type="hidden" id="page_number" name="page_number" value="<?php echo $_GET['page_number'] ?? '1'; ?>"/>
-    <input type="hidden" id="last_id" name="last_id" value="<?php echo $_GET['last_id'] ?? ''; ?>"/>
+    <input type="hidden" id="per_page" name="per_page" value="<?php echo $_POST['per_page'] ?? '50'; ?>"/>
+    <input type="hidden" id="page_number" name="page_number" value="<?php echo $_POST['page_number'] ?? '1'; ?>"/>
+    <input type="hidden" id="last_id" name="last_id" value="<?php echo $_POST['last_id'] ?? ''; ?>"/>
     <div class="d-flex justify-content-between">
       <button type="button" class="clearBtn btn btn-secondary">Clear</button>
       <button type="submit" class="btn btn-primary">Search</button>

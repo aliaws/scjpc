@@ -38,6 +38,15 @@ function scjpc_multiple_pole_search(): bool|string {
 }
 
 add_shortcode('scjpc_multiple_pole_search', 'scjpc_multiple_pole_search');
+
+function scjpc_pole_search() {
+  ob_start();
+  include_once SCJPC_PLUGIN_FRONTEND_BASE . "pages/jpa_detail_search.php";
+  return ob_get_clean();
+}
+
+add_shortcode('scjpc_pole_search', 'scjpc_pole_search');
+
 function scjpc_website_doc_search() {
   ob_start();
   include_once SCJPC_PLUGIN_FRONTEND_BASE . "pages/website_doc_search.php";
