@@ -26,7 +26,7 @@
     <tbody>
     <?php $base_cdn_url = rtrim(get_option('scjpc_aws_cdn'), '/');
     foreach ($search_results as $result) {
-      $jpa_pdf_url = "$base_cdn_url?s3_key={$result['pdf_s3_key']}"; ?>
+      $jpa_pdf_url = "$base_cdn_url?download_scjpc={$result['pdf_s3_key']}"; ?>
       <tr>
         <th scope="row"><?php echo $result['jpa_unique_id']; ?></th>
         <td><?php echo $result['jpa_number_2']; ?></td>
