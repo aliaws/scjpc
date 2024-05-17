@@ -13,11 +13,13 @@ if (!empty($_GET) || !empty($_POST)) {
 //  $search_result = search(($_GET));
 //  $record_keys = array_keys($search_result['results'][0] ?? []);
   $record_keys = JPAS_KEYS;
-  $total_pages = (int)$search_result["total_pages"];
-  $page = (int)$search_result["page_number"];
+  $total_pages = isset($search_result["total_pages"]) ? (int)$search_result["total_pages"] : 0;
+  $page = (int)$search_result["page_number"] ?? 1;
   $result_per_page = $search_result['result_per_page'];
   $num_results_on_page = $search_result['per_page'];
-  if ($search_result['total_records'] > 0 && count($search_result['results']) > 0) {
+  $total_records = $search_result['total_records'] ?? 0;
+  $search_results = $search_result['results'] ?? [];
+  if ($total_records > 0 && count($search_results) > 0) {
     include_once SCJPC_PLUGIN_FRONTEND_BASE . '/table/jpa_response.php';
   } else {
     include_once SCJPC_PLUGIN_FRONTEND_BASE . '/table/not_found.php';

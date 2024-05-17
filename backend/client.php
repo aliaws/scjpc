@@ -1,5 +1,7 @@
 <?php
 
+use Shuchkin\SimpleXLSX;
+
 function search($request) {
 //  echo "<pre>" . print_r($request, true) . "</pre>";
 //  echo "<pre>" . print_r($_FILES, true) . "</pre>";
@@ -27,7 +29,7 @@ function perform_jpa_search($request): array {
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/jpa-search?" . http_build_query($request);
   $response = make_search_api_call($api_url, $headers);
   $response['result_per_page'] = RESULTS_PER_PAGE;
-  $_REQUEST['last_id'] = $response['last_id'];
+  $_REQUEST['last_id'] = $response['last_id'] ?? '';
   return $response;
 }
 
@@ -59,7 +61,7 @@ function perform_quick_pole_search($request) {
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/pole-search?" . http_build_query($request);
   $response = make_search_api_call($api_url, $headers);
   $response['result_per_page'] = RESULTS_PER_PAGE;
-  $_REQUEST['last_id'] = $response['last_id'];
+  $_REQUEST['last_id'] = $response['last_id'] ?? '';
   return $response;
 }
 
@@ -82,7 +84,7 @@ function perform_multiple_pole_search($request) {
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/pole-search?" . http_build_query($request);
   $response = make_search_api_call($api_url, $headers);
   $response['result_per_page'] = RESULTS_PER_PAGE;
-  $_REQUEST['last_id'] = $response['last_id'];
+  $_REQUEST['last_id'] = $response['last_id'] ?? '';
   return $response;
 }
 

@@ -1,18 +1,24 @@
 <?php
 if (!empty($_GET)) {
-  $search_results = search($_GET);
+  $search_result = search($_GET);
 }
 if (!empty($_POST)) {
-  $search_results = search($_POST);
+  $search_result = search($_POST);
 }
 if (!empty($_GET) || !empty($_POST)) {
 
-  $record_keys = array_keys($search_results['results'][0] ?? []);
-  $total_pages = (int)$search_results["total_pages"];
-  $page = (int)$search_results["page_number"];
-  $total_records = $search_results["total_records"];
-  $result_per_page = $search_results['result_per_page'];
-  $num_results_on_page = $search_results['per_page']; ?>
+  $record_keys = array_keys($search_result['results'][0] ?? []);
+  $total_pages = isset($search_result["total_pages"]) ? (int)$search_result["total_pages"] : 0;
+  $page = (int)$search_result["page_number"];
+  $total_records = $search_result["total_records"] ?? 0;
+  $result_per_page = $search_result['result_per_page'];
+  $num_results_on_page = $search_result['per_page'];
+  $search_results = $search_result['results'] ?? [];
+  if ($total_records == 0) {
+    include_once SCJPC_PLUGIN_FRONTEND_BASE . '/table/not_found.php';
+    return;
+  }
+  ?>
   <div class="mw-100 mt-5">
     <div class="d-flex justify-content-between">
       <p class="text-secondary">
@@ -43,7 +49,7 @@ if (!empty($_GET) || !empty($_POST)) {
       </tr>
       </thead>
       <tbody>
-      <?php foreach ($search_results['results'] as $get_columns_value_data) { ?>
+      <?php foreach ($search_results as $get_columns_value_data) { ?>
         <tr>
           <?php foreach (CHOICES as $get_columns_keys) {
             if (!empty(EXTRA_COLUMNS_LABELS[$get_columns_keys])) {

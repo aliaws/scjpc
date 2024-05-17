@@ -16,13 +16,13 @@
     </tr>
     </thead>
     <tbody>
-    <?php foreach ($search_result['results'] as $record) { ?>
+    <?php foreach ($search_result as $result) { ?>
       <tr>
-        <th scope="row"><?php echo $record['jpa_unique_id']; ?></th>
-        <td><?php echo $record['jpa_number_2']; ?></td>
+        <th scope="row"><?php echo $result['jpa_unique_id']; ?></th>
+        <td><?php echo $result['jpa_number_2']; ?></td>
         <td>
-          <?php if ($record['pdf_s3_key'] !== null) { ?>
-            <a href="<?php echo $record['pdf_s3_key']; ?>">
+          <?php if ($result['pdf_s3_key'] !== null) { ?>
+            <a href="<?php echo $result['pdf_s3_key']; ?>">
               <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
                    class="bi bi-file-pdf text-danger" viewBox="0 0 16 16">
                 <path
@@ -33,8 +33,8 @@
             </a>
           <?php } ?>
         </td>
-        <td title="<?php echo $record['date_received']; ?>"><?php echo $record['date_received']; ?></td>
-        <td title="<?php echo $record['billed_date']; ?>"><?php echo $record['billed_date']; ?></td>
+        <td title="<?php echo $result['date_received']; ?>"><?php echo $result['date_received']; ?></td>
+        <td title="<?php echo $result['billed_date']; ?>"><?php echo $result['billed_date']; ?></td>
       </tr>
     <?php } ?>
     </tbody>

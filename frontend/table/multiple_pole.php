@@ -1,6 +1,6 @@
 <div class="mw-100 mt-5">
   <div class="d-flex justify-content-between">
-    <p class="text-secondary">Found <?php echo $search_results['total_records'] ?> results.</p>
+    <p class="text-secondary">Found <?php echo $search_result['total_records'] ?> results.</p>
     <div class="btn-group  btn-group-sm mb-4" role="group" aria-label="Basic outlined example">
       <button type="button" class="btn btn-outline-primary text-uppercase">Export as Excel</button>
       <button type="button" class="btn btn-outline-primary text-uppercase">Export as CSV</button>
@@ -16,7 +16,7 @@
     </tr>
     </thead>
     <tbody>
-    <?php foreach ($search_results['results'] as $record) { ?>
+    <?php foreach ($search_result['results'] as $record) { ?>
       <tr>
         <?php foreach (POLES_KEYS as $key => $label) { ?>
           <!--          <th scope="row">--><?php //echo $record[$key]; ?><!--</th>-->
