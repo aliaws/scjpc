@@ -67,10 +67,11 @@ function process_download_request() {
         ]);
 
         try {
+
             // Retrieve the object from S3
             $result = $client->getObject([
                 'Bucket' => 'scjpc-data',
-                'Key'    => $download_scjpc
+                'Key'    => 6
             ]);
 
             // Set headers for file download
@@ -80,7 +81,7 @@ function process_download_request() {
 
             // Output the file content
             echo $result['Body'];
-            wp_die();
+            die;
         } catch (Aws\Exception\AwsException $e) {
             // Output error message if fails
             echo "Error downloading file: " . $e->getMessage();
