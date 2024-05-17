@@ -49,7 +49,8 @@ function print_checkboxes($group): void {
 }
 
 function add_download_query_vars_filter($vars){
-    return ["download_scjpc", "key"];
+    $vars [] = "download_scjpc";
+    return $vars;
 }
 add_filter('query_vars', 'add_download_query_vars_filter');
 
