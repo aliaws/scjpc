@@ -1,10 +1,6 @@
 <?php
 
-use Shuchkin\SimpleXLSX;
-
 function search($request) {
-//  echo "<pre>" . print_r($request, true) . "</pre>";
-//  echo "<pre>" . print_r($_FILES, true) . "</pre>";
   $action = $request['action'] ?? ''; // Check if 'action' key exists
   $data = call_user_func_array('perform_' . $action, [$request]);
   $data["per_page"] = $request["per_page"];

@@ -1,82 +1,5 @@
-<?php /** @noinspection MultiAssignmentUsageInspection */
+<?php
 
-namespace Shuchkin;
-
-use SimpleXMLElement;
-
-/**
- *    SimpleXLSX php class
- *    MS Excel 2007+ workbooks reader
- *
- * Copyright (c) 2012 - 2022 SimpleXLSX
- *
- * @category   SimpleXLSX
- * @package    SimpleXLSX
- * @copyright  Copyright (c) 2012 - 2022 SimpleXLSX (https://github.com/shuchkin/simplexlsx/)
- * @license    MIT
- */
-
-/** Examples
- *
- * use Shuchkin\SimpleXLSX;
- *
- * Example 1:
- * if ( $xlsx = SimpleXLSX::parse('book.xlsx') ) {
- *   foreach ($xlsx->rows() as $r) {
- *     print_r( $r );
- *   }
- * } else {
- *   echo SimpleXLSX::parseError();
- * }
- *
- * Example 2: html table
- * if ( $xlsx = SimpleXLSX::parse('book.xlsx') ) {
- *   echo $xlsx->toHTML();
- * } else {
- *   echo SimpleXLSX::parseError();
- * }
- *
- * Example 3: rowsEx
- * $xlsx = SimpleXLSX::parse('book.xlsx');
- * foreach ( $xlsx->rowsEx() as $r ) {
- *   print_r( $r );
- * }
- *
- * Example 4: select worksheet
- * $xlsx = SimpleXLSX::parse('book.xlsx');
- * foreach( $xlsx->rows(1) as $r  ) { // second worksheet
- *   print_t( $r );
- * }
- *
- * Example 5: IDs and worksheet names
- * $xlsx = SimpleXLSX::parse('book.xlsx');
- * print_r( $xlsx->sheetNames() ); // array( 0 => 'Sheet 1', 1 => 'Catalog' );
- *
- * Example 6: get sheet name by index
- * $xlsx = SimpleXLSX::parse('book.xlsx');
- * echo 'Sheet Name 2 = '.$xlsx->sheetName(1);
- *
- * Example 7: getCell (very slow)
- * echo $xlsx->getCell(1,'D12'); // reads D12 cell from second sheet
- *
- * Example 8: read data
- * if ( $xlsx = SimpleXLSX::parseData( file_get_contents('http://www.example.com/example.xlsx') ) ) {
- *   $dim = $xlsx->dimension(1);
- *   $num_cols = $dim[0];
- *   $num_rows = $dim[1];
- *   echo $xlsx->sheetName(1).':'.$num_cols.'x'.$num_rows;
- * } else {
- *   echo SimpleXLSX::parseError();
- * }
- *
- * Example 9: old style
- * $xlsx = new SimpleXLSX('book.xlsx');
- * if ( $xlsx->success() ) {
- *   print_r( $xlsx->rows() );
- * } else {
- *   echo 'xlsx error: '.$xlsx->error();
- * }
- */
 class SimpleXLSX {
   // Don't remove this string! Created by Sergey Shuchkin sergey.shuchkin@gmail.com
   public static $CF = [ // Cell formats
@@ -147,44 +70,6 @@ class SimpleXLSX {
   public $date1904 = 0;
 
 
-  /*
-      private $date_formats = array(
-          0xe => "d/m/Y",
-          0xf => "d-M-Y",
-          0x10 => "d-M",
-          0x11 => "M-Y",
-          0x12 => "h:i a",
-          0x13 => "h:i:s a",
-          0x14 => "H:i",
-          0x15 => "H:i:s",
-          0x16 => "d/m/Y H:i",
-          0x2d => "i:s",
-          0x2e => "H:i:s",
-          0x2f => "i:s.S"
-      );
-      private $number_formats = array(
-          0x1 => "%1.0f",     // "0"
-          0x2 => "%1.2f",     // "0.00",
-          0x3 => "%1.0f",     //"#,##0",
-          0x4 => "%1.2f",     //"#,##0.00",
-          0x5 => "%1.0f",     //"$#,##0;($#,##0)",
-          0x6 => '$%1.0f',    //"$#,##0;($#,##0)",
-          0x7 => '$%1.2f',    //"$#,##0.00;($#,##0.00)",
-          0x8 => '$%1.2f',    //"$#,##0.00;($#,##0.00)",
-          0x9 => '%1.0f%%',   //"0%"
-          0xa => '%1.2f%%',   //"0.00%"
-          0xb => '%1.2f',     //"0.00E00",
-          0x25 => '%1.0f',    //"#,##0;(#,##0)",
-          0x26 => '%1.0f',    //"#,##0;(#,##0)",
-          0x27 => '%1.2f',    //"#,##0.00;(#,##0.00)",
-          0x28 => '%1.2f',    //"#,##0.00;(#,##0.00)",
-          0x29 => '%1.0f',    //"#,##0;(#,##0)",
-          0x2a => '$%1.0f',   //"$#,##0;($#,##0)",
-          0x2b => '%1.2f',    //"#,##0.00;(#,##0.00)",
-          0x2c => '$%1.2f',   //"$#,##0.00;($#,##0.00)",
-          0x30 => '%1.0f');   //"##0.0E0";
-      // }}}
-  */
   public $errno = 0;
   public $error = false;
   /**
@@ -233,13 +118,7 @@ class SimpleXLSX {
       $vZ = file_get_contents($filename);
     }
     // Cut end of central directory
-    /*      $aE = explode("\x50\x4b\x05\x06", $vZ);
 
-            if (count($aE) == 1) {
-                $this->error('Unknown format');
-                return false;
-            }
-    */
     // Explode to each part
     $aE = explode("\x50\x4b\x03\x04", $vZ);
     array_shift($aE);
@@ -316,43 +195,6 @@ class SimpleXLSX {
         $aI['E'] = 1;
         $aI['EM'] = 'Compressed size is not equal with the value in header information.';
       }
-//          } elseif ( $bE ) {
-//              $aI['E']  = 5;
-//              $aI['EM'] = 'File is encrypted, which is not supported from this class.';
-      /*            } else {
-                      switch ($aP['CM']) {
-                          case 0: // Stored
-                              // Here is nothing to do, the file ist flat.
-                              break;
-                          case 8: // Deflated
-                              $vZ = gzinflate($vZ);
-                              break;
-                          case 12: // BZIP2
-                              if (extension_loaded('bz2')) {
-                                  $vZ = bzdecompress($vZ);
-                              } else {
-                                  $aI['E'] = 7;
-                                  $aI['EM'] = 'PHP BZIP2 extension not available.';
-                              }
-                              break;
-                          default:
-                              $aI['E'] = 6;
-                              $aI['EM'] = "De-/Compression method {$aP['CM']} is not supported.";
-                      }
-                      if (!$aI['E']) {
-                          if ($vZ === false) {
-                              $aI['E'] = 2;
-                              $aI['EM'] = 'Decompression of data failed.';
-                          } elseif ($this->_strlen($vZ) !== (int)$aP['UCS']) {
-                              $aI['E'] = 3;
-                              $aI['EM'] = 'Uncompressed size is not equal with the value in header information.';
-                          } elseif (crc32($vZ) !== $aP['CRC']) {
-                              $aI['E'] = 4;
-                              $aI['EM'] = 'CRC32 checksum is not equal with the value in header information.';
-                          }
-                      }
-                  }
-      */
 
       // DOS to UNIX timestamp
       $aI['T'] = mktime(
@@ -492,8 +334,6 @@ class SimpleXLSX {
                 $this->theme = $this->getEntryXML($wrel_target);
               }
             }
-
-//                        break;
           }
           // reptile hack :: find active sheet from workbook.xml
           if ($workbook->bookViews->workbookView) {
@@ -508,9 +348,6 @@ class SimpleXLSX {
         }
       }
     }
-
-//        $m2 = memory_get_peak_usage(true);
-//        echo __FUNCTION__.' M='.round( ($m2-$m1) / 1048576, 2).'MB'.PHP_EOL;
 
     if (count($this->sheets)) {
       // Sort sheets
@@ -569,10 +406,7 @@ class SimpleXLSX {
         /** @noinspection PhpUndefinedVariableInspection */
         libxml_disable_entity_loader($_old);
       }
-
-//            $m2 = memory_get_usage();
-//            echo round( ($m2-$m1) / (1024 * 1024), 2).' MB'.PHP_EOL;
-
+      
       if ($entry_xmlobj) {
         return $entry_xmlobj;
       }
