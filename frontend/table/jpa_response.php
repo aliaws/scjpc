@@ -16,13 +16,15 @@
     </tr>
     </thead>
     <tbody>
-    <?php foreach ($search_result as $result) { ?>
+    <?php $base_cdn_url = rtrim(get_option('scjpc_aws_cdn'), '/');
+    foreach ($search_results as $result) {
+      $jpa_pdf_url = "$base_cdn_url?s3_key={$result['pdf_s3_key']}"; ?>
       <tr>
         <th scope="row"><?php echo $result['jpa_unique_id']; ?></th>
         <td><?php echo $result['jpa_number_2']; ?></td>
         <td>
           <?php if ($result['pdf_s3_key'] !== null) { ?>
-            <a href="<?php echo $result['pdf_s3_key']; ?>">
+            <a href="<?php echo $jpa_pdf_url; ?>">
               <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
                    class="bi bi-file-pdf text-danger" viewBox="0 0 16 16">
                 <path
