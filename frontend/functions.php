@@ -47,3 +47,45 @@ function print_checkboxes($group): void {
     }
   }
 }
+
+function add_download_query_vars_filter($vars){
+    return ["download_scjpc", "key"];
+}
+add_filter('query_vars', 'add_download_query_vars_filter');
+
+
+function process_download_request() {
+    $download_scjpc =  get_query_var('download_scjpc');
+    if ($download_scjpc) {
+        $client = new \Aws\S3\S3Client([
+            'region'  => 'us-east-2',
+            'version' => '2006-03-01',
+            'credentials' => [
+                'key'    => get_option('scjpc_aws_key'),
+                'secret' => get_option('scjpc_aws_secret'),
+            ]
+        ]);
+
+        try {
+            // Retrieve the object from S3
+            $result = $client->getObject([
+                'Bucket' => 'scjpc-data',
+                'Key'    => $download_scjpc
+            ]);
+
+            // Set headers for file download
+            header('Content-Type: ' . $result['ContentType']);
+            header('Content-Disposition: attachment; filename="' . basename($download_scjpc) . '"');
+            header('Content-Length: ' . $result['ContentLength']);
+
+            // Output the file content
+            echo $result['Body'];
+            wp_die();
+        } catch (Aws\Exception\AwsException $e) {
+            // Output error message if fails
+            echo "Error downloading file: " . $e->getMessage();
+            wp_die();
+        }
+    }
+}
+add_action('template_redirect', 'process_download_request');

@@ -117,6 +117,8 @@ function scjpc_options_menu_settings(): void {
   register_setting('scjpc-settings-group', 'scjpc_es_host');
   register_setting('scjpc-settings-group', 'scjpc_client_auth_key');
   register_setting('scjpc-settings-group', 'scjpc_aws_cdn');
+  register_setting('scjpc-settings-group', 'scjpc_aws_key');
+  register_setting('scjpc-settings-group', 'scjpc_aws_secret');
 }
 
 function scjpc_options_menu_settings_page(): void {

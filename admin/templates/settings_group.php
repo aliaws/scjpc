@@ -33,6 +33,25 @@
           </label>
         </td>
       </tr>
+
+      <tr>
+            <th scope="row">AWS Key</th>
+            <td>
+                <label>
+                    <input type="text" name="scjpc_aws_key" value="<?php echo esc_attr(get_option('scjpc_aws_key')); ?>"
+                           placeholder="AKIA3*********"/>
+                </label>
+            </td>
+      </tr>
+      <tr>
+            <th scope="row">AWS Secret</th>
+            <td>
+                <label>
+                    <input type="password" name="scjpc_aws_secret" value="<?php echo esc_attr(get_option('scjpc_aws_secret')); ?>"
+                           placeholder="5hGjyz8pl2************************"/>
+                </label>
+            </td>
+      </tr>
     </table>
     <?php submit_button(); ?>
   </form>

@@ -1,4 +1,5 @@
 <?php
+include_once (SCJPC_PLUGIN_PATH.'aws/aws-autoloader.php');
 include_once(SCJPC_PLUGIN_FRONTEND_BASE . 'functions.php');
 function scjpc_jpa_search() {
   ob_start();
