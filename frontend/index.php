@@ -55,3 +55,19 @@ function scjpc_website_doc_search() {
 
 add_shortcode('scjpc_website_doc_search', 'scjpc_website_doc_search');
 
+add_action('admin_post_nopriv_make_export_data_call', 'make_export_data_call');
+add_action('wp_ajax_make_export_data_call', 'make_export_data_call');
+add_action('wp_ajax_nopriv_make_export_data_call', 'make_export_data_call');
+
+function make_export_data_call() {
+  $api_url = rtrim(get_option('scjpc_es_host'), '/') . "/data-export";
+  $headers = ["Content-Type: application/json", "security_key: " . get_option('scjpc_client_auth_key')];
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $api_url);
+  curl_setopt($ch, CURLOPT_POST, true);
+  curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($_POST));
+  curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  curl_exec($ch);
+  curl_close($ch);
+}

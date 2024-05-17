@@ -1,3 +1,5 @@
+const admin_ajax_url = jQuery("#admin_ajax_url").val();
+
 jQuery(document).ready(function () {
   jQuery(".clearBtn").click(function () {
     const parentForm = jQuery(this).closest('form');
@@ -36,4 +38,30 @@ jQuery(document).ready(function () {
       jQuery('input[name="choices[]"]').prop('checked', true);
     }
   })
+  register_export_button_calls()
 });
+
+function register_export_button_calls() {
+  ['export_as_excel', 'export_as_csv'].forEach(button => {
+    jQuery(`button#${button}`).on('click', () => {
+      make_export_api_call(jQuery(`button#${button}`).data())
+    })
+  })
+}
+
+
+function make_export_api_call(body) {
+  jQuery.ajax({
+    url: admin_ajax_url + "?action=make_export_data_call",
+    type: 'post',
+    data: body,
+    dataType: 'json',
+    success: function (response) {
+      console.log('response', response);
+      // window.location.replace(response.data);
+    },
+    error: function (error) {
+      console.log('error==', error)
+    }
+  })
+}

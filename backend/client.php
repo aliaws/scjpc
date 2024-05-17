@@ -8,7 +8,8 @@ function search($request) {
   return $data;
 }
 
-function make_search_api_call($api_url, $headers) {
+function make_search_api_call($api_url) {
+  $headers = ["Content-Type: application/json", "security_key: " . get_option('scjpc_client_auth_key')];
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $api_url);
   curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
@@ -20,65 +21,60 @@ function make_search_api_call($api_url, $headers) {
 }
 
 function perform_jpa_search($request): array {
-  $headers = ['Content-Type: application/json', "security_key: " . get_option('scjpc_client_auth_key')];
   $request['action'] = 'single-jpa';
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/jpa-search?" . http_build_query($request);
-  $response = make_search_api_call($api_url, $headers);
+  $response = make_search_api_call($api_url);
   $response['result_per_page'] = RESULTS_PER_PAGE;
+  $response['search_query'] = $api_url;
   $_REQUEST['last_id'] = $response['last_id'] ?? '';
   return $response;
 }
 
 
 function perform_multiple_jpa_search($request): array {
-  $headers = ['Content-Type: application/json', "security_key: " . get_option('scjpc_client_auth_key')];
   $request['action'] = 'multiple-jpa';
   $request['jpa_number'] = upload_and_read_file($request);
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/jpa-search?" . http_build_query($request);
-  $response = make_search_api_call($api_url, $headers);
+  $response = make_search_api_call($api_url);
   $response['result_per_page'] = RESULTS_PER_PAGE;
   $response['per_page'] = $request["per_page"];
   return $response;
 }
 
 function perform_advanced_pole_search($request): array {
-  $headers = ['Content-Type: application/json', "security_key: " . get_option('scjpc_client_auth_key')];
   $request['action'] = 'advanced-pole';
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/pole-search?" . http_build_query($request);
-  $response = make_search_api_call($api_url, $headers);
+  $response = make_search_api_call($api_url);
   $response['result_per_page'] = RESULTS_PER_PAGE;
   $response['per_page'] = $request["per_page"];
   return $response;
 }
 
 function perform_quick_pole_search($request) {
-  $headers = ['Content-Type: application/json', "security_key: " . get_option('scjpc_client_auth_key')];
   $request['action'] = 'single-pole';
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/pole-search?" . http_build_query($request);
-  $response = make_search_api_call($api_url, $headers);
+  $response = make_search_api_call($api_url);
   $response['result_per_page'] = RESULTS_PER_PAGE;
   $_REQUEST['last_id'] = $response['last_id'] ?? '';
   return $response;
 }
 
 function perform_jpa_detail_search($request) {
-  $headers = ['Content-Type: application/json', "security_key: " . get_option('scjpc_client_auth_key')];
   $request['action'] = 'jpa-detail';
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/pole-search?" . http_build_query($request);
-  $response = make_search_api_call($api_url, $headers);
+  $response = make_search_api_call($api_url);
   $response['result_per_page'] = RESULTS_PER_PAGE;
   $_REQUEST['last_id'] = $response['last_id'];
   return $response;
 }
 
 function perform_multiple_pole_search($request) {
-  $headers = ['Content-Type: application/json', "security_key: " . get_option('scjpc_client_auth_key')];
   $request['action'] = 'multiple-pole';
   $request['pole_number'] = upload_and_read_file($request);
   $request['active_only'] = !empty($request['active_only']) ? 'true' : 'false';
 
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/pole-search?" . http_build_query($request);
-  $response = make_search_api_call($api_url, $headers);
+  $response = make_search_api_call($api_url);
   $response['result_per_page'] = RESULTS_PER_PAGE;
   $_REQUEST['last_id'] = $response['last_id'] ?? '';
   return $response;
@@ -94,10 +90,9 @@ function get_migration_logs(): array {
 }
 
 function get_pole_result($request): array {
-  $headers = ['Content-Type: application/json', "security_key: " . get_option('scjpc_client_auth_key')];
   $request['action'] = 'multiple-pole';
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/pole-search?" . http_build_query($request);
-  $response = make_search_api_call($api_url, $headers);
+  $response = make_search_api_call($api_url);
   $response['result_per_page'] = RESULTS_PER_PAGE;
   $_REQUEST['last_id'] = $response['last_id'];
   return $response;

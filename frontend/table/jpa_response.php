@@ -2,8 +2,16 @@
   <div class="d-flex justify-content-between">
     <p class="text-secondary">Found <?php echo $search_result['total_records'] ?> results.</p>
     <div class="btn-group  btn-group-sm mb-4" role="group" aria-label="Basic outlined example">
-      <button type="button" class="btn btn-outline-primary text-uppercase">Export as Excel</button>
-      <button type="button" class="btn btn-outline-primary text-uppercase">Export as CSV</button>
+      <button type="button" id="export_as_excel" data-query="<?php echo $search_result['search_query']; ?>"
+              data-format="xlsx" data-user_id="<?php echo $user_id; ?>" data-user_email="<?php echo $user_email; ?>"
+              data-endpoint="<?php echo $api_endpoint; ?>" class="btn btn-outline-primary text-uppercase">
+        Export as Excel
+      </button>
+      <button type="button" id="export_as_excel" data-query="<?php echo $search_result['search_query']; ?>"
+              data-format="csv" data-user_id="<?php echo $user_id; ?>" data-user_email="<?php echo $user_email; ?>"
+              data-endpoint="<?php echo $api_endpoint; ?>" class="btn btn-outline-primary text-uppercase">
+        Export as CSV
+      </button>
       <button type="button" class="btn btn-outline-primary text-uppercase">Print</button>
     </div>
   </div>
@@ -111,4 +119,5 @@
       </ul>
     </nav>
   </div>
+  <input type="hidden" id="admin_ajax_url" value="<?php echo admin_url('admin-ajax.php'); ?>"/>
 </div>
