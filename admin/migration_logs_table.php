@@ -1,11 +1,11 @@
 <?php load_bootstrap_assets();
 $get_migration_logs = get_migration_logs() ? get_migration_logs() : "";
-$recordKeys = array_keys($get_migration_logs['0']); ?>
+$record_keys = array_keys($get_migration_logs['0']); ?>
 <div class="container">
   <table class="table w-100 table-striped">
     <thead>
     <tr>
-      <?php foreach ($recordKeys as $value) {
+      <?php foreach ($record_keys as $value) {
         echo "<th class='text-capitalize' style='font-size: 16px' scope='col'>" . str_replace("_", " ", $value) . "</th>";
       } ?>
     </tr>

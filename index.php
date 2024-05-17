@@ -1,31 +1,31 @@
 <?php
 /**
- * Plugin Name: Scjpc
- * Plugin URI: https://not.yet/
- * Description: create search forms
+ * Plugin Name: SCJPC
+ * Plugin URI: https://accuratedigitalsolutions.com/web-application-development/
+ * Description: This plugin creates the search forms to search the JPAs and POLEs based on various filters
  * Version: 1.1
  * Author: Ali Abbas
- * Author URI: https://office.com/
+ * Author URI: https://accuratedigitalsolutions.com/
  * License: GPLv2 or later
- * Text Domain: ali
+ * Text Domain: scjpc
  */
 
 const ROOT_DIR = __DIR__;
 
-require_once (ROOT_DIR . '/const.php');
+require_once(ROOT_DIR . '/const.php');
 
-require_once (ROOT_DIR . '/file.php');
+require_once(ROOT_DIR . '/file.php');
 
 /**
  * this method is use for the create pages when plugin active
  */
 register_activation_hook(__FILE__, 'scjpc_plugin_activation');
-function scjpc_plugin_activation(): void
-{
+function scjpc_plugin_activation(): void {
   $pages_data = array(
     'JPA Search' => '[scjpc_jpa_search]',
-    'Quick Pole Search' => '[scjpc_quick_pole_search]',
     'Multiple JPA Search' => '[scjpc_multiple_jpa_search]',
+    'Pole Search' => '[scjpc_pole_search]',
+    'Quick Pole Search' => '[scjpc_quick_pole_search]',
     'Advanced Pole Search' => '[scjpc_advanced_pole_search]',
     'Multiple Pole Search' => '[scjpc_multiple_pole_search]',
     'Website/Doc Search' => '[scjpc_website_doc_search]',
@@ -50,9 +50,10 @@ function scjpc_plugin_activation(): void
       );
     }
   }
+  scjpc_create_files_directory_in_uploads();
 }
-function scjpc_get_page_by_title(string $page_title): ?WP_Post
-{
+
+function scjpc_get_page_by_title(string $page_title): ?WP_Post {
   $query = new WP_Query(
     array(
       'post_type' => 'page',
@@ -73,4 +74,10 @@ function scjpc_get_page_by_title(string $page_title): ?WP_Post
     $page = null;
   }
   return $page;
+}
+
+function scjpc_create_files_directory_in_uploads(): void {
+  if (!file_exists(WP_CONTENT_DIR . '/uploads/scjpc-exports/')) {
+    wp_mkdir_p(WP_CONTENT_DIR . '/uploads/scjpc-exports');
+  }
 }

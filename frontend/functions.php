@@ -1,5 +1,5 @@
 <?php
-function load_bootstrap_assets() {
+function load_bootstrap_assets(): void {
 
   wp_enqueue_style('bootstrap_css', "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css");
 //  wp_enqueue_script('bootstrap_js', "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js");
@@ -17,7 +17,7 @@ function load_bootstrap_assets() {
 /**
  * @param $date
  * @return false|string
- *      December 24, 2023
+ * December 24, 2023
  */
 function change_date_format($date) {
   return date('F j, Y', strtotime($date));
@@ -30,6 +30,7 @@ function get_active_columns(): array {
   }
   return $active_columns;
 }
+
 function print_checkboxes($group): void {
   $active_columns = CHOICES ? get_active_columns() : '';
   foreach ($group as $key => $column) {
@@ -46,8 +47,3 @@ function print_checkboxes($group): void {
     }
   }
 }
-
-
-
-
-?>

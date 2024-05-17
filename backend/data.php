@@ -1,12 +1,12 @@
 <?php
 $search_result = [
-  "records" => [],
+  "results" => [],
   "total" => 25000,
   "result_per_page" => [
     50, 100, 200, 500, 1000
   ],
 ];
-$total = isset($_GET['per_page']) ? $_GET['per_page'] : 0;
+$total = $_GET['per_page'] ?? 0;
 for ($i = 0; $i < $total; $i++) {
   $record = [
     'id' => $i + 1,
@@ -97,9 +97,7 @@ $columns = [
   "unique_id" => [
     "type" => "checkbox",
     "label" => "Unique ID",
-
     "default" => false,
-
   ],
   "pole_number" => [
     "label" => "Pole Number",
@@ -108,17 +106,14 @@ $columns = [
   ],
   "pole_replacement" => [
     "label" => "Pole Replacement",
-
     "default" => false,
   ],
   "longitude" => [
     "label" => "Longitude",
-
     "default" => false,
   ],
   "latitude" => [
     "label" => "Latitude",
-
     "default" => false,
   ],
   "pole_class" => [
@@ -128,12 +123,10 @@ $columns = [
   ],
   "base_owner" => [
     "label" => "Base Owner",
-
     "default" => false,
   ],
   "location" => [
     "label" => "Location",
-
     "default" => false,
   ],
   "height" => [
@@ -141,9 +134,8 @@ $columns = [
     "hidden" => false,
     "default" => false,
   ],
-  "top_extenstion" => [
-    "label" => "Top Extenstion",
-
+  "top_extension" => [
+    "label" => "Top Extension",
     "default" => false,
   ],
   "year_set" => [
@@ -155,19 +147,23 @@ $columns = [
     "label" => "Treatment",
     "default" => false,
   ],
-  "removal_relinquishment" => [
+  "req_rem" => [
     "label" => "Removal/Relinquishment",
     "default" => false,
   ],
-  "member_to_remove" => [
+  "req_rem_co" => [
     "label" => "Member to remove pole/Member relinquished",
     "default" => false,
   ],
-  "jpa_details" => [
-    "label" => "JPA Details",
+  "jpa_number" => [
+    "label" => "JPA Number",
     "default" => false,
   ],
-  "bill_of_sale" => [
+  'jpa_number_2' => [
+    "label" => "JPA Number 2",
+    "default" => ""
+  ],
+  "bos_2" => [
     "label" => "Bill of Sale",
     "default" => false,
   ],
@@ -179,61 +175,69 @@ $columns = [
     "label" => "Antenna info",
     "default" => false,
   ],
+  'status' => [
+    "label" => "Status",
+    "default" => ""
+  ],
+  'city' => [
+    "label" => "City",
+    "default" => ""
+  ]
 ];
 define("CHECK_BOXES_LABELS", $columns);
 
 $extra_columns = [
   "jpa_details" => [
-    "JPA Number",
-    "JPA Number 2",
-    "Billed Date",
+    "jpa_number" => "JPA Number",
+    "jpa_number_2" => "JPA Number 2",
+    "billed_date" => "Billed Date",
   ],
   "members_code" => [
-    "Company 1",
-    "Company 2",
-    "Company 3",
-    "Company 4",
-    "Company 5",
-    "Company 6",
-    "Company 7",
-    "Company 8",
-    "Company 9",
-    "Company 10",
-    "Company 1 GnS",
-    "Company 2 GnS",
-    "Company 3 GnS",
-    "Company 4 GnS",
-    "Company 5 GnS",
-    "Company 6 GnS",
-    "Company 7 GnS",
-    "Company 8 GnS",
-    "Company 9 GnS",
-    "Company 10 GnS",
-    "Anc For Company 1",
-    "Anc For Company 2",
-    "Anc For Company 3",
-    "Anc For Company 4",
-    "Anc For Company 5",
-    "Anc For Company 6",
-    "Anc For Company 7",
-    "Anc For Company 8",
-    "Anc For Company 9",
-    "Anc For Company 10",
-    "Anc For Company 1a",
-    "Anc For Company 2a",
-    "Anc For Company 3a",
+    "company_1" => "Company 1",
+    "company_1_gn_s" => "Company 1 GnS",
+    "company_2" => "Company 2",
+    "company_2_gn_s" => "Company 2 GnS",
+    "company_3" => "Company 3",
+    "company_3_gn_s" => "Company 3 GnS",
+    "company_4" => "Company 4",
+    "company_4_gn_s" => "Company 4 GnS",
+    "company_5" => "Company 5",
+    "company_5_gn_s" => "Company 5 GnS",
+    "company_6" => "Company 6",
+    "company_6_gn_s" => "Company 6 GnS",
+    "company_7" => "Company 7",
+    "company_7_gn_s" => "Company 7 GnS",
+    "company_8" => "Company 8",
+    "company_8_gn_s" => "Company 8 GnS",
+    "company_9" => "Company 9",
+    "company_9_gn_s" => "Company 9 GnS",
+    "company_10" => "Company 10",
+    "company_10_gn_s" => "Company 10 GnS",
+    "anc_for_company_1" => "Anc For Company 1",
+    "anc_for_company_1_a" => "Anc For Company 1A",
+    "anc_for_company_2" => "Anc For Company 2",
+    "anc_for_company_2_a" => "Anc For Company 2A",
+    "anc_for_company_3" => "Anc For Company 3",
+    "anc_for_company_3_a" => "Anc For Company 3A",
+    "anc_for_company_4" => "Anc For Company 4",
+    "anc_for_company_5" => "Anc For Company 5",
+    "anc_for_company_6" => "Anc For Company 6",
+    "anc_for_company_7" => "Anc For Company 7",
+    "anc_for_company_8" => "Anc For Company 8",
+    "anc_for_company_9" => "Anc For Company 9",
+    "anc_for_company_10" => "Anc For Company 10",
   ],
   "antenna_info" => [
-    "Antenna For Company 1",
-    "Antenna For Company 2",
-    "Antenna For Company 3",
-    "Antenna For Company 4",
-    "Antenna For Company 5",
-    "Antenna For Company 6",
-    "Antenna For Company 7",
-    "Antenna For Company 8",
-    "Antenna For Company 9",
-    "Antenna For Company 10",
+    "antenna1" => "Antenna For Company 1",
+    "antenna2" => "Antenna For Company 2",
+    "antenna3" => "Antenna For Company 3",
+    "antenna4" => "Antenna For Company 4",
+    "antenna5" => "Antenna For Company 5",
+    "antenna6" => "Antenna For Company 6",
+    "antenna7" => "Antenna For Company 7",
+    "antenna8" => "Antenna For Company 8",
+    "antenna9" => "Antenna For Company 9",
+    "antenna10" => "Antenna For Company 10",
   ]
 ];
 
@@ -251,7 +255,7 @@ for ($i = 0; $i < $total; $i++) {
     'base_owner' => uniqid('base_owner_'),
     'location' => uniqid('location_'),
     'height' => uniqid('height_'),
-    'top_extenstion' => uniqid('top_extenstion_'),
+    'top_extension' => uniqid('top_extension_'),
     'year_set' => uniqid('year_set_'),
     'treatment' => uniqid('treatment_'),
     'removal_relinquishment' => uniqid('removal_relinquishment_'),

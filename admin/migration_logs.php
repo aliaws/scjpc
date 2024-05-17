@@ -94,3 +94,23 @@ function update_migration_logs_post_meta(int $post_id, $body): void {
     update_post_meta($post_id, "scjpc_$key", $value);
   }
 }
+
+
+add_action('rest_api_init', 'scjpc_update_pole_base_owners');
+function scjpc_update_pole_base_owners(): void {
+  register_rest_route('scjpc/v1/', 'base_owners/', [
+    'methods' => 'PUT',
+    'callback' => 'scjpc_update_base_owners',
+  ]);
+}
+
+function scjpc_update_base_owners(WP_REST_Request $request): WP_REST_Response {
+  $security_key = $request->get_header('security_key');
+  if (!isset($security_key) || $security_key != API_SECURITY_KEY) {
+    return new WP_REST_Response(['message' => 'Please provide the API security key'], 401);
+  }
+  $body = $request->get_json_params();
+  update_option('scjpc_base_owners', array_combine($body, $body));
+  return new WP_REST_Response(['message' => 'Base Owners updated successfully.'], 200);
+
+}
