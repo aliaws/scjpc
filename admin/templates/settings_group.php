@@ -28,7 +28,8 @@
         <th scope="row">AWS CDN</th>
         <td>
           <label>
-            <input type="password" name="scjpc_aws_cdn" value="<?php echo esc_attr(get_option('scjpc_aws_cdn')); ?>"/>
+            <input type="text" name="scjpc_aws_cdn" value="<?php echo esc_attr(get_option('scjpc_aws_cdn')); ?>"
+                   placeholder="https://hostorip.com/endpoint"/>
           </label>
         </td>
       </tr>

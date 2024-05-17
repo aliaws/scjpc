@@ -102,9 +102,8 @@
       $jpas_length = count($jpa_results);
       foreach ($jpa_results as $index => $jpa_result) {
         $jpa_number = $jpa_result['jpa_number_2'];
-//        $jpa_detail_url = "/search/jpa/details/$jpa_number/?ref=%2Fsearch%2Fpole%2Fquick%2F%3Fq%3D{$pole_result['pole_number']}";
         $jpa_detail_url = "/pole-search/?jpa_number=$jpa_number&action=jpa_detail_search&per_page=50&page_number=1&last_id=";
-        $jpa_pdf_url = "$base_cdn_url/{$jpa_result['pdf_s3_key']}"; ?>
+        $jpa_pdf_url = "$base_cdn_url?s3_key={$jpa_result['pdf_s3_key']}"; ?>
         <a href="<?php echo $jpa_detail_url; ?>"><?php echo $jpa_number; ?></a>
         <?php if ($jpa_result['pdf_s3_key']) { ?>
           <a href="<?php echo $jpa_pdf_url; ?>" target="_blank">
