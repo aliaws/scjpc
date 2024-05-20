@@ -59,19 +59,16 @@ add_filter('query_vars', 'add_download_query_vars_filter');
 function process_download_request() {
     $download_scjpc =  get_query_var('download_scjpc');
     if ($download_scjpc) {
-        $config = [
+        $client = new \Aws\S3\S3Client([
             'region'  => 'us-east-2',
             'version' => '2006-03-01',
             'credentials' => [
                 'key'    => get_option('scjpc_aws_key'),
                 'secret' => get_option('scjpc_aws_secret'),
             ]
-        ];
-
-        $client = new \Aws\S3\S3Client($config);
+        ]);
 
         try {
-
 
             // Retrieve the object from S3
             $result = $client->getObject([
@@ -79,6 +76,7 @@ function process_download_request() {
                 'Key'    => $download_scjpc
             ]);
 
+            // Set headers for file download
             header('Content-Type: ' . $result['ContentType']);
             header('Content-Disposition: attachment; filename="' . basename($download_scjpc) . '"');
             header('Content-Length: ' . $result['ContentLength']);
@@ -93,7 +91,6 @@ function process_download_request() {
         }
     }
 }
-
 function ads_posts_where( $where, &$wp_query )
 {
     global $wpdb;
@@ -172,3 +169,15 @@ add_action( 'elementor/query/search_web_doc', 'search_web_and_docs' );
 
 add_action('template_redirect', 'process_download_request');
 add_action('template_redirect', 'search_attachments');
+
+
+add_shortcode( 'post_url_change', 'post_url_change' );
+function post_url_change(){
+    global $post;
+    if($post->post_type == 'attachment') {
+        return $post->guid;
+    }
+    else {
+        return get_permalink($post);
+    }
+}
