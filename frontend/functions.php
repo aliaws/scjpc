@@ -145,5 +145,30 @@ function search_attachments() {
         die;
     }
 }
+
+
+function search_web_and_docs( $query ) {
+    $query->set( 'post_type', 'attachment');
+    $search_param = 'Salvage';
+    $args = [
+        'post_type' => 'attachment',
+        'posts_per_page' => 500,
+        'search_attachment'     => $search_param,
+        'tax_query' => [
+            'relation' => 'AND',
+            [
+                'taxonomy' => 'bwdmfmx_mediafiles_category',
+                'field' => 'term_id',
+                'terms' => [15,16,17,18,19,20]
+            ],
+        ],
+        'post_status'    => 'inherit',
+    ];
+    foreach($args as $key => $val) {
+        $query->set( $key, $val);
+    }
+}
+add_action( 'elementor/query/search_web_doc', 'search_web_and_docs' );
+
 add_action('template_redirect', 'process_download_request');
 add_action('template_redirect', 'search_attachments');
