@@ -146,11 +146,9 @@ function search_attachments() {
 
 function search_web_and_docs( $query ) {
     $query->set( 'post_type', 'attachment');
-    $search_param = 'Salvage';
     $args = [
         'post_type' => 'attachment',
         'posts_per_page' => 500,
-        'search_attachment'     => $search_param,
         'tax_query' => [
             'relation' => 'AND',
             [
@@ -161,6 +159,10 @@ function search_web_and_docs( $query ) {
         ],
         'post_status'    => 'inherit',
     ];
+
+    if(!empty($_POST['eael_advanced_search'])) {
+        $args['search_attachment'] = $_POST['eael_advanced_search'];
+    }
     foreach($args as $key => $val) {
         $query->set( $key, $val);
     }
