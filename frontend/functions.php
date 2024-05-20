@@ -72,7 +72,7 @@ function process_download_request() {
             // Retrieve the object from S3
             $result = $client->getObject([
                 'Bucket' => 'scjpc-data',
-                'Key'    => 6
+                'Key'    => $download_scjpc
             ]);
 
             // Set headers for file download
