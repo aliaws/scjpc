@@ -3,8 +3,8 @@
 function search($request) {
   $action = $request['action'] ?? ''; // Check if 'action' key exists
   $data = call_user_func_array('perform_' . $action, [$request]);
-  $data["per_page"] = $request["per_page"];
-  $data["page_number"] = $request["page_number"];
+  $data["per_page"] = $request["per_page"] ?? 50;
+  $data["page_number"] = $request["page_number"] ?? 1;
   return $data;
 }
 
@@ -57,6 +57,19 @@ function perform_quick_pole_search($request) {
   $response['result_per_page'] = RESULTS_PER_PAGE;
   $_REQUEST['last_id'] = $response['last_id'] ?? '';
   return $response;
+}
+
+function perform_pole_detail($request) {
+  $request['action'] = 'pole-detail';
+  $api_url = trim(get_option('scjpc_es_host'), '/') . "/pole-detail?" . http_build_query($request);
+  return [
+    'result_per_page' => 1,
+    'page_number' => 1,
+    'total_records' => 1,
+    'per_page' => 1,
+    'results' => [make_search_api_call($api_url)]
+  ];
+
 }
 
 function perform_jpa_detail_search($request) {

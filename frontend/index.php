@@ -1,5 +1,5 @@
 <?php
-include_once (SCJPC_PLUGIN_PATH.'aws/aws-autoloader.php');
+include_once(SCJPC_PLUGIN_PATH . 'aws/aws-autoloader.php');
 include_once(SCJPC_PLUGIN_FRONTEND_BASE . 'functions.php');
 function scjpc_jpa_search() {
   ob_start();
@@ -47,6 +47,14 @@ function scjpc_pole_search() {
 }
 
 add_shortcode('scjpc_pole_search', 'scjpc_pole_search');
+
+function scjpc_pole_detail() {
+  ob_start();
+  include_once SCJPC_PLUGIN_FRONTEND_BASE . "pages/pole_detail.php";
+  return ob_get_clean();
+}
+
+add_shortcode('scjpc_pole_detail', 'scjpc_pole_detail');
 
 function scjpc_website_doc_search() {
   ob_start();

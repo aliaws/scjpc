@@ -25,6 +25,7 @@ function scjpc_plugin_activation(): void {
     'JPA Search' => '[scjpc_jpa_search]',
     'Multiple JPA Search' => '[scjpc_multiple_jpa_search]',
     'Pole Search' => '[scjpc_pole_search]',
+    'Pole Detail' => '[scjpc_pole_detail]',
     'Quick Pole Search' => '[scjpc_quick_pole_search]',
     'Advanced Pole Search' => '[scjpc_advanced_pole_search]',
     'Multiple Pole Search' => '[scjpc_multiple_pole_search]',

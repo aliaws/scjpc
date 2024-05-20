@@ -25,3 +25,4 @@ const JPAS_KEYS = [
 define("CHOICES", !empty($_POST['choices']) ? $_POST['choices'] : ['unique_id', 'pole_number', 'status', 'location', 'city', 'jpa_number_2']);
 const RESULTS_PER_PAGE = [50, 100, 200, 500, 1000];
 const STRING_FILTER = ['contains' => 'Contains', 'exact' => 'Exact', 'begins_with' => 'Begins With'];
+const STATUS_LABELS = ['A' => 'Active', 'I' => 'Inactive', 'D' => 'Dead'];

@@ -5,9 +5,9 @@
     </div>
     <div class="col-sm-6">
       <h5 class="text-end">
-        <p>Status:
-          <span class="active text-success"><?php echo $pole_result['status']; ?></span>
-        </p>
+        <?php $status = $pole_result['status'];
+        $class = $status == 'A' ? 'text-success' : 'text-danger'; ?>
+        Status: <span class="<?php echo $class; ?>"><?php echo STATUS_LABELS[$status]; ?></span>
       </h5>
     </div>
   </div>
