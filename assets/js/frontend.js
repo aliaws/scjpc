@@ -57,8 +57,8 @@ function make_export_api_call(body) {
     data: body,
     dataType: 'json',
     success: function (response) {
-      console.log('response', response);
-      // window.location.replace(response.data);
+      const redirectURL = `${window.location.host}/download-export?file=${response.file_path}`
+      window.location.replace(redirectURL);
     },
     error: function (error) {
       console.log('error==', error)

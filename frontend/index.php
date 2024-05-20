@@ -77,6 +77,8 @@ function make_export_data_call() {
   curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($_POST));
   curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-  curl_exec($ch);
+  $response = curl_exec($ch);
   curl_close($ch);
+  echo $response;
+  wp_die();
 }

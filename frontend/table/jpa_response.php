@@ -7,7 +7,7 @@
               data-endpoint="<?php echo $api_endpoint; ?>" class="btn btn-outline-primary text-uppercase">
         Export as Excel
       </button>
-      <button type="button" id="export_as_excel" data-query="<?php echo $search_result['search_query']; ?>"
+      <button type="button" id="export_as_csv" data-query="<?php echo $search_result['search_query']; ?>"
               data-format="csv" data-user_id="<?php echo $user_id; ?>" data-user_email="<?php echo $user_email; ?>"
               data-endpoint="<?php echo $api_endpoint; ?>" class="btn btn-outline-primary text-uppercase">
         Export as CSV

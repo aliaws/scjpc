@@ -26,6 +26,7 @@ function scjpc_plugin_activation(): void {
     'Multiple JPA Search' => '[scjpc_multiple_jpa_search]',
     'Pole Search' => '[scjpc_pole_search]',
     'Pole Detail' => '[scjpc_pole_detail]',
+    'Download Export' => '[scjpc_export_file]',
     'Quick Pole Search' => '[scjpc_quick_pole_search]',
     'Advanced Pole Search' => '[scjpc_advanced_pole_search]',
     'Multiple Pole Search' => '[scjpc_multiple_pole_search]',
