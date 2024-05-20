@@ -56,8 +56,18 @@ if (!empty($_GET) || !empty($_POST)) {
               foreach (EXTRA_COLUMNS_LABELS[$get_columns_keys] as $extra_column => $label) { ?>
                 <td> <?php echo $get_columns_value_data[$extra_column]; ?></td>
               <?php }
-            } else { ?>
-              <td> <?php echo $get_columns_value_data[$get_columns_keys]; ?></td>
+            } else {
+              if ($get_columns_keys == 'unique_id') {
+                $value = $get_columns_value_data[$get_columns_keys];
+                $url = "/pole-detail/?unique_id=$value&action=pole_detail"; ?>
+                <td><a href="<?php echo $url; ?>"><?php echo $value; ?></a></td>
+              <?php } elseif ($get_columns_keys == 'jpa_number_2') {
+                $value = $get_columns_value_data[$get_columns_keys];
+                $url = "/pole-search/?jpa_number=$value&action=jpa_detail_search&per_page=50&page_number=1&last_id="; ?>
+                <td><a href="<?php echo $url; ?>"><?php echo $value; ?></a></td>
+              <?php } else { ?>
+                <td> <?php echo $get_columns_value_data[$get_columns_keys]; ?></td>
+              <?php } ?>
             <?php } ?>
           <?php } ?>
         </tr>
