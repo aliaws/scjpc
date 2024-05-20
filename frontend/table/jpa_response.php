@@ -7,7 +7,7 @@
               data-endpoint="<?php echo $api_endpoint; ?>" class="btn btn-outline-primary text-uppercase">
         Export as Excel
       </button>
-      <button type="button" id="export_as_excel" data-query="<?php echo $search_result['search_query']; ?>"
+      <button type="button" id="export_as_csv" data-query="<?php echo $search_result['search_query']; ?>"
               data-format="csv" data-user_id="<?php echo $user_id; ?>" data-user_email="<?php echo $user_email; ?>"
               data-endpoint="<?php echo $api_endpoint; ?>" class="btn btn-outline-primary text-uppercase">
         Export as CSV
@@ -26,10 +26,12 @@
     <tbody>
     <?php $base_cdn_url = rtrim(get_option('scjpc_aws_cdn'), '/');
     foreach ($search_results as $result) {
-      $jpa_pdf_url = "$base_cdn_url?download_scjpc={$result['pdf_s3_key']}"; ?>
+      $jpa_pdf_url = "$base_cdn_url?download_scjpc={$result['pdf_s3_key']}";
+      $jpa_number = $result['jpa_number_2'];
+      $jpa_detail_url = "/pole-search/?jpa_number=$jpa_number&action=jpa_detail_search&per_page=50&page_number=1&last_id="; ?>
       <tr>
         <th scope="row"><?php echo $result['jpa_unique_id']; ?></th>
-        <td><?php echo $result['jpa_number_2']; ?></td>
+        <td><a href="<?php echo $jpa_detail_url; ?>" target="_self"><?php echo $jpa_number; ?></a></td>
         <td>
           <?php if ($result['pdf_s3_key'] !== null) { ?>
             <a href="<?php echo $jpa_pdf_url; ?>">

@@ -20,6 +20,10 @@ if (!empty($_GET)) {
       }
     } elseif ($_GET['action'] == 'advanced_pole_search' || $_GET['action'] == 'jpa_detail_search') {
       include_once SCJPC_PLUGIN_FRONTEND_BASE . "table/multiple_pole.php";
+    } elseif ($_GET['action'] == 'pole_detail') {
+      $pole_result = $search_result['results'][0];
+      $jpa_results = $search_result['results'][0]['associated_jpas'];
+      include_once SCJPC_PLUGIN_FRONTEND_BASE . "table/single_pole.php";
     }
   }
 }

@@ -18,9 +18,18 @@
     <tbody>
     <?php foreach ($search_result['results'] as $record) { ?>
       <tr>
-        <?php foreach (POLES_KEYS as $key => $label) { ?>
-          <!--          <th scope="row">--><?php //echo $record[$key]; ?><!--</th>-->
-          <td><?php echo $record[$key]; ?></td>
+        <?php foreach (POLES_KEYS as $key => $label) {
+          if ($key == 'unique_id' || $key == 'pole_number') {
+            $value = $record['unique_id'];
+            $url = "/pole-detail/?unique_id=$value&action=pole_detail"; ?>
+            <td><a href="<?php echo $url; ?>"><?php echo $record[$key]; ?></a></td>
+          <?php } elseif ($key == 'jpa_number_2' || $key == 'jpa_number') {
+            $value = $record['jpa_number_2'];
+            $url = "/pole-search/?jpa_number=$value&action=jpa_detail_search&per_page=50&page_number=1&last_id="; ?>
+            <td><a href="<?php echo $url; ?>"><?php echo $record[$key]; ?></a></td>
+          <?php } else { ?>
+            <td><?php echo $record[$key]; ?></td>
+          <?php } ?>
         <?php } ?>
       </tr>
     <?php } ?>

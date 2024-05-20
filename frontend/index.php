@@ -1,5 +1,5 @@
 <?php
-include_once (SCJPC_PLUGIN_PATH.'aws/aws-autoloader.php');
+include_once(SCJPC_PLUGIN_PATH . 'aws/aws-autoloader.php');
 include_once(SCJPC_PLUGIN_FRONTEND_BASE . 'functions.php');
 function scjpc_jpa_search() {
   ob_start();
@@ -48,6 +48,14 @@ function scjpc_pole_search() {
 
 add_shortcode('scjpc_pole_search', 'scjpc_pole_search');
 
+function scjpc_pole_detail() {
+  ob_start();
+  include_once SCJPC_PLUGIN_FRONTEND_BASE . "pages/pole_detail.php";
+  return ob_get_clean();
+}
+
+add_shortcode('scjpc_pole_detail', 'scjpc_pole_detail');
+
 function scjpc_website_doc_search() {
   ob_start();
   include_once SCJPC_PLUGIN_FRONTEND_BASE . "pages/website_doc_search.php";
@@ -69,6 +77,8 @@ function make_export_data_call() {
   curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($_POST));
   curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-  curl_exec($ch);
+  $response = curl_exec($ch);
   curl_close($ch);
+  echo $response;
+  wp_die();
 }
