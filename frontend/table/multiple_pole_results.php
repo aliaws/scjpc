@@ -58,9 +58,9 @@ if (!empty($_GET) || !empty($_POST)) {
               <?php }
             } else {
               if ($get_columns_keys == 'unique_id' || $get_columns_keys == 'pole_number') {
-                $value = $get_columns_value_data[$get_columns_keys];
+                $value = $get_columns_value_data['unique_id'];
                 $url = "/pole-detail/?unique_id=$value&action=pole_detail"; ?>
-                <td><a href="<?php echo $url; ?>"><?php echo $value; ?></a></td>
+                <td><a href="<?php echo $url; ?>"><?php echo $get_columns_value_data[$get_columns_keys]; ?></a></td>
               <?php } elseif ($get_columns_keys == 'jpa_number' || $get_columns_keys == 'jpa_number_2') {
                 $value = $get_columns_value_data[$get_columns_keys];
                 $url = "/pole-search/?jpa_number=$value&action=jpa_detail_search&per_page=50&page_number=1&last_id="; ?>

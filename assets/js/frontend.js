@@ -5,6 +5,9 @@ jQuery(document).ready(function () {
     const parentForm = jQuery(this).closest('form');
     parentForm.find('input[type="text"], input[type="file"]').val('');
     parentForm.find('input[type="checkbox"]').prop('checked', false);
+    parentForm.find('input[id="page_number"]').val(1);
+    parentForm.find('input[id="per_page"]').val(50);
+    parentForm.find('input[id="last_id"]').val('');
   });
   const forms = jQuery('.needs-validation');
   // Loop over them and prevent submission
