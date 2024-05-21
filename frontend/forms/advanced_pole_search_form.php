@@ -53,7 +53,7 @@
       <label for="id_distance" class="form-label">Distance</label>
       <select class="form-select" id="id_distance" name="distance" aria-label="Default select example">
         <?php foreach (DISTANCES as $key => $value) { ?>
-            <?php $selected_distance = !empty($_REQUEST["distance"]) && $_REQUEST["distance"] == $key ?  'selected': ''; ?>
+            <?php $selected_distance = !empty($_REQUEST["distance"]) && $_REQUEST["distance"] == $key ?  'selected="selected"': ''; ?>
           <option value="<?php echo $key; ?>"  <?php echo $selected_distance ?>><?php echo $value; ?></option>
         <?php } ?>
       </select>
