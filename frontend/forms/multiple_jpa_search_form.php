@@ -9,8 +9,7 @@
       </a>
     </small>
   </p>
-  <form class="needs-validation" id="multiple_jpa_search" action="<?php echo get_permalink(get_the_ID()); ?>"
-        method="post" enctype="multipart/form-data" novalidate>
+  <form class="needs-validation" id="multiple_jpa_search" method="post" enctype="multipart/form-data" novalidate>
     <div class="mb-3">
       <label for="excel_contains_header" class="form-label d-block">Does Excel/CSV contains Header?</label>
       <input type="checkbox" name="contains_header" class="form-check-input" id="excel_contains_header"
@@ -24,10 +23,11 @@
     <input type="hidden" id="per_page" name="per_page" value="<?php echo $_POST['per_page'] ?? '50'; ?>"/>
     <input type="hidden" id="page_number" name="page_number" value="<?php echo $_POST['page_number'] ?? '1'; ?>"/>
     <input type="hidden" id="last_id" name="last_id" value="<?php echo $_POST['last_id'] ?? ''; ?>"/>
+    <input type="hidden" id="admin_ajax_url" value="<?php echo admin_url('admin-ajax.php'); ?>"/>
     <div class="d-flex justify-content-between">
       <button type="button" class="clearBtn btn btn-secondary">Clear</button>
       <button type="submit" class="btn btn-primary">Search</button>
     </div>
   </form>
 </div>
-<?php
+<div class="response-table"></div>

@@ -1,8 +1,6 @@
 <?php
 function load_bootstrap_assets(): void {
     wp_enqueue_style('bootstrap_css', "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css");
-//  wp_enqueue_script('bootstrap_js', "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js");
-
 
     wp_enqueue_style('bootstrap-css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css');
     wp_enqueue_script('bootstrap-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js', array('jquery'), null, true);
@@ -57,6 +55,7 @@ add_filter('query_vars', 'add_download_query_vars_filter');
 
 
 function process_download_request() {
+
     $download_scjpc = get_query_var('download_scjpc');
     if ($download_scjpc) {
         $client = new \Aws\S3\S3Client([
@@ -93,6 +92,7 @@ function process_download_request() {
 }
 
 function ads_posts_where($where, &$wp_query) {
+
     global $wpdb;
     $where .= ' AND (0 = 0 ';
     if ($search = $wp_query->get('search_attachment')) {
@@ -111,42 +111,41 @@ function search_attachments() {
         $args = [
             'post_type' => 'attachment',
             'posts_per_page' => add_filter( 'posts_where', 'ads_posts_where', 10, 2 ),
-      'search_attachment' => $search_param,
-      'tax_query' => [
-            'relation' => 'AND',
-            [
-                'taxonomy' => 'bwdmfmx_mediafiles_category',
-                'field' => 'term_id',
-                'terms' => [15, 16, 17, 18, 19, 20]
+            'search_attachment' => $search_param,
+            'tax_query' => [
+                'relation' => 'AND',
+                [
+                    'taxonomy' => 'bwdmfmx_mediafiles_category',
+                    'field' => 'term_id',
+                    'terms' => [15, 16, 17, 18, 19, 20]
+                ],
             ],
-        ],
-      'post_status' => 'inherit',
-    ];
-    $query = new WP_Query($args);
-    echo "<pre>";
-    if ($query->have_posts()) {
-        while ($query->have_posts()) {
-            $query->the_post();
-            echo 'Title: ' . get_the_title() . '<br>';
-            echo 'URL: ' . wp_get_attachment_url(get_the_ID()) . '<br>';
-            echo 'MIME Type: ' . get_post_mime_type() . '<br>';
-            $terms = get_the_terms(get_the_ID(), 'bwdmfmx_mediafiles_category');
-            print_r($terms);
-            echo "--------------------------<br/>";
+            'post_status' => 'inherit',
+        ];
+        $query = new WP_Query($args);
+        echo "<pre>";
+        if ($query->have_posts()) {
+            while ($query->have_posts()) {
+                $query->the_post();
+                echo 'Title: ' . get_the_title() . '<br>';
+                echo 'URL: ' . wp_get_attachment_url(get_the_ID()) . '<br>';
+                echo 'MIME Type: ' . get_post_mime_type() . '<br>';
+                $terms = get_the_terms(get_the_ID(), 'bwdmfmx_mediafiles_category');
+                print_r($terms);
+                echo "--------------------------<br/>";
 
+            }
+        } else {
+            echo 'No posts found.';
         }
-    } else {
-        echo 'No posts found.';
+        wp_reset_postdata();
+        die;
     }
-    wp_reset_postdata();
-    die;
-  }
 }
 
 
 function search_web_and_docs($query) {
     $query->set('post_type', 'attachment');
-
     $args = [
         'post_type' => 'attachment',
         'posts_per_page' => 500,
@@ -161,11 +160,10 @@ function search_web_and_docs($query) {
         'post_status' => 'inherit',
     ];
 
-    if(!empty($_REQUEST['s'])) {
-        add_filter( 'posts_where', 'ads_posts_where', 10, 2 );
-        $args['search_attachment'] = $_REQUEST['s'];
+    if (!empty($_REQUEST['s'])) {
+        add_filter('posts_where', 'ads_posts_where', 10, 2);
+        $args['s'] = $_REQUEST['s'];
     }
-
     foreach ($args as $key => $val) {
         $query->set($key, $val);
     }

@@ -20,7 +20,7 @@ if (!empty($_GET) || !empty($_POST)) {
   $current_user = wp_get_current_user();
   $user_id = $current_user->ID;
   $user_email = $current_user->user_email;
-  $api_endpoint = trim(get_option('scjpc_es_host'), '/') . "/data-export";
+  $export_endpoint = trim(get_option('scjpc_es_host'), '/') . "/data-export";
   if ($total_records > 0 && count($search_results) > 0) {
     include_once SCJPC_PLUGIN_FRONTEND_BASE . '/table/jpa_response.php';
   } else {
