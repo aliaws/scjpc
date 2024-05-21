@@ -14,21 +14,33 @@ if (!empty($_GET) || !empty($_POST)) {
   $result_per_page = $search_result['result_per_page'];
   $num_results_on_page = $search_result['per_page'];
   $search_results = $search_result['results'] ?? [];
+  $current_user = wp_get_current_user();
+  $user_id = $current_user->ID;
+  $user_email = $current_user->user_email;
+  $export_endpoint = trim(get_option('scjpc_es_host'), '/') . "/data-export";
   if ($total_records == 0) {
     include_once SCJPC_PLUGIN_FRONTEND_BASE . '/table/not_found.php';
     return;
-  }
-  ?>
+  } ?>
   <div class="mw-100 mt-5">
     <div class="d-flex justify-content-between">
       <p class="text-secondary">
         <?php echo "Found $total_records results. (May Contain Duplicates)"; ?>
       </p>
       <div class="btn-group  btn-group-sm mb-4" role="group" aria-label="Basic outlined example">
-        <button type="button" class="btn btn-outline-primary text-uppercase">Export as Excel</button>
-        <button type="button" class="btn btn-outline-primary text-uppercase">Export as CSV</button>
-        <button type="button" class="btn btn-outline-primary text-uppercase">Print</button>
+        <button type="button" id="export_as_excel" data-query="<?php echo $search_result['search_query']; ?>"
+                data-format="xlsx" data-user_id="<?php echo $user_id; ?>" data-user_email="<?php echo $user_email; ?>"
+                data-endpoint="<?php echo $export_endpoint; ?>" class="btn btn-outline-primary text-uppercase">
+          Export as Excel
+        </button>
+        <button type="button" id="export_as_csv" data-query="<?php echo $search_result['search_query']; ?>"
+                data-format="csv" data-user_id="<?php echo $user_id; ?>" data-user_email="<?php echo $user_email; ?>"
+                data-endpoint="<?php echo $export_endpoint; ?>" class="btn btn-outline-primary text-uppercase">Export as
+          CSV
+        </button>
+        <button type="button" id="print_window" class="btn btn-outline-primary text-uppercase">Print</button>
       </div>
+      <input type="hidden" id="admin_ajax_url" value="<?php echo admin_url('admin-ajax.php'); ?>"/>
     </div>
   </div>
 

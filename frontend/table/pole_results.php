@@ -7,6 +7,10 @@ if (!empty($_GET)) {
   $result_per_page = $search_result['result_per_page'];
   $num_results_on_page = $search_result['per_page'];
   $total_records = $search_result['total_records'] ?? 0;
+  $current_user = wp_get_current_user();
+  $user_id = $current_user->ID;
+  $user_email = $current_user->user_email;
+  $export_endpoint = trim(get_option('scjpc_es_host'), '/') . "/data-export";
   if ($total_records == 0) {
     include_once SCJPC_PLUGIN_FRONTEND_BASE . '/table/not_found.php';
   } else {

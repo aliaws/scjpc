@@ -56,6 +56,14 @@ function scjpc_pole_detail() {
 
 add_shortcode('scjpc_pole_detail', 'scjpc_pole_detail');
 
+function scjpc_download_export() {
+  ob_start();
+  include_once SCJPC_PLUGIN_FRONTEND_BASE . "pages/download_export.php";
+  return ob_get_clean();
+}
+
+add_shortcode('scjpc_download_export', 'scjpc_download_export');
+
 function scjpc_website_doc_search() {
   ob_start();
   include_once SCJPC_PLUGIN_FRONTEND_BASE . "pages/website_doc_search.php";
@@ -80,5 +88,26 @@ function make_export_data_call() {
   $response = curl_exec($ch);
   curl_close($ch);
   echo $response;
+  wp_die();
+}
+
+add_action('admin_post_nopriv_jpa_search', 'ajax_jpa_search');
+add_action('wp_ajax_jpa_search', 'ajax_jpa_search');
+add_action('wp_ajax_nopriv_jpa_search', 'ajax_jpa_search');
+
+
+function ajax_jpa_search() {
+  include_once SCJPC_PLUGIN_FRONTEND_BASE . 'table/jpa_results.php';
+  wp_die();
+}
+
+add_action('admin_post_nopriv_multiple_jpa_search', 'ajax_mulitple_jpa_search');
+add_action('wp_ajax_multiple_jpa_search', 'ajax_mulitple_jpa_search');
+add_action('wp_ajax_nopriv_multiple_jpa_search', 'ajax_mulitple_jpa_search');
+
+
+function ajax_mulitple_jpa_search() {
+  echo "<pre>" . count($_GET) . "==" . count($_POST) . "==" . count($_FILES) . print_r($_GET, true) . print_r($_POST, true) . print_r($_FILES, true) . "</pre>";
+  include_once SCJPC_PLUGIN_FRONTEND_BASE . 'table/jpa_results.php';
   wp_die();
 }

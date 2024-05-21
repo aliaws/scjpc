@@ -1,42 +1,47 @@
-.input-bg{
-    background: #f7f7f7;
+.input-bg {
+  background: #f7f7f7;
 }
-.h-40{
-    height: 40px;
+
+.h-40 {
+  height: 40px;
 }
-.w-40{
-    width: 40px;
+
+.w-40 {
+  width: 40px;
 }
+
 h1,
 h2,
 h3,
 h4,
 h5,
-h6{
-    font-family: "Inter", sans-serif !important;
+h6 {
+  font-family: "Inter", sans-serif !important;
 }
 
-.pagination li a{
-    cursor: pointer;
+.pagination li a {
+  cursor: pointer;
 }
 
-.well{
-    min-height: 20px;
-    padding: 19px;
-    margin-bottom: 20px;
-    background-color: #f5f5f5;
-    border: 1px solid #e3e3e3;
-    border-radius: 4px;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+.well {
+  min-height: 20px;
+  padding: 19px;
+  margin-bottom: 20px;
+  background-color: #f5f5f5;
+  border: 1px solid #e3e3e3;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
 }
+
 .result-row {
-    padding-top: 5px !important;
-    padding-bottom: 5px !important;
-    border-top: #cccccc 1px dotted;
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+  border-top: #cccccc 1px dotted;
 }
-.filter-form-wrapper .well{
-    width: 70%;
+
+.filter-form-wrapper .well {
+  width: 70%;
 }
 .custom-card{
     width: 50% !important; 

@@ -4,16 +4,17 @@
     <div class="btn-group  btn-group-sm mb-4" role="group" aria-label="Basic outlined example">
       <button type="button" id="export_as_excel" data-query="<?php echo $search_result['search_query']; ?>"
               data-format="xlsx" data-user_id="<?php echo $user_id; ?>" data-user_email="<?php echo $user_email; ?>"
-              data-endpoint="<?php echo $api_endpoint; ?>" class="btn btn-outline-primary text-uppercase">
+              data-endpoint="<?php echo $export_endpoint; ?>" class="btn btn-outline-primary text-uppercase">
         Export as Excel
       </button>
       <button type="button" id="export_as_csv" data-query="<?php echo $search_result['search_query']; ?>"
               data-format="csv" data-user_id="<?php echo $user_id; ?>" data-user_email="<?php echo $user_email; ?>"
-              data-endpoint="<?php echo $api_endpoint; ?>" class="btn btn-outline-primary text-uppercase">
+              data-endpoint="<?php echo $export_endpoint; ?>" class="btn btn-outline-primary text-uppercase">
         Export as CSV
       </button>
-      <button type="button" class="btn btn-outline-primary text-uppercase">Print</button>
+      <button type="button" id="print_window" class="btn btn-outline-primary text-uppercase">Print</button>
     </div>
+    <input type="hidden" id="admin_ajax_url" value="<?php echo admin_url('admin-ajax.php'); ?>"/>
   </div>
   <table class="table w-100 table-striped">
     <thead>
@@ -26,7 +27,7 @@
     <tbody>
     <?php $base_cdn_url = rtrim(get_option('scjpc_aws_cdn'), '/');
     foreach ($search_results as $result) {
-      $jpa_pdf_url = "$base_cdn_url?download_scjpc={$result['pdf_s3_key']}";
+      $jpa_pdf_url = "/?download_scjpc={$result['pdf_s3_key']}";
       $jpa_number = $result['jpa_number_2'];
       $jpa_detail_url = "/pole-search/?jpa_number=$jpa_number&action=jpa_detail_search&per_page=50&page_number=1&last_id="; ?>
       <tr>
@@ -121,5 +122,4 @@
       </ul>
     </nav>
   </div>
-  <input type="hidden" id="admin_ajax_url" value="<?php echo admin_url('admin-ajax.php'); ?>"/>
 </div>
