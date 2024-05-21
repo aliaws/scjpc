@@ -1,6 +1,6 @@
 <div class="mw-100 mt-5">
   <div class="d-flex justify-content-between">
-    <p class="text-secondary">Found <?php echo $search_result['total_records'] ?> results.</p>
+    <p class="text-secondary result-text">Found <?php echo $search_result['total_records'] ?> results.</p>
     <div class="btn-group  btn-group-sm mb-4" role="group" aria-label="Basic outlined example">
       <button type="button" id="export_as_excel" data-query="<?php echo $search_result['search_query']; ?>"
               data-format="xlsx" data-user_id="<?php echo $user_id; ?>" data-user_email="<?php echo $user_email; ?>"
