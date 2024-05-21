@@ -50,6 +50,12 @@ function register_export_button_calls() {
       make_export_api_call(jQuery(`button#${button}`).data())
     })
   })
+  jQuery('button#print_window').on('click', () => {
+    window.print()
+  })
+  jQuery('button#download_export_file').on('click', () => {
+    window.location.href = jQuery('input#download_url').val();
+  })
 }
 
 

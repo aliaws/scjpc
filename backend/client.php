@@ -38,6 +38,7 @@ function perform_multiple_jpa_search($request): array {
   $response = make_search_api_call($api_url);
   $response['result_per_page'] = RESULTS_PER_PAGE;
   $response['per_page'] = $request["per_page"];
+  $response['search_query'] = $api_url;
   return $response;
 }
 
@@ -47,6 +48,7 @@ function perform_advanced_pole_search($request): array {
   $response = make_search_api_call($api_url);
   $response['result_per_page'] = RESULTS_PER_PAGE;
   $response['per_page'] = $request["per_page"];
+  $response['search_query'] = $api_url;
   return $response;
 }
 
@@ -56,6 +58,7 @@ function perform_quick_pole_search($request) {
   $response = make_search_api_call($api_url);
   $response['result_per_page'] = RESULTS_PER_PAGE;
   $_REQUEST['last_id'] = $response['last_id'] ?? '';
+  $response['search_query'] = $api_url;
   return $response;
 }
 
@@ -78,6 +81,7 @@ function perform_jpa_detail_search($request) {
   $response = make_search_api_call($api_url);
   $response['result_per_page'] = RESULTS_PER_PAGE;
   $_REQUEST['last_id'] = $response['last_id'];
+  $response['search_query'] = $api_url;
   return $response;
 }
 
@@ -90,6 +94,7 @@ function perform_multiple_pole_search($request) {
   $response = make_search_api_call($api_url);
   $response['result_per_page'] = RESULTS_PER_PAGE;
   $_REQUEST['last_id'] = $response['last_id'] ?? '';
+  $response['search_query'] = $api_url;
   return $response;
 }
 
