@@ -3,6 +3,8 @@ $user = wp_get_current_user();
 $response = get_export_status($_GET);
 $status = $response['status'];
 $download_url = $status == 'Processed' ? "/?download_scjpc={$response['s3_path']}" : '';
+$btn_disabled = $response['status'] == 'Processed' ? '' : 'disabled';
+$btn_text = $response['status'] == 'Processed' ?  "Download Export": "Download In Progress";
 ?>
 
 <div class="card p-4">
@@ -22,9 +24,9 @@ $download_url = $status == 'Processed' ? "/?download_scjpc={$response['s3_path']
   </form>
   <div class="d-flex justify-content-between columns-2">
     <p>
-      <button class="btn btn-primary" <?php echo $response['status'] == 'Processed' ? '' : 'disabled'; ?>
+      <button class="btn btn-primary" <?php echo $btn_disabled  ?>
               id="download_export_file">
-        Download Export
+        <?php echo $btn_text; ?>
       </button>
       <span><?php echo $response['file_name'] ?? ''; ?></span>
     </p>
