@@ -10,7 +10,7 @@ function load_bootstrap_assets(): void {
 
     wp_enqueue_script('jquery');
 
-    wp_enqueue_style('frontend_css', SCJPC_ASSETS_URL . 'css/frontend.css', false, '2.1');
+    wp_enqueue_style('frontend_css', SCJPC_ASSETS_URL . 'css/frontend.css', false, '4.1');
     wp_enqueue_script('frontend_js', SCJPC_ASSETS_URL . 'js/frontend.js', false, '2.2', true);
 }
 
