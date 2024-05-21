@@ -13,10 +13,29 @@ jQuery(document).ready(function () {
   // Loop over them and prevent submission
   forms.each(function () {
     jQuery(this).on('submit', function (event) {
-      if (!this.checkValidity()) {
-        event.preventDefault();
-        event.stopPropagation();
-      }
+      event.preventDefault()
+      const form = new FormData(event.target)
+      const formData = Object.fromEntries(form.entries())
+      console.log('formData', formData)
+      jQuery.ajax({
+        url: `${admin_ajax_url}?action=${formData.action}`,
+        type: 'post',
+        processData: false,
+        // dataType: "json",
+        // contentType: "multipart/form-data",
+        data: formData,
+        success: function (response) {
+          jQuery('div.response-table').html(response)
+        },
+        error: function (error) {
+          console.log('error==', error)
+        }
+      })
+      alert('form')
+      // if (!this.checkValidity()) {
+      //   event.preventDefault();
+      //   event.stopPropagation();
+      // }
       jQuery(this).addClass('was-validated');
     });
   });
@@ -50,6 +69,12 @@ function register_export_button_calls() {
       make_export_api_call(jQuery(`button#${button}`).data())
     })
   })
+  jQuery('button#print_window').on('click', () => {
+    window.print()
+  })
+  jQuery('button#download_export_file').on('click', () => {
+    window.location.href = jQuery('input#download_url').val();
+  })
 }
 
 
@@ -60,7 +85,7 @@ function make_export_api_call(body) {
     data: body,
     dataType: 'json',
     success: function (response) {
-      const redirectURL = `${window.location.host}/download-export?file=${response.file_path}`
+      const redirectURL = `/download-export?file_path=${response.file_path}&format=${response.export_format}`
       window.location.replace(redirectURL);
     },
     error: function (error) {
