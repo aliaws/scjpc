@@ -19,7 +19,7 @@ const POLES_KEYS = [
   'city' => 'City', 'jpa_number_2' => 'JPA Number', 'billed_date' => 'Billed Date'
 ];
 const JPAS_KEYS = [
-  'jpa_unique_id' => 'Unique ID', 'jpa_number_2' => 'JPA Number 2', 'pdf_s3_key' => 'PDF File',
+  'jpa_unique_id' => 'Unique ID', 'jpa_number_2' => 'JPA Number 2', 'pdf_s3_key' => 'Scanned JPA',
   'date_received' => 'Date Received', 'billed_date' => 'Billed Date'
 ];
 define("CHOICES", !empty($_POST['choices']) ? $_POST['choices'] : ['unique_id', 'pole_number', 'status', 'location', 'city', 'jpa_number_2']);
