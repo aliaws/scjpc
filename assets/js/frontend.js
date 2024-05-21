@@ -60,7 +60,7 @@ function make_export_api_call(body) {
     data: body,
     dataType: 'json',
     success: function (response) {
-      const redirectURL = `${window.location.host}/download-export?file=${response.file_path}`
+      const redirectURL = `/download-export?file_path=${response.file_path}&format=${response.export_format}`
       window.location.replace(redirectURL);
     },
     error: function (error) {

@@ -56,6 +56,14 @@ function scjpc_pole_detail() {
 
 add_shortcode('scjpc_pole_detail', 'scjpc_pole_detail');
 
+function scjpc_download_export() {
+  ob_start();
+  include_once SCJPC_PLUGIN_FRONTEND_BASE . "pages/download_export.php";
+  return ob_get_clean();
+}
+
+add_shortcode('scjpc_download_export', 'scjpc_download_export');
+
 function scjpc_website_doc_search() {
   ob_start();
   include_once SCJPC_PLUGIN_FRONTEND_BASE . "pages/website_doc_search.php";
