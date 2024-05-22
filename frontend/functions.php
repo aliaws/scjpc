@@ -1,13 +1,14 @@
 <?php
-function load_bootstrap_assets(): void {
+function load_bootstrap_assets(): void
+{
     wp_enqueue_style('bootstrap_css', "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css");
 
     wp_enqueue_style('bootstrap-css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css');
     wp_enqueue_script('bootstrap-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js', array('jquery'), null, true);
-
     wp_enqueue_script('jquery');
 
-    wp_enqueue_style('frontend_css', SCJPC_ASSETS_URL . 'css/frontend.css', false, '4.1');
+    wp_enqueue_style('frontend_css', SCJPC_ASSETS_URL . 'css/frontend.css', false, '5.4');
+    wp_enqueue_style('print_css', SCJPC_ASSETS_URL . 'css/print.css', false, '1.2', "print");
     wp_enqueue_script('frontend_js', SCJPC_ASSETS_URL . 'js/frontend.js', false, '2.2', true);
 }
 
@@ -16,11 +17,13 @@ function load_bootstrap_assets(): void {
  * @return false|string
  * December 24, 2023
  */
-function change_date_format($date) {
+function change_date_format($date)
+{
     return date('F j, Y', strtotime($date));
 }
 
-function get_active_columns(): array {
+function get_active_columns(): array
+{
     $active_columns = [];
     foreach (CHOICES as $checked_column) {
         $active_columns[$checked_column] = $checked_column;
@@ -28,7 +31,8 @@ function get_active_columns(): array {
     return $active_columns;
 }
 
-function print_checkboxes($group): void {
+function print_checkboxes($group): void
+{
     $active_columns = CHOICES ? get_active_columns() : '';
     foreach ($group as $key => $column) {
         if (CHOICES) {
@@ -45,16 +49,18 @@ function print_checkboxes($group): void {
     }
 }
 
-function add_download_query_vars_filter($vars) {
-    $vars [] = "download_scjpc";
-    $vars [] = "search_attachments";
+function add_download_query_vars_filter($vars)
+{
+    $vars[] = "download_scjpc";
+    $vars[] = "search_attachments";
     return $vars;
 }
 
 add_filter('query_vars', 'add_download_query_vars_filter');
 
 
-function process_download_request() {
+function process_download_request()
+{
 
     $download_scjpc = get_query_var('download_scjpc');
     if ($download_scjpc) {
@@ -91,7 +97,8 @@ function process_download_request() {
     }
 }
 
-function ads_posts_where($where, &$wp_query) {
+function ads_posts_where($where, &$wp_query)
+{
 
     global $wpdb;
     $where .= ' AND (0 = 0 ';
@@ -103,14 +110,15 @@ function ads_posts_where($where, &$wp_query) {
     return $where;
 }
 
-function search_attachments() {
+function search_attachments()
+{
     $search_attachments = get_query_var('search_attachments');
     if ($search_attachments) {
         $search_param = 'Salvage';
         add_filter('posts_where', 'ads_posts_where', 10, 2);
         $args = [
             'post_type' => 'attachment',
-            'posts_per_page' => add_filter( 'posts_where', 'ads_posts_where', 10, 2 ),
+            'posts_per_page' => add_filter('posts_where', 'ads_posts_where', 10, 2),
             'search_attachment' => $search_param,
             'tax_query' => [
                 'relation' => 'AND',
@@ -144,7 +152,8 @@ function search_attachments() {
 }
 
 
-function search_web_and_docs($query) {
+function search_web_and_docs($query)
+{
     $query->set('post_type', 'attachment');
     $args = [
         'post_type' => 'attachment',
@@ -176,11 +185,25 @@ add_action('template_redirect', 'search_attachments');
 
 
 add_shortcode('post_url_change', 'post_url_change');
-function post_url_change() {
+function post_url_change()
+{
     global $post;
     if ($post->post_type == 'attachment') {
         return $post->guid;
     } else {
         return get_permalink($post);
     }
+}
+
+
+function getSortingAttributes($key, $sort_keys, $response_sort_key, $response_sort_order)
+{
+    if ($css_sort_classes = isset($sort_keys[$key]) ? 'has_sort' : '') {
+        $current_sort_order = $key == $response_sort_key ? $response_sort_order : '';
+        $css_sort_classes .= " ${$current_sort_order}";
+        $data_sort_order = $current_sort_order == 'asc' || $current_sort_order == '' ? 'desc' : 'asc';
+        return [$css_sort_classes, $data_sort_order];
+    }
+    return ["", ""];
+
 }
