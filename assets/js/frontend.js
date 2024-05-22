@@ -86,9 +86,9 @@ function registerExportButtonCalls() {
     console.log('button ', button)
     jQuery(`button#${button}`).on('click', () => {
       console.log('button clicked');
-      const button = jQuery(`button#${button}`);
-      button.prop('disabled', true);
-      make_export_api_call(button)
+      const export_button = jQuery(`button#${button}`);
+      export_button.prop('disabled', true);
+      make_export_api_call(export_button)
     })
   })
   jQuery('button#print_window').on('click', () => {
@@ -98,7 +98,7 @@ function registerExportButtonCalls() {
 
 
 function make_export_api_call(button) {
-  let body = button.data();
+  const body = button.data();
   body['action'] = 'make_export_data_call';
   jQuery.ajax({
     url: admin_ajax_url,
@@ -106,7 +106,7 @@ function make_export_api_call(button) {
     data: body,
     dataType: 'json',
     success: function (response) {
-      const {file_path , export_format} = response;
+      const {file_path, export_format} = response;
       window.location.href = `/download-export?file_path=${file_path}&format=${export_format}`;
     },
     error: function (error) {
