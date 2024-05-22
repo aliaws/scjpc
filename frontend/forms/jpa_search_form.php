@@ -9,6 +9,8 @@
         <input type="hidden" id="per_page" name="per_page" value="<?php echo $_POST['per_page'] ?? '50'; ?>"/>
         <input type="hidden" id="page_number" name="page_number" value="<?php echo $_POST['page_number'] ?? '1'; ?>"/>
         <input type="hidden" id="last_id" name="last_id" value="<?php echo $_POST['last_id'] ?? ''; ?>"/>
+        <input type="hidden" id="sort_key" name="sort_key" value="<?php echo $_POST['sort_key'] ?? 'jpa_unique_id'; ?>"/>
+        <input type="hidden" id="sort_value" name="sort_value" value="<?php echo $_POST['sort_value'] ?? 'asc'; ?>"/>
         <input type="hidden" id="admin_ajax_url" value="<?php echo admin_url('admin-ajax.php'); ?>"/>
         <div id="jpa_number_feedback" class="invalid-feedback">
           Please choose a JPA number.

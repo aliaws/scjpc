@@ -22,7 +22,19 @@ const JPAS_KEYS = [
   'jpa_unique_id' => 'Unique ID', 'jpa_number_2' => 'JPA Number 2', 'pdf_s3_key' => 'Scanned JPA',
   'date_received' => 'Date Received', 'billed_date' => 'Billed Date'
 ];
-define("CHOICES", !empty($_POST['choices']) ? $_POST['choices'] : ['unique_id', 'pole_number', 'status', 'location', 'city', 'jpa_number_2']);
+
+const JPAS_SORT_KEYS = [
+    'jpa_number_2' => 'jpa_number_2','date_received' => 'date_received','billed_date' => 'jpa_number_2',
+    'pdf_s3_key' => 'pdf_s3_key'
+];
+
+const POLE_SORT_KEYS = [
+    'unique_id' => 'unique_id','pole_number' => 'pole_number','status' => 'status',
+    'location' => 'location','jpa_number_2' => 'jpa_number_2','billed_date' => 'billed_date',
+    'city' => 'city'
+];
+
+define("CHOICES", !empty($_POST['choices']) ? $_POST['choices'] : ['unique_id', 'pole_number', 'status', 'location', 'city', 'jpa_number_2', 'billed_date']);
 const RESULTS_PER_PAGE = [25, 50, 100, 200];
 const STRING_FILTER = ['contains' => 'Contains', 'exact' => 'Exact', 'begins_with' => 'Begins With'];
 const STATUS_LABELS = ['A' => 'Active', 'I' => 'Inactive', 'D' => 'Dead'];

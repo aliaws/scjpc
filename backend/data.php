@@ -163,6 +163,10 @@ $columns = [
     "label" => "JPA Number 2",
     "default" => ""
   ],
+ 'billed_date' => [
+    "label" => "Billed Date",
+    "default" => ""
+ ],
   "bos_2" => [
     "label" => "Bill of Sale",
     "default" => false,
