@@ -22,7 +22,7 @@
       <?php foreach ($record_keys as $key => $label) { ?>
         <?php [$css_classes, $data_sort_order] =  getSortingAttributes($key, $sort_keys, $response_sort_key, $response_sort_order); ?>
 
-        <th class='text-capitalize <?php echo $css_classes; ?>' data-sort-key=<?php echo $key; ?> data-sort-order="<?php echo $data_sort_order; ?>" scope='col'>
+        <th key="<?php echo $key; ?>"class='text-capitalize <?php echo $css_classes; ?>' data-sort-key=<?php echo $key; ?> data-sort-order="<?php echo $data_sort_order; ?>" scope='col'>
             <?php echo $label; ?>
         </th>
       <?php } ?>
