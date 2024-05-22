@@ -33,12 +33,3 @@
     </div>
 </div>
 <div class="response-table"></div>
-
-
-
-
-
-
-
-
-
