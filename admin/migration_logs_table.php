@@ -5,9 +5,10 @@ $record_keys = array_keys($get_migration_logs['0']); ?>
   <table class="table w-100 table-striped">
     <thead>
     <tr>
-      <?php foreach ($record_keys as $value) {
-        echo "<th class='text-capitalize' style='font-size: 16px' scope='col'>" . str_replace("_", " ", $value) . "</th>";
-      } ?>
+      <?php foreach ($record_keys as $value) { ?>
+        <th class="text-capitalize" style="font-size: 16px"
+            scope="col"><?php echo str_replace("_", " ", $value); ?></th>
+      <?php } ?>
     </tr>
     </thead>
     <tbody>

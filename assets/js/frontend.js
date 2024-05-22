@@ -56,23 +56,10 @@ const registerFormSubmissionHandler = () => {
 }
 const registerPaginationButtonAndSortHeaderClicks = () => {
   //Register Pagination events
-  jQuery('.pagination-bar li a').click(function () {
-    const pageNumber = jQuery(this).data('page');
-    jQuery(this).addClass("active");
-    jQuery('input#page_number').val(pageNumber);
-    const action = jQuery('#action').val();
-    jQuery(`#${action}`).submit();
-  });
+  registerPageNavigationClicks()
   // Register Per Page Event
-  jQuery('.page-list li a').click(function () {
-    const perPage = jQuery(this).data('page');
-    jQuery(this).addClass("active");
-    jQuery('input#per_page').val(perPage);
-    jQuery('input#page_number').val(1);
-    const action = jQuery('#action').val();
-    jQuery(`#${action}`).submit();
-  });
-  jQuery('input[value=all]').click(function () {
+  registerPaginationLimitClicks()
+  jQuery('input[value=all]').click(() => {
     if (!jQuery(this).prop('checked')) {
       jQuery('input[name="choices[]"]').prop('checked', false);
     } else {
@@ -80,13 +67,56 @@ const registerPaginationButtonAndSortHeaderClicks = () => {
     }
   })
   // Register Header
-  jQuery('table.table-sortable th.has_sort').click(function (){
-     const sort_order = jQuery(this).data('sort-order');
-     const sort_key = jQuery(this).data('sort-key');
-     jQuery('input#sort_key').val(sort_key);
-     jQuery('input#sort_order').val(sort_order);
-     const form = jQuery('.needs-validation')[0];
-     jQuery(`form#${form.id}`).submit()
+  registerTableSortClicks()
+}
+const registerPageNavigationClicks = () => {
+  jQuery('.pagination-bar li a').click((event) => {
+    console.log('pageNumber', event, jQuery(this))
+    console.log('pageNumber', event.currentTarget.dataset, event.currentTarget.dataset['page'])
+    // const pageNumber = jQuery(this).data('page');
+    const pageNumber = event.currentTarget.dataset['page'];
+    jQuery(this).addClass("active");
+
+    const action = jQuery('#action').val();
+    jQuery('input#page_number').val(pageNumber);
+    jQuery(`#${action}`).submit();
+  });
+}
+const registerPaginationLimitClicks = () => {
+  jQuery('.page-list li a').click((event) => {
+    // const perPage = jQuery(this).data('page');
+    const perPage = event.currentTarget.dataset['page'];
+    jQuery(this).addClass("active");
+    jQuery('input#per_page').val(perPage);
+    jQuery('input#page_number').val(1);
+    const action = jQuery('#action').val();
+    jQuery(`#${action}`).submit();
+  });
+}
+const registerTableSortClicks = () => {
+  jQuery('table.table-sortable th.has_sort').click((event) => {
+    // const sort_order = jQuery(this).data('sort-order');
+    // const sort_key = jQuery(this).data('sort-key');
+    // console.log('click event', event)
+    const sortOrder = event.currentTarget.dataset['sortOrder'];
+    jQuery('input#sort_order').val(sortOrder);
+
+    const sortKey = event.currentTarget.dataset['sortKey'];
+    jQuery('input#sort_key').val(sortKey)
+    // const sortKeyInput = jQuery('input#sort_key')
+    // const sortOrderInput = jQuery('input#sort_order');
+    // console.log('sortOrder', sortOrder, 'sort_key', sortKey, 'sortKeyInput', sortKeyInput.val(), 'sortOrderInput', sortOrderInput.val())
+    // if (sortKeyInput === sortKey) {
+    //   const val = sortOrder === 'asc' ? 'desc' : 'asc'
+    //   sortOrderInput.val(val)
+    // } else {
+    //   sortOrderInput.val(sortOrder)
+    //
+    // }
+    // sortOrderInput.val(sortOrder)
+    // sortKeyInput.val(sortKey)
+    const form = jQuery('.needs-validation')[0];
+    jQuery(`form#${form.id}`).submit()
   })
 }
 
@@ -95,9 +125,9 @@ function registerExportButtonCalls() {
     console.log('button ', button)
     jQuery(`button#${button}`).on('click', () => {
       console.log('button clicked');
-      const button = jQuery(`button#${button}`);
-      button.prop('disabled', true);
-      make_export_api_call(button)
+      const export_button = jQuery(`button#${button}`);
+      export_button.prop('disabled', true);
+      make_export_api_call(export_button)
     })
   })
   jQuery('button#print_window').on('click', () => {
@@ -107,7 +137,7 @@ function registerExportButtonCalls() {
 
 
 function make_export_api_call(button) {
-  let body = button.data();
+  const body = button.data();
   body['action'] = 'make_export_data_call';
   jQuery.ajax({
     url: admin_ajax_url,
@@ -115,7 +145,7 @@ function make_export_api_call(button) {
     data: body,
     dataType: 'json',
     success: function (response) {
-      const {file_path , export_format} = response;
+      const {file_path, export_format} = response;
       window.location.href = `/download-export?file_path=${file_path}&format=${export_format}`;
     },
     error: function (error) {

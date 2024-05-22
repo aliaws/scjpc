@@ -8,7 +8,7 @@
   $result_per_page = $search_result['result_per_page'];
   $num_results_on_page = $search_result['per_page'];
   $sort_keys = POLE_SORT_KEYS;
-  $response_sort_key = !empty($search_result['sort_key']) ? $search_result['sort_key'] : 'jpa_unique_id';
+  $response_sort_key = !empty($search_result['sort_key']) ? $search_result['sort_key'] : 'unique_id';
   $response_sort_order = !empty($search_result['sort_order']) ? $search_result['sort_order'] : 'asc';
   $search_results = $search_result['results'] ?? [];
   $current_user = wp_get_current_user();
@@ -52,8 +52,9 @@
               <th><?php echo $extra; ?></th>
             <?php }
           } else { ?>
-              <?php [$css_classes, $data_sort_order] =  getSortingAttributes($column, $sort_keys, $response_sort_key, $response_sort_order); ?>
-            <th class='<?php echo $css_classes; ?>' data-sort-key=<?php echo $column; ?> data-sort-order="<?php echo $data_sort_order; ?>"><?php echo $value['label']; ?></th>
+            <?php [$css_classes, $data_sort_order] = getSortingAttributes($column, $sort_keys, $response_sort_key, $response_sort_order); ?>
+            <th class='<?php echo $css_classes; ?>'
+                data-sort-key=<?php echo $column; ?> data-sort-order="<?php echo $data_sort_order; ?>"><?php echo $value['label']; ?></th>
           <?php }
         } ?>
       </tr>
