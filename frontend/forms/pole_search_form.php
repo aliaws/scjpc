@@ -11,14 +11,4 @@
   <input type="hidden" id="last_id" name="last_id" value="<?php echo $_REQUEST['last_id'] ?? ''; ?>"/>
   <input type="hidden" id="admin_ajax_url" value="<?php echo admin_url('admin-ajax.php'); ?>"/>
 </form>
-
-<script type="text/javascript">
-  jQuery(document).ready(() => {
-    console.log('submitting form')
-    setTimeout(() => {
-      jQuery('form#jpa_detail_search').submit()
-    }, 1000)
-  })
-</script>
-
 <div class="response-table"></div>

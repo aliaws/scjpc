@@ -14,49 +14,45 @@ jQuery(document).ready(function () {
     jQuery('input[id=page_number]').val(1);
   })
   console.log('registering the form submission handlers')
-  registerFormSubmissionHandler()
+  registerFormSubmissionHandler();
+
 
   // register_export_button_calls()
 });
 
 const registerFormSubmissionHandler = () => {
-  const forms = jQuery('.needs-validation');
+  const form = jQuery('.needs-validation')[0];
   // console.log('forms to apply check', forms[0].id)
   // Loop over them and prevent submission
-  forms.each((index, form) => {
-    jQuery(this).on('submit', function (event) {
-      console.log('i am here')
-      event.preventDefault()
-      const form = event.target;
-      const formData = new FormData(form);
-      // jQuery.ajax(`${admin_ajax_url}?action=${formData.get('action')}`, {
-      jQuery.ajax(admin_ajax_url, {
-        type: 'post',
-        data: formData,
-        processData: false,
-        contentType: false,
-        headers: {"Accept": "application/json"},
-        success: (response) => {
-          jQuery('div.response-table').html(response);
-          registerExportButtonCalls();
-          registerPaginationButtonClicks();
-        },
-        error: (error) => {
-          console.log('error==', error);
-        }
-      })
-      // alert('form')
-      // if (!this.checkValidity()) {
-      //   event.preventDefault();
-      //   event.stopPropagation();
-      // }
-      jQuery(this).addClass('was-validated');
-    });
-    // if (['jpa_detail_search'].includes(form.id)) {
-    //   console.log('i am here at submission')
-    //   form.submit()
-    // }
+
+  jQuery(form).on('submit', function (event) {
+    console.log('i am here')
+    event.preventDefault()
+    const form = event.target;
+    const formData = new FormData(form);
+    // jQuery.ajax(`${admin_ajax_url}?action=${formData.get('action')}`, {
+    jQuery.ajax(admin_ajax_url, {
+      type: 'post',
+      data: formData,
+      processData: false,
+      contentType: false,
+      headers: {"Accept": "application/json"},
+      success: (response) => {
+        jQuery('div.response-table').html(response);
+        registerExportButtonCalls();
+        registerPaginationButtonClicks();
+      },
+      error: (error) => {
+        console.log('error==', error);
+      }
+    })
+    jQuery(this).addClass('was-validated');
   });
+
+  //submit in case in jpa detail
+  if (['jpa_detail_search', 'pole_detail'].includes(form.id)) {
+    jQuery(`form#${form.id}`).submit()
+  }
 }
 const registerPaginationButtonClicks = () => {
   //Register Pagination events
