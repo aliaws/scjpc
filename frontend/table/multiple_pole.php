@@ -16,11 +16,12 @@
     </div>
     <input type="hidden" id="admin_ajax_url" value="<?php echo admin_url('admin-ajax.php'); ?>"/>
   </div>
-  <table class="table w-100 table-striped">
+  <table class="table w-100 table-striped table-sortable">
     <thead>
     <tr>
       <?php foreach (POLES_KEYS as $key => $label) {
-        echo "<th class='text-capitalize' scope='col'>" . str_replace("_", " ", $label) . "</th>";
+          [$css_classes, $data_sort_order] =  getSortingAttributes($key, $sort_keys, $response_sort_key, $response_sort_order);
+        echo "<th class='text-capitalize $css_classes' scope='col' data-sort-key='$key' data-sort-order='$data_sort_order' scope='col'  >" . str_replace("_", " ", $label) . "</th>";
       } ?>
     </tr>
     </thead>

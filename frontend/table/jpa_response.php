@@ -16,11 +16,15 @@
     </div>
     <input type="hidden" id="admin_ajax_url" value="<?php echo admin_url('admin-ajax.php'); ?>"/>
   </div>
-  <table class="table w-100 table-striped">
+  <table class="table w-100 table-striped table-sortable">
     <thead>
     <tr>
       <?php foreach ($record_keys as $key => $label) { ?>
-        <th class='text-capitalize' scope='col'><?php echo $label; ?></th>
+        <?php [$css_classes, $data_sort_order] =  getSortingAttributes($key, $sort_keys, $response_sort_key, $response_sort_order); ?>
+
+        <th key="<?php echo $key; ?>"class='text-capitalize <?php echo $css_classes; ?>' data-sort-key=<?php echo $key; ?> data-sort-order="<?php echo $data_sort_order; ?>" scope='col'>
+            <?php echo $label; ?>
+        </th>
       <?php } ?>
     </tr>
     </thead>

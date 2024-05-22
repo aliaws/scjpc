@@ -74,7 +74,6 @@
       <input type="hidden" id="sort_order" name="sort_order" value="<?php echo $_POST['sort_order'] ?? 'asc'; ?>"/>
       <input type="hidden" id="admin_ajax_url" value="<?php echo admin_url('admin-ajax.php'); ?>"/>
     </form>
-
     <div class="accordion mt-5" id="accordionPanelsStayOpenExample">
       <div class="accordion-item">
         <p class="accordion-header" id="panelsStayOpen-headingThree">
@@ -109,6 +108,4 @@
     </div>
   </div>
 </div>
-
-
 <div class="response-table"></div>

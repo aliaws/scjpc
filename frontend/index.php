@@ -77,6 +77,8 @@ add_action('wp_ajax_make_export_data_call', 'make_export_data_call');
 add_action('wp_ajax_nopriv_make_export_data_call', 'make_export_data_call');
 
 function make_export_data_call() {
+//  echo "<pre>GET=" . count($_GET) . "==POST=" . count($_POST) . "==FILES=" . count($_FILES) . print_r($_GET, true) . print_r($_POST, true) . print_r($_FILES, true) . "</pre>";
+
   $api_url = rtrim(get_option('scjpc_es_host'), '/') . "/data-export";
   $headers = ["Content-Type: application/json", "security_key: " . get_option('scjpc_client_auth_key')];
   $ch = curl_init();
@@ -91,6 +93,10 @@ function make_export_data_call() {
   wp_die();
 }
 
+add_action('admin_post_nopriv_multiple_jpa_search', 'ajax_jpa_search');
+add_action('wp_ajax_multiple_jpa_search', 'ajax_jpa_search');
+add_action('wp_ajax_nopriv_multiple_jpa_search', 'ajax_jpa_search');
+
 add_action('admin_post_nopriv_jpa_search', 'ajax_jpa_search');
 add_action('wp_ajax_jpa_search', 'ajax_jpa_search');
 add_action('wp_ajax_nopriv_jpa_search', 'ajax_jpa_search');
@@ -101,13 +107,38 @@ function ajax_jpa_search() {
   wp_die();
 }
 
-add_action('admin_post_nopriv_multiple_jpa_search', 'ajax_mulitple_jpa_search');
-add_action('wp_ajax_multiple_jpa_search', 'ajax_mulitple_jpa_search');
-add_action('wp_ajax_nopriv_multiple_jpa_search', 'ajax_mulitple_jpa_search');
+
+add_action('admin_post_nopriv_quick_pole_search', 'ajax_pole_search');
+add_action('wp_ajax_quick_pole_search', 'ajax_pole_search');
+add_action('wp_ajax_nopriv_quick_pole_search', 'ajax_pole_search');
+
+add_action('admin_post_nopriv_advanced_pole_search', 'ajax_pole_search');
+add_action('wp_ajax_advanced_pole_search', 'ajax_pole_search');
+add_action('wp_ajax_nopriv_advanced_pole_search', 'ajax_pole_search');
+
+add_action('admin_post_nopriv_pole_detail', 'ajax_pole_search');
+add_action('wp_ajax_pole_detail', 'ajax_pole_search');
+add_action('wp_ajax_nopriv_pole_detail', 'ajax_pole_search');
 
 
-function ajax_mulitple_jpa_search() {
-  echo "<pre>" . count($_GET) . "==" . count($_POST) . "==" . count($_FILES) . print_r($_GET, true) . print_r($_POST, true) . print_r($_FILES, true) . "</pre>";
-  include_once SCJPC_PLUGIN_FRONTEND_BASE . 'table/jpa_results.php';
+add_action('admin_post_nopriv_jpa_detail_search', 'ajax_pole_search');
+add_action('wp_ajax_jpa_detail_search', 'ajax_pole_search');
+add_action('wp_ajax_nopriv_jpa_detail_search', 'ajax_pole_search');
+
+
+function ajax_pole_search() {
+//  echo "<pre>GET=" . count($_GET) . "==POST=" . count($_POST) . "==FILES=" . count($_FILES) . "==REQUEST=" . count($_REQUEST) . print_r($_GET, true) . print_r($_POST, true) . print_r($_FILES, true) . print_r($_REQUEST, true) . "</pre>";
+  include_once SCJPC_PLUGIN_FRONTEND_BASE . "table/pole_results.php";
+  wp_die();
+}
+
+add_action('admin_post_nopriv_multiple_pole_search', 'ajax_multiple_pole_search');
+add_action('wp_ajax_multiple_pole_search', 'ajax_multiple_pole_search');
+add_action('wp_ajax_nopriv_multiple_pole_search', 'ajax_multiple_pole_search');
+
+
+function ajax_multiple_pole_search() {
+//  echo "<pre>GET=" . count($_GET) . "==POST=" . count($_POST) . "==FILES=" . count($_FILES) . "==REQUEST=" . count($_REQUEST) . print_r($_GET, true) . print_r($_POST, true) . print_r($_FILES, true) . print_r($_REQUEST, true) . "</pre>";
+  include_once SCJPC_PLUGIN_FRONTEND_BASE . "table/multiple_pole_results.php";
   wp_die();
 }

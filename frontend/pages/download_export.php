@@ -1,10 +1,11 @@
 <?php load_bootstrap_assets();
 $user = wp_get_current_user();
 $response = get_export_status($_GET);
+//echo "<pre>" . print_r($response, true) . "</pre>";
 $status = $response['status'];
 $download_url = $status == 'Processed' ? "/?download_scjpc={$response['s3_path']}" : '';
 $btn_disabled = $response['status'] == 'Processed' ? '' : 'disabled';
-$btn_text = $response['status'] == 'Processed' ?  "Download Export": "Download In Progress";
+$btn_text = $response['status'] == 'Processed' ? "Download Export" : "Export In Progress";
 ?>
 
 <div class="card p-4">
@@ -24,7 +25,7 @@ $btn_text = $response['status'] == 'Processed' ?  "Download Export": "Download I
   </form>
   <div class="d-flex justify-content-between columns-2">
     <p>
-      <button class="btn btn-primary" <?php echo $btn_disabled  ?>
+      <button class="btn btn-primary" <?php echo $btn_disabled ?>
               id="download_export_file">
         <?php echo $btn_text; ?>
       </button>
@@ -39,6 +40,10 @@ $btn_text = $response['status'] == 'Processed' ?  "Download Export": "Download I
           window.location.reload(true)
         }, 10000
       )
+    } else {
+      jQuery('button#download_export_file').on('click', () => {
+        window.location.href = jQuery('input#download_url').val();
+      })
     }
   </script>
 </div>
