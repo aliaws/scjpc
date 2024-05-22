@@ -59,6 +59,7 @@ const registerFormSubmissionHandler = () => {
   });
 }
 const registerPaginationButtonClicks = () => {
+  //Register Pagination events
   jQuery('.pagination-bar li a').click(function () {
     const pageNumber = jQuery(this).data('page');
     jQuery(this).addClass("active");
@@ -66,10 +67,11 @@ const registerPaginationButtonClicks = () => {
     const action = jQuery('#action').val();
     jQuery(`#${action}`).submit();
   });
+  // Register Per Page Event
   jQuery('.page-list li a').click(function () {
-    const pageNumber = jQuery(this).data('page');
+    const perPage = jQuery(this).data('page');
     jQuery(this).addClass("active");
-    jQuery('input#per_page').val(pageNumber);
+    jQuery('input#per_page').val(perPage);
     jQuery('input#page_number').val(1);
     const action = jQuery('#action').val();
     jQuery(`#${action}`).submit();
@@ -87,28 +89,33 @@ function registerExportButtonCalls() {
   ['export_as_excel', 'export_as_csv'].forEach(button => {
     console.log('button ', button)
     jQuery(`button#${button}`).on('click', () => {
-      console.log('button clicked')
-      make_export_api_call(jQuery(`button#${button}`).data())
+      console.log('button clicked');
+      const button = jQuery(`button#${button}`);
+      button.prop('disabled', true);
+      make_export_api_call(button)
     })
   })
   jQuery('button#print_window').on('click', () => {
-    window.print()
+    window.print();
   })
 }
 
 
-function make_export_api_call(body) {
-  body['action'] = 'make_export_data_call'
+function make_export_api_call(button) {
+  let body = button.data();
+  body['action'] = 'make_export_data_call';
   jQuery.ajax({
     url: admin_ajax_url,
     type: 'post',
     data: body,
     dataType: 'json',
     success: function (response) {
-      window.location.href = `/download-export?file_path=${response.file_path}&format=${response.export_format}`;
+      const {file_path , export_format} = response;
+      window.location.href = `/download-export?file_path=${file_path}&format=${export_format}`;
     },
     error: function (error) {
       console.log('error==', error)
+      button.prop('disabled', false);
     }
   })
 }
