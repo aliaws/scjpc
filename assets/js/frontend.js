@@ -9,29 +9,33 @@ jQuery(document).ready(function () {
     parentForm.find('input[id="per_page"]').val(50);
     parentForm.find('input[id="last_id"]').val('');
   });
+  jQuery('button[type=submit]').on('click', () => {
+    jQuery('input[id=page_number]').val(1);
+  })
   const forms = jQuery('.needs-validation');
   // Loop over them and prevent submission
-  forms.each(function () {
+  forms.each(() => {
     jQuery(this).on('submit', function (event) {
       event.preventDefault()
-      const form = new FormData(event.target)
-      const formData = Object.fromEntries(form.entries())
-      console.log('formData', formData)
-      jQuery.ajax({
-        url: `${admin_ajax_url}?action=${formData.action}`,
+      const form = event.target;
+      const formData = new FormData(form);
+      // jQuery.ajax(`${admin_ajax_url}?action=${formData.get('action')}`, {
+      jQuery.ajax(admin_ajax_url, {
         type: 'post',
-        processData: false,
-        // dataType: "json",
-        // contentType: "multipart/form-data",
         data: formData,
-        success: function (response) {
-          jQuery('div.response-table').html(response)
+        processData: false,
+        contentType: false,
+        headers: {"Accept": "application/json"},
+        success: (response) => {
+          jQuery('div.response-table').html(response);
+          registerExportButtonCalls();
+          registerPaginationButtonClicks();
         },
-        error: function (error) {
-          console.log('error==', error)
+        error: (error) => {
+          console.log('error==', error);
         }
       })
-      alert('form')
+      // alert('form')
       // if (!this.checkValidity()) {
       //   event.preventDefault();
       //   event.stopPropagation();
@@ -39,17 +43,22 @@ jQuery(document).ready(function () {
       jQuery(this).addClass('was-validated');
     });
   });
+
+  // register_export_button_calls()
+});
+const registerPaginationButtonClicks = () => {
   jQuery('.pagination-bar li a').click(function () {
     const pageNumber = jQuery(this).data('page');
     jQuery(this).addClass("active");
-    jQuery('#page_number').val(pageNumber);
+    jQuery('input#page_number').val(pageNumber);
     const action = jQuery('#action').val();
     jQuery(`#${action}`).submit();
   });
   jQuery('.page-list li a').click(function () {
     const pageNumber = jQuery(this).data('page');
     jQuery(this).addClass("active");
-    jQuery('#per_page').val(pageNumber);
+    jQuery('input#per_page').val(pageNumber);
+    jQuery('input#page_number').val(1);
     const action = jQuery('#action').val();
     jQuery(`#${action}`).submit();
   });
@@ -60,33 +69,31 @@ jQuery(document).ready(function () {
       jQuery('input[name="choices[]"]').prop('checked', true);
     }
   })
-  register_export_button_calls()
-});
+}
 
-function register_export_button_calls() {
+function registerExportButtonCalls() {
   ['export_as_excel', 'export_as_csv'].forEach(button => {
+    console.log('button ', button)
     jQuery(`button#${button}`).on('click', () => {
+      console.log('button clicked')
       make_export_api_call(jQuery(`button#${button}`).data())
     })
   })
   jQuery('button#print_window').on('click', () => {
     window.print()
   })
-  jQuery('button#download_export_file').on('click', () => {
-    window.location.href = jQuery('input#download_url').val();
-  })
 }
 
 
 function make_export_api_call(body) {
+  body['action'] = 'make_export_data_call'
   jQuery.ajax({
-    url: admin_ajax_url + "?action=make_export_data_call",
+    url: admin_ajax_url,
     type: 'post',
     data: body,
     dataType: 'json',
     success: function (response) {
-      const redirectURL = `/download-export?file_path=${response.file_path}&format=${response.export_format}`
-      window.location.replace(redirectURL);
+      window.location.href = `/download-export?file_path=${response.file_path}&format=${response.export_format}`;
     },
     error: function (error) {
       console.log('error==', error)

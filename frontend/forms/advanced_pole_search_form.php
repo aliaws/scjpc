@@ -1,13 +1,12 @@
 <div class="card p-4">
-  <form class="needs-validation" id="advanced_pole_search" action="<?php echo get_permalink(get_the_ID()); ?>"
-        method="get" novalidate>
+  <form class="needs-validation" id="advanced_pole_search" method="get" novalidate>
     <div class="mb-3">
       <label class="form-label">Pole Number</label>
       <div class="d-flex border p-2 rounded input-bg">
         <p class="col-3 m-0">
           <select name="pole_number_filter" class="form-select">
             <?php foreach (STRING_FILTER as $key => $label) { ?>
-              <option <?php echo isset($_GET['pole_number_filter']) && $_GET['pole_number_filter'] == $key ? 'selected' : '' ?>
+              <option <?php echo isset($_REQUEST['pole_number_filter']) && $_REQUEST['pole_number_filter'] == $key ? 'selected' : '' ?>
                 value="<?php echo $key; ?>">
                 <?php echo $label; ?>
               </option>
@@ -16,7 +15,7 @@
         </p>
         <p class="col-9 ps-3 m-0">
           <input type="text" name="pole_number" class="form-control" id="pole"
-                 value="<?php echo $_GET['pole_number'] ?? ''; ?>"/>
+                 value="<?php echo $_REQUEST['pole_number'] ?? ''; ?>"/>
         </p>
       </div>
     </div>
@@ -26,7 +25,7 @@
         <p class="col-3 m-0">
           <select name="location_filter" class="form-select " aria-label=".form-select-lg example">
             <?php foreach (STRING_FILTER as $key => $label) { ?>
-              <option <?php echo isset($_GET['location_filter']) && $_GET['location_filter'] == $key ? 'selected' : '' ?>
+              <option <?php echo isset($_REQUEST['location_filter']) && $_REQUEST['location_filter'] == $key ? 'selected' : '' ?>
                 value="<?php echo $key; ?>">
                 <?php echo $label; ?>
               </option>
@@ -35,26 +34,26 @@
         </p>
         <p class="col-9 ps-3 m-0">
           <input type="text" name="location" class="form-control" id="location"
-                 value="<?php echo $_GET['location'] ?? ''; ?>"/>
+                 value="<?php echo $_REQUEST['location'] ?? ''; ?>"/>
         </p>
       </div>
     </div>
     <div class="mb-3">
       <label for="id_latitude" class="form-label">Latitude</label>
       <input type="text" name="latitude" class="form-control" id="id_latitude" aria-describedby="emailHelp"
-             value="<?php echo $_GET['latitude'] ?? ''; ?>"/>
+             value="<?php echo $_REQUEST['latitude'] ?? ''; ?>"/>
     </div>
     <div class="mb-3">
       <label for="id_longitude" class="form-label">Longitude</label>
       <input type="text" name="longitude" class="form-control" id="id_longitude" aria-describedby="emailHelp"
-             value="<?php echo $_GET['longitude'] ?? ''; ?>"/>
+             value="<?php echo $_REQUEST['longitude'] ?? ''; ?>"/>
     </div>
     <div class="mb-4">
       <label for="id_distance" class="form-label">Distance</label>
       <select class="form-select" id="id_distance" name="distance" aria-label="Default select example">
         <?php foreach (DISTANCES as $key => $value) { ?>
-            <?php $selected_distance = !empty($_REQUEST["distance"]) && $_REQUEST["distance"] == $key ?  'selected="selected"': ''; ?>
-          <option value="<?php echo $key; ?>"  <?php echo $selected_distance ?>><?php echo $value; ?></option>
+          <?php $selected_distance = !empty($_REQUEST["distance"]) && $_REQUEST["distance"] == $key ? 'selected="selected"' : ''; ?>
+          <option value="<?php echo $key; ?>" <?php echo $selected_distance ?>><?php echo $value; ?></option>
         <?php } ?>
       </select>
     </div>
@@ -64,9 +63,10 @@
       <button type="submit" class="btn btn-primary">Search</button>
     </div>
     <input type="hidden" id="action" name="action" value="advanced_pole_search"/>
-    <input type="hidden" id="per_page" name="per_page" value="<?php echo $_GET['per_page'] ?? '50'; ?>"/>
-    <input type="hidden" id="page_number" name="page_number" value="<?php echo $_GET['page_number'] ?? '1'; ?>"/>
-    <input type="hidden" id="last_id" name="last_id" value="<?php echo $_GET['last_id'] ?? ''; ?>"/>
+    <input type="hidden" id="per_page" name="per_page" value="<?php echo $_REQUEST['per_page'] ?? '50'; ?>"/>
+    <input type="hidden" id="page_number" name="page_number" value="<?php echo $_REQUEST['page_number'] ?? '1'; ?>"/>
+    <input type="hidden" id="last_id" name="last_id" value="<?php echo $_REQUEST['last_id'] ?? ''; ?>"/>
+    <input type="hidden" id="admin_ajax_url" value="<?php echo admin_url('admin-ajax.php'); ?>"/>
   </form>
 
   <div class="accordion mt-5" id="accordionPanelsStayOpenExample">
@@ -103,3 +103,4 @@
   </div>
 </div>
 
+<div class="response-table"></div>
