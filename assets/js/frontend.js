@@ -40,7 +40,7 @@ const registerFormSubmissionHandler = () => {
       success: (response) => {
         jQuery('div.response-table').html(response);
         registerExportButtonCalls();
-        registerPaginationButtonClicks();
+        registerPaginationButtonAndSortHeaderClicks();
       },
       error: (error) => {
         console.log('error==', error);
@@ -54,7 +54,7 @@ const registerFormSubmissionHandler = () => {
     jQuery(`form#${form.id}`).submit()
   }
 }
-const registerPaginationButtonClicks = () => {
+const registerPaginationButtonAndSortHeaderClicks = () => {
   //Register Pagination events
   jQuery('.pagination-bar li a').click(function () {
     const pageNumber = jQuery(this).data('page');
@@ -78,6 +78,15 @@ const registerPaginationButtonClicks = () => {
     } else {
       jQuery('input[name="choices[]"]').prop('checked', true);
     }
+  })
+  // Register Header
+  jQuery('table.table-sortable th.has_sort').click(function (){
+     const sort_order = jQuery(this).data('sort-order');
+     const sort_key = jQuery(this).data('sort-key');
+     jQuery('input#sort_key').val(sort_key);
+     jQuery('input#sort_order').val(sort_order);
+     const form = jQuery('.needs-validation')[0];
+     jQuery(`form#${form.id}`).submit()
   })
 }
 

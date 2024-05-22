@@ -183,3 +183,15 @@ function post_url_change() {
     return get_permalink($post);
   }
 }
+
+
+function getSortingAttributes($key, $sort_keys, $response_sort_key, $response_sort_order) {
+    if($css_sort_classes = isset($sort_keys[$key]) ? 'has_sort' : '') {
+        $current_sort_order = $key == $response_sort_key ? $response_sort_order : '';
+        $css_sort_classes.=  " ${$current_sort_order}";
+        $data_sort_order = $current_sort_order == 'asc' || $current_sort_order == '' ? 'desc' :'asc';
+        return [$css_sort_classes, $data_sort_order];
+    }
+    return ["", ""];
+
+}
