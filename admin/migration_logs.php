@@ -11,7 +11,7 @@ function scjpc_insert_post_migration_log(): void {
 
 function scjpc_insert_migration_log(WP_REST_Request $request): WP_REST_Response {
   $security_key = $request->get_header('security_key');
-  if (!isset($security_key) || $security_key != API_SECURITY_KEY) {
+  if (!isset($security_key) || $security_key != get_option('scjpc_client_auth_key')) {
     return new WP_REST_Response(['message' => 'Please provide the API security key'], 401);
   }
   $body = $request->get_json_params();
@@ -53,7 +53,7 @@ function scjpc_update_post_migration_log(): void {
 
 function scjpc_update_migration_log(WP_REST_Request $request): WP_REST_Response {
   $security_key = $request->get_header('security_key');
-  if (!isset($security_key) || $security_key != API_SECURITY_KEY) {
+  if (!isset($security_key) || $security_key != get_option('scjpc_client_auth_key')) {
     return new WP_REST_Response(['message' => 'Please provide the API security key'], 401);
   }
   $body = $request->get_json_params();
@@ -106,7 +106,7 @@ function scjpc_update_pole_base_owners(): void {
 
 function scjpc_update_base_owners(WP_REST_Request $request): WP_REST_Response {
   $security_key = $request->get_header('security_key');
-  if (!isset($security_key) || $security_key != API_SECURITY_KEY) {
+  if (!isset($security_key) || $security_key != get_option('scjpc_client_auth_key')) {
     return new WP_REST_Response(['message' => 'Please provide the API security key'], 401);
   }
   $body = $request->get_json_params();
