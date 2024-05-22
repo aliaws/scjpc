@@ -1,6 +1,7 @@
 const admin_ajax_url = jQuery("#admin_ajax_url").val();
 
 jQuery(document).ready(function () {
+  console.log('frontend.js loaded')
   jQuery(".clearBtn").click(function () {
     const parentForm = jQuery(this).closest('form');
     parentForm.find('input[type="text"], input[type="file"]').val('');
@@ -12,10 +13,19 @@ jQuery(document).ready(function () {
   jQuery('button[type=submit]').on('click', () => {
     jQuery('input[id=page_number]').val(1);
   })
+  console.log('registering the form submission handlers')
+  registerFormSubmissionHandler()
+
+  // register_export_button_calls()
+});
+
+const registerFormSubmissionHandler = () => {
   const forms = jQuery('.needs-validation');
+  // console.log('forms to apply check', forms[0].id)
   // Loop over them and prevent submission
-  forms.each(() => {
+  forms.each((index, form) => {
     jQuery(this).on('submit', function (event) {
+      console.log('i am here')
       event.preventDefault()
       const form = event.target;
       const formData = new FormData(form);
@@ -42,10 +52,12 @@ jQuery(document).ready(function () {
       // }
       jQuery(this).addClass('was-validated');
     });
+    // if (['jpa_detail_search'].includes(form.id)) {
+    //   console.log('i am here at submission')
+    //   form.submit()
+    // }
   });
-
-  // register_export_button_calls()
-});
+}
 const registerPaginationButtonClicks = () => {
   jQuery('.pagination-bar li a').click(function () {
     const pageNumber = jQuery(this).data('page');

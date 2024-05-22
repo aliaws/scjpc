@@ -116,6 +116,15 @@ add_action('admin_post_nopriv_advanced_pole_search', 'ajax_pole_search');
 add_action('wp_ajax_advanced_pole_search', 'ajax_pole_search');
 add_action('wp_ajax_nopriv_advanced_pole_search', 'ajax_pole_search');
 
+add_action('admin_post_nopriv_pole_detail', 'ajax_pole_search');
+add_action('wp_ajax_pole_detail', 'ajax_pole_search');
+add_action('wp_ajax_nopriv_pole_detail', 'ajax_pole_search');
+
+
+add_action('admin_post_nopriv_jpa_detail_search', 'ajax_pole_search');
+add_action('wp_ajax_jpa_detail_search', 'ajax_pole_search');
+add_action('wp_ajax_nopriv_jpa_detail_search', 'ajax_pole_search');
+
 
 function ajax_pole_search() {
 //  echo "<pre>GET=" . count($_GET) . "==POST=" . count($_POST) . "==FILES=" . count($_FILES) . "==REQUEST=" . count($_REQUEST) . print_r($_GET, true) . print_r($_POST, true) . print_r($_FILES, true) . print_r($_REQUEST, true) . "</pre>";
