@@ -4,7 +4,7 @@
       <small>
         Click "Chose File" button, select an Excel file, and click "Search multiple JPAs" button (one time only)
       </small>
-      <small <div class="card p-4">class="my-3 d-block">
+      <small class="my-3 d-block">
         <a href="<?php echo SCJPC_URL . "frontend/ExampleJPANumbers.xlsx"; ?>" download>
           Example of JPA Numbers Excel file (.xlsx)
         </a>
