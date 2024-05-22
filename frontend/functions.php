@@ -144,20 +144,6 @@ function search_attachments() {
 
 
 function search_web_and_docs($query) {
-  $query->set('post_type', 'attachment');
-  $args = [
-    'post_type' => 'attachment',
-    'posts_per_page' => 500,
-    'tax_query' => [
-      'relation' => 'AND',
-      [
-        'taxonomy' => 'bwdmfmx_mediafiles_category',
-        'field' => 'term_id',
-        'terms' => [15, 16, 17, 18, 19, 20]
-      ],
-    ],
-    'post_status' => 'inherit',
-  ];
 
   if (!empty($_REQUEST['s'])) {
     add_filter('posts_where', 'ads_posts_where', 10, 2);
