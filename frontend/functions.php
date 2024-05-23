@@ -10,6 +10,7 @@ function load_bootstrap_assets(): void {
   wp_enqueue_style('responsive_css', SCJPC_ASSETS_URL . 'css/responsive.css', false, '1.4');
   wp_enqueue_style('print_css', SCJPC_ASSETS_URL . 'css/print.css', array(), '7.2', 'print');
   wp_enqueue_script('frontend_js', SCJPC_ASSETS_URL . 'js/frontend.js', false, '2.7', true);
+
 }
 
 /**
@@ -92,17 +93,7 @@ function process_download_request() {
   }
 }
 
-function ads_posts_where($where, &$wp_query) {
 
-  global $wpdb;
-  $where .= ' AND (0 = 0 ';
-  if ($search = $wp_query->get('search_attachment')) {
-    $where .= " AND ( " . $wpdb->posts . ".post_title LIKE '%" . esc_sql($wpdb->esc_like($search)) . "%'";
-    $where .= " OR " . $wpdb->posts . ".post_content LIKE '%" . esc_sql($wpdb->esc_like($search)) . "%' ) ";
-  }
-  $where .= ' )';
-  return $where;
-}
 
 function search_attachments() {
   $search_attachments = get_query_var('search_attachments');
@@ -144,15 +135,38 @@ function search_attachments() {
   }
 }
 
+function ads_posts_where($where, &$wp_query) {
+
+    global $wpdb;
+    $where .= ' AND (0 = 0 ';
+    if ($search = $wp_query->get('search_attachment')) {
+        $where .= " AND ( " . $wpdb->posts . ".post_title LIKE '%" . esc_sql($wpdb->esc_like($search)) . "%'";
+        $where .= " OR " . $wpdb->posts . ".post_content LIKE '%" . esc_sql($wpdb->esc_like($search)) . "%' ) ";
+    }
+    $where .= ' )';
+    return $where;
+}
 
 function search_web_and_docs($query) {
-
   if (!empty($_REQUEST['s'])) {
-    add_filter('posts_where', 'ads_posts_where', 10, 2);
-    $args['s'] = $_REQUEST['s'];
-  }
-  foreach ($args as $key => $val) {
-    $query->set($key, $val);
+      $args = [
+          'search_attachment' => $_REQUEST['s'],
+           'posts_per_page' => 200,
+//          'tax_query' => [
+//              'relation' => 'AND',
+//              [
+//                  'taxonomy' => 'bwdmfmx_mediafiles_category',
+//                  'field' => 'term_id',
+//                  'terms' => [15, 16, 17, 18, 19, 20]
+//              ],
+//          ],
+          'post_status' =>  [ 'publish', 'inherit'],
+          'post_type' =>   [$query->query_vars["post_type"], "attachment"],
+      ];
+      foreach($args as $arg => $value) {
+          $query->set( $arg, $value);
+      }
+      add_filter('posts_where', 'ads_posts_where', 10, 2);
   }
 }
 
