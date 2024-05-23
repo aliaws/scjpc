@@ -147,9 +147,9 @@ function ads_posts_where($where, &$wp_query) {
 
 function search_web_and_docs($query) {
   if (!empty($_REQUEST['s'])) {
-      print_r($query->query_vars);
       $args = [
           'search_attachment' => $_REQUEST['s'],
+           'posts_per_page' => 200,
 //          'tax_query' => [
 //              'relation' => 'AND',
 //              [
@@ -166,7 +166,6 @@ function search_web_and_docs($query) {
       }
       add_filter('posts_where', 'ads_posts_where', 10, 2);
   }
-  echo "</pre>";
 }
 
 add_action('elementor/query/search_web_doc', 'search_web_and_docs');
