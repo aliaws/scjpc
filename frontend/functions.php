@@ -140,8 +140,12 @@ function ads_posts_where($where, &$wp_query) {
     global $wpdb;
     $where .= ' AND (0 = 0 ';
     if ($search = $wp_query->get('search_attachment')) {
-        $where .= " AND ( " . $wpdb->posts . ".post_title LIKE '%" . esc_sql($wpdb->esc_like($search)) . "%'";
-        $where .= " OR " . $wpdb->posts . ".post_content LIKE '%" . esc_sql($wpdb->esc_like($search)) . "%' ) ";
+        $searches = explode(" ",  $search);
+        foreach($searches as $s) {
+            $where .= " AND ( " . $wpdb->posts . ".post_title LIKE '%" . esc_sql($wpdb->esc_like($s)) . "%'";
+            $where .= " OR " . $wpdb->posts . ".post_content LIKE '%" . esc_sql($wpdb->esc_like($s)) . "%' ) ";
+        }
+
     }
     $where .= ' )';
     return $where;
@@ -161,7 +165,7 @@ function search_web_and_docs($query) {
 //              ],
 //          ],
           'post_status' =>  [ 'publish', 'inherit'],
-          'post_type' =>   [$query->query_vars["post_type"], "attachment"],
+          'post_type' =>   [$query->query_vars["post_type"], "attachment", "pages"],
       ];
       foreach($args as $arg => $value) {
           $query->set( $arg, $value);
