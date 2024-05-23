@@ -13,7 +13,7 @@
     <form class="needs-validation" id="multiple_jpa_search" method="post" enctype="multipart/form-data" novalidate>
       <div class="mb-3">
         <label for="excel_contains_header" class="form-label d-block">Does Excel/CSV contains Header?</label>
-        <input type="checkbox" name="contains_header" class="form-check-input" id="excel_contains_header"
+        <input type="checkbox" name="contains_header" class="" id="excel_contains_header"
           <?php echo isset($_POST['contains_header']) && $_POST['contains_header'] ? 'checked' : ''; ?> />
       </div>
       <div class="mb-3">
