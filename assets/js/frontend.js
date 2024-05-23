@@ -131,6 +131,7 @@ function registerExportButtonCalls() {
     })
   })
   jQuery('button#print_window').on('click', () => {
+    jQuery('a').removeAttr('href');
     window.print();
   })
 }

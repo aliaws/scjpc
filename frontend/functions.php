@@ -6,9 +6,11 @@ function load_bootstrap_assets(): void {
   wp_enqueue_script('bootstrap-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js', array('jquery'), null, true);
   wp_enqueue_script('jquery');
 
-  wp_enqueue_style('frontend_css', SCJPC_ASSETS_URL . 'css/frontend.css', false, '4.1');
-  wp_enqueue_style('print_css', SCJPC_ASSETS_URL . 'css/print.css', false, '4.2', "print");
-  wp_enqueue_script('frontend_js', SCJPC_ASSETS_URL . 'js/frontend.js', false, '2.2', true);
+  wp_enqueue_style('frontend_css', SCJPC_ASSETS_URL . 'css/frontend.css', false, '4.3');
+  wp_enqueue_style('responsive_css', SCJPC_ASSETS_URL . 'css/responsive.css', false, '1.4');
+  wp_enqueue_style('print_css', SCJPC_ASSETS_URL . 'css/print.css', array(), '7.2', 'print');
+  wp_enqueue_script('frontend_js', SCJPC_ASSETS_URL . 'js/frontend.js', false, '2.7', true);
+
 }
 
 /**
