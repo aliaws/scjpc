@@ -186,7 +186,6 @@ function post_url_change() {
   }
 }
 
-
 function getSortingAttributes($key, $sort_keys, $response_sort_key, $response_sort_order) {
     if($css_sort_classes = isset($sort_keys[$key]) ? 'has_sort' : '') {
         if($key == $response_sort_key) {
@@ -197,5 +196,4 @@ function getSortingAttributes($key, $sort_keys, $response_sort_key, $response_so
         return [$css_sort_classes, $data_sort_order];
     }
     return ["", ""];
-
 }
