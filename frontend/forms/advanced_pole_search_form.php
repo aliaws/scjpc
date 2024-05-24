@@ -1,10 +1,10 @@
 <div class="card-wrapper d-flex justify-content-center">
-  <div class="card w-75 p-4">
+  <div class="card advance-custom-card p-2 p-md-4">
     <form class="needs-validation" id="advanced_pole_search" method="get" novalidate>
       <div class="row">
-        <div class="mb-3 col-6">
+        <div class="mb-3 col-12 col-md-6">
           <label class="form-label">Pole Number</label>
-          <div class="d-flex border p-2 rounded input-bg">
+          <div class="d-flex border p-1 p-md-2 rounded input-bg">
             <p class="col-6 m-0">
               <select name="pole_number_filter" class="form-select">
                 <?php foreach (STRING_FILTER as $key => $label) { ?>
@@ -21,9 +21,9 @@
             </p>
           </div>
         </div>
-        <div class="mb-3 col-6">
+        <div class="mb-3 col-12 col-md-6">
           <label class="form-label">Location</label>
-          <div class="d-flex border p-2 rounded input-bg">
+          <div class="d-flex border p-1 p-md-2 rounded input-bg">
             <p class="col-6 m-0">
               <select name="location_filter" class="form-select " aria-label=".form-select-lg example">
                 <?php foreach (STRING_FILTER as $key => $label) { ?>
@@ -42,17 +42,17 @@
         </div>
       </div>
       <div class="row">
-        <div class="mb-3 col-4">
+        <div class="mb-3 col-12 col-sm-6 col-lg-4">
           <label for="id_latitude" class="form-label">Latitude</label>
           <input type="text" name="latitude" class="form-control" id="id_latitude" aria-describedby="emailHelp"
                 value="<?php echo $_REQUEST['latitude'] ?? ''; ?>"/>
         </div>
-        <div class="mb-3 col-4">
+        <div class="mb-3 col-12 col-sm-6 col-lg-4">
           <label for="id_longitude" class="form-label">Longitude</label>
           <input type="text" name="longitude" class="form-control" id="id_longitude" aria-describedby="emailHelp"
                 value="<?php echo $_REQUEST['longitude'] ?? ''; ?>"/>
         </div>
-        <div class="mb-4 col-4">
+        <div class="mb-3 col-12 col-sm-6 col-lg-4">
           <label for="id_distance" class="form-label">Distance</label>
           <select class="form-select" id="id_distance" name="distance" aria-label="Default select example">
             <?php foreach (DISTANCES as $key => $value) { ?>
@@ -108,4 +108,7 @@
     </div>
   </div>
 </div>
+<?php
+  include_once  SCJPC_PLUGIN_FRONTEND_BASE."table/spinner.php";
+?>
 <div class="response-table"></div>

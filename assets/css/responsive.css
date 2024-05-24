@@ -4,6 +4,12 @@
     }
 }
 
+@media screen and (max-width: 992px) {
+    .advance-custom-card{
+        width: 100% !important;
+    }
+} 
+
 
 @media screen and (max-width: 768px) {
     .custom-card{
@@ -15,5 +21,8 @@
     .btn {
         padding: 0.15rem 0.75rem !important;
         font-size: 0.75rem !important;
+    }
+    .needs-validation .custom-border{
+        border: none !important;
     }
 }

@@ -32,4 +32,7 @@
     </form>
   </div>
 </div>
+<?php
+  include_once  SCJPC_PLUGIN_FRONTEND_BASE."table/spinner.php";
+?>
 <div class="response-table"></div>

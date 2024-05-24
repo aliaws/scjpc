@@ -26,6 +26,8 @@ const registerFormSubmissionHandler = () => {
   // Loop over them and prevent submission
 
   jQuery(form).on('submit', function (event) {
+    jQuery('.custom-spinner-wrapper').removeClass('d-none');
+    jQuery('.clearBtn, button[type=submit]').attr('disabled', 'disabled');
     console.log('i am here')
     event.preventDefault()
     const form = event.target;
@@ -38,11 +40,15 @@ const registerFormSubmissionHandler = () => {
       contentType: false,
       headers: {"Accept": "application/json"},
       success: (response) => {
+        jQuery('.custom-spinner-wrapper').addClass('d-none')
+        jQuery('.clearBtn, button[type=submit]').removeAttr('disabled');
         jQuery('div.response-table').html(response);
         registerExportButtonCalls();
         registerPaginationButtonAndSortHeaderClicks();
       },
       error: (error) => {
+        jQuery('.custom-spinner-wrapper').addClass('d-none')
+        jQuery('.clearBtn, button[type=submit]').removeAttr('disabled');
         console.log('error==', error);
       }
     })
