@@ -25,4 +25,7 @@
     .needs-validation .custom-border{
         border: none !important;
     }
+    .result-text {
+        font-size: 14px !important;
+    }
 }
