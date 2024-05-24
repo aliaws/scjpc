@@ -11,4 +11,7 @@
   <input type="hidden" id="last_id" name="last_id" value="<?php echo $_REQUEST['last_id'] ?? ''; ?>"/>
   <input type="hidden" id="admin_ajax_url" value="<?php echo admin_url('admin-ajax.php'); ?>"/>
 </form>
+<?php
+  include_once  SCJPC_PLUGIN_FRONTEND_BASE."table/spinner.php";
+?>
 <div class="response-table"></div>

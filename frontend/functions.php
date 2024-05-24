@@ -6,11 +6,10 @@ function load_bootstrap_assets(): void {
   wp_enqueue_script('bootstrap-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js', array('jquery'), null, true);
   wp_enqueue_script('jquery');
 
-  wp_enqueue_style('frontend_css', SCJPC_ASSETS_URL . 'css/frontend.css', false, '4.3');
-  wp_enqueue_style('responsive_css', SCJPC_ASSETS_URL . 'css/responsive.css', false, '1.4');
+  wp_enqueue_style('frontend_css', SCJPC_ASSETS_URL . 'css/frontend.css', false, '4.8');
+  wp_enqueue_style('responsive_css', SCJPC_ASSETS_URL . 'css/responsive.css', false, '1.6');
   wp_enqueue_style('print_css', SCJPC_ASSETS_URL . 'css/print.css', array(), '7.2', 'print');
-  wp_enqueue_script('frontend_js', SCJPC_ASSETS_URL . 'js/frontend.js', false, '2.7', true);
-
+  wp_enqueue_script('frontend_js', SCJPC_ASSETS_URL . 'js/frontend.js', false, '3.1', true);
 }
 
 /**
@@ -40,9 +39,9 @@ function print_checkboxes($group): void {
 
     }
     if ($key != "all") {
-      echo '<div  class="col-md-6"><label for="id_choices_' . $key . '"><input id="id_choices_' . $key . '" name="choices[]" type="checkbox" value="' . $key . '" ' . $checked . '> ' . $column['label'] . '</label></div>';
+      echo '<div  class="col-md-6 mb-2"><label for="id_choices_' . $key . '"><input id="id_choices_' . $key . '" name="choices[]" type="checkbox" value="' . $key . '" ' . $checked . '> ' . $column['label'] . '</label></div>';
     } else {
-      echo '<div class="col-md-6"><label for="id_choices_' . $key . '"><input id="id_choices_' . $key . '"  type="checkbox" value="all"> ' . $column['label'] . '</label></div>';
+      echo '<div class="col-md-6 mb-2"><label for="id_choices_' . $key . '"><input id="id_choices_' . $key . '"  type="checkbox" value="all"> ' . $column['label'] . '</label></div>';
     }
   }
 }
