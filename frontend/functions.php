@@ -144,6 +144,10 @@ function ads_posts_where($where, &$wp_query) {
         foreach($searches as $s) {
             $where .= " OR ( " . $wpdb->posts . ".post_title LIKE '%" . esc_sql($wpdb->esc_like($s)) . "%' ) ";
             $where .= " OR ( " . $wpdb->posts . ".post_content LIKE '%" . esc_sql($wpdb->esc_like($s)) . "%' ) ";
+            $s_key = strtolower($s);
+            if(strtolower($s_key) === 'pdf' || $s_key == '.pdf') {
+                $where .= " OR ( " . $wpdb->posts . ".guid LIKE '%" . esc_sql($wpdb->esc_like($s)) . "%' ) ";
+            }
         }
         $where .= " ) ";
 
