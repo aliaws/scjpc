@@ -52,7 +52,7 @@
       </thead>
       <tbody>
       <?php $base_cdn_url = rtrim(get_option('scjpc_aws_cdn'), '/');
-      $base_cdn_url = str_starts_with('https://', $base_cdn_url) ? $base_cdn_url : "https://$base_cdn_url";
+      $base_cdn_url = str_starts_with($base_cdn_url, 'https://') ? $base_cdn_url : "https://$base_cdn_url";
       foreach ($search_results as $result) {
         $jpa_pdf_url = "$base_cdn_url/{$result['pdf_s3_key']}";
         $jpa_number = $result['jpa_number_2'];

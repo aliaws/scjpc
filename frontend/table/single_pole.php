@@ -99,7 +99,7 @@
     <div class="col-sm-4"><strong>JPA Number:</strong></div>
     <div class="col-sm-8">
       <?php $base_cdn_url = rtrim(get_option('scjpc_aws_cdn'), '/');
-      $base_cdn_url = str_starts_with('https://', $base_cdn_url) ? $base_cdn_url : "https://$base_cdn_url";
+      $base_cdn_url = str_starts_with($base_cdn_url, 'https://') ? $base_cdn_url : "https://$base_cdn_url";
       $jpas_length = count($jpa_results);
       foreach ($jpa_results as $index => $jpa_result) {
         $jpa_number = $jpa_result['jpa_number_2'];
