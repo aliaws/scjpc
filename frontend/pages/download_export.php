@@ -3,7 +3,9 @@ $user = wp_get_current_user();
 $response = get_export_status($_GET);
 //echo "<pre>" . print_r($response, true) . "</pre>";
 $status = $response['status'];
-$download_url = $status == 'Processed' ? "/?download_scjpc={$response['s3_path']}" : '';
+$base_cdn_url = rtrim(get_option('scjpc_aws_cdn'), '/');
+$base_cdn_url = str_starts_with($base_cdn_url, 'https://') ? $base_cdn_url : "https://$base_cdn_url";
+$download_url = $status == 'Processed' ? "$base_cdn_url/{$response['s3_path']}" : '';
 $btn_disabled = $response['status'] == 'Processed' ? '' : 'disabled';
 $btn_text = $response['status'] == 'Processed' ? "Download Export" : "Export In Progress";
 ?>
@@ -31,14 +33,14 @@ $btn_text = $response['status'] == 'Processed' ? "Download Export" : "Export In 
       </button>
       <span><?php echo $response['file_name'] ?? ''; ?></span>
     </p>
-    <p>Window will auto reload in 10s until export is not ready.</p>
+    <p>Window will auto reload in 30s until export is not ready.</p>
   </div>
   <script type="application/javascript">
     const status = jQuery('input#status').val()
     if (status !== 'Processed') {
       setTimeout(() => {
           window.location.reload(true)
-        }, 10000
+        }, 30000
       )
     } else {
       jQuery('button#download_export_file').on('click', () => {
