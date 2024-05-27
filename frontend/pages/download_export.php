@@ -3,7 +3,9 @@ $user = wp_get_current_user();
 $response = get_export_status($_GET);
 //echo "<pre>" . print_r($response, true) . "</pre>";
 $status = $response['status'];
-$download_url = $status == 'Processed' ? "/?download_scjpc={$response['s3_path']}" : '';
+$base_cdn_url = rtrim(get_option('scjpc_aws_cdn'), '/');
+$base_cdn_url = str_starts_with('https://', $base_cdn_url) ? $base_cdn_url : "https://$base_cdn_url";
+$download_url = $status == 'Processed' ? "$base_cdn_url/{$response['s3_path']}" : '';
 $btn_disabled = $response['status'] == 'Processed' ? '' : 'disabled';
 $btn_text = $response['status'] == 'Processed' ? "Download Export" : "Export In Progress";
 ?>
