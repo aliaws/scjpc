@@ -1,7 +1,6 @@
 const admin_ajax_url = jQuery("#admin_ajax_url").val();
 
 jQuery(document).ready(function () {
-  console.log('frontend.js loaded')
   jQuery(".clearBtn").click(function () {
     const parentForm = jQuery(this).closest('form');
     parentForm.find('input[type="text"], input[type="file"]').val('');
@@ -13,28 +12,37 @@ jQuery(document).ready(function () {
   jQuery('button[type=submit]').on('click', () => {
     jQuery('input[id=page_number]').val(1);
   })
-  console.log('registering the form submission handlers')
-  registerFormSubmissionHandler();
-
-
-  // register_export_button_calls()
+  registerSearchFormSubmissionHandler();
+  // registerExportFileStatusFormHandler()
 });
-
-const registerFormSubmissionHandler = () => {
+const registerSearchFormSubmissionHandler = () => {
   const form = jQuery('.needs-validation')[0];
-  // console.log('forms to apply check', forms[0].id)
-  // Loop over them and prevent submission
+  if (form !== undefined) {
+    registerFormSubmissionHandler(form)
+    submitFormIfNotEmpty(form)
+  }
+}
 
+const submitFormIfNotEmpty = (form) => {
+  // jQuery('.needs-validation input[type="text"]').each(() => {
+  jQuery('input[type="text"]').each((index, value) => {
+    console.log(jQuery(this), index, value.value, value.value !== '')
+    if (value.value !== '') {
+      console.log('submitting form...')
+      form.submit()
+    }
+  });
+
+}
+
+function registerFormSubmissionHandler(form) {
   jQuery(form).on('submit', function (event) {
     jQuery('.custom-spinner-wrapper').removeClass('d-none');
     jQuery('.clearBtn, button[type=submit]').attr('disabled', 'disabled');
     jQuery('#response-overlay').addClass('response-overlay');
-
-    console.log('i am here')
     event.preventDefault()
     const form = event.target;
     const formData = new FormData(form);
-    // jQuery.ajax(`${admin_ajax_url}?action=${formData.get('action')}`, {
     jQuery.ajax(admin_ajax_url, {
       type: 'post',
       data: formData,
@@ -65,6 +73,7 @@ const registerFormSubmissionHandler = () => {
     jQuery(`form#${form.id}`).submit()
   }
 }
+
 const registerPaginationButtonAndSortHeaderClicks = () => {
   //Register Pagination events
   registerPageNavigationClicks()
@@ -109,26 +118,12 @@ const registerPaginationLimitClicks = () => {
 }
 const registerTableSortClicks = () => {
   jQuery('table.table-sortable th.has_sort').click((event) => {
-    // const sort_order = jQuery(this).data('sort-order');
-    // const sort_key = jQuery(this).data('sort-key');
-    // console.log('click event', event)
     const sortOrder = event.currentTarget.dataset['sortOrder'];
     jQuery('input#sort_order').val(sortOrder);
 
     const sortKey = event.currentTarget.dataset['sortKey'];
     jQuery('input#sort_key').val(sortKey)
-    // const sortKeyInput = jQuery('input#sort_key')
-    // const sortOrderInput = jQuery('input#sort_order');
-    // console.log('sortOrder', sortOrder, 'sort_key', sortKey, 'sortKeyInput', sortKeyInput.val(), 'sortOrderInput', sortOrderInput.val())
-    // if (sortKeyInput === sortKey) {
-    //   const val = sortOrder === 'asc' ? 'desc' : 'asc'
-    //   sortOrderInput.val(val)
-    // } else {
-    //   sortOrderInput.val(sortOrder)
-    //
-    // }
-    // sortOrderInput.val(sortOrder)
-    // sortKeyInput.val(sortKey)
+
     const form = jQuery('.needs-validation')[0];
     jQuery(`form#${form.id}`).submit()
   })
@@ -136,9 +131,7 @@ const registerTableSortClicks = () => {
 
 function registerExportButtonCalls() {
   ['export_as_excel', 'export_as_csv'].forEach(button => {
-    console.log('button ', button)
     jQuery(`button#${button}`).on('click', () => {
-      console.log('button clicked');
       const export_button = jQuery(`button#${button}`);
       export_button.prop('disabled', true);
       make_export_api_call(export_button)
@@ -175,3 +168,34 @@ function sacroll_top(){
     scrollTop: jQuery(".custom-spinner-wrapper-up").offset().top
 }, 100);
 }
+// function registerExportFileStatusFormHandler() {
+//   jQuery('form#data_export').on('submit', (event) => {
+//     event.preventDefault()
+//     const formData = {};
+//     for (let key in Object.entries(event.currentTarget)) {
+//       if (event.currentTarget.hasOwnProperty(key)) {
+//         formData[event.currentTarget[key].name] = event.currentTarget[key].value
+//       }
+//     }
+//     get_export_file_status(formData)
+//   })
+// }
+//
+// function get_export_file_status(formData) {
+//   const submission_url = `${admin_ajax_url}${window.location.search}`
+//   console.log('submission url', submission_url)
+//   jQuery.ajax({
+//     url: submission_url,
+//     type: 'get',
+//     // data: formData,
+//     dataType: 'json',
+//     success: function (response) {
+//       jQuery('div.response-table').html(response);
+//     },
+//     error: function (error) {
+//       console.log('error==', error)
+//     }
+//   })
+// }
+//
+//
