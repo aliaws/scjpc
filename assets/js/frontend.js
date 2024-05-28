@@ -28,6 +28,8 @@ const registerFormSubmissionHandler = () => {
   jQuery(form).on('submit', function (event) {
     jQuery('.custom-spinner-wrapper').removeClass('d-none');
     jQuery('.clearBtn, button[type=submit]').attr('disabled', 'disabled');
+    jQuery('#response-overlay').addClass('response-overlay');
+
     console.log('i am here')
     event.preventDefault()
     const form = event.target;
@@ -42,6 +44,7 @@ const registerFormSubmissionHandler = () => {
       success: (response) => {
         jQuery('.custom-spinner-wrapper').addClass('d-none')
         jQuery('.clearBtn, button[type=submit]').removeAttr('disabled');
+        jQuery('#response-overlay').removeClass('response-overlay');
         jQuery('div.response-table').html(response);
         registerExportButtonCalls();
         registerPaginationButtonAndSortHeaderClicks();
@@ -49,6 +52,8 @@ const registerFormSubmissionHandler = () => {
       error: (error) => {
         jQuery('.custom-spinner-wrapper').addClass('d-none')
         jQuery('.clearBtn, button[type=submit]').removeAttr('disabled');
+        jQuery('#response-overlay').removeClass('response-overlay');
+
         console.log('error==', error);
       }
     })
@@ -77,6 +82,8 @@ const registerPaginationButtonAndSortHeaderClicks = () => {
 }
 const registerPageNavigationClicks = () => {
   jQuery('.pagination-bar li a').click((event) => {
+    jQuery('#response-overlay').addClass('response-overlay');
+    sacroll_top();
     console.log('pageNumber', event, jQuery(this))
     console.log('pageNumber', event.currentTarget.dataset, event.currentTarget.dataset['page'])
     // const pageNumber = jQuery(this).data('page');
@@ -90,7 +97,8 @@ const registerPageNavigationClicks = () => {
 }
 const registerPaginationLimitClicks = () => {
   jQuery('.page-list li a').click((event) => {
-    // const perPage = jQuery(this).data('page');
+    jQuery('#response-overlay').addClass('response-overlay');
+    sacroll_top();
     const perPage = event.currentTarget.dataset['page'];
     jQuery(this).addClass("active");
     jQuery('input#per_page').val(perPage);
@@ -160,4 +168,10 @@ function make_export_api_call(button) {
       button.prop('disabled', false);
     }
   })
+}
+
+function sacroll_top(){
+  jQuery('html, body').animate({
+    scrollTop: jQuery(".custom-spinner-wrapper-up").offset().top
+}, 100);
 }

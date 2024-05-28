@@ -19,6 +19,7 @@
     include_once SCJPC_PLUGIN_FRONTEND_BASE . '/table/not_found.php';
     return;
   } ?>
+  <div id="response-overlay"></div>
   <div class="mw-100 mt-5">
     <div class="remove-print d-flex flex-column flex-sm-row justify-content-between align-items-sm-center">
       <p class="text-secondary order-sm-0 order-1 result-text mb-2 mb-sm-0">
@@ -40,7 +41,7 @@
         <button type="button" id="export_as_csv" title="Export as CSV"
           data-query="<?php echo $search_result['search_query']; ?>" data-format="csv"
           data-user_id="<?php echo $user_id; ?>" data-user_email="<?php echo $user_email; ?>"
-          data-endpoint="<?php echo $export_endpoint; ?>" class="btn-icon-wrapper">Export as
+          data-endpoint="<?php echo $export_endpoint; ?>" class="btn-icon-wrapper">
           <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
             class="btn-icon bi bi-filetype-csv" viewBox="0 0 16 16">
             <path fill-rule="evenodd"
@@ -104,75 +105,75 @@
         <?php } ?>
       </tbody>
     </table>
-    <div class="remove-print d-flex flex-column flex-md-row mt-3 justify-content-md-between align-items-baseline">
-      <nav aria-label="Page navigation example">
-        <?php if ($total_pages > 0) { ?>
-          <ul class="pagination pagination-bar">
-            <?php if ($page > 1) { ?>
-              <li class="prev page-item">
-                <a class="page-link" data-page="<?php echo $page - 1 ?>">Prev</a>
-              </li>
-            <?php } ?>
-
-            <?php if ($page > 3) { ?>
-              <li class="start page-item">
-                <a class="page-link" data-page="1">1</a>
-              </li>
-              <li class="dots page-item">...</li>
-            <?php } ?>
-
-            <?php if ($page - 2 > 0) { ?>
-              <li class="page page-item">
-                <a class="page-link" data-page="<?php echo $page - 2 ?>"><?php echo $page - 2 ?></a>
-              </li>
-            <?php } ?>
-            <?php if ($page - 1 > 0) { ?>
-              <li class="page page-item">
-                <a class="page-link" data-page="<?php echo $page - 1 ?>"><?php echo $page - 1 ?></a>
-              </li>
-            <?php } ?>
-            <li class="currentpage active page-item">
-              <a class="page-link" data-page="<?php echo $page ?>"><?php echo $page ?></a>
-            </li>
-            <?php if ($page + 1 < $total_pages) { ?>
-              <li class="page page-item">
-                <a class="page-link" data-page="<?php echo $page + 1 ?>"><?php echo $page + 1 ?></a>
-              </li>
-            <?php } ?>
-            <?php if ($page + 2 < $total_pages + 1) { ?>
-              <li class="page page-item">
-                <a class="page-link" data-page="<?php echo $page + 2 ?>"><?php echo $page + 2 ?></a>
-              </li>
-            <?php } ?>
-
-            <?php if ($page < $total_pages - 2) { ?>
-              <li class="dots page-item">...</li>
-              <li class="end page-item">
-                <a class="page-link" data-page="<?php echo $total_pages ?>"><?php echo $total_pages ?></a>
-              </li>
-            <?php } ?>
-
-            <?php if ($page < $total_pages) { ?>
-              <li class="next page-item"><a class="page-link" data-page="<?php echo $page + 1 ?>">Next</a></li>
-            <?php } ?>
-          </ul>
-        <?php } ?>
-      </nav>
-
-      <nav aria-label="Page navigation example">
-        <ul class="pagination page-list justify-content-end">
-          <li class="page-item disabled">
-            <a class="page-link">Result per page</a>
-          </li>
-          <?php foreach ($result_per_page as $result_page) {
-            $active = $result_page == $num_results_on_page ? "active" : ""; ?>
-            <li class="page-item">
-              <a class="page-link <?php echo $active; ?>"
-                data-page="<?php echo $result_page; ?>"><?php echo $result_page; ?></a>
+  </div>
+  <div class="remove-print d-flex flex-column flex-md-row mt-3 justify-content-md-between align-items-baseline">
+    <nav aria-label="Page navigation example">
+      <?php if ($total_pages > 0) { ?>
+        <ul class="pagination pagination-bar">
+          <?php if ($page > 1) { ?>
+            <li class="prev page-item">
+              <a class="page-link" data-page="<?php echo $page - 1 ?>">Prev</a>
             </li>
           <?php } ?>
+
+          <?php if ($page > 3) { ?>
+            <li class="start page-item">
+              <a class="page-link" data-page="1">1</a>
+            </li>
+            <li class="dots page-item">...</li>
+          <?php } ?>
+
+          <?php if ($page - 2 > 0) { ?>
+            <li class="page page-item">
+              <a class="page-link" data-page="<?php echo $page - 2 ?>"><?php echo $page - 2 ?></a>
+            </li>
+          <?php } ?>
+          <?php if ($page - 1 > 0) { ?>
+            <li class="page page-item">
+              <a class="page-link" data-page="<?php echo $page - 1 ?>"><?php echo $page - 1 ?></a>
+            </li>
+          <?php } ?>
+          <li class="currentpage active page-item">
+            <a class="page-link" data-page="<?php echo $page ?>"><?php echo $page ?></a>
+          </li>
+          <?php if ($page + 1 < $total_pages) { ?>
+            <li class="page page-item">
+              <a class="page-link" data-page="<?php echo $page + 1 ?>"><?php echo $page + 1 ?></a>
+            </li>
+          <?php } ?>
+          <?php if ($page + 2 < $total_pages + 1) { ?>
+            <li class="page page-item">
+              <a class="page-link" data-page="<?php echo $page + 2 ?>"><?php echo $page + 2 ?></a>
+            </li>
+          <?php } ?>
+
+          <?php if ($page < $total_pages - 2) { ?>
+            <li class="dots page-item">...</li>
+            <li class="end page-item">
+              <a class="page-link" data-page="<?php echo $total_pages ?>"><?php echo $total_pages ?></a>
+            </li>
+          <?php } ?>
+
+          <?php if ($page < $total_pages) { ?>
+            <li class="next page-item"><a class="page-link" data-page="<?php echo $page + 1 ?>">Next</a></li>
+          <?php } ?>
         </ul>
-      </nav>
-    </div>
+      <?php } ?>
+    </nav>
+
+    <nav aria-label="Page navigation example">
+      <ul class="pagination page-list justify-content-end">
+        <li class="page-item disabled">
+          <a class="page-link">Result per page</a>
+        </li>
+        <?php foreach ($result_per_page as $result_page) {
+          $active = $result_page == $num_results_on_page ? "active" : ""; ?>
+          <li class="page-item">
+            <a class="page-link <?php echo $active; ?>"
+              data-page="<?php echo $result_page; ?>"><?php echo $result_page; ?></a>
+          </li>
+        <?php } ?>
+      </ul>
+    </nav>
   </div>
 <?php }
