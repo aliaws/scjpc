@@ -163,3 +163,13 @@ a{
 .advance-custom-card{
   width: 75% !important;
 }
+.response-table{
+  position: relative;
+}
+.response-overlay{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #fdfbfe87;
+  z-index: 10;
+}

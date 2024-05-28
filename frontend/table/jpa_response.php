@@ -1,3 +1,4 @@
+<div id="response-overlay"></div>
 <div class="mw-100 mt-5">
   <div class="remove-print d-flex flex-column flex-sm-row justify-content-between align-items-sm-center">
     <p class="text-secondary order-sm-0 order-1 result-text mb-2 mb-sm-0">
