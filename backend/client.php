@@ -37,6 +37,7 @@ function perform_multiple_jpa_search($request): array {
 
   $request['jpa_number'] = isset($upload["numbers"]) ? $upload["numbers"]: [];
   $request['s3_key'] = isset($upload["s3_key"]) ? $upload["s3_key"]: "";
+  $request['contains_headers'] = isset($upload["contains_headers"]) ? $upload["contains_headers"]: "";
 
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/jpa-search?" . http_build_query($request);
   $response = make_search_api_call($api_url);
@@ -94,6 +95,7 @@ function perform_multiple_pole_search($request) {
   $upload = upload_and_read_file($request);
   $request['pole_number'] = isset($upload["numbers"]) ? $upload["numbers"]: [];
   $request['s3_key'] = isset($upload["s3_key"]) ? $upload["s3_key"]: "";
+  $request['contains_headers'] = isset($upload["contains_headers"]) ? $upload["contains_headers"]: "";
   $request['active_only'] = !empty($request['active_only']) ? 'true' : 'false';
 
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/pole-search?" . http_build_query($request);
@@ -159,7 +161,7 @@ function upload_and_read_file($request): array
   if (count($searchable_numbers)  === 400) {
       return ["numbers" => implode(" ", $searchable_numbers) ];
   }
-  return ["s3_key" => $s3_key];
+  return ["s3_key" => $s3_key, "headers" => $contains_headers];
 }
 
 
