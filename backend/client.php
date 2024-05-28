@@ -166,7 +166,6 @@ function upload_and_read_file($request): array
 
 
 function get_export_status($request) {
-  $request['action'] = 'multiple-pole';
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/data-export?" . http_build_query($request);
   return make_search_api_call($api_url);
 }
@@ -181,3 +180,4 @@ function getS3Client() {
         ]
     ]);
 }
+
