@@ -58,7 +58,7 @@ add_shortcode('scjpc_pole_detail', 'scjpc_pole_detail');
 
 function scjpc_download_export() {
   ob_start();
-  include_once SCJPC_PLUGIN_FRONTEND_BASE . "pages/download_export.php";
+  include_once SCJPC_PLUGIN_FRONTEND_BASE . "forms/download_export.php";
   return ob_get_clean();
 }
 
