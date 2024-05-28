@@ -13,7 +13,7 @@ jQuery(document).ready(function () {
     jQuery('input[id=page_number]').val(1);
   })
   registerSearchFormSubmissionHandler();
-  registerExportFileStatusFormHandler()
+  // registerExportFileStatusFormHandler()
 });
 
 function registerFormSubmissionHandler(form) {
