@@ -134,18 +134,16 @@ function upload_and_read_file($request): array
   $contains_headers = isset($request['contains_header']);
   $file_name = preg_replace('/xls$/', 'xlsx', $_FILES['uploaded_file']['name']);
   $upload_file_path = WP_CONTENT_DIR . '/uploads/scjpc-exports/' . $file_name;
-  $s3_key = "search/${$file_name}";
+  $s3_key = "search/{$file_name}";
   if (move_uploaded_file($_FILES['uploaded_file']['tmp_name'], $upload_file_path)) {
 
-      $client =getS3Client();
+      $client = getS3Client();
 
       $result = $client->putObject([
           'Bucket' => 'scjpc-data',
           'Key' => $s3_key,
           'SourceFile' => $upload_file_path,
-          'ACL' => 'public-read' // Set the ACL to public-read if you want the file to be publicly accessible
       ]);
-
 
       include_once SCJPC_PLUGIN_PATH . 'excel-reader/SimpleXLSX.php';
     if ($xlsx = SimpleXLSX::parse($upload_file_path)) {
