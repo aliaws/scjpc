@@ -10,10 +10,9 @@ $btn_disabled = $response['status'] == 'Processed' ? '' : 'disabled';
 $btn_text = $response['status'] == 'Processed' ? "Download Export" : "Export In Progress";
 $export_progress = intval($response['pages_processed']) / intval($response['total_pages']);
 $export_progress = number_format($export_progress, 2) * 100;
-if ($status !== 'Processed') {
+if ($status !== 'Processed' && $export_progress >= 90) {
   $export_progress -= 2;
-}
-?>
+} ?>
 
 <div class="card p-4">
   <form id="data_export" action="<?php echo get_permalink(get_the_ID()); ?>" method="get"

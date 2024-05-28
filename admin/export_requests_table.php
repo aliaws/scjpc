@@ -3,7 +3,7 @@ load_bootstrap_assets();
 //echo "here==='";
 $api_url = trim(get_option('scjpc_es_host'), '/') . "/export-requests?" . http_build_query($_GET);
 $export_requests = make_search_api_call($api_url);
-$record_keys = array_keys($export_requests['0']); ?>
+$record_keys = count($export_requests) > 0 ? array_keys($export_requests['0']) : []; ?>
 <div class="export-container">
   <table class="table w-100 table-striped">
     <thead>
