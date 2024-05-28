@@ -137,6 +137,7 @@ function upload_and_read_file($request): array
   $file_name = preg_replace('/xls$/', 'xlsx', $_FILES['uploaded_file']['name']);
   $upload_file_path = WP_CONTENT_DIR . '/uploads/scjpc-exports/' . $file_name;
   $s3_key = "";
+  $contains_headers = false;
   if (move_uploaded_file($_FILES['uploaded_file']['tmp_name'], $upload_file_path)) {
       $s3_key = "search/{$file_name}";
       $client = getS3Client();
