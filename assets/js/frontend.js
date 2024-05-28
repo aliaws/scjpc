@@ -15,6 +15,25 @@ jQuery(document).ready(function () {
   registerSearchFormSubmissionHandler();
   // registerExportFileStatusFormHandler()
 });
+const registerSearchFormSubmissionHandler = () => {
+  const form = jQuery('.needs-validation')[0];
+  if (form !== undefined) {
+    registerFormSubmissionHandler(form)
+    submitFormIfNotEmpty(form)
+  }
+}
+
+const submitFormIfNotEmpty = (form) => {
+  // jQuery('.needs-validation input[type="text"]').each(() => {
+  jQuery('input[type="text"]').each((index, value) => {
+    console.log(jQuery(this), index, value.value, value.value !== '')
+    if (value.value !== '') {
+      console.log('submitting form...')
+      form.submit()
+    }
+  });
+
+}
 
 function registerFormSubmissionHandler(form) {
   jQuery(form).on('submit', function (event) {
@@ -51,12 +70,6 @@ function registerFormSubmissionHandler(form) {
   }
 }
 
-const registerSearchFormSubmissionHandler = () => {
-  const form = jQuery('.needs-validation')[0];
-  if (form !== undefined) {
-    registerFormSubmissionHandler(form)
-  }
-}
 const registerPaginationButtonAndSortHeaderClicks = () => {
   //Register Pagination events
   registerPageNavigationClicks()

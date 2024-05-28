@@ -17,7 +17,7 @@ function add_export_logs_page(): void {
     'manage_options',    // Capability required to access this page
     'export-requests', // Menu slug
     'scjpc_export_logs_page', // Function to generate the page content
-    'dashicons-admin-generic',   // Icon URL or Dashicon class
+    'menu-icon-generic',   // Icon URL or Dashicon class
     99 // Position in the menu
   );
 }
