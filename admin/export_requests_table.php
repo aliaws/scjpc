@@ -4,7 +4,7 @@ load_bootstrap_assets();
 $api_url = trim(get_option('scjpc_es_host'), '/') . "/export-requests?" . http_build_query($_GET);
 $export_requests = make_search_api_call($api_url);
 $record_keys = count($export_requests) > 0 ? array_keys($export_requests['0']) : []; ?>
-<div class="export-container">
+<div class="export-container overflow-auto">
   <table class="table w-100 table-striped">
     <thead>
     <tr>
@@ -18,7 +18,7 @@ $record_keys = count($export_requests) > 0 ? array_keys($export_requests['0']) :
     <?php foreach ($export_requests as $value) { ?>
       <tr>
         <th scope="row"><?php echo $value['id']; ?></th>
-        <td><?php echo $value['export_query']; ?></td>
+        <td><p class="text-truncate" style="width: 300px;"><?php echo $value['export_query']; ?></p></td>
         <td><?php echo $value['file_path']; ?></td>
         <td><?php echo $value['s3_path']; ?></td>
         <td><?php echo $value['status']; ?></td>
