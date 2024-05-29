@@ -42,7 +42,7 @@ usort($record_keys, function($a, $b) use ($orderMap) {
                         $style = "width: 300px;;";
                     }
                     ?>
-                    <td scope="<?php echo $scope; ?>" class="<?php echo $class; ?>" style="<?php echo $style; ?>">
+                    <td data-value="<?php echo $value[$key]; ?>" scope="<?php echo $scope; ?>" class="<?php echo $class; ?>" style="<?php echo $style; ?>">
                         <?php echo $value[$key]; ?>
                     </td>
                 <?php endforeach; ?>
