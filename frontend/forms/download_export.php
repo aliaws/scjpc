@@ -8,11 +8,15 @@ $base_cdn_url = str_starts_with($base_cdn_url, 'https://') ? $base_cdn_url : "ht
 $download_url = $status == 'Processed' ? "$base_cdn_url/{$response['s3_path']}" : '';
 $btn_disabled = $response['status'] == 'Processed' ? '' : 'disabled';
 $btn_text = $response['status'] == 'Processed' ? "Download Export" : "Export In Progress";
-$export_progress = intval($response['pages_processed']) / intval($response['total_pages']);
-$export_progress = number_format($export_progress, 2) * 100;
-if ($status !== 'Processed' && $export_progress >= 90) {
-  $export_progress -= 2;
-} ?>
+$pages_processed = intval($response['pages_processed']);
+$total_pages = intval($response['total_pages']);
+$export_progress = number_format($pages_processed / $total_pages, 2) * 100;
+if ($status != 'Processed' && $total_pages == 1) {
+  $export_progress = 0;
+} elseif ($status != 'Processed' && $total_pages >= 1) {
+  $export_progress = max(0, $export_progress - 2);
+}
+?>
 
 <div class="card p-4">
   <form id="data_export" action="<?php echo get_permalink(get_the_ID()); ?>" method="get"
