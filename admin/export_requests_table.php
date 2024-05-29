@@ -14,14 +14,17 @@ usort($record_keys, function($a, $b) use ($orderMap) {
 
 ?>
 <div class="export-container overflow-auto">
-    <table class="table w-100 table-striped">
+    <table class="table w-100 table-striped wp-list-table widefat fixed striped table-view-list posts">
         <thead>
-        <tr>
-            <?php foreach ($record_keys as $value) { ?>
-                <th class="text-capitalize" style="font-size: 16px"
-                    scope="col"><?php echo str_replace("_", " ", $value); ?></th>
-            <?php } ?>
-        </tr>
+            <tr>
+                <?php foreach ($record_keys as $value) { ?>
+                    <?php
+                        $class = $value == "id" ? "column-cb check-column": "";
+                    ?>
+                    <th scope="col" class="text-capitalize manage-column <?php echo $class; ?>" style="font-size: 16px"
+                        scope="col"><?php echo str_replace("_", " ", $value); ?></th>
+                <?php } ?>
+            </tr>
         </thead>
         <tbody>
         <?php foreach ($export_requests as $value) { ?>
