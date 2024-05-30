@@ -55,6 +55,10 @@ $base_cdn_url = str_starts_with($base_cdn_url, 'https://') ? $base_cdn_url : "ht
                             $style = "font-style:italic";
                             $class = "badge bg-info";
                         }
+                        else if($key_value == "Processing") {
+                            $style = "font-style:italic";
+                            $class = "badge bg-primary";
+                        }
                     }
                     else if($key == "s3_path") {
                         if ($value["status"] == "Processed") {

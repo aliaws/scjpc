@@ -24,7 +24,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="id_search_file" class="form-label">Select File</label>
-                    <input class="form-control" name="uploaded_file" type="file" id="id_search_file" accept=".xlsx" />
+                    <input class="form-control" name="uploaded_file" type="file" id="id_search_file" accept=".xlsx,.csv" />
                 </div>
                 <p class="text  mb-3 fw-light ">
                     <strong class="me-2">
