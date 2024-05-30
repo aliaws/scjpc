@@ -14,6 +14,7 @@ usort($record_keys, function($a, $b) use ($orderMap) {
 
 $base_cdn_url = rtrim(get_option('scjpc_aws_cdn'), '/');
 $base_cdn_url = str_starts_with($base_cdn_url, 'https://') ? $base_cdn_url : "https://$base_cdn_url";
+$site_url = get_site_url();
 
 ?>
 <div class="export-container overflow-auto">
@@ -63,6 +64,10 @@ $base_cdn_url = str_starts_with($base_cdn_url, 'https://') ? $base_cdn_url : "ht
                     else if($key == "s3_path") {
                         if ($value["status"] == "Processed") {
                             $url = $base_cdn_url."/".$key_value;
+                            $key_value = "<a target='_blank' href='$url'>{$key_value}</a>";
+                        }
+                        else {
+                            $url = $site_url."/download-export/?file_path=".$key_value;
                             $key_value = "<a target='_blank' href='$url'>{$key_value}</a>";
                         }
                     }
