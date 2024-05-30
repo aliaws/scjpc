@@ -12,6 +12,9 @@ usort($record_keys, function($a, $b) use ($orderMap) {
     return ($orderMap[$a] ?? PHP_INT_MAX) - ($orderMap[$b] ?? PHP_INT_MAX);
 });
 
+$base_cdn_url = rtrim(get_option('scjpc_aws_cdn'), '/');
+$base_cdn_url = str_starts_with($base_cdn_url, 'https://') ? $base_cdn_url : "https://$base_cdn_url";
+
 ?>
 <div class="export-container overflow-auto">
     <table class="table w-100 table-striped wp-list-table widefat fixed striped table-view-list posts">
@@ -34,6 +37,7 @@ usort($record_keys, function($a, $b) use ($orderMap) {
                     $scope = "";
                     $class = "";
                     $style = "";
+                    $key_value = $value[$key];
                     if ($key === "id") {
                         $scope = "fow";
                     }
@@ -41,9 +45,27 @@ usort($record_keys, function($a, $b) use ($orderMap) {
                         $class = "text-truncate";
                         $style = "width: 300px;;";
                     }
+
+                    else if ($key === "status") {
+                        if($key_value == "Processed") {
+                            $style = "color: green;font-weight: bold";
+                            $class = "badge bg-success";
+                        }
+                        else if($key_value == "Pending") {
+                            $style = "color: 36454F;font-style:italic";
+                            $class = "badge bg-info";
+                        }
+                    }
+                    else if($key == "s3_path") {
+                        if ($value["status"] == "Processed") {
+                            $url = $base_cdn_url."/".$key_value;
+                            $key_value = "<a target='_blank' href='$url'>{$key_value}</a>";
+                        }
+                    }
+
                     ?>
-                    <td data-value="<?php echo $value[$key]; ?>" scope="<?php echo $scope; ?>" class="<?php echo $class; ?>" style="<?php echo $style; ?>">
-                        <?php echo $value[$key]; ?>
+                    <td  title="<?php  echo $key_value; ?>" data-value="<?php echo $key_value ; ?>" scope="<?php echo $scope; ?>" class="<?php echo $class; ?>" style="<?php echo $style; ?>">
+                        <?php echo $key_value; ?>
                     </td>
                 <?php endforeach; ?>
             </tr>
