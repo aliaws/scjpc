@@ -48,11 +48,11 @@ $base_cdn_url = str_starts_with($base_cdn_url, 'https://') ? $base_cdn_url : "ht
 
                     else if ($key === "status") {
                         if($key_value == "Processed") {
-                            $style = "color: green;font-weight: bold";
+                            $style = "font-weight: bold";
                             $class = "badge bg-success";
                         }
                         else if($key_value == "Pending") {
-                            $style = "color: 36454F;font-style:italic";
+                            $style = "font-style:italic";
                             $class = "badge bg-info";
                         }
                     }
