@@ -9,6 +9,15 @@ jQuery(document).ready(function () {
     parentForm.find('input[id="per_page"]').val(50);
     parentForm.find('input[id="last_id"]').val('');
   });
+
+  jQuery('input#id_choices_all').click((event) => {
+    if (!jQuery('input#id_choices_all').prop('checked')) {
+      jQuery('input[name="choices[]"]').prop('checked', false);
+    } else {
+      jQuery('input[name="choices[]"]').prop('checked', true);
+    }
+  })
+
   jQuery('button[type=submit]').on('click', () => {
     jQuery('input[id=page_number]').val(1);
   })
@@ -79,13 +88,7 @@ const registerPaginationButtonAndSortHeaderClicks = () => {
   registerPageNavigationClicks()
   // Register Per Page Event
   registerPaginationLimitClicks()
-  jQuery('input[value=all]').click(() => {
-    if (!jQuery(this).prop('checked')) {
-      jQuery('input[name="choices[]"]').prop('checked', false);
-    } else {
-      jQuery('input[name="choices[]"]').prop('checked', true);
-    }
-  })
+
   // Register Header
   registerTableSortClicks()
 }
