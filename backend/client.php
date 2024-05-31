@@ -98,6 +98,20 @@ function perform_multiple_pole_search($request) {
   $request['contains_headers'] = isset($upload["contains_headers"]) ? $upload["contains_headers"]: "";
   $request['active_only'] = !empty($request['active_only']) ? 'true' : 'false';
 
+  $columns = !empty($request['choices']) ? $request['choices'] : [];
+  $multi_keys = ["members_code", "antenna_info"];
+  foreach($multi_keys as $multi_key) {
+      if (in_array($multi_key, $columns)) {
+          $columns = array_merge($columns, array_keys(EXTRA_COLUMNS_LABELS[$multi_key]));
+          unset($columns[$multi_key]);
+          if (($key = array_search($multi_key, $columns)) !== false) {
+              unset($columns[$key]);
+          }
+
+      }
+  }
+  $request['columns'] = implode(",",$columns);
+
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/pole-search?" . http_build_query($request);
   $response = make_search_api_call($api_url);
   $response['result_per_page'] = RESULTS_PER_PAGE;
