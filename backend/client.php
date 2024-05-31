@@ -110,8 +110,8 @@ function perform_multiple_pole_search($request) {
 
       }
   }
+  unset($request["choices"]);
   $request['columns'] = implode(",",$columns);
-
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/pole-search?" . http_build_query($request);
   $response = make_search_api_call($api_url);
   $response['result_per_page'] = RESULTS_PER_PAGE;
