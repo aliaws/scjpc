@@ -16,7 +16,9 @@ function make_search_api_call($api_url) {
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
   $response = curl_exec($ch);
   curl_close($ch);
-  return json_decode($response, true);
+  $parsed_response = json_decode($response, true);
+  $parsed_response["search_query"] = prepare_search_query($api_url);
+  return $parsed_response;
 
 }
 
@@ -25,7 +27,6 @@ function perform_jpa_search($request): array {
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/jpa-search?" . http_build_query($request);
   $response = make_search_api_call($api_url);
   $response['result_per_page'] = RESULTS_PER_PAGE;
-  $response['search_query'] = $api_url;
   $_REQUEST['last_id'] = $response['last_id'] ?? '';
   return $response;
 }
@@ -43,7 +44,6 @@ function perform_multiple_jpa_search($request): array {
   $response = make_search_api_call($api_url);
   $response['result_per_page'] = RESULTS_PER_PAGE;
   $response['per_page'] = $request["per_page"];
-  $response['search_query'] = $api_url;
   return $response;
 }
 
@@ -53,7 +53,6 @@ function perform_advanced_pole_search($request): array {
   $response = make_search_api_call($api_url);
   $response['result_per_page'] = RESULTS_PER_PAGE;
   $response['per_page'] = $request["per_page"];
-  $response['search_query'] = $api_url;
   return $response;
 }
 
@@ -63,7 +62,6 @@ function perform_quick_pole_search($request) {
   $response = make_search_api_call($api_url);
   $response['result_per_page'] = RESULTS_PER_PAGE;
   $_REQUEST['last_id'] = $response['last_id'] ?? '';
-  $response['search_query'] = $api_url;
   return $response;
 }
 
@@ -86,7 +84,6 @@ function perform_jpa_detail_search($request) {
   $response = make_search_api_call($api_url);
   $response['result_per_page'] = RESULTS_PER_PAGE;
   $_REQUEST['last_id'] = $response['last_id'];
-  $response['search_query'] = $api_url;
   return $response;
 }
 
@@ -98,23 +95,25 @@ function perform_multiple_pole_search($request) {
   $request['contains_headers'] = isset($upload["contains_headers"]) ? $upload["contains_headers"]: "";
   $request['active_only'] = !empty($request['active_only']) ? 'true' : 'false';
 
+  $columns = !empty($request['choices']) ? $request['choices'] : [];
+  $multi_keys = ["members_code", "antenna_info"];
+  foreach($multi_keys as $multi_key) {
+      if (in_array($multi_key, $columns)) {
+          $columns = array_merge($columns, array_keys(EXTRA_COLUMNS_LABELS[$multi_key]));
+          unset($columns[$multi_key]);
+          if (($key = array_search($multi_key, $columns)) !== false) {
+              unset($columns[$key]);
+          }
+      }
+  }
+  unset($request["choices"]);
+  $request['columns'] = implode(",",$columns);
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/pole-search?" . http_build_query($request);
   $response = make_search_api_call($api_url);
   $response['result_per_page'] = RESULTS_PER_PAGE;
   $_REQUEST['last_id'] = $response['last_id'] ?? '';
-  $response['search_query'] = $api_url;
   return $response;
 }
-
-function perform_website_doc_search($request): array {
-  return SEARCH_RESULT;
-}
-
-
-function get_migration_logs(): array {
-  return MIGRATION_LOGS;
-}
-
 
 
 function get_pole_result($request): array {
@@ -169,6 +168,10 @@ function upload_and_read_file($request): array
 function get_export_status($request) {
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/data-export?" . http_build_query($request);
   return make_search_api_call($api_url);
+}
+
+function prepare_search_query($api_url) {
+    return $api_url."&export=1";
 }
 
 function getS3Client() {
