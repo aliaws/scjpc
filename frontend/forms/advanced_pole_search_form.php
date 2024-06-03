@@ -17,7 +17,7 @@
             </p>
             <p class="col-6 ps-3 m-0">
               <input type="text" name="pole_number" class="form-control" id="pole"
-                    value="<?php echo $_REQUEST['pole_number'] ?? ''; ?>"/>
+                     value="<?php echo $_REQUEST['pole_number'] ?? ''; ?>"/>
             </p>
           </div>
         </div>
@@ -36,7 +36,7 @@
             </p>
             <p class="col-6 ps-3 m-0">
               <input type="text" name="location" class="form-control" id="location"
-                    value="<?php echo $_REQUEST['location'] ?? ''; ?>"/>
+                     value="<?php echo $_REQUEST['location'] ?? ''; ?>"/>
             </p>
           </div>
         </div>
@@ -45,12 +45,12 @@
         <div class="mb-3 col-12 col-sm-6 col-lg-4">
           <label for="id_latitude" class="form-label">Latitude</label>
           <input type="text" name="latitude" class="form-control" id="id_latitude" aria-describedby="emailHelp"
-                value="<?php echo $_REQUEST['latitude'] ?? ''; ?>"/>
+                 value="<?php echo $_REQUEST['latitude'] ?? ''; ?>"/>
         </div>
         <div class="mb-3 col-12 col-sm-6 col-lg-4">
           <label for="id_longitude" class="form-label">Longitude</label>
           <input type="text" name="longitude" class="form-control" id="id_longitude" aria-describedby="emailHelp"
-                value="<?php echo $_REQUEST['longitude'] ?? ''; ?>"/>
+                 value="<?php echo $_REQUEST['longitude'] ?? ''; ?>"/>
         </div>
         <div class="mb-3 col-12 col-sm-6 col-lg-4">
           <label for="id_distance" class="form-label">Distance</label>
@@ -84,7 +84,7 @@
           </button>
         </p>
         <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
-            aria-labelledby="panelsStayOpen-headingThree">
+             aria-labelledby="panelsStayOpen-headingThree">
           <div class="accordion-body input-bg">
             <small>Use this search when pole numbers or locations are partially known. Search will return a list of all
               records found in the database, dead or active. O<span style="line-height: 20.8px;">mit space, slash, hyphen, and other special characters.&nbsp;</span><br
@@ -108,7 +108,6 @@
     </div>
   </div>
 </div>
-<?php
-  include_once  SCJPC_PLUGIN_FRONTEND_BASE."table/spinner.php";
-?>
+<?php include_once SCJPC_PLUGIN_FRONTEND_BASE . "table/spinner.php"; ?>
 <div class="response-table"></div>
+<div class="database-update-information"><?php echo scjpc_database_update_information(); ?></div>

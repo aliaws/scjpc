@@ -114,3 +114,24 @@ function scjpc_update_base_owners(WP_REST_Request $request): WP_REST_Response {
   return new WP_REST_Response(['message' => 'Base Owners updated successfully.'], 200);
 
 }
+
+add_action('rest_api_init', 'scjpc_update_database_update_date');
+function scjpc_update_database_update_date(): void {
+  register_rest_route('scjpc/v1/', 'database_update_date/', [
+    'methods' => 'PUT',
+    'callback' => 'scjpc_update_database_date',
+  ]);
+}
+
+function scjpc_update_database_date(WP_REST_Request $request): WP_REST_Response {
+  $security_key = $request->get_header('security_key');
+  if (!isset($security_key) || $security_key != get_option('scjpc_client_auth_key')) {
+    return new WP_REST_Response(['message' => 'Please provide the API security key'], 401);
+  }
+  $body = $request->get_json_params();
+  update_option('scjpc_migration_date', $body['migration_date']);
+  update_option('scjpc_latest_billed_jpa_date', $body['latest_billed_jpa_date']);
+  update_option('scjpc_latest_billed_jpa_pdf_date', $body['latest_billed_jpa_pdf_date']);
+  return new WP_REST_Response(['message' => 'Migration Dates Added Successfully!'], 200);
+
+}

@@ -1,6 +1,13 @@
 <?php
 include_once(SCJPC_PLUGIN_PATH . 'aws/aws-autoloader.php');
 include_once(SCJPC_PLUGIN_FRONTEND_BASE . 'functions.php');
+function scjpc_database_update_information() {
+  $migration_date = get_option('scjpc_migration_date');
+  $latest_billed_jpa = get_option('scjpc_latest_billed_jpa_date');
+  $latest_billed_jpa_pdf = get_option('scjpc_latest_billed_jpa_pdf_date');
+  return "Last database update on: $migration_date (B/S $latest_billed_jpa)<br>PDF Finals available from: 2003 to B/S $latest_billed_jpa_pdf";
+}
+
 function scjpc_jpa_search() {
   ob_start();
   include_once SCJPC_PLUGIN_FRONTEND_BASE . "pages/jpa_search.php";
