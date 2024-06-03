@@ -2,7 +2,7 @@
 if (!empty($_REQUEST)) {
 //  echo "<pre>GET=" . count($_GET) . "==POST=" . count($_POST) . "==FILES=" . count($_FILES) . "==REQUEST=" . count($_REQUEST) . print_r($_GET, true) . print_r($_POST, true) . print_r($_FILES, true) . print_r($_REQUEST, true) . "</pre>";
 
-  $search_result = search($_REQUEST);
+  $search_result = search_scjpc($_REQUEST);
   $record_keys = array_keys($search_result['results'][0] ?? []);
   $total_pages = isset($search_result["total_pages"]) ? (int)$search_result["total_pages"] : 0;
   $page = (int)$search_result["page_number"];

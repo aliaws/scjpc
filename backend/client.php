@@ -1,6 +1,6 @@
 <?php
 
-function search($request) {
+function search_scjpc($request) {
   $action = $request['action'] ?? ''; // Check if 'action' key exists
   $data = call_user_func_array('perform_' . $action, [$request]);
   $data["per_page"] = $request["per_page"] ?? 50;
@@ -164,6 +164,10 @@ function upload_and_read_file($request): array
       return ["numbers" => implode(" ", $searchable_numbers) ];
   }
   return ["s3_key" => $s3_key, "headers" => $contains_headers];
+}
+
+function perform_activate(){
+    //Not sure why wp is giving 
 }
 
 

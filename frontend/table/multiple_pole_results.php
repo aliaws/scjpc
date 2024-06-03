@@ -1,6 +1,6 @@
 <!--is using for advance search results-->
 <?php if (!empty($_REQUEST)) {
-  $search_result = search($_REQUEST);
+  $search_result = search_scjpc($_REQUEST);
   $record_keys = array_keys($search_result['results'][0] ?? []);
   $total_pages = isset($search_result["total_pages"]) ? (int) $search_result["total_pages"] : 0;
   $page = (int) $search_result["page_number"];

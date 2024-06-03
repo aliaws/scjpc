@@ -2,7 +2,7 @@
 
 if (!empty($_GET) || !empty($_POST)) {
 //  echo "<pre>" . print_r($_GET, true) . "--" . print_r($_POST, true) . "--" . print_r($_REQUEST, true) . "--" . "</pre>";
-  $search_result = search($_REQUEST);
+  $search_result = search_scjpc($_REQUEST);
 //  echo "<pre>" . print_r($search_result, true) . "--" . print_r($_REQUEST, true) . "--" . "</pre>";
   $record_keys = JPAS_KEYS;
   $sort_keys = JPAS_SORT_KEYS;
