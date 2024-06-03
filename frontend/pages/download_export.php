@@ -32,14 +32,14 @@ if(!empty($response) && !empty($response['status'])):
                 <input type="hidden" id="admin_ajax_url" value="<?php echo admin_url('admin-ajax.php'); ?>"/>
             </div>
         </form>
-        <div class="d-flex justify-content-between columns-2">
-            <p>
+        <div class="row justify-content-between mb-4">
+            <div class="col-12 col-sm-6 order-1 order-sm-0">
                 <button class="btn btn-primary" <?php echo $btn_disabled ?> id="download_export_file">
                     <?php echo $btn_text; ?>
                 </button>
-                <span><?php echo $response['file_name'] ?? ''; ?></span>
-            </p>
-            <p>Window will auto reload in 30s until export is not ready.</p>
+                <p class="mb-0 mt-2"><?php echo $response['file_name'] ?? ''; ?></p>
+            </div>
+            <p class="col-12 col-sm-6 mb-4 fw-bold">Window will auto reload in 30s until export is not ready.</p>
         </div>
         <div class="d-flex justify-content-between">
             <label for="file">Downloading progress:</label>
