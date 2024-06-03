@@ -30,4 +30,4 @@
 </div>
 <?php include_once SCJPC_PLUGIN_FRONTEND_BASE . "table/spinner.php"; ?>
 <div class="response-table"></div>
-<div class="database-update-information"><?php echo scjpc_database_update_information(); ?></div>
+<div class="database-update-information alert alert-primary mt-4"><?php echo scjpc_database_update_information(); ?></div>
