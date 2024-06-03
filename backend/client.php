@@ -8,7 +8,7 @@ function search($request) {
   return $data;
 }
 
-function make_search_api_call($api_url) {
+function make_search_api_call($api_url, $append_search_query = false) {
   $headers = ["Content-Type: application/json", "security_key: " . get_option('scjpc_client_auth_key')];
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $api_url);
@@ -17,7 +17,9 @@ function make_search_api_call($api_url) {
   $response = curl_exec($ch);
   curl_close($ch);
   $parsed_response = json_decode($response, true);
-  $parsed_response["search_query"] = prepare_search_query($api_url);
+  if ($append_search_query) {
+      $parsed_response["search_query"] = prepare_search_query($api_url);
+  }
   return $parsed_response;
 
 }
@@ -25,7 +27,7 @@ function make_search_api_call($api_url) {
 function perform_jpa_search($request): array {
   $request['action'] = 'single-jpa';
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/jpa-search?" . http_build_query($request);
-  $response = make_search_api_call($api_url);
+  $response = make_search_api_call($api_url, true);
   $response['result_per_page'] = RESULTS_PER_PAGE;
   $_REQUEST['last_id'] = $response['last_id'] ?? '';
   return $response;
@@ -41,7 +43,7 @@ function perform_multiple_jpa_search($request): array {
   $request['contains_headers'] = isset($upload["contains_headers"]) ? $upload["contains_headers"]: "";
 
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/jpa-search?" . http_build_query($request);
-  $response = make_search_api_call($api_url);
+  $response = make_search_api_call($api_url, true);
   $response['result_per_page'] = RESULTS_PER_PAGE;
   $response['per_page'] = $request["per_page"];
   return $response;
@@ -50,7 +52,7 @@ function perform_multiple_jpa_search($request): array {
 function perform_advanced_pole_search($request): array {
   $request['action'] = 'advanced-pole';
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/pole-search?" . http_build_query($request);
-  $response = make_search_api_call($api_url);
+  $response = make_search_api_call($api_url, true);
   $response['result_per_page'] = RESULTS_PER_PAGE;
   $response['per_page'] = $request["per_page"];
   return $response;
@@ -59,7 +61,7 @@ function perform_advanced_pole_search($request): array {
 function perform_quick_pole_search($request) {
   $request['action'] = 'single-pole';
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/pole-search?" . http_build_query($request);
-  $response = make_search_api_call($api_url);
+  $response = make_search_api_call($api_url, true);
   $response['result_per_page'] = RESULTS_PER_PAGE;
   $_REQUEST['last_id'] = $response['last_id'] ?? '';
   return $response;
@@ -81,7 +83,7 @@ function perform_pole_detail($request) {
 function perform_jpa_detail_search($request) {
   $request['action'] = 'jpa-detail';
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/pole-search?" . http_build_query($request);
-  $response = make_search_api_call($api_url);
+  $response = make_search_api_call($api_url, true);
   $response['result_per_page'] = RESULTS_PER_PAGE;
   $_REQUEST['last_id'] = $response['last_id'];
   return $response;
@@ -109,7 +111,7 @@ function perform_multiple_pole_search($request) {
   unset($request["choices"]);
   $request['columns'] = implode(",",$columns);
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/pole-search?" . http_build_query($request);
-  $response = make_search_api_call($api_url);
+  $response = make_search_api_call($api_url, true);
   $response['result_per_page'] = RESULTS_PER_PAGE;
   $_REQUEST['last_id'] = $response['last_id'] ?? '';
   return $response;
@@ -119,7 +121,7 @@ function perform_multiple_pole_search($request) {
 function get_pole_result($request): array {
   $request['action'] = 'multiple-pole';
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/pole-search?" . http_build_query($request);
-  $response = make_search_api_call($api_url);
+  $response = make_search_api_call($api_url, true);
   $response['result_per_page'] = RESULTS_PER_PAGE;
   $_REQUEST['last_id'] = $response['last_id'];
   return $response;
