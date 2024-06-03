@@ -69,11 +69,7 @@ function scjpc_migrations_logs_columns($columns): array {
   $scjpc_columns = [
     'status' => __('Status', 'scjpc'),
     'jpas_s3_key' => __('JPAs S3 Key', 'scjpc'),
-    'jpas_created' => __('JPAs Created', 'scjpc'),
-    'jpas_updated' => __('JPAs Updated', 'scjpc'),
     'poles_s3_key' => __('Poles S3 Key', 'scjpc'),
-    'poles_created' => __('Poles Created', 'scjpc'),
-    'poles_updated' => __('Poles Updated', 'scjpc'),
     'request_host' => __('Request Host', 'scjpc'),
 //    'job_datetime' => __('Job Datetime', 'scjpc'),
     'date' => __('Date', 'scjpc'),
