@@ -20,7 +20,7 @@ if (!empty($export_requests)) {
       <tr>
         <?php foreach ($record_keys as $value) { ?>
           <?php $class = $value == "id" ? "small-width-column" : ""; ?>
-          <th scope="col" class="text-capitalize manage-column <?php echo $class; ?>" style="font-size: 16px"
+          <th scope="col" class="text-capitalize manage-column <?php echo $class; ?>" style="font-size: 16px;"
               scope="col"><?php echo str_replace("_", " ", $value); ?></th>
         <?php } ?>
       </tr>
@@ -37,7 +37,7 @@ if (!empty($export_requests)) {
               $scope = "row";
             } else if ($key === "export_query") {
               $class = "text-truncate";
-              $style = "width: 300px;;";
+              $style = "width: 300px;";
             } else if ($key === "status") {
               if ($key_value == "Processed") {
                 $style = "font-weight: bold";
@@ -71,3 +71,8 @@ if (!empty($export_requests)) {
 <?php } else { ?>
   <div class="card p-4"><p> No Requests found!</p></div>
 <?php } ?>
+<style>
+  .small-width-column {
+    width: 3.5em
+  }
+</style>
