@@ -11,7 +11,9 @@ if(!empty($response) && !empty($response['status'])):
     $download_url = $status == 'Processed' ? "$base_cdn_url/{$response['s3_path']}" : '';
     $btn_disabled = $response['status'] == 'Processed' ? '' : 'disabled';
     $btn_text = $response['status'] == 'Processed' ? "Download Export" : "Export In Progress";
-    $export_progress = intval($response['pages_processed']) / intval($response['total_pages']);
+    $total_pages = intval($response['total_pages']);
+    $export_progress = intval($response['pages_processed']) / $total_pages;
+    $no_of_seconds_interval = $total_pages > 50 ? 30: 10;
     $export_progress = number_format($export_progress, 2) * 100;
     if ($status !== 'Processed' && $export_progress >= 90) {
         $export_progress -= 2;
@@ -39,7 +41,9 @@ if(!empty($response) && !empty($response['status'])):
                 </button>
                 <p class="mb-0 mt-2"><?php echo $response['file_name'] ?? ''; ?></p>
             </div>
-            <p class="col-12 col-sm-6 mb-4 fw-bold">Window will auto reload in 30s until export is not ready.</p>
+            <?php if ($status !== 'Processed'):  ?>g
+                <p class="col-12 col-sm-6 mb-4 fw-bold">Window will auto reload in <?php echo $no_of_seconds_interval; ?>s until export is not ready.</p>
+            <?php endif; ?>
         </div>
         <div class="d-flex justify-content-between">
             <label for="file">Downloading progress:</label>
@@ -55,7 +59,7 @@ if(!empty($response) && !empty($response['status'])):
                 setTimeout(() => {
                         console.log('submitting...')
                         window.location.reload()
-                    }, 30000
+                    }, <?php echo $no_of_seconds_interval * 1000; ?>
                 )
             } else {
                 jQuery('button#download_export_file').on('click', () => {
