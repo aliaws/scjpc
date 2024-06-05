@@ -22,7 +22,6 @@ jQuery(document).ready(function () {
     jQuery('input[id=page_number]').val(1);
   })
   registerSearchFormSubmissionHandler();
-  // registerExportFileStatusFormHandler()
 });
 const registerSearchFormSubmissionHandler = () => {
   const form = jQuery('.needs-validation')[0];
@@ -33,7 +32,6 @@ const registerSearchFormSubmissionHandler = () => {
 }
 
 const submitFormIfNotEmpty = (form) => {
-  // jQuery('.needs-validation input[type="text"]').each(() => {
   jQuery('input[type="text"]').each((index, value) => {
     console.log(jQuery(this), index, value.value, value.value !== '')
     if (value.value !== '') {
@@ -95,10 +93,9 @@ const registerPaginationButtonAndSortHeaderClicks = () => {
 const registerPageNavigationClicks = () => {
   jQuery('.pagination-bar li a').click((event) => {
     jQuery('#response-overlay').addClass('response-overlay');
-    sacroll_top();
+    scroll_to_top();
     console.log('pageNumber', event, jQuery(this))
     console.log('pageNumber', event.currentTarget.dataset, event.currentTarget.dataset['page'])
-    // const pageNumber = jQuery(this).data('page');
     const pageNumber = event.currentTarget.dataset['page'];
     jQuery(this).addClass("active");
 
@@ -110,7 +107,7 @@ const registerPageNavigationClicks = () => {
 const registerPaginationLimitClicks = () => {
   jQuery('.page-list li a').click((event) => {
     jQuery('#response-overlay').addClass('response-overlay');
-    sacroll_top();
+    scroll_to_top();
     const perPage = event.currentTarget.dataset['page'];
     jQuery(this).addClass("active");
     jQuery('input#per_page').val(perPage);
@@ -166,39 +163,8 @@ function make_export_api_call(button) {
   })
 }
 
-function sacroll_top(){
+function scroll_to_top(){
   jQuery('html, body').animate({
     scrollTop: jQuery(".custom-spinner-wrapper-up").offset().top
-}, 100);
+  }, 100);
 }
-// function registerExportFileStatusFormHandler() {
-//   jQuery('form#data_export').on('submit', (event) => {
-//     event.preventDefault()
-//     const formData = {};
-//     for (let key in Object.entries(event.currentTarget)) {
-//       if (event.currentTarget.hasOwnProperty(key)) {
-//         formData[event.currentTarget[key].name] = event.currentTarget[key].value
-//       }
-//     }
-//     get_export_file_status(formData)
-//   })
-// }
-//
-// function get_export_file_status(formData) {
-//   const submission_url = `${admin_ajax_url}${window.location.search}`
-//   console.log('submission url', submission_url)
-//   jQuery.ajax({
-//     url: submission_url,
-//     type: 'get',
-//     // data: formData,
-//     dataType: 'json',
-//     success: function (response) {
-//       jQuery('div.response-table').html(response);
-//     },
-//     error: function (error) {
-//       console.log('error==', error)
-//     }
-//   })
-// }
-//
-//

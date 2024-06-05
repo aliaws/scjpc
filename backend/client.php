@@ -18,7 +18,7 @@ function make_search_api_call($api_url, $append_search_query = false) {
   curl_close($ch);
   $parsed_response = json_decode($response, true);
   if ($append_search_query) {
-      $parsed_response["search_query"] = prepare_search_query($api_url);
+      $parsed_response["search_query"] = prepare_search_query($api_url, $parsed_response["total_records"]);
   }
   return $parsed_response;
 
@@ -179,8 +179,8 @@ function get_export_status($request) {
   return make_search_api_call($api_url);
 }
 
-function prepare_search_query($api_url) {
-    return $api_url."&export=1";
+function prepare_search_query($api_url, $total_records) {
+    return $api_url."&export=1&total_records=" . $total_records;
 }
 
 function getS3Client() {
