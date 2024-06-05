@@ -58,9 +58,19 @@ if (!empty($export_requests)) {
                 $key_value = "<a target='_blank' href='$url'>{$key_value}</a>";
               }
             } ?>
-            <td title="<?php echo $key_value; ?>" data-value="<?php echo $key_value; ?>" scope="<?php echo $scope; ?>"
+            <td title="<?php echo $key_value; ?>" scope="<?php echo $scope; ?>"
                 class="<?php echo $class; ?>" style="<?php echo $style; ?>">
-              <?php echo $key_value; ?>
+
+              <?php if ($key === "export_query") : ?>
+                <p style="width:90%"><?php echo $key_value; ?></p>
+                <button type="button" class="btn btn-secondary copy-text" data-value="<?php echo $key_value; ?>" >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-copy" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z"></path>
+                    </svg>
+                </button>
+              <?php else: ?>
+                  <?php echo $key_value; ?>
+              <?php endif; ?>
             </td>
           <?php } ?>
         </tr>
@@ -76,3 +86,15 @@ if (!empty($export_requests)) {
     width: 3.5em
   }
 </style>
+<script>
+    jQuery("button.copy-text").click(function() {
+        console.log(jQuery(this).data('value'));
+
+        const dummy = document.createElement("textarea");
+        document.body.appendChild(dummy);
+        dummy.value = jQuery(this).data('value');
+        dummy.select();
+        document.execCommand("copy");
+        document.body.removeChild(dummy);
+    })
+</script>
