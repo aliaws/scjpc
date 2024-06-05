@@ -26,6 +26,7 @@ function make_search_api_call($api_url, $append_search_query = false) {
 
 function perform_jpa_search($request): array {
   $request['action'] = 'single-jpa';
+  $request['columns'] = implode(",", array_keys(JPAS_KEYS));
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/jpa-search?" . http_build_query($request);
   $response = make_search_api_call($api_url, true);
   $response['result_per_page'] = RESULTS_PER_PAGE;
@@ -41,6 +42,7 @@ function perform_multiple_jpa_search($request): array {
   $request['jpa_number'] = isset($upload["numbers"]) ? $upload["numbers"]: [];
   $request['s3_key'] = isset($upload["s3_key"]) ? $upload["s3_key"]: "";
   $request['contains_headers'] = isset($upload["contains_headers"]) ? $upload["contains_headers"]: "";
+  $request['columns'] = implode(",", array_keys(JPAS_KEYS));
 
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/jpa-search?" . http_build_query($request);
   $response = make_search_api_call($api_url, true);
@@ -51,6 +53,7 @@ function perform_multiple_jpa_search($request): array {
 
 function perform_advanced_pole_search($request): array {
   $request['action'] = 'advanced-pole';
+  $request['columns'] = implode(",", array_keys(POLES_KEYS));
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/pole-search?" . http_build_query($request);
   $response = make_search_api_call($api_url, true);
   $response['result_per_page'] = RESULTS_PER_PAGE;
