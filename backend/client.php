@@ -1,7 +1,7 @@
 <?php
 
 function search_scjpc($request) {
-  $action = $request['action'] ?? ''; // Check if 'action' key exists
+  $action = $request['action'] ?? 'ads_nothing'; // Check if 'action' key exists
   $data = call_user_func_array('perform_' . $action, [$request]);
   $data["per_page"] = $request["per_page"] ?? 50;
   $data["page_number"] = $request["page_number"] ?? 1;
@@ -173,6 +173,9 @@ function perform_activate(){
     //Not sure why wp is giving 
 }
 
+function perform_ads_nothing(){
+    // do nothing
+}
 
 function get_export_status($request) {
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/data-export?" . http_build_query($request);

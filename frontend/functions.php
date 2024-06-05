@@ -65,10 +65,10 @@ function print_checkboxes($group): void {
 //      foreach($args as $arg => $value) {
 //          $query->set( $arg, $value);
 //      }
-//      add_filter('posts_where', 'ads_posts_where', 10, 2);
+////      add_filter('posts_where', 'ads_posts_where', 10, 2);
 //  }
 //}
-//
+
 //add_action('elementor/query/search_web_doc', 'search_web_and_docs');
 
 
