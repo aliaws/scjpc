@@ -12,8 +12,19 @@ if(!empty($response) && !empty($response['status'])):
     $btn_disabled = $response['status'] == 'Processed' ? '' : 'disabled';
     $btn_text = $response['status'] == 'Processed' ? "Download Export" : "Export In Progress";
     $total_pages = intval($response['total_pages']);
-    $export_progress = intval($response['pages_processed']) / $total_pages;
-    $no_of_seconds_interval = $total_pages > 50 ? 30: 10;
+    $processed_pages = intval($response['pages_processed']);
+    $export_progress =  $processed_pages/ $total_pages;
+
+    // Calculate remaining pages
+    $remaining_pages = $total_pages - $processed_pages;
+
+    // Each page takes 1 second to process, so remaining time in seconds
+    $remaining_time = $remaining_pages * 1;
+
+    // Setting the refresh interval
+    // Let's say we want to refresh every 1/10th of the remaining time
+    $no_of_seconds_interval = max(1, round($remaining_time / 10));
+
     $export_progress = number_format($export_progress, 2) * 100;
     if ($status !== 'Processed' && $export_progress >= 90) {
         $export_progress -= 2;
