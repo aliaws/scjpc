@@ -3,11 +3,14 @@ const admin_ajax_url = jQuery("#admin_ajax_url").val();
 jQuery(document).ready(function () {
   jQuery(".clearBtn").click(function () {
     const parentForm = jQuery(this).closest('form');
+    const selector =  jQuery('form select option:nth-child(1)');
     parentForm.find('input[type="text"], input[type="file"]').val('');
     parentForm.find('input[type="checkbox"]').prop('checked', false);
     parentForm.find('input[id="page_number"]').val(1);
     parentForm.find('input[id="per_page"]').val(50);
     parentForm.find('input[id="last_id"]').val('');
+    selector.attr('selected', 'selected');
+    selector.removeAttr('selected');
   });
 
   jQuery('input#id_choices_all').click((event) => {
@@ -44,9 +47,8 @@ const submitFormIfNotEmpty = (form) => {
 
 function registerFormSubmissionHandler(form) {
   jQuery(form).on('submit', function (event) {
-    jQuery('.custom-spinner-wrapper').removeClass('d-none');
-    jQuery('.clearBtn, button[type=submit]').attr('disabled', 'disabled');
-    jQuery('#response-overlay').addClass('response-overlay');
+    add_actions_change();
+    scroll_to_top('form button');
     event.preventDefault()
     const form = event.target;
     const formData = new FormData(form);
@@ -57,18 +59,13 @@ function registerFormSubmissionHandler(form) {
       contentType: false,
       headers: {"Accept": "application/json"},
       success: (response) => {
-        jQuery('.custom-spinner-wrapper').addClass('d-none')
-        jQuery('.clearBtn, button[type=submit]').removeAttr('disabled');
-        jQuery('#response-overlay').removeClass('response-overlay');
+        remove_actions_change();
         jQuery('div.response-table').html(response);
         registerExportButtonCalls();
         registerPaginationButtonAndSortHeaderClicks();
       },
       error: (error) => {
-        jQuery('.custom-spinner-wrapper').addClass('d-none')
-        jQuery('.clearBtn, button[type=submit]').removeAttr('disabled');
-        jQuery('#response-overlay').removeClass('response-overlay');
-
+        remove_actions_change();
         console.log('error==', error);
       }
     })
@@ -93,7 +90,7 @@ const registerPaginationButtonAndSortHeaderClicks = () => {
 const registerPageNavigationClicks = () => {
   jQuery('.pagination-bar li a').click((event) => {
     jQuery('#response-overlay').addClass('response-overlay');
-    scroll_to_top();
+    scroll_to_top('.custom-spinner-wrapper-up');
     console.log('pageNumber', event, jQuery(this))
     console.log('pageNumber', event.currentTarget.dataset, event.currentTarget.dataset['page'])
     const pageNumber = event.currentTarget.dataset['page'];
@@ -107,7 +104,7 @@ const registerPageNavigationClicks = () => {
 const registerPaginationLimitClicks = () => {
   jQuery('.page-list li a').click((event) => {
     jQuery('#response-overlay').addClass('response-overlay');
-    scroll_to_top();
+    scroll_to_top('.custom-spinner-wrapper-up');
     const perPage = event.currentTarget.dataset['page'];
     jQuery(this).addClass("active");
     jQuery('input#per_page').val(perPage);
@@ -147,6 +144,7 @@ function registerExportButtonCalls() {
 function make_export_api_call(button) {
   const body = button.data();
   body['action'] = 'make_export_data_call';
+  add_actions_change();
   jQuery.ajax({
     url: admin_ajax_url,
     type: 'post',
@@ -155,16 +153,35 @@ function make_export_api_call(button) {
     success: function (response) {
       const {file_path, export_format} = response;
       window.location.href = `/download-export?file_path=${file_path}&format=${export_format}`;
+      setTimeout(function() {
+        remove_actions_change();
+      }, 1000);
     },
     error: function (error) {
+      remove_actions_change();
       console.log('error==', error)
       button.prop('disabled', false);
     }
   })
 }
 
-function scroll_to_top(){
-  jQuery('html, body').animate({
-    scrollTop: jQuery(".custom-spinner-wrapper-up").offset().top
-  }, 100);
+function scroll_to_top(selector){
+  if(jQuery(selector).length){
+    jQuery('html, body').animate({
+      scrollTop: jQuery(selector).offset().top
+    }, 100);
+  }
+}
+
+function add_actions_change(){
+  jQuery('.custom-spinner-wrapper').removeClass('d-none');
+  jQuery('.clearBtn, button[type=submit]').attr('disabled', 'disabled');
+  jQuery('#response-overlay').addClass('response-overlay');
+}
+
+function remove_actions_change(){
+  jQuery('.custom-spinner-wrapper').addClass('d-none')
+  jQuery('.clearBtn, button[type=submit]').removeAttr('disabled');
+  jQuery('#response-overlay').removeClass('response-overlay');
+
 }
