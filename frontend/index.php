@@ -149,3 +149,18 @@ function ajax_multiple_pole_search() {
   include_once SCJPC_PLUGIN_FRONTEND_BASE . "table/multiple_pole_results.php";
   wp_die();
 }
+
+function get_export_status_callback() {
+  if (function_exists('get_export_status')) {
+    $response = get_export_status($_GET);
+    if(!empty($response) && !empty($response['status'])){
+      $response_array =  download_export_array($response);
+      wp_send_json_success($response_array);
+    }
+  } else {
+    wp_send_json_error('Function not found.');
+  }
+}
+
+add_action('wp_ajax_get_export_status', 'get_export_status_callback');
+add_action('wp_ajax_nopriv_get_export_status', 'get_export_status_callback');
