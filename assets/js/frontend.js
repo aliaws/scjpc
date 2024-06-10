@@ -39,7 +39,13 @@ const submitFormIfNotEmpty = (form) => {
     console.log(jQuery(this), index, value.value, value.value !== '')
     if (value.value !== '') {
       console.log('submitting form...')
-      form.submit()
+      const storedData = localStorage.getItem('myData') ? localStorage.getItem('myData') : "";
+      if(storedData.length > 0){
+        jQuery('div.response-table').html(storedData);
+        registerExportButtonCalls();
+        registerPaginationButtonAndSortHeaderClicks();
+      }
+      // form.submit()
     }
   });
 
@@ -60,6 +66,10 @@ function registerFormSubmissionHandler(form) {
       headers: {"Accept": "application/json"},
       success: (response) => {
         remove_actions_change();
+        if (!['jpa_detail_search', 'pole_detail'].includes(form.id)) {
+          localStorage.removeItem('myData');
+          localStorage.setItem('myData', response);
+        }
         jQuery('div.response-table').html(response);
         registerExportButtonCalls();
         registerPaginationButtonAndSortHeaderClicks();
@@ -185,3 +195,46 @@ function remove_actions_change(){
   jQuery('#response-overlay').removeClass('response-overlay');
 
 }
+
+function fetch_export_status() {
+  jQuery.ajax({
+      method: 'GET',
+      url: admin_ajax_url,
+      data: {
+        action: 'get_export_status',
+        file_path: jQuery("#file_path").val(),
+        format: jQuery("#format").val(),
+      },
+      success: function(response) {
+          if (response.success) {
+
+           const { data }  = response;
+           const { export_progress, btn_icon, no_of_seconds_interval, btn_disabled, status, download_url }  = data;
+            jQuery('#status').val(status);
+            const download_btn = jQuery('.download_btn');
+            download_btn.html(btn_icon);
+            jQuery('#download_url').val(download_url);
+            jQuery('.export_progress_bar').attr('value', export_progress);
+            jQuery('.export_progress_text').text(Math.ceil(export_progress));
+
+            if (!btn_disabled) {
+              download_btn.removeAttr('disabled');
+            }
+            //Recursion
+            if (status !== 'Processed') {
+              setTimeout(() => { fetch_export_status() }, no_of_seconds_interval * 1000 )
+            }
+
+          } else {
+              console.log('Error:', response.data);
+              window.location.reload();
+          }
+      },
+      error: function(xhr, status, error) {
+          console.log('AJAX Error:', error);
+          window.location.reload();
+      }
+  });
+}
+
+// Call the function to fetch export status
