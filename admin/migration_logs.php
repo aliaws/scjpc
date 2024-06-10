@@ -135,3 +135,51 @@ function scjpc_update_database_date(WP_REST_Request $request): WP_REST_Response 
   return new WP_REST_Response(['message' => 'Migration Dates Added Successfully!'], 200);
 
 }
+
+add_action('rest_api_init', 'scjpc_export_jpa_contacts_data');
+function scjpc_export_jpa_contacts_data(): void {
+  register_rest_route('scjpc/v1/', 'jpa-contacts/', [
+    'methods' => 'GET',
+    'callback' => 'scjpc_export_jpa_contacts',
+  ]);
+}
+
+
+function scjpc_export_jpa_contacts(WP_REST_Request $request): WP_REST_Response {
+  $security_key = $request->get_header('security_key');
+  if (!isset($security_key) || $security_key != get_option('scjpc_client_auth_key')) {
+    return new WP_REST_Response(['message' => 'Please provide the API security key'], 401);
+  }
+  $jpa_contacts = scjpc_get_jpa_contacts();
+  return new WP_REST_Response(['contacts' => $jpa_contacts], 200);
+//  return insert_migration_log($body);
+
+}
+
+function scjpc_get_jpa_contacts(): array {
+//  $fields_group = acf_get_field_group('group_666716c1891dd');
+  $fields_group = acf_get_field_group('group_662d0256002a6');
+  $fields = acf_get_fields($fields_group);
+  $response = [];
+  foreach (scjpc_get_jpa_contacts_posts() as $post) {
+    $response[$post->ID] = [];
+    foreach ($fields as $field) {
+      if ($field['type'] == 'wysiwyg') {
+        $response[$post->ID][$field['label']] = strip_tags(get_field($field['name'], $post->ID));
+      } else {
+        $response[$post->ID][$field['label']] = get_field($field['name'], $post->ID);
+      }
+    }
+  }
+  return $response;
+//  return $fields;
+}
+
+function scjpc_get_jpa_contacts_posts(): array {
+  $args = array(
+    'post_type' => 'member',
+//    'post_type' => 'jpa-contact',
+    'posts_per_page' => -1,
+  );
+  return get_posts($args);
+}
