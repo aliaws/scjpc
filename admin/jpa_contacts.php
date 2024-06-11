@@ -111,12 +111,12 @@ function scjpc_process_contacts_csv_writing(array $data, array $field_labels): s
   }
 
   foreach ($sheet->getColumnIterator() as $sheet_column) {
-    $sheet->getColumnDimension($sheet_column->getColumnIndex())->setAutoSize(true);
+    $sheet->getColumnDimension($sheet_column->getColumnIndex())->setWidth(30);
   }
 
   for ($i = 1; $i < $row; $i++) {
     foreach (range('A', $column) as $col) {
-      $sheet->getRowDimension($i)->setRowHeight(-1); // Auto-height
+      $sheet->getRowDimension($i)->setRowHeight(40); // Auto-height
     }
   }
 
