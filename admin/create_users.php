@@ -43,3 +43,45 @@ function create_users_from_csv_on_activation()
     }
 }
 register_activation_hook(SCJPC_PLUGIN_PATH. 'index.php', 'create_users_from_csv_on_activation');
+
+
+function update_user_passwords_from_csv() {
+  // Path to your CSV file
+  $csv_file = SCJPC_PLUGIN_PATH.'update_pass.csv';
+
+  // Check if the file exists
+  if (!file_exists($csv_file)) {
+    error_log("CSV file not found: $csv_file");
+    return;
+  }
+
+  // Open the CSV file
+  if (($handle = fopen($csv_file, "r")) !== FALSE) {
+    // Loop through the rows
+    while (($data = fgetcsv($handle)) !== false) {
+      $username = $data[0];
+      $password = $data[1];
+
+      if ($username == 'Username' && $password == 'Password') {
+        continue;
+      }
+      // Get user by username
+      $user = get_user_by('login', $username);
+
+      // If user exists, update the password
+      if ($user) {
+        wp_set_password($password, $user->ID);
+        delete_user_meta($user->ID, 'created_from_csv');
+        error_log("Password updated for user: $username");
+      } else {
+        error_log("User not found: $username");
+      }
+    }
+    // Close the CSV file
+    fclose($handle);
+  } else {
+    error_log("Unable to open CSV file: $csv_file");
+  }
+}
+
+register_activation_hook(SCJPC_PLUGIN_PATH. 'index.php', 'update_user_passwords_from_csv');
