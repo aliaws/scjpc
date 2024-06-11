@@ -1,4 +1,10 @@
 <?php
+
+require_once SCJPC_PLUGIN_PATH . "vendor/autoload.php";
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 function scjpc_enqueue_export_members_script(): void {
   wp_enqueue_script("jquery");
   wp_enqueue_script("scjpc-export-members", SCJPC_ASSETS_URL . "js/export-jpa-members.js", ["jquery"], "1.07", true);
@@ -38,14 +44,14 @@ function ajax_scjpc_export_jpa_members() {
 
 function scjpc_get_jpa_contacts($query = []): string {
   $fields_group = acf_get_field_group("group_662d0256002a6"); // Server
-  //  $fields_group = acf_get_field_group("group_666716c1891dd"); // Local
+//  $fields_group = acf_get_field_group("group_666716c1891dd"); // Local
   $fields = acf_get_fields($fields_group);
   if (!empty($query["jpa_contact_id"])) {
     $jpa_contacts = [get_post($query["jpa_contact_id"])];
   } else {
     $jpa_contacts = get_posts([
       "post_type" => "member", // Server
-      //      "post_type" => "jpa-contact", // Local
+//      "post_type" => "jpa-contact", // Local
       "posts_per_page" => -1,
       "order" => "ASC"
     ]);
@@ -74,9 +80,11 @@ function scjpc_fetch_jpa_contacts_fields(array $fields, array $jpa_contacts): st
 
 
 function scjpc_process_contacts_csv_writing(array $data, array $field_labels): string {
+  $spreadsheet = new Spreadsheet();
+  $sheet = $spreadsheet->getActiveSheet();
   $excel_file_name = "jpa-contacts_" . time() . "_" . get_current_user_id() . ".xlsx";
   $excel_file_path = WP_CONTENT_DIR . "/uploads/scjpc-exports/" . $excel_file_name;
-  $excelFile = fopen($excel_file_path, "w");
+//  $excelFile = fopen($excel_file_path, "w");
 
   $transposedContacts = [];
   foreach ($data[array_key_first($data)] as $key => $value) {
@@ -88,13 +96,69 @@ function scjpc_process_contacts_csv_writing(array $data, array $field_labels): s
       $transposedContacts[$field][] = $value;
     }
   }
-
+  $column = 'A';
+  $max_lengths = [];
+  $row = 1;
   foreach ($transposedContacts as $contact) {
-    fputcsv($excelFile, $contact);
+    $column = 'A';
+    foreach ($contact as $value) {
+//      echo "<pre>" . print_r($value, true) . "</pre>==$column==$row==\n";
+      $sheet->setCellValue($column . $row, $value);
+      $max_lengths[$column] = max($max_lengths[$column] ?? 0, strlen($value));
+      $column++;
+    }
+    $row++;
+  }
+//  echo "<pre>" . print_r($max_lengths, true) . "</pre>";
+  foreach ($max_lengths as $column => $max_length) {
+    $sheet->getColumnDimension($column)->setWidth($max_length * 1.2); // Adjust multiplier as needed
+//    $sheet->getColumnDimension($column)->setRowHeight($max_length * 1.2); // Adjust multiplier as needed
+//    $sheet->getColumnDimension($column)->setWidth($max_length * 1.2); // Adjust multiplier as needed
+    $sheet->getColumnDimension($column)->setAutoSize(true); // Adjust multiplier as needed
   }
 
-  fclose($excelFile);
+  for ($i = 1; $i < $row; $i++) {
+    foreach (range('A', $column) as $col) {
+      $sheet->getRowDimension($i)->setRowHeight(-1); // Auto-height
+    }
+  }
+
+  // Set color of first row and first column to sky blue
+  $sheet->getStyle('A1:' . $column . '1')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('FFADD8E6');
+  $sheet->getStyle('A1:A' . $row)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('FFADD8E6');
+
+
+  $writer = new Xlsx($spreadsheet);
+  $writer->save($excel_file_path);
+
+//  fclose($excelFile);
   return wp_get_upload_dir()["baseurl"] . "/scjpc-exports/" . $excel_file_name;
 
 }
+
+//function scjpc_process_contacts_csv_writing_v2(array $data, array $field_labels): string {
+//
+//  $excel_file_name = "jpa-contacts_" . time() . "_" . get_current_user_id() . ".xlsx";
+//  $excel_file_path = WP_CONTENT_DIR . "/uploads/scjpc-exports/" . $excel_file_name;
+//  $excelFile = fopen($excel_file_path, "w");
+//
+//  $transposedContacts = [];
+//  foreach ($data[array_key_first($data)] as $key => $value) {
+//    $transposedContacts[$key] = [$field_labels[$key]];
+//  }
+//
+//  foreach ($data as $contact) {
+//    foreach ($contact as $field => $value) {
+//      $transposedContacts[$field][] = $value;
+//    }
+//  }
+//
+//  foreach ($transposedContacts as $contact) {
+//    fputcsv($excelFile, $contact);
+//  }
+//
+//  fclose($excelFile);
+//  return wp_get_upload_dir()["baseurl"] . "/scjpc-exports/" . $excel_file_name;
+//
+//}
 
