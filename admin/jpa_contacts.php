@@ -20,7 +20,7 @@ function scjpc_export_jpa_contacts(WP_REST_Request $request): WP_REST_Response {
 }
 
 
-function scjpc_get_jpa_contacts($query): string {
+function scjpc_get_jpa_contacts($query = []): string {
   $fields_group = acf_get_field_group('group_662d0256002a6'); // Server
 //  $fields_group = acf_get_field_group('group_666716c1891dd'); // Local
   $fields = acf_get_fields($fields_group);
