@@ -87,6 +87,7 @@ function scjpc_process_contacts_csv_writing(array $data, array $field_labels): s
 //  $excelFile = fopen($excel_file_path, "w");
 
   $transposedContacts = [];
+
   foreach ($data[array_key_first($data)] as $key => $value) {
     $transposedContacts[$key] = [$field_labels[$key]];
   }
