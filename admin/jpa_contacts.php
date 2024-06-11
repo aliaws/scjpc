@@ -8,6 +8,7 @@ use \PhpOffice\PhpSpreadsheet\Reader\Html;
 use PhpOffice\PhpSpreadsheet\Style\Color;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
 function scjpc_enqueue_export_members_script(): void {
     wp_enqueue_script("jquery");
@@ -134,6 +135,8 @@ function scjpc_process_contacts_csv_writing(array $data, array $field_labels): s
         $row++;
     }
 
+    $endColumn = $sheet->getHighestColumn();
+
     foreach ($sheet->getColumnIterator() as $sheet_column) {
         $sheet->getColumnDimension($sheet_column->getColumnIndex())->setWidth(30);
     }
@@ -156,6 +159,13 @@ function scjpc_process_contacts_csv_writing(array $data, array $field_labels): s
         ],
     ];
 
+    $styles = [
+        'alignment' => [
+            'horizontal' => Alignment::HORIZONTAL_LEFT, // Set horizontal alignment to center
+            'vertical' => Alignment::VERTICAL_TOP, // Set vertical alignment to center
+        ],
+    ];
+
 
     for ($i = 1; $i < $row; $i++) {
         foreach (range('A', $column) as $col) {
@@ -168,6 +178,8 @@ function scjpc_process_contacts_csv_writing(array $data, array $field_labels): s
         }
         $cell = "A{$i}:A{$i}";
         $sheet->getStyle($cell)->applyFromArray($firstColumnStyle);
+        $range = 'A1:' . $endColumn . '1';
+        $sheet->getStyle($cell)->applyFromArray($styles);
     }
 
 
@@ -190,11 +202,15 @@ function scjpc_process_contacts_csv_writing(array $data, array $field_labels): s
                 'color' => ['argb' => '4472c4'],
             ],
         ],
+
     ];
-    $endColumn = $sheet->getHighestColumn();
+
     $range = 'B1:' . $endColumn . '1';
     // Apply styles to the first row
     $sheet->getStyle($range)->applyFromArray($firstRowStyle);
+
+
+    $sheet->getStyle($column . ':' . $column)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
     // Set color of first row and first column to sky blue
 //    $sheet->getStyle('A1:' . $column . '1')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('FFADD8E6');
