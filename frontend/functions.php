@@ -3,8 +3,8 @@ function load_bootstrap_assets(): void {
   wp_enqueue_style('bootstrap_css', "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css");
 
   wp_enqueue_style('bootstrap-css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css');
-  wp_enqueue_script('bootstrap-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js', array('jquery'), null, true);
   wp_enqueue_script('jquery');
+  wp_enqueue_script('bootstrap-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js', array('jquery'), null, true);
 
   wp_enqueue_style('frontend_css', SCJPC_ASSETS_URL . 'css/frontend.css', false, '4.9');
   wp_enqueue_style('responsive_css', SCJPC_ASSETS_URL . 'css/responsive.css', false, '1.7');
@@ -83,19 +83,19 @@ function post_url_change() {
 }
 
 function getSortingAttributes($key, $sort_keys, $response_sort_key, $response_sort_order) {
-    if($css_sort_classes = isset($sort_keys[$key]) ? 'has_sort' : '') {
-        if($key == $response_sort_key) {
-            $css_sort_classes.=  " ".$response_sort_order;
-        }
-
-        $data_sort_order = $response_sort_order == 'asc' || $response_sort_order == '' ? 'desc' :'asc';
-        return [$css_sort_classes, $data_sort_order];
+  if ($css_sort_classes = isset($sort_keys[$key]) ? 'has_sort' : '') {
+    if ($key == $response_sort_key) {
+      $css_sort_classes .= " " . $response_sort_order;
     }
-    return ["", ""];
+
+    $data_sort_order = $response_sort_order == 'asc' || $response_sort_order == '' ? 'desc' : 'asc';
+    return [$css_sort_classes, $data_sort_order];
+  }
+  return ["", ""];
 }
 
-function download_export_array($response){
-  if(!empty($response) && !empty($response['status'])){
+function download_export_array($response) {
+  if (!empty($response) && !empty($response['status'])) {
     $response_array = [];
     $download_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
         <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
@@ -115,7 +115,7 @@ function download_export_array($response){
     $response_array['btn_icon'] = $response['status'] == 'Processed' ? $download_icon : $processed_icon;
     $total_pages = intval($response['total_pages']);
     $processed_pages = intval($response['pages_processed']);
-    $export_progress =  $processed_pages/ $total_pages;
+    $export_progress = $processed_pages / $total_pages;
     // Calculate remaining pages
     $remaining_pages = $total_pages - $processed_pages;
 
@@ -125,7 +125,7 @@ function download_export_array($response){
     // Setting the refresh interval
     // Let's say we want to refresh every 1/10th of the remaining time
     $no_of_seconds_interval = max(1, round($remaining_time / 10));
-    if($no_of_seconds_interval < 3){
+    if ($no_of_seconds_interval < 3) {
       $no_of_seconds_interval = 3;
     }
     $response_array['no_of_seconds_interval'] = $no_of_seconds_interval;
