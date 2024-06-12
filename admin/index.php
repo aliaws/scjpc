@@ -9,23 +9,6 @@ function scjpc_export_logs_page() {
 //  return ob_get_clean();
 }
 
-
-// Function to add the custom admin page to the WordPress admin menu
-function add_export_logs_page(): void {
-  add_menu_page(
-    'Export Requests', // Page title
-    'Export Requests', // Menu title
-    'manage_options',    // Capability required to access this page
-    'export-requests', // Menu slug
-    'scjpc_export_logs_page', // Function to generate the page content
-    'menu-icon-generic',   // Icon URL or Dashicon class
-    99 // Position in the menu
-  );
-}
-
-add_action('admin_menu', 'add_export_logs_page');
-
-
 add_action('init', 'scjpc_register_post_type_migration_logs');
 function scjpc_register_post_type_migration_logs(): void {
   $supports = [
@@ -61,6 +44,7 @@ function scjpc_register_post_type_migration_logs(): void {
     'rewrite' => array('slug' => 'migration-logs'),
     'has_archive' => true,
     'hierarchical' => false,
+    'show_in_menu' => 'scjpc', // Add this line to place under the "Scjpc" menu
   );
   register_post_type('migration_logs', $args);
 }
@@ -100,18 +84,6 @@ function get_scjpc_columns_array(): array {
   ];
 }
 
-
-add_action('admin_menu', 'scjpc_options_menu');
-
-function scjpc_options_menu(): void {
-  add_menu_page(
-    'SCJPC - Admin Settings', 'SCJPC Settings', 'administrator', __FILE__,
-    'scjpc_options_menu_settings_page', plugins_url('/images/icon.png', __FILE__)
-  );
-  add_action('admin_init', 'scjpc_options_menu_settings');
-}
-
-
 function scjpc_options_menu_settings(): void {
   register_setting('scjpc-settings-group', 'scjpc_es_host');
   register_setting('scjpc-settings-group', 'scjpc_client_auth_key');
@@ -125,3 +97,67 @@ function scjpc_options_menu_settings_page(): void {
   include_once SCJPC_PLUGIN_ADMIN_BASE . 'templates/settings_group.php';
   echo ob_get_clean();
 }
+
+add_action('admin_menu', 'scjpc_custom_admin_menu');
+
+function scjpc_custom_admin_menu() {
+  // Add the main menu item for jpa
+  add_menu_page(
+    __('Scjpc', 'textdomain'),   // Page title
+    'Scjpc',                     // Menu title
+    'manage_options',          // Capability
+    'scjpc',                     // Menu slug
+    '',                        // Function (empty for now)
+    'dashicons-admin-generic', // Icon URL
+    6                          // Position
+  );
+  add_submenu_page(
+    'scjpc',                     // Parent slug
+    __('Jpa', 'textdomain'), // Page title
+    'jpa',         // Menu title
+    'manage_options',          // Capability
+    'jpa',         // Menu slug
+    'admin_jpa_search'   // Function to display page content
+  );
+  // Add the Export Requests submenu item
+  add_submenu_page(
+    'scjpc',                     // Parent slug
+    __('Export Requests', 'textdomain'), // Page title
+    'Export Requests',         // Menu title
+    'manage_options',          // Capability
+    'export-requests',         // Menu slug
+    'scjpc_export_logs_page'   // Function to display page content
+  );
+
+  // Add the SCJPC Settings submenu item
+
+  add_submenu_page(
+    'scjpc',
+    __('SCJPC Settings', 'textdomain'), // Page title
+    'Settings',
+    'administrator',
+    __FILE__,
+    'scjpc_options_menu_settings_page',
+  );
+  add_action('admin_init', 'scjpc_options_menu_settings');
+}
+function admin_jpa_search(){
+  ob_start();
+  include_once SCJPC_PLUGIN_ADMIN_BASE . "pages/admin_jpa_search.php";
+}
+function ajax_jpa_search_update_pdf() {
+//  echo "<pre>GET=" . count($_GET) . "==POST=" . count($_POST) . "==FILES=" . count($_FILES) . "==REQUEST=" . count($_REQUEST) . print_r($_GET, true) . print_r($_POST, true) . print_r($_FILES, true) . print_r($_REQUEST, true) . "</pre>";
+    $s3_key = $_REQUEST['s3_key'];
+  $client = getS3Client();
+  $result = $client->putObject([
+      'Bucket' => 'scjpc-data',
+      'Key' => $s3_key,
+      'SourceFile' => $_FILES['pdf_s3_key']['tmp_name'],
+    ]);
+
+  $response =  update_jpa_search_pdf($_REQUEST);
+  wp_send_json_success($response);
+}
+add_action('admin_post_nopriv_jpa_search_update_pdf', 'ajax_jpa_search_update_pdf');
+add_action('wp_ajax_jpa_search_update_pdf', 'ajax_jpa_search_update_pdf');
+add_action('wp_ajax_nopriv_jpa_search_update_pdf', 'ajax_jpa_search_update_pdf');
