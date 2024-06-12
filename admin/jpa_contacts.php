@@ -56,10 +56,12 @@ function scjpc_get_jpa_contacts($query = []): string {
       "order" => "ASC"
     ]);
   }
-  return scjpc_fetch_jpa_contacts_fields($fields, $jpa_contacts);
+  [$response, $field_labels] = scjpc_fetch_jpa_contacts_fields($fields, $jpa_contacts);
+  return scjpc_process_contacts_csv_writing($response, $field_labels);
+
 }
 
-function scjpc_fetch_jpa_contacts_fields(array $fields, array $jpa_contacts): string {
+function scjpc_fetch_jpa_contacts_fields(array $fields, array $jpa_contacts, bool $pole_contact = false): array {
   $response = [];
   $field_labels = [];
   foreach ($jpa_contacts as $post) {
@@ -77,8 +79,13 @@ function scjpc_fetch_jpa_contacts_fields(array $fields, array $jpa_contacts): st
 //        $response[$post->ID][$field["name"]] = get_field($field["name"], $post->ID);
       }
     }
+    if ($pole_contact) {
+      $response[$post->ID]['member_code'] = get_field('member_code', $post->ID);
+      $field_labels['member_code'] = 'Member Code';
+    }
   }
-  return scjpc_process_contacts_csv_writing($response, $field_labels);
+  return [$response, $field_labels];
+//  return scjpc_process_contacts_csv_writing($response, $field_labels);
 }
 
 function scjpc_get_sheet_last_row_column(int $row, string $column): array {
