@@ -189,3 +189,11 @@ a {
   background: #fdfbfe87;
   z-index: 10;
 }
+.admin-search .edit-icon{
+  display: inline !important;
+  cursor: pointer;
+
+}
+.pdf-icon-wrapper:focus{
+  box-shadow: none !important;
+}

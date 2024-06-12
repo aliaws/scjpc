@@ -3,7 +3,7 @@
   <div class="remove-print d-flex flex-column flex-sm-row justify-content-between align-items-sm-center">
     <p class="text-secondary order-sm-0 order-1 result-text mb-2 mb-sm-0">
       Found <?php echo $search_result['total_records'] ?> results.</p>
-    <div class="d-flex justify-content-end mb-2" role="group" aria-label="Basic outlined example">
+    <div class="d-flex b justify-content-end mb-2" role="group" aria-label="Basic outlined example">
       <button type="button" id="export_as_excel" data-query="<?php echo $search_result['search_query']; ?>"
               data-format="xlsx" title="Export as Excel" data-user_id="<?php echo $user_id; ?>"
               data-user_email="<?php echo $user_email; ?>" data-endpoint="<?php echo $export_endpoint; ?>"
@@ -63,7 +63,7 @@
           <td><a href="<?php echo $jpa_detail_url; ?>" target="_self"><?php echo $jpa_number; ?></a></td>
           <td>
             <?php if ($result['pdf_s3_key'] !== null) { ?>
-              <a href="<?php echo $jpa_pdf_url; ?>">
+              <a class="text-decoration-none pdf-icon-wrapper" href="<?php echo $jpa_pdf_url; ?>">
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
                      class="bi bi-file-pdf text-danger" viewBox="0 0 16 16">
                   <path
@@ -73,6 +73,15 @@
                 </svg>
               </a>
             <?php } ?>
+            <a  class="text-decoration-none edit-icon d-none"
+                data-edit-id="<?php echo isset($result['jpa_unique_id']) ? $result['jpa_unique_id'] : '' ; ?>"
+                data-edit-jpa-number="<?php echo isset($jpa_number) ? $jpa_number : ''; ?>"
+                data-edit-pdf="<?php echo isset($jpa_pdf_url) ? $jpa_pdf_url : ''; ?>"
+                data-bs-toggle="modal"
+                data-bs-target="#jpaModal"
+            >
+              <?php echo EDIT_ICON; ?>
+            </a>
           </td>
           <td title="<?php echo $result['date_received']; ?>"><?php echo $result['date_received']; ?></td>
           <td title="<?php echo $result['billed_date']; ?>"><?php echo $result['billed_date']; ?></td>
@@ -152,3 +161,10 @@
     </nav>
   </div>
 </div>
+
+
+
+
+
+
+

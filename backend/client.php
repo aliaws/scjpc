@@ -23,6 +23,26 @@ function make_search_api_call($api_url, $append_search_query = false) {
   return $parsed_response;
 
 }
+function make_post_api_call($api_url, $body = []) {
+  $headers = ["Content-Type: application/json", "security_key: " . get_option('scjpc_client_auth_key')];
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $api_url);
+  curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($ch, CURLOPT_POST, true); // Set request method to POST
+  curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($body)); // Attach the JSON-encoded body
+
+  $response = curl_exec($ch);
+  if (curl_errno($ch)) {
+    $error_msg = curl_error($ch);
+    curl_close($ch);
+    return ['error' => $error_msg];
+  }
+
+  curl_close($ch);
+  $parsed_response = json_decode($response, true);
+  return $parsed_response;
+}
 
 function perform_jpa_search($request): array {
   $request['action'] = 'single-jpa';
@@ -180,6 +200,14 @@ function perform_ads_nothing(){
 function get_export_status($request) {
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/data-export?" . http_build_query($request);
   return make_search_api_call($api_url);
+}
+function update_jpa_search_pdf($request) {
+  $api_url = trim(get_option('scjpc_es_host'), '/') . "/jpa-pdf-update";
+  $body = [
+    "jpa_unique_id"=>$request['jpa_unique_id'],
+    "pdf_s3_key"=>$request['s3_key']
+  ];
+  return make_post_api_call($api_url, $body);
 }
 
 function prepare_search_query($api_url, $total_records) {
