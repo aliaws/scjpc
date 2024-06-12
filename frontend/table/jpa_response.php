@@ -73,7 +73,7 @@
                 </svg>
               </a>
             <?php } ?>
-            <a  class="text-decoration-none edit-icon d-none"
+            <a  class="text-decoration-none edit-icon d-none" id="edit-icon-<?php echo $result['jpa_unique_id'];  ?>"
                 data-edit-id="<?php echo isset($result['jpa_unique_id']) ? $result['jpa_unique_id'] : '' ; ?>"
                 data-edit-jpa-number="<?php echo isset($jpa_number) ? $jpa_number : ''; ?>"
                 data-edit-pdf="<?php echo isset($jpa_pdf_url) ? $jpa_pdf_url : ''; ?>"
