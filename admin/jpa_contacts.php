@@ -66,7 +66,9 @@ function scjpc_fetch_jpa_contacts_fields(array $fields, array $jpa_contacts): st
     $response[$post->ID] = [];
     foreach ($fields as $field) {
       $field_labels[$field['name']] = $field['label'];
-      if ($field["name"] != "cable_tags") {
+//      if ($field["name"] != "cable_tags") {
+      $unwanted_fields = scjpc_get_jpa_contacts_unwanted_fields();
+      if (!in_array($field["name"], $unwanted_fields)) {
         if ($field["type"] == "wysiwyg") {
           $response[$post->ID][$field["name"]] = strip_tags(get_field($field["name"], $post->ID));
         } else {
@@ -284,4 +286,16 @@ function scjpc_get_excel_row_height(mixed $value): float|int {
     }
   }
   return $height <= 1 ? 13 : 10.6 * $height;
+}
+
+function scjpc_get_jpa_contacts_unwanted_fields(): array {
+  return [
+    'additional_information_last_updated_at',
+    'additional_information',
+    'priority_poles_definitions_last_updated_at',
+    'priority_poles_definitions',
+    'approved_contractors_last_updated_at',
+    'approved_contractors',
+    'cable_tags'
+  ];
 }
