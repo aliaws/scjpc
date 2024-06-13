@@ -3,6 +3,10 @@
   height: 100vh;
 }
 
+.excel-table-container-auto-height {
+  height: unset !important;
+}
+
 .excel-table-container table {
   border-collapse: collapse;
   width: auto;

@@ -7,7 +7,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 function scjpc_enqueue_export_members_script(): void {
   wp_enqueue_script("jquery");
-  wp_enqueue_script("scjpc-export-members", SCJPC_ASSETS_URL . "js/export-jpa-members.js", ["jquery"], "1.10", true);
+  wp_enqueue_script("scjpc-export-members", SCJPC_ASSETS_URL . "js/export-jpa-members.js", ["jquery"], "1.12", true);
   wp_localize_script("scjpc-export-members", "scjpc_ajax", ["ajax_url" => admin_url("admin-ajax.php")]);
 }
 
@@ -68,7 +68,7 @@ function scjpc_fetch_jpa_contacts_fields(array $fields, array $jpa_contacts, str
     $response[$post->ID] = [];
     if ($group == 'pole') {
       [$response, $field_labels] = scjpc_add_pole_additional_fields($response, $field_labels, $post);
-    } elseif ($group == 'emergency') {
+    } elseif (in_array($group, ['emergency', 'buddy-pole', 'graffiti-removal'])) {
       [$response, $field_labels] = scjpc_add_emergency_additional_fields($response, $field_labels, $post);
     }
     foreach ($fields as $field) {
@@ -84,7 +84,6 @@ function scjpc_fetch_jpa_contacts_fields(array $fields, array $jpa_contacts, str
             $response[$post->ID][$field["name"]] = get_field($field["name"], $post->ID);
           }
         }
-//        $response[$post->ID][$field["name"]] = get_field($field["name"], $post->ID);
       }
     }
   }
@@ -150,7 +149,7 @@ function scjpc_process_contacts_csv_writing(array $data, array $field_labels, st
   $sheet->getStyle("A1:A1")->applyFromArray(scjpc_get_first_row_alignment());
   $sheet->getStyle("B2:$column$row")->applyFromArray(scjpc_get_sheet_styles());
 
-  if ($type == 'pole') {
+  if (in_array($type, ['pole', 'buddy-pole', 'graffiti-removal'])) {
     $col = 'A';
     foreach ($data[0] as $key => $info) {
       if (in_array($key, ['phone_number', 'pi_last_updated', 'zip_code'])) {
@@ -204,7 +203,7 @@ function scjpc_write_data_to_sheet(array $transposedContacts, \PhpOffice\PhpSpre
       }
       $max_lengths[$row] = [
         'length' => max($max_lengths[$row]['length'], scjpc_get_excel_row_height($value, $type)),
-        'name' => $type == 'pole' ? $key : $name
+        'name' => in_array($type, ['pole', 'buddy-pole', 'graffiti-removal']) ? $key : $name
       ];
       $column++;
     }
@@ -217,13 +216,13 @@ function scjpc_write_data_to_sheet(array $transposedContacts, \PhpOffice\PhpSpre
 
 function scjpc_set_cells_height_width(\PhpOffice\PhpSpreadsheet\Worksheet\Worksheet $sheet, array $max_lengths, int $row, string $type, array $data): void {
   for ($row_index = 1; $row_index <= $row; $row_index++) {
-    if ($row_index == 1 && $type == 'pole') {
+    if ($row_index == 1 && in_array($type, ['pole', 'buddy-pole', 'graffiti-removal'])) {
       $sheet->getRowDimension($row_index)->setRowHeight($max_lengths[$row_index]['length'] + 12);
     } else {
       $sheet->getRowDimension($row_index)->setRowHeight($max_lengths[$row_index]['length']);
     }
   }
-  if ($type == 'pole') {
+  if (in_array($type, ['pole', 'buddy-pole', 'graffiti-removal'])) {
     $col = 'A';
     foreach ($data[0] as $key => $info) {
       if (in_array($key, ['city', 'state', 'zip_code', 'country', 'pi_last_updated'])) {
@@ -345,11 +344,6 @@ function scjpc_get_excel_row_height(string $value, string $type): float|int {
     }
   }
   return $height <= 1 ? 13 : 10.6 * $height;
-//  if ($type == 'jpa') {
-//    return $height <= 1 ? 13 : 10.6 * $height;
-//  } else {
-//    return $height <= 1 ? 13 : 10.6 * $height;
-//  }
 }
 
 function scjpc_get_jpa_contacts_unwanted_fields($group = ''): array {

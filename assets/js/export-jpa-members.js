@@ -33,6 +33,41 @@ const registerExportPoleMembersClickEvent = () => {
     })
   })
 };
+const registerExportBuddyPoleMembersClickEvent = () => {
+  jQuery('a#export-buddy-poles').on('click', (event) => {
+    event.preventDefault()
+    jQuery(this).prop('href', '');
+    jQuery.ajax(`${scjpc_ajax.ajax_url}?action=scjpc_export_buddy_pole_members`, {
+      type: 'GET',
+      success: (success) => {
+        if (success.data !== "undefined" && typeof success.data.export_file_path !== "undefined") {
+          window.location.href = success.data.export_file_path
+        }
+      },
+      error: (error) => {
+        console.log('error====', error)
+      }
+    })
+  })
+};
+
+const registerExportGraffitiRemovalMembersClickEvent = () => {
+  jQuery('a#export-graffiti-removal-contacts').on('click', (event) => {
+    event.preventDefault()
+    jQuery(this).prop('href', '');
+    jQuery.ajax(`${scjpc_ajax.ajax_url}?action=scjpc_export_graffiti_removal_members`, {
+      type: 'GET',
+      success: (success) => {
+        if (success.data !== "undefined" && typeof success.data.export_file_path !== "undefined") {
+          window.location.href = success.data.export_file_path
+        }
+      },
+      error: (error) => {
+        console.log('error====', error)
+      }
+    })
+  })
+};
 const registerExportEmergencyContactsClickEvent = () => {
   jQuery('a#export-emergency-contacts').on('click', (event) => {
     event.preventDefault()
@@ -74,4 +109,6 @@ jQuery(document).ready(() => {
   registerExportJPAMemberClickEvent()
   registerExportPoleMembersClickEvent()
   registerExportEmergencyContactsClickEvent()
+  registerExportBuddyPoleMembersClickEvent()
+  registerExportGraffitiRemovalMembersClickEvent()
 })
