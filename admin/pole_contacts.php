@@ -52,8 +52,10 @@ function scjpc_buddy_pole_contacts_callback(): void {
 
 function scjpc_get_buddy_pole_contacts($query = []): array {
 //  $fields_group = acf_get_field_group("group_662e732c50241"); // Server
-  $fields = [acf_get_field('dual_poles_in_field_buddy_poles')];
-  $fields[] = acf_get_field('contact_jpa');
+//  $fields[] = ;
+//  $fields = [acf_get_field('dual_poles_in_field_buddy_poles')];
+//  $fields[] = acf_get_field('contact_jpa');
+  $fields = [acf_get_field('contact_jpa')];
 
   $jpa_contacts = get_posts([
     "post_type" => "member", // Server
@@ -87,8 +89,9 @@ function scjpc_graffiti_removal_contacts_callback(): void {
 
 function scjpc_get_graffiti_removal_contacts($query = []): array {
 //  $fields_group = acf_get_field_group("group_662e732c50241"); // Server
-  $fields = [acf_get_field('single_point_of_contact_graffiti_removal')];
-  $fields[] = acf_get_field('contact_jpa');
+//  $fields = [acf_get_field('single_point_of_contact_graffiti_removal')];
+//  $fields[] = acf_get_field('contact_jpa');
+  $fields = [acf_get_field('contact_jpa')];
 
   $jpa_contacts = get_posts([
     "post_type" => "member", // Server
