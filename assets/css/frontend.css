@@ -189,7 +189,7 @@ a {
   background: #fdfbfe87;
   z-index: 10;
 }
-.admin-search .edit-icon{
+.admin-search a.edit-icon.text-decoration-none.d-none{
   display: inline !important;
   cursor: pointer;
 
