@@ -1,6 +1,7 @@
 <?php
 require_once SCJPC_PLUGIN_ADMIN_BASE . 'migration_logs.php';
 require_once SCJPC_PLUGIN_ADMIN_BASE . 'jpa_contacts.php';
+require_once SCJPC_PLUGIN_ADMIN_BASE . 'pole_contacts.php';
 require_once SCJPC_PLUGIN_ADMIN_BASE . 'create_users.php';
 
 function scjpc_export_logs_page() {
@@ -141,23 +142,26 @@ function scjpc_custom_admin_menu() {
   );
   add_action('admin_init', 'scjpc_options_menu_settings');
 }
-function admin_jpa_search(){
+
+function admin_jpa_search() {
   ob_start();
   include_once SCJPC_PLUGIN_ADMIN_BASE . "pages/admin_jpa_search.php";
 }
+
 function ajax_jpa_search_update_pdf() {
 //  echo "<pre>GET=" . count($_GET) . "==POST=" . count($_POST) . "==FILES=" . count($_FILES) . "==REQUEST=" . count($_REQUEST) . print_r($_GET, true) . print_r($_POST, true) . print_r($_FILES, true) . print_r($_REQUEST, true) . "</pre>";
-    $s3_key = $_REQUEST['s3_key'];
+  $s3_key = $_REQUEST['s3_key'];
   $client = getS3Client();
   $result = $client->putObject([
-      'Bucket' => 'scjpc-data',
-      'Key' => $s3_key,
-      'SourceFile' => $_FILES['pdf_s3_key']['tmp_name'],
-    ]);
+    'Bucket' => 'scjpc-data',
+    'Key' => $s3_key,
+    'SourceFile' => $_FILES['pdf_s3_key']['tmp_name'],
+  ]);
 
-  $response =  update_jpa_search_pdf($_REQUEST);
+  $response = update_jpa_search_pdf($_REQUEST);
   wp_send_json_success($response);
 }
+
 add_action('admin_post_nopriv_jpa_search_update_pdf', 'ajax_jpa_search_update_pdf');
 add_action('wp_ajax_jpa_search_update_pdf', 'ajax_jpa_search_update_pdf');
 add_action('wp_ajax_nopriv_jpa_search_update_pdf', 'ajax_jpa_search_update_pdf');
