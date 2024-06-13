@@ -2,6 +2,8 @@
 <?php
 load_bootstrap_assets();
 load_admin_assets();
+$base_cdn_url = rtrim(get_option('scjpc_aws_cdn'), '/');
+$base_cdn_url = str_starts_with($base_cdn_url, 'https://') ? $base_cdn_url : "https://$base_cdn_url";
 const IS_ADMIN = "true";
 ?>
 <div class='admin-search'>
@@ -34,7 +36,7 @@ const IS_ADMIN = "true";
               <input name="jpa_number_2" id="form_jpa_number" class="form-control" type="hidden" value="" >
               <input type="hidden" name="action" id="admin_ajax_url" value="jpa_search_update_pdf"/>
               <input name="s3_key" id="s3_key" class="form-control" type="hidden" value="" >
-              <input name="aws_cdn_url" id="aws_cdn_url" class="form-control" type="hidden" value="" >
+              <input name="aws_cdn_url" id="aws_cdn_url" class="form-control" type="hidden" value="<?php echo $base_cdn_url; ?>" >
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

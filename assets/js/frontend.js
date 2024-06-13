@@ -64,7 +64,7 @@ function registerFormSubmissionHandler(form) {
     if (location.length > 0 && jQuery.trim(location.val()).length > 0) {
       formData.append('location_encoded', Base64.encode(jQuery.trim(location.val())));
     }
-    
+
     jQuery.ajax(admin_ajax_url, {
       type: 'post',
       data: formData,

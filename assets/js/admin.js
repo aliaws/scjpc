@@ -15,7 +15,7 @@ jQuery(document).ready(function () {
         jQuery('#form_jpa_number').attr('value', jpa_number);
         jQuery('#update_file').attr('value', pdf_path);
         jQuery('#s3_key').attr('value', custom_s3_key);
-        jQuery('#aws_cdn').attr('value', aws_cdn);
+        jQuery('#aws_cdn_url').attr('value', aws_cdn);
 
     });
     jQuery('#update_jpa_search').on('submit', function (event) {
