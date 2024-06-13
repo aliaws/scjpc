@@ -77,8 +77,10 @@
                 data-edit-id="<?php echo isset($result['jpa_unique_id']) ? $result['jpa_unique_id'] : '' ; ?>"
                 data-edit-jpa-number="<?php echo isset($jpa_number) ? $jpa_number : ''; ?>"
                 data-edit-pdf="<?php echo isset($jpa_pdf_url) ? $jpa_pdf_url : ''; ?>"
+                data-aws-cdn="<?php echo $base_cdn_url;  ?>"
                 data-bs-toggle="modal"
                 data-bs-target="#jpaModal"
+
             >
               <?php echo EDIT_ICON; ?>
             </a>
