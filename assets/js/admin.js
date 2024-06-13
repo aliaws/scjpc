@@ -22,21 +22,21 @@ jQuery(document).ready(function () {
         event.preventDefault()
         jQuery('#update_submit').text('Updating').attr('disabled', true);
         const form = event.target;
-        const formData = new FormData(form);
+        const form_data = new FormData(form);
         jQuery(this).find('input').each(function () {
-            var inputName = jQuery(this).attr('name');
-            var inputValue = jQuery(this).val();
-            formData[inputName] = inputValue;
+            const input_name = jQuery(this).attr('name');
+            form_data[input_name] = jQuery(this).val();
         });
         jQuery.ajax({
             url: admin_ajax_url,
             method: 'post', // Use 'type' instead of 'method'
-            data: formData,
+            data: form_data,
             processData: false,
             contentType: false,
             success: (response) => {
-                jQuery(`#edit-icon-${formData.jpa_unique_id}`).before("" +
-                    "<a class='text-decoration-none pdf-icon-wrapper' href='"+formData.aws_cdn+"/"+formData.s3_key+"'>\n" +
+                const {jpa_unique_id, aws_cdn_url, s3_key} = form_data;
+                jQuery(`#edit-icon-${jpa_unique_id}`).before("" +
+                    "<a class='text-decoration-none pdf-icon-wrapper' href='"+aws_cdn_url+"/"+s3_key+"'>\n" +
                     "  <svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' fill='currentColor'\n" +
                     "        class='bi bi-file-pdf text-danger' viewBox='0 0 16 16'>\n" +
                     "    <path\n" +
