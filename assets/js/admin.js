@@ -6,6 +6,7 @@ jQuery(document).ready(function () {
         const unique_id = button.data('edit-id');
         const jpa_number = button.data('edit-jpa-number');
         const pdf_path = button.data('edit-pdf');
+        const aws_cdn = button.data('aws-cdn');
         const path = new URL(pdf_path).pathname;
         const custom_s3_key = (path !== "/") ? path.slice(1) : `pdf/revised/${jpa_number}${unique_id}.pdf`;
         jQuery('.edit_unique_id').text(unique_id);
@@ -14,6 +15,7 @@ jQuery(document).ready(function () {
         jQuery('#form_jpa_number').attr('value', jpa_number);
         jQuery('#update_file').attr('value', pdf_path);
         jQuery('#s3_key').attr('value', custom_s3_key);
+        jQuery('#aws_cdn').attr('value', aws_cdn);
 
     });
     jQuery('#update_jpa_search').on('submit', function (event) {
@@ -34,7 +36,7 @@ jQuery(document).ready(function () {
             contentType: false,
             success: (response) => {
                 jQuery(`#edit-icon-${formData.jpa_unique_id}`).before("" +
-                    "<a class='text-decoration-none pdf-icon-wrapper' href=''>\n" +
+                    "<a class='text-decoration-none pdf-icon-wrapper' href='"+formData.aws_cdn+"/"+formData.s3_key+"'>\n" +
                     "  <svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' fill='currentColor'\n" +
                     "        class='bi bi-file-pdf text-danger' viewBox='0 0 16 16'>\n" +
                     "    <path\n" +
