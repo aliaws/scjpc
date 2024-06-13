@@ -1,5 +1,6 @@
 <?php [$fields, $jpa_contacts] = scjpc_get_pole_inspection_contacts();
-[$response, $field_labels] = scjpc_fetch_jpa_contacts_fields($fields, $jpa_contacts, 'pole'); ?>
+[$response, $field_labels] = scjpc_fetch_jpa_contacts_fields($fields, $jpa_contacts, 'pole');
+?>
 <div class="excel-table-container">
   <table class="excel-table">
     <thead>
@@ -13,7 +14,7 @@
     <?php foreach ($response as $key => $row) { ?>
       <tr>
         <?php foreach ($row as $field => $value) { ?>
-          <td><?php echo $value; ?></td>
+          <td data-post-id="<?php echo $key; ?>"><?php echo $value; ?></td>
         <?php } ?>
       </tr>
     <?php } ?>
