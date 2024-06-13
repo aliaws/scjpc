@@ -34,7 +34,7 @@ const IS_ADMIN = "true";
               <input name="jpa_number_2" id="form_jpa_number" class="form-control" type="hidden" value="" >
               <input type="hidden" name="action" id="admin_ajax_url" value="jpa_search_update_pdf"/>
               <input name="s3_key" id="s3_key" class="form-control" type="hidden" value="" >
-              <input name="aws_cdn" id="aws_cdn" class="form-control" type="hidden" value="" >
+              <input name="aws_cdn_url" id="aws_cdn_url" class="form-control" type="hidden" value="" >
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
