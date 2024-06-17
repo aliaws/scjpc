@@ -86,6 +86,25 @@ const registerExportEmergencyContactsClickEvent = () => {
   })
 };
 
+const registerExportFieldAssistanceClickEvent = () => {
+  jQuery('a#export-field-assistance').on('click', (event) => {
+    event.preventDefault()
+    jQuery(this).prop('href', '');
+    jQuery.ajax(`${scjpc_ajax.ajax_url}?action=scjpc_export_field_assistance_contacts`, {
+      type: 'GET',
+      success: (success) => {
+        if (success.data !== "undefined" && typeof success.data.export_file_path !== "undefined") {
+          window.location.href = success.data.export_file_path
+        }
+      },
+      error: (error) => {
+        console.log('error====', error)
+      }
+    })
+  })
+};
+
+
 const registerExportJPAMemberClickEvent = () => {
   jQuery('a#export-jpa-member').on('click', (event) => {
     event.preventDefault()
@@ -111,4 +130,5 @@ jQuery(document).ready(() => {
   registerExportEmergencyContactsClickEvent()
   registerExportBuddyPoleMembersClickEvent()
   registerExportGraffitiRemovalMembersClickEvent()
+  registerExportFieldAssistanceClickEvent()
 })

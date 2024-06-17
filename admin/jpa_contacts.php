@@ -7,7 +7,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 function scjpc_enqueue_export_members_script(): void {
   wp_enqueue_script("jquery");
-  wp_enqueue_script("scjpc-export-members", SCJPC_ASSETS_URL . "js/export-jpa-members.js", ["jquery"], "1.12", true);
+  wp_enqueue_script("scjpc-export-members", SCJPC_ASSETS_URL . "js/export-jpa-members.js", ["jquery"], "1.14", true);
   wp_localize_script("scjpc-export-members", "scjpc_ajax", ["ajax_url" => admin_url("admin-ajax.php")]);
 }
 
@@ -68,7 +68,7 @@ function scjpc_fetch_jpa_contacts_fields(array $fields, array $jpa_contacts, str
     $response[$post->ID] = [];
     if ($group == 'pole') {
       [$response, $field_labels] = scjpc_add_pole_additional_fields($response, $field_labels, $post);
-    } elseif (in_array($group, ['emergency', 'buddy-pole', 'graffiti-removal'])) {
+    } elseif (in_array($group, ['emergency', 'buddy-pole', 'graffiti-removal', 'field-assistance'])) {
       [$response, $field_labels] = scjpc_add_emergency_additional_fields($response, $field_labels, $post);
     }
     foreach ($fields as $field) {
