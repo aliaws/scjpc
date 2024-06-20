@@ -71,9 +71,10 @@ function scjpc_fetch_jpa_contacts_fields(array $fields, array $jpa_contacts, str
     } elseif (in_array($group, ['emergency', 'buddy-pole', 'graffiti-removal', 'field-assistance'])) {
       [$response, $field_labels] = scjpc_add_emergency_additional_fields($response, $field_labels, $post);
     }
+    $unwanted_fields = scjpc_get_jpa_contacts_unwanted_fields();
     foreach ($fields as $field) {
       $field_labels[$field['name']] = $field['label'];
-      $unwanted_fields = scjpc_get_jpa_contacts_unwanted_fields($group);
+
       if (!in_array($field["name"], $unwanted_fields)) {
         if ($field["type"] == "wysiwyg") {
           $response[$post->ID][$field["name"]] = trim(strip_tags(get_field($field["name"], $post->ID)));
@@ -346,14 +347,8 @@ function scjpc_get_excel_row_height(string $value, string $type): float|int {
   return $height <= 1 ? 13 : 10.6 * $height;
 }
 
-function scjpc_get_jpa_contacts_unwanted_fields($group = ''): array {
+function scjpc_get_jpa_contacts_unwanted_fields(): array {
   return [
-    'additional_information_last_updated_at',
-    'additional_information',
-    'priority_poles_definitions_last_updated_at',
-    'priority_poles_definitions',
-    'approved_contractors_last_updated_at',
-    'approved_contractors',
     'cable_tags'
   ];
 }
