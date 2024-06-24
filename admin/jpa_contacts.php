@@ -78,6 +78,12 @@ function scjpc_fetch_jpa_contacts_fields(array $fields, array $jpa_contacts, str
       if (!in_array($field["name"], $unwanted_fields)) {
         if ($field["type"] == "wysiwyg") {
           $response[$post->ID][$field["name"]] = trim(strip_tags(get_field($field["name"], $post->ID)));
+        } elseif ($field["type"] == "date_picker") {
+          $date = get_field($field["name"], $post->ID);
+          if ($date != '') {
+            $date = DateTime::createFromFormat("d/m/Y", $date)->format('m/d/Y');
+          }
+          $response[$post->ID][$field["name"]] = $date;
         } else {
           try {
             $response[$post->ID][$field["name"]] = trim(get_field($field["name"], $post->ID));
