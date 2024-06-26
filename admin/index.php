@@ -33,7 +33,7 @@ function scjpc_register_post_type_migration_logs(): void {
 //    'new_item' => __('New news', 'scjpc'),
 //    'edit_item' => __('Edit news'),
     'view_item' => __('View Migration Logs', 'scjpc'),
-    'all_items' => __('All Migration Logs', 'scjpc'),
+    'all_items' => __('Database Migration Logs', 'scjpc'),
     'search_items' => __('Search Migration Logs', 'scjpc'),
     'not_found' => __('No Migration Logs found.', 'scjpc'),
   );
@@ -115,9 +115,9 @@ function scjpc_custom_admin_menu() {
   add_submenu_page(
     'scjpc',                     // Parent slug
     __('Jpa', 'textdomain'), // Page title
-    'jpa',         // Menu title
+    'Update JPA PDF',         // Menu title
     'manage_options',          // Capability
-    'jpa',         // Menu slug
+    'update-jpa-pdf',         // Menu slug
     'admin_jpa_search'   // Function to display page content
   );
   // Add the Export Requests submenu item
