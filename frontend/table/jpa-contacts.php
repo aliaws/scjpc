@@ -1,21 +1,32 @@
 <?php [$fields, $jpa_contacts] = scjpc_get_jpa_contacts();
 [$response, $field_labels] = scjpc_fetch_jpa_contacts_fields($fields, $jpa_contacts, 'jpa');
+$response = scjpc_transpose_contacts_data($response, $field_labels)
 ?>
 <div class="excel-table-container">
   <table class="excel-table">
     <thead>
-    <tr>
-      <?php foreach ($response[array_key_first($response)] as $field => $value) { ?>
-        <th><?php echo $field_labels[$field]; ?></th>
-      <?php } ?>
-    </tr>
+    <?php foreach ($response as $key => $row) { ?>
+      <tr>
+        <?php if ($key == 'member_code') {
+          foreach ($row as $field => $value) { ?>
+            <th><?php echo $value; ?></th>
+          <?php }
+        } else {
+          continue;
+        } ?>
+      </tr>
+    <?php } ?>
     </thead>
     <tbody>
     <?php foreach ($response as $key => $row) { ?>
       <tr>
-        <?php foreach ($row as $field => $value) { ?>
-          <td data-post-id="<?php echo $key; ?>"><?php echo $value; ?></td>
-        <?php } ?>
+        <?php if ($key == 'member_code') {
+          continue;
+        } else {
+          foreach ($row as $field => $value) { ?>
+            <td><?php echo $value; ?></td>
+          <?php }
+        } ?>
       </tr>
     <?php } ?>
     </tbody>
