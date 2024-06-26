@@ -37,12 +37,14 @@ add_action('wp_ajax_nopriv_scjpc_export_jpa_members', 'ajax_scjpc_export_jpa_mem
 
 
 function ajax_scjpc_export_jpa_members() {
-  $export_file_path = scjpc_get_jpa_contacts($_REQUEST);
+  [$fields, $jpa_contacts] = scjpc_get_jpa_contacts($_REQUEST);
+  [$response, $field_labels] = scjpc_fetch_jpa_contacts_fields($fields, $jpa_contacts, 'jpa');
+  $export_file_path = scjpc_process_contacts_csv_writing($response, $field_labels, 'jpa', true);
   wp_send_json_success(['export_file_path' => $export_file_path], 200);
   wp_die();
 }
 
-function scjpc_get_jpa_contacts($query = []): string {
+function scjpc_get_jpa_contacts($query = []): array {
   $fields_group = acf_get_field_group("group_662d0256002a6"); // Server
 //  $fields_group = acf_get_field_group("group_666716c1891dd"); // Local
   $fields = acf_get_fields($fields_group);
@@ -56,9 +58,8 @@ function scjpc_get_jpa_contacts($query = []): string {
       "order" => "ASC"
     ]);
   }
-  [$response, $field_labels] = scjpc_fetch_jpa_contacts_fields($fields, $jpa_contacts, 'jpa');
-  return scjpc_process_contacts_csv_writing($response, $field_labels, 'jpa', true);
 
+  return [$fields, $jpa_contacts];
 }
 
 function scjpc_fetch_jpa_contacts_fields(array $fields, array $jpa_contacts, string $group = ''): array {
