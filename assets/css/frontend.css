@@ -194,6 +194,9 @@ a {
   cursor: pointer;
 
 }
+.admin-search button.btn-icon-wrapper{
+  display:none;
+}
 .pdf-icon-wrapper:focus{
   box-shadow: none !important;
 }
