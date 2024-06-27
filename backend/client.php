@@ -164,7 +164,8 @@ function upload_and_read_file($request): array
   $s3_key = "";
   $contains_headers = false;
   if (move_uploaded_file($_FILES['uploaded_file']['tmp_name'], $upload_file_path)) {
-      $s3_key = "search/{$file_name}";
+      $time = time();
+      $s3_key = "search/{$time}-{$file_name}";
       $client = getS3Client();
 
       $result = $client->putObject([
