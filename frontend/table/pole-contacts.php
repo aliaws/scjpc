@@ -1,5 +1,5 @@
-<?php [$fields, $jpa_contacts] = scjpc_get_pole_inspection_contacts();
-[$response, $field_labels] = scjpc_fetch_jpa_contacts_fields($fields, $jpa_contacts, 'pole');
+<?php [$fields, $pole_contacts] = scjpc_get_pole_inspection_contacts();
+[$response, $field_labels] = scjpc_fetch_jpa_contacts_fields($fields, $pole_contacts, 'pole');
 ?>
 <div class="excel-table-container">
   <table class="excel-table">
