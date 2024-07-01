@@ -35,7 +35,7 @@ if (!empty($export_requests)) {
             $key_value = $value[$key] ?? "";
             if ($key === "id") {
               $scope = "row";
-            } else if ($key === "export_query") {
+            } else if ($key === "export_query" || $key=== "original_query") {
               $class = "text-truncate";
               $style = "width: 300px;";
             } else if ($key === "status") {
@@ -61,7 +61,7 @@ if (!empty($export_requests)) {
             <td title="<?php echo $key_value; ?>" scope="<?php echo $scope; ?>"
                 class="<?php echo $class; ?>" style="<?php echo $style; ?>">
 
-              <?php if ($key === "export_query") : ?>
+              <?php if ($key === "export_query" || $key=== "original_query") : ?>
                 <p style="width:90%"><?php echo $key_value; ?></p>
                 <button type="button" class="btn btn-secondary copy-text" data-value="<?php echo $key_value; ?>" >
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-copy" viewBox="0 0 16 16">

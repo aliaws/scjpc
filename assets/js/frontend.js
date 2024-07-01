@@ -144,7 +144,7 @@ const registerTableSortClicks = () => {
 }
 
 function registerExportButtonCalls() {
-  ['export_as_excel', 'export_as_csv'].forEach(button => {
+  ['export_as_excel', 'export_as_csv', 'restart'].forEach(button => {
     jQuery(`button#${button}`).on('click', () => {
       const export_button = jQuery(`button#${button}`);
       export_button.prop('disabled', true);

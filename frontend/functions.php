@@ -9,7 +9,7 @@ function load_bootstrap_assets(): void {
   wp_enqueue_style('frontend_css', SCJPC_ASSETS_URL . 'css/frontend.css', false, '5.5');
   wp_enqueue_style('responsive_css', SCJPC_ASSETS_URL . 'css/responsive.css', false, '1.7');
   wp_enqueue_style('print_css', SCJPC_ASSETS_URL . 'css/print.css', array(), '7.8', 'print');
-  wp_enqueue_script('frontend_js', SCJPC_ASSETS_URL . 'js/frontend.js', false, '6.8', true);
+  wp_enqueue_script('frontend_js', SCJPC_ASSETS_URL . 'js/frontend.js', false, '7.0', true);
 }
 
 function load_admin_assets(): void {
@@ -140,6 +140,8 @@ function download_export_array($response) {
     }
     $response_array['export_progress'] = $export_progress;
     $response_array['status'] = $status;
+    $response_array['search_query'] = $response["original_query"];
+    $response_array['export_format'] = $response["export_format"];
     return $response_array;
   }
 }
