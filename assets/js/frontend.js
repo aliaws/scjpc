@@ -55,16 +55,24 @@ const submitFormIfNotEmpty = (form) => {
 
 function registerFormSubmissionHandler(form) {
   jQuery(form).on('submit', function (event) {
-    add_actions_change();
-    scroll_to_top('form button');
+
+
     event.preventDefault()
     const form = event.target;
     const formData = new FormData(form);
     const location = jQuery("#location");
     if (location.length > 0 && jQuery.trim(location.val()).length > 0) {
+      if(jQuery.trim(location.val()).length < 2) {
+        location.addClass('is-invalid')
+        return true;
+      }
+      else {
+        location.removeClass('is-invalid')
+      }
       formData.append('location_encoded', Base64.encode(jQuery.trim(location.val())));
     }
-
+    add_actions_change();
+    scroll_to_top('form button');
     jQuery.ajax(admin_ajax_url, {
       type: 'post',
       data: formData,

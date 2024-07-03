@@ -200,3 +200,6 @@ a {
 .pdf-icon-wrapper:focus{
   box-shadow: none !important;
 }
+span.invalid-feedback {
+  font-size:small;
+}

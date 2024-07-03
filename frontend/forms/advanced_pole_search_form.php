@@ -37,6 +37,9 @@
             <p class="col-6 ps-3 m-0">
               <input type="text" name="location" class="form-control" id="location"
                      value="<?php echo $_REQUEST['location'] ?? ''; ?>"/>
+              <span id="location_feedback_length" class="invalid-feedback">
+                  Characters length should be more than 1
+              </span>
             </p>
           </div>
         </div>
