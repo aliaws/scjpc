@@ -26,3 +26,28 @@ function convert_date_time_format($datetime) {
     $datetime = substr_replace($datetime, ':', 16, 1);
     return $datetime;
 }
+function getStatusStyles($status) {
+    switch ($status) {
+        case 'Processed':
+            return [
+                'style' => 'font-weight: bold',
+                'class' => 'badge bg-success text-white'
+            ];
+        case 'Pending':
+            return [
+                'style' => 'font-style: italic',
+                'class' => 'badge bg-info text-white'
+            ];
+        case 'Processing':
+            return [
+                'style' => 'font-style: italic',
+                'class' => 'badge bg-primary text-white'
+            ];
+        default:
+            return [
+                'style' => '',
+                'class' => ''
+            ];
+    }
+}
+?>

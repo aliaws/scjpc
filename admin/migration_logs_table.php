@@ -38,23 +38,14 @@ if (!empty($export_requests)) {
       <tbody>
       <?php foreach ($export_requests as $value) { 
         $job_datetime =  convert_date_time_format($value['job_datetime']);
-        if ($value['status'] == "Processed") {
-          $style = "font-weight: bold";
-          $class = "badge bg-success text-white";
-        } else if ($value['status'] == "Pending") {
-          $style = "font-style:italic";
-          $class = "badge bg-info text-white";
-        } else if ($value['status'] == "Processing") {
-          $style = "font-style:italic";
-          $class = "badge bg-primary text-white";
-        }
-        ?>
+        $statusStyles = getStatusStyles($value['status']);
+      ?>
         <tr>
           <td class="align-middle" scope="row">
             <?php echo $value['id']; ?>
           </td>
           <td class="align-middle">
-              <p class="m-0 <?php echo $class; ?>" style="<?php echo $style; ?>">
+              <p class="m-0 <?php echo $statusStyles['class']; ?>" style="<?php echo $statusStyles['style']; ?>">
                 <?php echo $value['status']; ?>
               </p>
           </td>
