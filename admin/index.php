@@ -3,10 +3,16 @@ require_once SCJPC_PLUGIN_ADMIN_BASE . 'migration_logs.php';
 require_once SCJPC_PLUGIN_ADMIN_BASE . 'jpa_contacts.php';
 require_once SCJPC_PLUGIN_ADMIN_BASE . 'pole_contacts.php';
 require_once SCJPC_PLUGIN_ADMIN_BASE . 'create_users.php';
+require_once SCJPC_PLUGIN_ADMIN_BASE . 'functions.php';
 
 function scjpc_export_logs_page() {
   ob_start();
   include_once(SCJPC_PLUGIN_ADMIN_BASE . 'export_requests_table.php');
+//  return ob_get_clean();
+}
+function scjpc_migration_logs() {
+  ob_start();
+  include_once(SCJPC_PLUGIN_ADMIN_BASE . 'migration_logs_table.php');
 //  return ob_get_clean();
 }
 
@@ -128,6 +134,15 @@ function scjpc_custom_admin_menu() {
     'manage_options',          // Capability
     'export-requests',         // Menu slug
     'scjpc_export_logs_page'   // Function to display page content
+  );
+  // Add the migration_logs submenu item
+  add_submenu_page(
+    'scjpc',                     // Parent slug
+    __('Database Migration Logs V2', 'textdomain'), // Page title
+    'Database Migration Logs V2',         // Menu title
+    'manage_options',          // Capability
+    'migration-logs',         // Menu slug
+    'scjpc_migration_logs'   // Function to display page content
   );
 
   // Add the SCJPC Settings submenu item
