@@ -34,7 +34,7 @@ if (!empty($db_db_counts)) {
                 <td class="align-middle" scope="row">
                     <?php echo $db_db_counts['poles_es_count']; ?>
                 </td>
-                <td class="align-middle <?php echo $db_db_counts['poles_db_es_diff'] != 0 ? "bold-red": "";  ?>"" scope="row">
+                <td class="align-middle <?php echo $db_db_counts['poles_db_es_diff'] != 0 ? "bold-red": "";  ?>" scope="row">
                     <?php echo $db_db_counts['poles_db_es_diff']; ?>
                 </td>
             </tr>
@@ -48,7 +48,7 @@ if (!empty($db_db_counts)) {
                 <td class="align-middle" scope="row">
                     <?php echo $db_db_counts['jpas_es_count']; ?>
                 </td>
-                <td class="align-middle <?php echo $db_db_counts['jpas_db_es_diff'] != 0 ? "bold-red": "";  ?>" scope="row"
+                <td class="align-middle <?php echo $db_db_counts['jpas_db_es_diff'] != 0 ? "bold-red": "";  ?>" scope="row">
                     <?php echo $db_db_counts['jpas_db_es_diff']; ?>
                 </td>
             </tr>
@@ -60,10 +60,10 @@ if (!empty($db_db_counts)) {
 <?php } ?>
 <style>
     .small-width-column {
-        width: 3.5em
+        width: 3.5em;
     }
     .bold-red {
-        color:red;
+        color:red !important;
         font-weight: bold;
     }
 </style>
