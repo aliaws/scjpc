@@ -5,16 +5,7 @@ require_once SCJPC_PLUGIN_ADMIN_BASE . 'pole_contacts.php';
 require_once SCJPC_PLUGIN_ADMIN_BASE . 'create_users.php';
 require_once SCJPC_PLUGIN_ADMIN_BASE . 'functions.php';
 
-function scjpc_export_logs_page() {
-  ob_start();
-  include_once(SCJPC_PLUGIN_ADMIN_BASE . 'export_requests_table.php');
-//  return ob_get_clean();
-}
-function scjpc_migration_logs() {
-  ob_start();
-  include_once(SCJPC_PLUGIN_ADMIN_BASE . 'migration_logs_table.php');
-//  return ob_get_clean();
-}
+
 
 add_action('init', 'scjpc_register_post_type_migration_logs');
 function scjpc_register_post_type_migration_logs(): void {
@@ -121,6 +112,14 @@ function scjpc_custom_admin_menu() {
   add_submenu_page(
     'scjpc',                     // Parent slug
     __('Jpa', 'textdomain'), // Page title
+    'Dashboard',         // Menu title
+    'manage_options',          // Capability
+    'scjpc-dashboard',         // Menu slug
+    'admin_scjpc_dashboard'   // Function to display page content
+  );
+  add_submenu_page(
+    'scjpc',                     // Parent slug
+    __('Jpa', 'textdomain'), // Page title
     'Update JPA PDF',         // Menu title
     'manage_options',          // Capability
     'update-jpa-pdf',         // Menu slug
@@ -158,9 +157,24 @@ function scjpc_custom_admin_menu() {
   add_action('admin_init', 'scjpc_options_menu_settings');
 }
 
+function admin_scjpc_dashboard(){
+    ob_start();
+    include_once SCJPC_PLUGIN_ADMIN_BASE . "pages/admin_scjpc_dashboard.php";
+}
 function admin_jpa_search() {
   ob_start();
   include_once SCJPC_PLUGIN_ADMIN_BASE . "pages/admin_jpa_search.php";
+}
+
+function scjpc_export_logs_page() {
+    ob_start();
+    include_once(SCJPC_PLUGIN_ADMIN_BASE . 'pages/export_requests_table.php');
+//  return ob_get_clean();
+}
+function scjpc_migration_logs() {
+    ob_start();
+    include_once(SCJPC_PLUGIN_ADMIN_BASE . 'pages/migration_logs_table.php');
+//  return ob_get_clean();
 }
 
 function ajax_jpa_search_update_pdf() {
