@@ -5,7 +5,7 @@
         <label for="pole_number" class="form-label">Enter Pole Number</label>
         <input type="text" name="pole_number" class="form-control" id="jpa_number"
                value="<?php echo $_GET['pole_number'] ?? ''; ?>" required/>
-        <div id="jpa_number_feedback" class="invalid-feedback"> Please choose a Pole number.</div>
+        <div id="jpa_number_feedback" class="invalid-feedback"> Pole Number is Required.</div>
       </div>
       <input type="hidden" id="action" name="action" value="quick_pole_search"/>
       <input type="hidden" id="per_page" name="per_page" value="<?php echo $_GET['per_page'] ?? '50'; ?>"/>

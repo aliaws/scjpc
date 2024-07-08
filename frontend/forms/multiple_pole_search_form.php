@@ -25,7 +25,7 @@
         </div>
         <div class="mb-3">
           <label for="id_search_file" class="form-label">Select File</label>
-          <input class="form-control" name="uploaded_file" type="file" id="id_search_file" accept=".xlsx,.csv"/>
+          <input class="form-control" name="uploaded_file" type="file" id="id_search_file" accept=".xlsx,.csv" required/>
         </div>
         <p class="text  mb-3 fw-light ">
           <strong class="me-2">
@@ -38,7 +38,7 @@
         </p>
         <div class="mb-3">
           <label for="base_owner" class="form-label">OR, Select Code</label>
-          <select class="form-select" id="base_owner" name="base_owner" aria-label="Default select example">
+          <select class="form-select" id="base_owner" name="base_owner" aria-label="Default select example" required>
             <option value=""></option>
             <?php foreach (BASE_OWNERS as $key => $value) { ?>
               <option <?php echo isset($_POST['base_owner']) && $_POST['base_owner'] == $key ? 'selected' : '' ?>

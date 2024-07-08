@@ -59,41 +59,36 @@ function registerFormSubmissionHandler(form) {
 
     event.preventDefault()
     const form = event.target;
+    const formId = jQuery(this).attr('id');
     const formData = new FormData(form);
-    const location = jQuery("#location");
-    if (location.length > 0 && jQuery.trim(location.val()).length > 0) {
-      if(jQuery.trim(location.val()).length < 2) {
-        location.addClass('is-invalid')
-        return true;
-      }
-      else {
-        location.removeClass('is-invalid')
-      }
-      formData.append('location_encoded', Base64.encode(jQuery.trim(location.val())));
-    }
-    add_actions_change();
-    scroll_to_top('form button');
-    jQuery.ajax(admin_ajax_url, {
-      type: 'post',
-      data: formData,
-      processData: false,
-      contentType: false,
-      headers: {"Accept": "application/json"},
-      success: (response) => {
-        remove_actions_change();
-        if (!['jpa_detail_search', 'pole_detail'].includes(form.id)) {
-          localStorage.removeItem('previous_data');
-          localStorage.setItem('previous_data', response);
+    const validate = validateForm(formId,formData);
+    
+    
+    if(validate){
+      add_actions_change();
+      scroll_to_top('form button');
+      jQuery.ajax(admin_ajax_url, {
+        type: 'post',
+        data: formData,
+        processData: false,
+        contentType: false,
+        headers: {"Accept": "application/json"},
+        success: (response) => {
+          remove_actions_change();
+          if (!['jpa_detail_search', 'pole_detail'].includes(form.id)) {
+            localStorage.removeItem('previous_data');
+            localStorage.setItem('previous_data', response);
+          }
+          jQuery('div.response-table').html(response);
+          registerExportButtonCalls();
+          registerPaginationButtonAndSortHeaderClicks();
+        },
+        error: (error) => {
+          remove_actions_change();
+          console.log('error==', error);
         }
-        jQuery('div.response-table').html(response);
-        registerExportButtonCalls();
-        registerPaginationButtonAndSortHeaderClicks();
-      },
-      error: (error) => {
-        remove_actions_change();
-        console.log('error==', error);
-      }
-    })
+      })
+    }
     jQuery(this).addClass('was-validated');
   });
 
@@ -251,5 +246,55 @@ function fetch_export_status() {
       }
   });
 }
-
-// Call the function to fetch export status
+function validateForm(formId, formData){
+  var isValid = true;
+  switch (formId) { 
+    case 'jpa_search': 
+      var inputField = jQuery('#jpa_number');
+      if (inputField.val() === '') {
+        isValid = false;
+      }
+      return isValid;
+      break;
+    case 'multiple_pole_search': 
+      var fileInput = jQuery('input[type="file"]');
+      var selectInput = jQuery('select');
+      isValid = false;
+      if (fileInput.val() !== '' || selectInput.val() !== '') {
+        isValid = true;
+      }
+      return isValid;
+      break;
+    case 'quick_pole_search': 
+      var inputField = jQuery('#jpa_number');
+      if (inputField.val() === '') {
+        isValid = false;
+      }
+      return isValid;
+      break;
+    case 'multiple_jpa_search': 
+      var inputField = jQuery('input[type="file"]');
+      if (inputField.val() === '') {
+        isValid = false;
+      }
+      return isValid;
+      break;
+    case 'advanced_pole_search' :
+      const location = jQuery("#location");
+      if (location.length > 0 && jQuery.trim(location.val()).length > 0) {
+        if(jQuery.trim(location.val()).length < 2) {
+          location.addClass('is-invalid input-danger-border')
+          isValid = false;
+        }
+        else {
+          location.removeClass('is-invalid input-danger-border')
+          isValid = true;
+        }
+        formData.append('location_encoded', Base64.encode(jQuery.trim(location.val())));
+      }
+      return isValid;
+      break;
+    default:
+      return isValid;
+  };
+}
