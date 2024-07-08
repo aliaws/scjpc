@@ -18,7 +18,7 @@
       </div>
       <div class="mb-3">
         <label for="formFile" class="form-label">Select File</label>
-        <input class="form-control" name="uploaded_file" type="file" id="formFile" accept=".xlsx,.csv"/>
+        <input class="form-control" name="uploaded_file" type="file" id="formFile" accept=".xlsx,.csv" required />
       </div>
       <input type="hidden" id="action" name="action" value="multiple_jpa_search"/>
       <input type="hidden" id="per_page" name="per_page" value="<?php echo $_POST['per_page'] ?? '50'; ?>"/>
