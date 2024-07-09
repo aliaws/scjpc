@@ -131,7 +131,10 @@ function download_export_array($response) {
     $response_array['no_of_seconds_interval'] = $no_of_seconds_interval;
 
     $export_progress = number_format($export_progress, 2) * 100;
-    if ($status !== 'Processed' && $export_progress >= 90) {
+    if ($status == 'Pending') {
+        $export_progress = 0;
+    }
+    else if ($status !== 'Processed' && $export_progress >= 90) {
       $export_progress -= 2;
     }
     $response_array['export_progress'] = $export_progress;
