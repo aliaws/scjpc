@@ -242,7 +242,7 @@ function flush_cache() {
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
     if(!empty($_REQUEST['key'])) {
-        curl_setopt($ch, CURLOPT_POSTFIELDS,  json_encode(["key" => $_REQUEST['key']])); // Set the request body
+        curl_setopt($ch, CURLOPT_POSTFIELDS,  json_encode(["keys" => [$_REQUEST['key']]])); // Set the request body
     }
     if(!empty($_REQUEST['elastic_search_re_index'])) {
         curl_setopt($ch, CURLOPT_POSTFIELDS,  json_encode(["elastic_search_re_index" => $_REQUEST['key']])); // Set the request body
