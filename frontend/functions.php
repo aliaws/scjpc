@@ -13,7 +13,7 @@ function load_bootstrap_assets(): void {
 }
 
 function load_admin_assets(): void {
-  wp_enqueue_script('admin_js', SCJPC_ASSETS_URL . 'js/admin.js', false, '1.3', true);
+  wp_enqueue_script('admin_js', SCJPC_ASSETS_URL . 'js/admin.js', false, '1.4', true);
 }
 
 /**

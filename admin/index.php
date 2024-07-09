@@ -227,7 +227,7 @@ add_action('admin_post_nopriv_jpa_search_update_pdf', 'ajax_jpa_search_update_pd
 add_action('wp_ajax_jpa_search_update_pdf', 'ajax_jpa_search_update_pdf');
 add_action('wp_ajax_nopriv_jpa_search_update_pdf', 'ajax_jpa_search_update_pdf');
 
-function cdn_cache() {
+function flush_cache() {
     $api_url = rtrim(get_option('scjpc_es_host'), '/') . "/".$_REQUEST['api_action'];
     $headers = ["Content-Type: application/json", "security_key: " . get_option('scjpc_client_auth_key')];
     
@@ -252,6 +252,6 @@ function cdn_cache() {
     wp_die();
 }
 
-add_action('admin_post_nopriv_flush-cache', 'cdn_cache');
-add_action('wp_ajax_cdn_cache', 'cdn_cache');
-add_action('wp_ajax_nopriv_flush-cache', 'cdn_cache'); 
+add_action('admin_post_nopriv_flush-cache', 'flush_cache');
+add_action('wp_ajax_cdn_cache', 'flush_cache');
+add_action('wp_ajax_nopriv_flush-cache', 'flush_cache');

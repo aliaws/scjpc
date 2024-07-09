@@ -59,17 +59,16 @@ jQuery(document).ready(function () {
 
     ['clear-export', 'clear-pdf', 'clear-redis'].forEach(button => {
         jQuery(`button#${button}`).on('click', () => {
-            const export_button = jQuery(`button#${button}`);
-            export_button.prop('disabled', true);
-            make_export_api_call_data(export_button)
+            const clear_cache_button = jQuery(`button#${button}`);
+            clear_cache_button.prop('disabled', true);
+            execute_clear_cache(clear_cache_button)
         })
     })
-    function make_export_api_call_data(button) {
+    function execute_clear_cache(button) {
         const body = button.data();
-        const key = button.data('key');
-        const api_action = button.data('api-action');
-        body['api_action'] = api_action; 
-        body['action'] = 'cdn_cache';
+        body['api_action'] = button.data('api-action');
+        body['action'] = 'flush_cache';
+        console.log(body);
         jQuery.ajax({
             url: ajaxurl,
             method: 'post',
