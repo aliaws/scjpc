@@ -56,4 +56,40 @@ jQuery(document).ready(function () {
         });
 
     });
+
+    ['clear-export', 'clear-pdf', 'clear-redis'].forEach(button => {
+        jQuery(`button#${button}`).on('click', () => {
+            const export_button = jQuery(`button#${button}`);
+            export_button.prop('disabled', true);
+            make_export_api_call_data(export_button)
+        })
+    })
+    function make_export_api_call_data(button) {
+        const body = button.data();
+        const key = button.data('key');
+        const api_action = button.data('api-action');
+        body['api_action'] = api_action; 
+        body['action'] = 'cdn_cache';
+        jQuery.ajax({
+            url: ajaxurl,
+            method: 'post',
+            data: body,
+            success: function(response) {
+                button.removeAttr('disabled');
+                showSuccessNotification(response);
+            },
+            error: function(error) {
+                console.log('error==', error);
+            }
+        });
+    }
+    function showSuccessNotification(message) {
+        console.log("message",message);
+        jQuery('.custom-alert').text(message.replace(/"/g, ''));
+        jQuery('.custom-alert-wrapper').removeClass('d-none');
+
+        setTimeout(function() {
+            jQuery('.custom-alert-wrapper').addClass('d-none');
+        }, 3000);
+    }
 });

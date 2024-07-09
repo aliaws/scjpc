@@ -26,6 +26,7 @@
         <div class="mb-3">
           <label for="id_search_file" class="form-label">Select File</label>
           <input class="form-control" name="uploaded_file" type="file" id="id_search_file" accept=".xlsx,.csv" required/>
+          
         </div>
         <p class="text  mb-3 fw-light ">
           <strong class="me-2">
@@ -45,6 +46,9 @@
                 value="<?php echo $key; ?>"><?php echo $value; ?></option>
             <?php } ?>
           </select>
+          <div id="invalid-feedback" class="invalid-feedback ">
+            Please Upload Excel/Csv file or Select Owner Code.
+          </div>
         </div>
         <input type="hidden" id="action" name="action" value="multiple_pole_search"/>
         <input type="hidden" id="per_page" name="per_page" value="<?php echo $_POST['per_page'] ?? '50'; ?>"/>

@@ -14,7 +14,7 @@
         <input type="hidden" id="sort_order" name="sort_order" value="<?php echo $_POST['sort_value'] ?? 'asc'; ?>"/>
         <input type="hidden" id="admin_ajax_url" value="<?php echo admin_url('admin-ajax.php'); ?>"/>
         <div id="jpa_number_feedback" class="invalid-feedback">
-          Please choose a JPA number.
+          JPA number is Required.
         </div>
       </div>
       <div class="d-flex justify-content-between">
