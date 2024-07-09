@@ -194,3 +194,32 @@ function ajax_jpa_search_update_pdf() {
 add_action('admin_post_nopriv_jpa_search_update_pdf', 'ajax_jpa_search_update_pdf');
 add_action('wp_ajax_jpa_search_update_pdf', 'ajax_jpa_search_update_pdf');
 add_action('wp_ajax_nopriv_jpa_search_update_pdf', 'ajax_jpa_search_update_pdf');
+
+function cdn_cache() {
+    $api_url = rtrim(get_option('scjpc_es_host'), '/') . "/".$_REQUEST['api_action'];
+    $headers = ["Content-Type: application/json", "security_key: " . get_option('scjpc_client_auth_key')];
+    
+    $data = json_encode(["key" => $_REQUEST['key']]); // Prepare the data
+    
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $api_url);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE"); // Use DELETE method
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data); // Set the request body
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    
+    $response = curl_exec($ch);
+    
+    if(curl_errno($ch)) {
+      echo 'Error:' . curl_error($ch);
+    } else {
+      echo $response;
+    }
+    
+    curl_close($ch);
+    wp_die();
+}
+
+add_action('admin_post_nopriv_flush-cache', 'cdn_cache');
+add_action('wp_ajax_cdn_cache', 'cdn_cache');
+add_action('wp_ajax_nopriv_flush-cache', 'cdn_cache'); 

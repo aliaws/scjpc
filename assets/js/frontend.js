@@ -262,6 +262,9 @@ function validateForm(formId, formData){
       isValid = false;
       if (fileInput.val() !== '' || selectInput.val() !== '') {
         isValid = true;
+        jQuery('select, input[type="file"]').removeAttr('required');
+      }else{
+        jQuery('select, input[type="file"]').attr('required','required');
       }
       return isValid;
       break;

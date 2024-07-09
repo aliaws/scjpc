@@ -1,11 +1,22 @@
 <?php
 load_bootstrap_assets();
+load_admin_assets();
+
 $api_url = trim(get_option('scjpc_es_host'), '/') . "/es-db-counts";
 
 $db_db_counts = make_search_api_call($api_url);
 if (!empty($db_db_counts)) {
     ?>
+    <div class="alert custom-alert-wrapper d-none my-3 alert-success " role="alert">
+        <h4 class="alert-heading custom-alert m-2 fs-5 ">CDN cache has been successfully cleared</h4>
+    </div>
     <div class="export-container overflow-auto">
+        
+        <div class=" my-2 float-end" role="group" aria-label="Basic example">
+            <button data-api-action = "clear-cdn-cache"  data-key = "/exports/*" id="clear-export" type="button" class="btn btn-primary">Clear Export Cache</button>
+            <button data-api-action = "clear-cdn-cache" data-key = "/pdf/*" id="clear-pdf" type="button" class="btn btn-primary">Clear PDF Cache</button>
+            <button data-api-action = "flush-redis-cache" id="clear-redis" type="button" class="btn btn-primary">Clear Redis Cache</button>
+        </div>
         <table class="table w-100 table-striped wp-list-table widefat fixed striped table-view-list posts">
             <thead>
             <tr>
