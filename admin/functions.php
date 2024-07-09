@@ -59,8 +59,15 @@ function getStateStyles($state) {
     }else{
         return [
             'style' => 'font-style: italic',
-            'class' => 'badge bg-info text-white'
+            'class' => 'badge bg-warning text-white'
         ];
     }
+}
+function getStyles($state) {
+    $style = "font-weight: bold; background-color: $state;";
+    return [
+        'style' => $style,
+        'class' => 'badge text-dark',
+    ];
 }
 ?>
