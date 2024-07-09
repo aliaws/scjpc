@@ -50,4 +50,17 @@ function getStatusStyles($status) {
             ];
     }
 }
+function getStateStyles($state) {
+    if($state == "STARTED"){
+        return [
+            'style' => 'font-weight: bold',
+            'class' => 'badge bg-success text-white'
+        ];
+    }else{
+        return [
+            'style' => 'font-style: italic',
+            'class' => 'badge bg-info text-white'
+        ];
+    }
+}
 ?>

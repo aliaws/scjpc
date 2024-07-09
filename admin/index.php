@@ -155,6 +155,26 @@ function scjpc_custom_admin_menu() {
     'scjpc_options_menu_settings_page',
   );
   add_action('admin_init', 'scjpc_options_menu_settings');
+
+  // Add the migration_logs submenu item
+  add_submenu_page(
+    'scjpc',                     // Parent slug
+    __('ES Shards', 'textdomain'), // Page title
+    'ES Shards',         // Menu title
+    'manage_options',          // Capability
+    'es-shards',         // Menu slug
+    'scjpc_es_shards'   // Function to display page content
+  );
+
+  // Add the migration_logs submenu item
+  add_submenu_page(
+    'scjpc',                     // Parent slug
+    __('ES Health', 'textdomain'), // Page title
+    'ES Health',         // Menu title
+    'manage_options',          // Capability
+    'es-health',         // Menu slug
+    'scjpc_es_health'   // Function to display page content
+  );
 }
 
 function admin_scjpc_dashboard(){
@@ -174,6 +194,18 @@ function scjpc_export_logs_page() {
 function scjpc_migration_logs() {
     ob_start();
     include_once(SCJPC_PLUGIN_ADMIN_BASE . 'pages/migration_logs_table.php');
+//  return ob_get_clean();
+}
+
+function scjpc_es_shards() {
+  ob_start();
+  include_once(SCJPC_PLUGIN_ADMIN_BASE . 'pages/es_shards_table.php');
+//  return ob_get_clean();
+}
+
+function scjpc_es_health() {
+  ob_start();
+  include_once(SCJPC_PLUGIN_ADMIN_BASE . 'pages/es_health_table.php');
 //  return ob_get_clean();
 }
 
