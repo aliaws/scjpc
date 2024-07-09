@@ -57,7 +57,7 @@ jQuery(document).ready(function () {
 
     });
 
-    ['clear-export', 'clear-pdf', 'clear-redis'].forEach(button => {
+    ['clear-export', 'clear-pdf', 'clear-redis', 're-index"'].forEach(button => {
         jQuery(`button#${button}`).on('click', () => {
             const clear_cache_button = jQuery(`button#${button}`);
             clear_cache_button.prop('disabled', true);
@@ -66,7 +66,6 @@ jQuery(document).ready(function () {
     })
     function execute_clear_cache(button) {
         const body = button.data();
-        body['api_action'] = button.data('api-action');
         body['action'] = 'flush_cache';
         console.log(body);
         jQuery.ajax({

@@ -177,6 +177,10 @@ function scjpc_custom_admin_menu() {
   );
 }
 
+function load_admin_assets(): void {
+    wp_enqueue_script('admin_js', SCJPC_ASSETS_URL . 'js/admin.js', false, '2.0', true);
+}
+
 function admin_scjpc_dashboard(){
     ob_start();
     include_once SCJPC_PLUGIN_ADMIN_BASE . "pages/admin_scjpc_dashboard.php";
@@ -228,16 +232,22 @@ add_action('wp_ajax_jpa_search_update_pdf', 'ajax_jpa_search_update_pdf');
 add_action('wp_ajax_nopriv_jpa_search_update_pdf', 'ajax_jpa_search_update_pdf');
 
 function flush_cache() {
-    $api_url = rtrim(get_option('scjpc_es_host'), '/') . "/".$_REQUEST['api_action'];
+    $api_url = rtrim(get_option('scjpc_es_host'), '/') . "/".$_REQUEST['apiAction'];
     $headers = ["Content-Type: application/json", "security_key: " . get_option('scjpc_client_auth_key')];
-    
-    $data = json_encode(["key" => $_REQUEST['key']]); // Prepare the data
-    
+
+    $request_method = !empty($_REQUEST["method"]) ? $_REQUEST["method"] : "DELETE";
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $api_url);
-    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE"); // Use DELETE method
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $request_method); // Use DELETE method
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $data); // Set the request body
+
+    if(!empty($_REQUEST['key'])) {
+        curl_setopt($ch, CURLOPT_POSTFIELDS,  json_encode(["key" => $_REQUEST['key']])); // Set the request body
+    }
+    if(!empty($_REQUEST['elastic_search_re_index'])) {
+        curl_setopt($ch, CURLOPT_POSTFIELDS,  json_encode(["elastic_search_re_index" => $_REQUEST['key']])); // Set the request body
+    }
+
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     
     $response = curl_exec($ch);
@@ -252,6 +262,6 @@ function flush_cache() {
     wp_die();
 }
 
-add_action('admin_post_nopriv_flush-cache', 'flush_cache');
-add_action('wp_ajax_cdn_cache', 'flush_cache');
+add_action('admin_post_nopriv_flush_cache', 'flush_cache');
+add_action('wp_ajax_flush_cache', 'flush_cache');
 add_action('wp_ajax_nopriv_flush-cache', 'flush_cache');

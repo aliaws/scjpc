@@ -12,10 +12,6 @@ function load_bootstrap_assets(): void {
   wp_enqueue_script('frontend_js', SCJPC_ASSETS_URL . 'js/frontend.js', false, '7.5', true);
 }
 
-function load_admin_assets(): void {
-  wp_enqueue_script('admin_js', SCJPC_ASSETS_URL . 'js/admin.js', false, '1.4', true);
-}
-
 /**
  * @param $date
  * @return false|string
