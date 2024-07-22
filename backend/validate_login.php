@@ -1,6 +1,6 @@
 <?php
 /**
- * This hock is used for send recovery password mail if user create from csv 
+ * This hock is used for send recovery password mail if user create from csv
  */
 add_action('wp_login_failed', 'ads_check_failed_login_for_password_recovery');
 function ads_check_failed_login_for_password_recovery($username)
@@ -29,7 +29,7 @@ function ads_send_password_recovery_email_on_incorrect_password($username)
     }
 }
 /**
- * This filter is used for create custom error messag if user create from csv 
+ * This filter is used for create custom error messag if user create from csv
  */
 add_filter('authenticate', 'ads_authenticate_username_password', 25, 3);
 function ads_authenticate_username_password($user, $username, $password)
@@ -49,3 +49,25 @@ function ads_authenticate_username_password($user, $username, $password)
     }
     return $user;
 }
+function disable_reset_lost_password($user)
+{
+    if ($_REQUEST["action"] == "lostpassword" && $_REQUEST["user_login"] !== "" ) {
+        $user = get_user_by('email', $_REQUEST["user_login"]);
+        $csvFile = SCJPC_PLUGIN_PATH.'update_pass.csv';
+        $all_users = [];
+        if (($handle = fopen($csvFile, 'r')) !== false) {
+            $header = fgetcsv($handle, 1000, ',');
+
+            // Loop through the file row by row
+            while (($data = fgetcsv($handle, 1000, ',')) !== false) {
+                $all_users[$data[0]] = $data[0];
+            }
+        }
+        fclose($handle);
+        if(!empty($all_users[$user->user_login])) {
+            return false;
+        }
+    }
+    return true;
+}
+add_filter('allow_password_reset', 'disable_reset_lost_password', 25, 1);
