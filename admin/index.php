@@ -266,3 +266,9 @@ function flush_cache() {
 add_action('admin_post_nopriv_flush_cache', 'flush_cache');
 add_action('wp_ajax_flush_cache', 'flush_cache');
 add_action('wp_ajax_nopriv_flush-cache', 'flush_cache');
+
+
+function custom_lost_password_html_link( $html_link ) {
+    return "";
+}
+add_filter( 'lost_password_html_link', 'custom_lost_password_html_link' );
