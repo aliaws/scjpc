@@ -3,6 +3,8 @@ include_once(SCJPC_PLUGIN_PATH . 'aws/aws-autoloader.php');
 include_once(SCJPC_PLUGIN_FRONTEND_BASE . 'functions.php');
 function scjpc_database_update_information() {
   $migration_date = get_option('scjpc_migration_date');
+  $migration_date = DateTime::createFromFormat('d/m/Y', $migration_date);
+  $migration_date = $migration_date->format('m/d/Y');
   $latest_billed_jpa = get_option('scjpc_latest_billed_jpa_date');
   $latest_billed_jpa_pdf = get_option('scjpc_latest_billed_jpa_pdf_date');
   return "Last database update on: $migration_date (B/S $latest_billed_jpa)<br>PDF Finals available from: 2003 to B/S $latest_billed_jpa_pdf";
@@ -153,8 +155,8 @@ function ajax_multiple_pole_search() {
 function get_export_status_callback() {
   if (function_exists('get_export_status')) {
     $response = get_export_status($_GET);
-    if(!empty($response) && !empty($response['status'])){
-      $response_array =  download_export_array($response);
+    if (!empty($response) && !empty($response['status'])) {
+      $response_array = download_export_array($response);
       wp_send_json_success($response_array);
     }
   } else {
