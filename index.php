@@ -83,3 +83,13 @@ function scjpc_create_files_directory_in_uploads(): void {
     wp_mkdir_p(WP_CONTENT_DIR . '/uploads/scjpc-exports');
   }
 }
+
+add_action('wp_login', 'scjpc_redirect_to_requested_page', 20, 2);
+function scjpc_redirect_to_requested_page($user_login, WP_User $user): void {
+  if (!empty($_REQUEST) && !empty($_REQUEST['redirect_to']) && $_REQUEST['redirect_to'] != '') {
+    $redirect_url = explode('=', $_REQUEST['redirect_to']);
+    $redirect_url = !empty($redirect_url[1]) ? urldecode($redirect_url[1]) : urldecode($redirect_url[0]);
+    header("Location: $redirect_url");
+    die();
+  }
+}
