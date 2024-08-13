@@ -137,6 +137,7 @@ function perform_multiple_pole_search($request) {
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/pole-search?" . http_build_query($request);
   $response = make_search_api_call($api_url, true);
   $response['result_per_page'] = RESULTS_PER_PAGE;
+  $response['s3_key'] = $request['s3_key'];
   $_REQUEST['last_id'] = $response['last_id'] ?? '';
   return $response;
 }
