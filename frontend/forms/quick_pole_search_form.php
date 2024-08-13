@@ -2,11 +2,12 @@
   <div class="card custom-card p-4">
     <form class="needs-validation" id="quick_pole_search" method="get" novalidate>
       <div class="mb-3">
-        <label for="pole_number" class="form-label">Enter Pole Number</label>
-        <input type="text" name="pole_number" class="form-control" id="jpa_number"
+        <label for="pole_number_visible" class="form-label">Enter Pole Number</label>
+        <input type="text" name="pole_number_visible" id="pole_number_visible"
                value="<?php echo $_GET['pole_number'] ?? ''; ?>" required/>
-        <div id="jpa_number_feedback" class="invalid-feedback"> Pole Number is Required.</div>
+        <!--        <div id="jpa_number_feedback" class="invalid-feedback"> Pole Number is Required.</div>-->
       </div>
+      <input type="hidden" id="pole_number" name="pole_number" value="<?php echo $_GET['pole_number'] ?? ''; ?>"/>
       <input type="hidden" id="action" name="action" value="quick_pole_search"/>
       <input type="hidden" id="per_page" name="per_page" value="<?php echo $_GET['per_page'] ?? '50'; ?>"/>
       <input type="hidden" id="page_number" name="page_number" value="<?php echo $_GET['page_number'] ?? '1'; ?>"/>
@@ -30,4 +31,5 @@
 </div>
 <?php include_once SCJPC_PLUGIN_FRONTEND_BASE . "table/spinner.php"; ?>
 <div class="response-table"></div>
-<div class="database-update-information alert alert-primary mt-4"><?php echo scjpc_database_update_information(); ?></div>
+<div
+  class="database-update-information alert alert-primary mt-4"><?php echo scjpc_database_update_information(); ?></div>

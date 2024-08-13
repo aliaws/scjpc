@@ -1,10 +1,5 @@
 <?php $columns_chunked = array_chunk(CHECK_BOXES_LABELS, ceil(count(CHECK_BOXES_LABELS) / 2), true);
-$active_only_status = '';
-if (empty($_POST)) {
-  $active_only_status = 'checked';
-} elseif (isset($_POST['active_only'])) {
-  $active_only_status = 'checked';
-} ?>
+$active_only_status = empty($_POST) || isset($_POST['active_only']) ? 'checked' : ''; ?>
 <div class="well m-0">
   <div class="mb-2"><label for="id_choices">Fields</label></div>
   <div class="row">

@@ -1,8 +1,13 @@
 <div id="response-overlay"></div>
 <div class="mw-100 mt-5">
   <div class="remove-print d-flex flex-column flex-sm-row justify-content-between align-items-sm-center">
-    <p class="text-secondary order-sm-0 order-1 result-text mb-2 mb-sm-0">
-      Found <?php echo $search_result['total_records'] ?> results.</p>
+    <div>
+      <?php if (isset($search_key) && $search_key != '') { ?>
+        <span>Search Key: <strong><?php echo $search_key; ?></strong></span>
+      <?php } ?>
+      <p class="text-secondary order-sm-0 order-1 result-text mb-2 mb-sm-0">
+        Found <?php echo $search_result['total_records'] ?> results.</p>
+    </div>
     <div class="d-flex b justify-content-end mb-2" role="group" aria-label="Basic outlined example">
       <button type="button" id="export_as_excel" data-query="<?php echo $search_result['search_query']; ?>"
               data-format="xlsx" title="Export as Excel" data-user_id="<?php echo $user_id; ?>"
@@ -73,13 +78,13 @@
                 </svg>
               </a>
             <?php } ?>
-            <a  class="text-decoration-none edit-icon d-none" id="edit-icon-<?php echo $result['jpa_unique_id'];  ?>"
-                data-edit-id="<?php echo isset($result['jpa_unique_id']) ? $result['jpa_unique_id'] : '' ; ?>"
-                data-edit-jpa-number="<?php echo isset($jpa_number) ? $jpa_number : ''; ?>"
-                data-edit-pdf="<?php echo isset($jpa_pdf_url) ? $jpa_pdf_url : ''; ?>"
-                data-aws-cdn="<?php echo $base_cdn_url;  ?>"
-                data-bs-toggle="modal"
-                data-bs-target="#jpaModal"
+            <a class="text-decoration-none edit-icon d-none" id="edit-icon-<?php echo $result['jpa_unique_id']; ?>"
+               data-edit-id="<?php echo isset($result['jpa_unique_id']) ? $result['jpa_unique_id'] : ''; ?>"
+               data-edit-jpa-number="<?php echo isset($jpa_number) ? $jpa_number : ''; ?>"
+               data-edit-pdf="<?php echo isset($jpa_pdf_url) ? $jpa_pdf_url : ''; ?>"
+               data-aws-cdn="<?php echo $base_cdn_url; ?>"
+               data-bs-toggle="modal"
+               data-bs-target="#jpaModal"
 
             >
               <?php echo EDIT_ICON; ?>
@@ -163,10 +168,3 @@
     </nav>
   </div>
 </div>
-
-
-
-
-
-
-

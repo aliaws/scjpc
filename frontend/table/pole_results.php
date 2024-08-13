@@ -1,8 +1,7 @@
 <?php
 if (!empty($_REQUEST)) {
-//  echo "<pre>GET=" . count($_GET) . "==POST=" . count($_POST) . "==FILES=" . count($_FILES) . "==REQUEST=" . count($_REQUEST) . print_r($_GET, true) . print_r($_POST, true) . print_r($_FILES, true) . print_r($_REQUEST, true) . "</pre>";
-
   $search_result = search_scjpc($_REQUEST);
+  $search_key = !empty($_REQUEST['pole_number']) && $_REQUEST['action'] != 'advanced_pole_search' ? $_REQUEST['pole_number'] : '';
   $record_keys = array_keys($search_result['results'][0] ?? []);
   $total_pages = isset($search_result["total_pages"]) ? (int)$search_result["total_pages"] : 0;
   $page = (int)$search_result["page_number"];
@@ -12,8 +11,7 @@ if (!empty($_REQUEST)) {
   $sort_keys = POLE_SORT_KEYS;
   $response_sort_key = $search_result['sort_key'] ?? 'unique_id';
   $response_sort_order = $search_result['sort_order'] ?? 'asc';
-//  $response_sort_key = !empty($search_result['sort_key']) ? $search_result['sort_key'] : 'unique_id';
-//  $response_sort_order = !empty($search_result['sort_order']) ? $search_result['sort_order'] : 'asc';
+
   $current_user = wp_get_current_user();
   $user_id = $current_user->ID;
   $user_email = $current_user->user_email;

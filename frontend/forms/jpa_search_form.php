@@ -2,9 +2,10 @@
   <div class="card custom-card p-4">
     <form class="needs-validation" id="jpa_search" method="post" novalidate>
       <div class="mb-3">
-        <label for="jpa_number" class="form-label">Enter JPA Number</label>
-        <input type="text" name="jpa_number" class="form-control" id="jpa_number"
+        <label for="jpa_number_visible" class="form-label">Enter JPA Number</label>
+        <input type="text" name="jpa_number_visible" id="jpa_number_visible"
                value="<?php echo $_POST['jpa_number'] ?? ''; ?>" required/>
+        <input type="hidden" id="jpa_number" name="jpa_number" value="<?php echo $_POST['jpa_number'] ?? ''; ?>"/>
         <input type="hidden" id="action" name="action" value="jpa_search"/>
         <input type="hidden" id="per_page" name="per_page" value="<?php echo $_POST['per_page'] ?? '50'; ?>"/>
         <input type="hidden" id="page_number" name="page_number" value="<?php echo $_POST['page_number'] ?? '1'; ?>"/>
@@ -13,9 +14,9 @@
                value="<?php echo $_POST['sort_key'] ?? 'jpa_unique_id'; ?>"/>
         <input type="hidden" id="sort_order" name="sort_order" value="<?php echo $_POST['sort_value'] ?? 'asc'; ?>"/>
         <input type="hidden" id="admin_ajax_url" value="<?php echo admin_url('admin-ajax.php'); ?>"/>
-        <div id="jpa_number_feedback" class="invalid-feedback">
-          JPA number is Required.
-        </div>
+        <!--        <div id="jpa_number_feedback" class="invalid-feedback">-->
+        <!--          JPA number is Required.-->
+        <!--        </div>-->
       </div>
       <div class="d-flex justify-content-between">
         <button type="button" class="clearBtn btn btn-secondary">Clear</button>
@@ -33,4 +34,5 @@
 </div>
 <?php include_once SCJPC_PLUGIN_FRONTEND_BASE . "table/spinner.php"; ?>
 <div class="response-table"></div>
-<div class="database-update-information alert alert-primary mt-4"><?php echo scjpc_database_update_information(); ?></div>
+<div
+  class="database-update-information alert alert-primary mt-4"><?php echo scjpc_database_update_information(); ?></div>

@@ -1,9 +1,8 @@
 <?php
 
 if (!empty($_GET) || !empty($_POST)) {
-//  echo "<pre>" . print_r($_GET, true) . "--" . print_r($_POST, true) . "--" . print_r($_REQUEST, true) . "--" . "</pre>";
   $search_result = search_scjpc($_REQUEST);
-//  echo "<pre>" . print_r($search_result, true) . "--" . print_r($_REQUEST, true) . "--" . "</pre>";
+  $search_key = $_REQUEST['jpa_number'] ?? '';
   $record_keys = JPAS_KEYS;
   $sort_keys = JPAS_SORT_KEYS;
   $total_pages = isset($search_result["total_pages"]) ? (int)$search_result["total_pages"] : 0;
