@@ -15,6 +15,8 @@
                value="<?php echo $_REQUEST['sort_key'] ?? 'jpa_unique_id'; ?>"/>
         <input type="hidden" id="sort_order" name="sort_order" value="<?php echo $_REQUEST['sort_value'] ?? 'asc'; ?>"/>
         <input type="hidden" id="admin_ajax_url" value="<?php echo admin_url('admin-ajax.php'); ?>"/>
+        <input type="hidden" id="page_slug" name="page_slug"
+               value="<?php echo get_post_field('post_name', get_the_ID()); ?>"/>
         <!--        <div id="jpa_number_feedback" class="invalid-feedback">-->
         <!--          JPA number is Required.-->
         <!--        </div>-->

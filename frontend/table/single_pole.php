@@ -1,3 +1,11 @@
+<?php $prev_search_query = $_REQUEST['search_query'] ?? '';
+if ($prev_search_query != '') {
+  $prev_search_query = urldecode($prev_search_query);
+  parse_str($prev_search_query, $query_params);
+  $query_params['last_id'] = '';
+  $redirect_url = "/{$query_params['page_slug']}?" . http_build_query($query_params); ?>
+  <a class="btn" href="<?php echo $redirect_url ?>">Go Back To Search Results</a>
+<?php } ?>
 <div class="well mw-100 text-secondary">
   <div class="row">
     <div class="col-sm-6">

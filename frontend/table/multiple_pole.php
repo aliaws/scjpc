@@ -4,8 +4,12 @@ $prev_search_query = $_REQUEST['search_query'] ?? ''; ?>
 <div class="mw-100 mt-5">
   <div class="remove-print d-flex flex-column flex-sm-row justify-content-between align-items-sm-center">
     <div>
-      <?php if ($prev_search_query != '') { ?>
-        <a class="btn" href="/jpa-search?<?php echo urldecode($prev_search_query); ?>">Go Back To Search Results</a>
+      <?php if ($prev_search_query != '') {
+        $prev_search_query = urldecode($prev_search_query);
+        parse_str($prev_search_query, $query_params);
+        $query_params['last_id'] = '';
+        $redirect_url = "/{$query_params['page_slug']}?" . http_build_query($query_params); ?>
+        <a class="btn" href="<?php echo $redirect_url ?>">Go Back To Search Results</a>
       <?php } ?>
       <?php if ($search_key != '') { ?>
         <span>Search Key: <strong><?php echo $search_key; ?></strong></span>
@@ -58,22 +62,25 @@ $prev_search_query = $_REQUEST['search_query'] ?? ''; ?>
       </tr>
       </thead>
       <tbody>
-      <?php foreach ($search_result['results'] as $record) { ?>
+      <?php
+      $search_query = $search_query ?? '';
+      foreach ($search_result['results'] as $record) { ?>
         <tr>
           <?php foreach (POLES_KEYS as $key => $label) {
             if ($key == 'unique_id' || $key == 'pole_number') {
               $value = $record['unique_id'];
-              $url = "/pole-detail/?unique_id=$value&action=pole_detail"; ?>
+              $url = "/pole-detail/?unique_id=$value&action=pole_detail&search_query=$search_query"; ?>
               <td><a href="<?php echo $url; ?>"><?php echo $record[$key]; ?></a></td>
             <?php } elseif ($key == 'jpa_number_2' || $key == 'jpa_number') {
               $value = $record['jpa_number_2'];
-              $url = "/pole-search/?jpa_number=$value&action=jpa_detail_search&per_page=50&page_number=1&last_id="; ?>
+              $url = "/pole-search/?jpa_number=$value&action=jpa_detail_search&per_page=50&page_number=1&last_id=&&search_query=$search_query"; ?>
               <td><a href="<?php echo $url; ?>"><?php echo $record[$key]; ?></a></td>
             <?php } elseif ($key == 'status') {
-                $value = $record['status'];
-                $display_value = $value == 'A' ? 'Active': 'Dead';
-                ?>
-                <td class="<?php echo $value == 'A'? 'text-success': 'text-danger' ?>"><?php echo $display_value; ?></td>
+              $value = $record['status'];
+              $display_value = $value == 'A' ? 'Active' : 'Dead'; ?>
+              <td class="<?php echo $value == 'A' ? 'text-success' : 'text-danger' ?>">
+                <?php echo $display_value; ?>
+              </td>
             <?php } else { ?>
               <td><?php echo $record[$key]; ?></td>
             <?php } ?>

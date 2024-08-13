@@ -2,6 +2,7 @@
 if (!empty($_REQUEST)) {
   $search_result = search_scjpc($_REQUEST);
   $search_key = !empty($_REQUEST['pole_number']) && $_REQUEST['action'] != 'advanced_pole_search' ? $_REQUEST['pole_number'] : '';
+  $search_query = urlencode(http_build_query($_REQUEST));
   $record_keys = array_keys($search_result['results'][0] ?? []);
   $total_pages = isset($search_result["total_pages"]) ? (int)$search_result["total_pages"] : 0;
   $page = (int)$search_result["page_number"];
