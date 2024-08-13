@@ -69,6 +69,11 @@ $prev_search_query = $_REQUEST['search_query'] ?? ''; ?>
               $value = $record['jpa_number_2'];
               $url = "/pole-search/?jpa_number=$value&action=jpa_detail_search&per_page=50&page_number=1&last_id="; ?>
               <td><a href="<?php echo $url; ?>"><?php echo $record[$key]; ?></a></td>
+            <?php } elseif ($key == 'status') {
+                $value = $record['status'];
+                $display_value = $value == 'A' ? 'Active': 'Dead';
+                ?>
+                <td class="<?php echo $value == 'A'? 'text-success': 'text-danger' ?>"><?php echo $display_value; ?></td>
             <?php } else { ?>
               <td><?php echo $record[$key]; ?></td>
             <?php } ?>
