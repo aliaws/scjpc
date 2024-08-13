@@ -71,6 +71,10 @@ var Base64 = {
 const admin_ajax_url = jQuery("#admin_ajax_url").val();
 
 jQuery(document).ready(function () {
+  if (location.search !== '') {
+    registerExportButtonCalls();
+    registerPaginationButtonAndSortHeaderClicks();
+  }
   jQuery(".clearBtn").click(function () {
     const parentForm = jQuery(this).closest('form');
     const selector = jQuery('form select option:nth-child(1)');

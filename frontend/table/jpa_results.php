@@ -2,6 +2,7 @@
 
 if (!empty($_GET) || !empty($_POST)) {
   $search_result = search_scjpc($_REQUEST);
+  $search_query = urlencode(http_build_query($_REQUEST));
   $search_key = $_REQUEST['jpa_number'] ?? '';
   $record_keys = JPAS_KEYS;
   $sort_keys = JPAS_SORT_KEYS;

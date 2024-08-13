@@ -1,8 +1,13 @@
+<?php $search_key = $search_key ?? '';
+$prev_search_query = $_REQUEST['search_query'] ?? ''; ?>
 <div id="response-overlay"></div>
 <div class="mw-100 mt-5">
   <div class="remove-print d-flex flex-column flex-sm-row justify-content-between align-items-sm-center">
     <div>
-      <?php if (isset($search_key) && $search_key != '') { ?>
+      <?php if ($prev_search_query != '') { ?>
+        <a class="btn" href="/jpa-search?<?php echo urldecode($prev_search_query); ?>">Go Back To Search Results</a>
+      <?php } ?>
+      <?php if ($search_key != '') { ?>
         <span>Search Key: <strong><?php echo $search_key; ?></strong></span>
       <?php } ?>
       <p class="text-secondary order-sm-0 order-1 result-text mb-2 mb-sm-0">

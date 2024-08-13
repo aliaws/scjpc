@@ -1,8 +1,9 @@
+<?php $search_key = $search_key ?? ''; ?>
 <div id="response-overlay"></div>
 <div class="mw-100 mt-5">
   <div class="remove-print d-flex flex-column flex-sm-row justify-content-between align-items-sm-center">
     <div>
-      <?php if (isset($search_key) && $search_key != '') { ?>
+      <?php if ($search_key != '') { ?>
         <span>Search Key: <strong><?php echo $search_key; ?></strong></span>
       <?php } ?>
       <p class="text-secondary order-sm-0 order-1 result-text mb-2 mb-sm-0">
@@ -62,7 +63,7 @@
       foreach ($search_results as $result) {
         $jpa_pdf_url = "$base_cdn_url/{$result['pdf_s3_key']}";
         $jpa_number = $result['jpa_number_2'];
-        $jpa_detail_url = "/pole-search/?jpa_number=$jpa_number&action=jpa_detail_search&per_page=50&page_number=1&last_id="; ?>
+        $jpa_detail_url = "/pole-search/?jpa_number=$jpa_number&action=jpa_detail_search&per_page=50&page_number=1&last_id=&search_query=$search_query"; ?>
         <tr>
           <th scope="row"><?php echo $result['jpa_unique_id']; ?></th>
           <td><a href="<?php echo $jpa_detail_url; ?>" target="_self"><?php echo $jpa_number; ?></a></td>
