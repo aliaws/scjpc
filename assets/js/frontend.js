@@ -366,7 +366,7 @@ const clearSearchInputFields = () => {
   const elements = ['jpa_number_visible', 'pole_number_visible'];
   elements.forEach(element => {
     const visibleElement = jQuery(`#${element}`)
-    visibleElement.focus();
+    visibleElement.focus({preventScroll: true});
     visibleElement.val('')
   })
 
