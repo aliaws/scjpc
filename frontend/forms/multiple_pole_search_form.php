@@ -18,14 +18,13 @@
     <div class="row custom-border rounded-1 p-0 p-md-2 p-lg-4">
       <div class="col-12 col-lg-6 mb-3 mb-lg-0 d-flex flex-column">
         <div class="mb-3">
-          <label for="excel_contains_header" class="form-label d-block">Does Excel/CSV contains
-            Header?</label>
+          <label for="excel_contains_header" class="form-label d-block">Does Excel contains Header?</label>
           <input type="checkbox" name="contains_header"
-                 id="excel_contains_header" <?php echo isset($_POST['contains_header']) && $_POST['contains_header'] ? 'checked' : ''; ?> />
+                 id="excel_contains_header" <?php echo isset($_REQUEST['contains_header']) && $_REQUEST['contains_header'] ? 'checked' : ''; ?> />
         </div>
         <div class="mb-3">
           <label for="id_search_file" class="form-label">Select File</label>
-          <input class="form-control" name="uploaded_file" type="file" id="id_search_file" accept=".xlsx,.csv"
+          <input class="form-control" name="uploaded_file" type="file" id="id_search_file" accept=".xlsx"
                  required/>
 
         </div>
@@ -52,12 +51,12 @@
           </div>
         </div>
         <input type="hidden" id="action" name="action" value="multiple_pole_search"/>
-        <input type="hidden" id="per_page" name="per_page" value="<?php echo $_POST['per_page'] ?? '50'; ?>"/>
+        <input type="hidden" id="per_page" name="per_page" value="<?php echo $_REQUEST['per_page'] ?? '50'; ?>"/>
         <input type="hidden" id="page_number" name="page_number"
                value="<?php echo $num_results_on_page ?? '1'; ?>"/>
-        <input type="hidden" id="last_id" name="last_id" value="<?php echo $_POST['last_id'] ?? ''; ?>"/>
-        <input type="hidden" id="sort_key" name="sort_key" value="<?php echo $_POST['sort_key'] ?? 'unique_id'; ?>"/>
-        <input type="hidden" id="sort_order" name="sort_order" value="<?php echo $_POST['sort_order'] ?? 'asc'; ?>"/>
+        <input type="hidden" id="last_id" name="last_id" value="<?php echo $_REQUEST['last_id'] ?? ''; ?>"/>
+        <input type="hidden" id="sort_key" name="sort_key" value="<?php echo $_REQUEST['sort_key'] ?? 'unique_id'; ?>"/>
+        <input type="hidden" id="sort_order" name="sort_order" value="<?php echo $_REQUEST['sort_order'] ?? 'asc'; ?>"/>
         <input type="hidden" id="admin_ajax_url" value="<?php echo admin_url('admin-ajax.php'); ?>"/>
         <input type="hidden" id="s3_key" name="s3_key" value="<?php echo $_REQUEST['s3_key']; ?>"/>
         <input type="hidden" id="page_slug" name="page_slug"
