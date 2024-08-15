@@ -2,6 +2,9 @@
 
 if (!empty($_GET) || !empty($_POST)) {
   $search_result = search_scjpc($_REQUEST);
+  if (!empty($search_result['s3_key'])) {
+    $_REQUEST['s3_key'] = $search_result['s3_key'];
+  }
   $search_query = urlencode(http_build_query($_REQUEST));
   $search_key = $_REQUEST['jpa_number'] ?? '';
   $record_keys = JPAS_KEYS;

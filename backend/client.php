@@ -60,9 +60,9 @@ function perform_multiple_jpa_search($request): array {
   $request['action'] = 'multiple-jpa';
   $upload = upload_and_read_file($request);
 
-  $request['jpa_number'] = isset($upload["numbers"]) ? $upload["numbers"] : [];
-  $request['s3_key'] = isset($upload["s3_key"]) ? $upload["s3_key"] : "";
-  $request['contains_headers'] = isset($upload["contains_headers"]) ? $upload["contains_headers"] : "";
+  $request['jpa_number'] = $upload["numbers"] ?? [];
+  $request['s3_key'] = $upload["s3_key"] ?? "";
+  $request['contains_headers'] = $upload["contains_headers"] ?? "";
   $request['columns'] = implode(",", array_keys(JPAS_KEYS));
 
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/jpa-search?" . http_build_query($request);
@@ -118,9 +118,9 @@ function perform_jpa_detail_search($request) {
 function perform_multiple_pole_search($request) {
   $request['action'] = 'multiple-pole';
   $upload = upload_and_read_file($request);
-  $request['pole_number'] = isset($upload["numbers"]) ? $upload["numbers"] : [];
-  $request['s3_key'] = isset($upload["s3_key"]) ? $upload["s3_key"] : "";
-  $request['contains_headers'] = isset($upload["contains_headers"]) ? $upload["contains_headers"] : "";
+  $request['pole_number'] = $upload["numbers"] ?? [];
+  $request['s3_key'] = $upload["s3_key"] ?? "";
+  $request['contains_headers'] = $upload["contains_headers"] ?? "";
   $request['active_only'] = !empty($request['active_only']) ? 'true' : 'false';
 
   $columns = !empty($request['choices']) ? $request['choices'] : [];
@@ -155,16 +155,18 @@ function get_pole_result($request): array {
 }
 
 
-function upload_and_read_file($request): array {
+function upload_and_read_file($request): array|string {
   $searchable_numbers = [];
-  if (empty($_FILES)) {
-    return implode(" ", $searchable_numbers);
-  }
   $contains_headers = isset($request['contains_header']);
+  $s3_key = $request['s3_key'] ?? '';
+  if (empty($_FILES) || $s3_key != '') {
+    return ['s3_key' => $s3_key, 'headers' => $contains_headers];
+//    return implode(" ", $searchable_numbers);
+  }
   $file_name = preg_replace('/xls$/', 'xlsx', $_FILES['uploaded_file']['name']);
   $upload_file_path = WP_CONTENT_DIR . '/uploads/scjpc-exports/' . $file_name;
   $s3_key = "";
-  $contains_headers = false;
+//  $contains_headers = false;
   if (move_uploaded_file($_FILES['uploaded_file']['tmp_name'], $upload_file_path)) {
     $time = time();
     $s3_key = "search/{$time}-{$file_name}";
@@ -179,17 +181,17 @@ function upload_and_read_file($request): array {
     include_once SCJPC_PLUGIN_PATH . 'excel-reader/SimpleXLSX.php';
     if ($xlsx = SimpleXLSX::parse($upload_file_path)) {
       $searchable_numbers = array_column($xlsx->rows(), 0);
-      if ($contains_headers) {
-        unset($searchable_numbers[0]);
-      }
+//      if ($contains_headers) {
+//        unset($searchable_numbers[0]);
+//      }
     } else {
       echo SimpleXLSX::parseError();
     }
     unlink($upload_file_path);
   }
-  if (count($searchable_numbers) === 400) {
-    return ["numbers" => implode(" ", $searchable_numbers)];
-  }
+//  if (count($searchable_numbers) === 400) {
+//    return ["numbers" => implode(" ", $searchable_numbers)];
+//  }
   return ["s3_key" => $s3_key, "headers" => $contains_headers];
 }
 

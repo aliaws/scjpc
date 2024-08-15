@@ -2,6 +2,10 @@
 <?php if (!empty($_REQUEST)) {
   $search_result = search_scjpc($_REQUEST);
   $search_key = $_REQUEST['pole_number'] ?? '';
+  if (!empty($search_result['s3_key'])) {
+    $_REQUEST['s3_key'] = $search_result['s3_key'];
+  }
+  $search_query = urlencode(http_build_query($_REQUEST));
   $record_keys = array_keys($search_result['results'][0] ?? []);
   $total_pages = isset($search_result["total_pages"]) ? (int)$search_result["total_pages"] : 0;
   $page = (int)$search_result["page_number"];
@@ -91,11 +95,11 @@
             } else {
               if ($get_columns_keys == 'unique_id' || $get_columns_keys == 'pole_number') {
                 $value = $get_columns_value_data['unique_id'];
-                $url = "/pole-detail/?unique_id=$value&action=pole_detail"; ?>
+                $url = "/pole-detail/?unique_id=$value&action=pole_detail&search_query=$search_query"; ?>
                 <td><a href="<?php echo $url; ?>"><?php echo $get_columns_value_data[$get_columns_keys]; ?></a></td>
               <?php } elseif ($get_columns_keys == 'jpa_number' || $get_columns_keys == 'jpa_number_2') {
                 $value = $get_columns_value_data[$get_columns_keys];
-                $url = "/pole-search/?jpa_number=$value&action=jpa_detail_search&per_page=50&page_number=1&last_id="; ?>
+                $url = "/pole-search/?jpa_number=$value&action=jpa_detail_search&per_page=50&page_number=1&last_id=&search_query=$search_query"; ?>
                 <td><a href="<?php echo $url; ?>"><?php echo $value; ?></a></td>
               <?php } else { ?>
                 <td> <?php echo $get_columns_value_data[$get_columns_keys]; ?></td>

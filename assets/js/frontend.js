@@ -111,9 +111,7 @@ const registerSearchFormSubmissionHandler = () => {
 
 const submitFormIfNotEmpty = (form) => {
   jQuery('input[type="text"]').each((index, value) => {
-    console.log(jQuery(this), index, value.value, value.value !== '')
     if (value.value !== '') {
-      console.log('submitting form...')
       const stored_previous_data = localStorage.getItem('previous_data') ? localStorage.getItem('previous_data') : "";
       if (stored_previous_data.length > 0) {
         jQuery('div.response-table').html(stored_previous_data);
@@ -157,7 +155,6 @@ function registerFormSubmissionHandler(form) {
         },
         error: (error) => {
           remove_actions_change();
-          console.log('error==', error);
         }
       });
       clearSearchInputFields();
@@ -247,7 +244,6 @@ function make_export_api_call(button) {
     },
     error: function (error) {
       remove_actions_change();
-      console.log('error==', error)
       button.prop('disabled', false);
     }
   })
@@ -296,52 +292,52 @@ function fetch_export_status() {
         }
 
       } else {
-        console.log('Error:', response.data);
         window.location.reload();
       }
     },
     error: function (xhr, status, error) {
-      console.log('AJAX Error:', error);
       window.location.reload();
     }
   });
 }
 
 function validateForm(formId, formData) {
-  var isValid = true;
+  let isValid = true, inputField, selectInput, fileS3Key, fileInput;
   switch (formId) {
     case 'jpa_search':
-      var inputField = jQuery('#jpa_number');
+      inputField = jQuery('#jpa_number');
       if (inputField.val() === '') {
         isValid = false;
       }
-      return isValid;
+      // return isValid;
       break;
     case 'multiple_pole_search':
-      var fileInput = jQuery('input[type="file"]');
-      var selectInput = jQuery('select');
+      fileInput = jQuery('input[type="file"]');
+      selectInput = jQuery('select');
+      fileS3Key = jQuery('input#s3_key');
       isValid = false;
-      if (fileInput.val() !== '' || selectInput.val() !== '') {
+      if (fileInput.val() !== '' || selectInput.val() !== '' || fileS3Key.val() !== '') {
         isValid = true;
         jQuery('select, input[type="file"]').removeAttr('required');
       } else {
         jQuery('select, input[type="file"]').attr('required', 'required');
       }
-      return isValid;
+      // return isValid;
       break;
     case 'quick_pole_search':
-      var inputField = jQuery('#jpa_number');
+      inputField = jQuery('#pole_number');
       if (inputField.val() === '') {
         isValid = false;
       }
-      return isValid;
+      // return isValid;
       break;
     case 'multiple_jpa_search':
-      var inputField = jQuery('input[type="file"]');
-      if (inputField.val() === '') {
+      inputField = jQuery('input[type="file"]');
+      fileS3Key = jQuery('input#s3_key');
+      if (inputField.val() === '' && fileS3Key.val() === '') {
         isValid = false;
       }
-      return isValid;
+      // return isValid;
       break;
     case 'advanced_pole_search' :
       const location = jQuery("#location");
@@ -355,11 +351,13 @@ function validateForm(formId, formData) {
         }
         formData.append('location_encoded', Base64.encode(jQuery.trim(location.val())));
       }
-      return isValid;
+      // return isValid;
       break;
     default:
-      return isValid;
+      isValid = true;
+    // return isValid;
   }
+  return isValid
 }
 
 const clearSearchInputFields = () => {

@@ -25,8 +25,9 @@
         </div>
         <div class="mb-3">
           <label for="id_search_file" class="form-label">Select File</label>
-          <input class="form-control" name="uploaded_file" type="file" id="id_search_file" accept=".xlsx,.csv" required/>
-          
+          <input class="form-control" name="uploaded_file" type="file" id="id_search_file" accept=".xlsx,.csv"
+                 required/>
+
         </div>
         <p class="text  mb-3 fw-light ">
           <strong class="me-2">
@@ -58,6 +59,9 @@
         <input type="hidden" id="sort_key" name="sort_key" value="<?php echo $_POST['sort_key'] ?? 'unique_id'; ?>"/>
         <input type="hidden" id="sort_order" name="sort_order" value="<?php echo $_POST['sort_order'] ?? 'asc'; ?>"/>
         <input type="hidden" id="admin_ajax_url" value="<?php echo admin_url('admin-ajax.php'); ?>"/>
+        <input type="hidden" id="s3_key" name="s3_key" value="<?php echo $_REQUEST['s3_key']; ?>"/>
+        <input type="hidden" id="page_slug" name="page_slug"
+               value="<?php echo get_post_field('post_name', get_the_ID()); ?>"/>
         <div class="d-none d-lg-flex mt-auto justify-content-between">
           <button type="button" class="clearBtn btn btn-secondary">Clear</button>
           <button type="submit" class="btn btn-primary">Search</button>
@@ -76,5 +80,11 @@
   </form>
 </div>
 <?php include_once SCJPC_PLUGIN_FRONTEND_BASE . "table/spinner.php"; ?>
-<div class="response-table"></div>
-<div class="database-update-information alert alert-primary mt-4"><?php echo scjpc_database_update_information(); ?></div>
+<div class="response-table">
+  <?php if (!empty($_REQUEST) && !empty($_REQUEST['s3_key'])) {
+    $_REQUEST['action'] = 'multiple_pole_search';
+    include_once SCJPC_PLUGIN_FRONTEND_BASE . "table/multiple_pole_results.php";
+  } ?>
+</div>
+<div
+  class="database-update-information alert alert-primary mt-4"><?php echo scjpc_database_update_information(); ?></div>
