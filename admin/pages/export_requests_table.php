@@ -15,6 +15,9 @@ if (!empty($export_requests)) {
   $base_cdn_url = rtrim(get_option('scjpc_aws_cdn'), '/');
   $base_cdn_url = str_starts_with($base_cdn_url, 'https://') ? $base_cdn_url : "https://$base_cdn_url";
   $site_url = get_site_url(); ?>
+  <div class="alert custom-alert-wrapper d-none my-3 alert-success " role="alert">
+        <h4 class="alert-heading custom-alert m-2 fs-5 ">CDN cache has been successfully cleared</h4>
+  </div>
   <div class="export-container overflow-auto">
     <div class=" my-2 float-end" role="group" aria-label="Basic example">
        <button data-api-action = "remove-all-processed-exports"
