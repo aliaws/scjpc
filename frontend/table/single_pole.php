@@ -2,10 +2,12 @@
 if ($prev_search_query != '') {
   $prev_search_query = urldecode($prev_search_query);
   parse_str($prev_search_query, $query_params);
-  $query_params['last_id'] = '';
-  $redirect_url = "/{$query_params['page_slug']}?" . http_build_query($query_params)."&go_back=1"; ?>
-  <a class="btn" href="<?php echo $redirect_url ?>">Go Back To Search Results</a>
-<?php } ?>
+  $page_slug = $query_params['page_slug'] ?? '';
+  $redirect_url = $page_slug != '' ? "/{$query_params['page_slug']}?" . http_build_query($query_params) . "&go_back=1" : '';
+  if ($redirect_url != '') { ?>
+    <a class="btn" href="<?php echo $redirect_url ?>">Go Back To Search Results</a>
+  <?php }
+} ?>
 <div class="well mw-100 text-secondary">
   <div class="row">
     <div class="col-sm-6">

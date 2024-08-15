@@ -8,10 +8,12 @@ $prev_search_query = $_REQUEST['search_query'] ?? ''; ?>
         $prev_search_query = urldecode($prev_search_query);
         parse_str($prev_search_query, $query_params);
         $query_params['last_id'] = '';
-        $redirect_url = "/{$query_params['page_slug']}?" . http_build_query($query_params)."&go_back=1";
-        ?>
-        <a class="btn" href="<?php echo $redirect_url ?>">Go Back To Search Results</a>
-      <?php } ?>
+        $page_slug = $query_params['page_slug'] ?? '';
+        $redirect_url = $page_slug != '' ? "/{$query_params['page_slug']}?" . http_build_query($query_params) . "&go_back=1" : '';
+        if ($redirect_url != '') { ?>
+          <a class="btn" href="<?php echo $redirect_url ?>">Go Back To Search Results</a>
+        <?php }
+      } ?>
       <?php if ($search_key != '') { ?>
         <span>Search Key: <strong><?php echo $search_key; ?></strong></span>
       <?php } ?>
@@ -73,7 +75,7 @@ $prev_search_query = $_REQUEST['search_query'] ?? ''; ?>
               $url = "/pole-detail/?unique_id=$value&action=pole_detail&search_query=$search_query"; ?>
               <td><a href="<?php echo $url; ?>"><?php echo $record[$key]; ?></a></td>
             <?php } elseif ($key == 'jpa_number_2' || $key == 'jpa_number') {
-              $value = !empty($record['jpa_number_2']) ? $record['jpa_number_2']: $record['jpa_number'];
+              $value = !empty($record['jpa_number_2']) ? $record['jpa_number_2'] : $record['jpa_number'];
               $url = "/pole-search/?jpa_number=$value&action=jpa_detail_search&per_page=50&page_number=1&last_id=&&search_query=$search_query"; ?>
               <td><a href="<?php echo $url; ?>"><?php echo $value; ?></a></td>
             <?php } elseif ($key == 'status') {
