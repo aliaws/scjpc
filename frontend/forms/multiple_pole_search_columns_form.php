@@ -1,5 +1,5 @@
 <?php $columns_chunked = array_chunk(CHECK_BOXES_LABELS, ceil(count(CHECK_BOXES_LABELS) / 2), true);
-$active_only_status = empty($_POST) || isset($_POST['active_only']) ? 'checked' : ''; ?>
+$active_only_status = empty($_REQUEST) || isset($_REQUEST['active_only']) ? 'checked' : ''; ?>
 <div class="well m-0">
   <div class="mb-2"><label for="id_choices">Fields</label></div>
   <div class="row">
@@ -14,6 +14,6 @@ $active_only_status = empty($_POST) || isset($_POST['active_only']) ? 'checked' 
 </div>
 
 <input type="hidden" id="action" name="action" value="multiple_pole_search"/>
-<input type="hidden" id="per_page" name="per_page" value="<?php echo $_POST['per_page'] ?? '50'; ?>"/>
-<input type="hidden" id="page_number" name="page_number" value="<?php echo $_POST['page_number'] ?? '1'; ?>"/>
-<input type="hidden" id="last_id" name="last_id" value="<?php echo $_POST['last_id'] ?? ''; ?>"/>
+<input type="hidden" id="per_page" name="per_page" value="<?php echo $_REQUEST['per_page'] ?? '50'; ?>"/>
+<input type="hidden" id="page_number" name="page_number" value="<?php echo $_REQUEST['page_number'] ?? '1'; ?>"/>
+<input type="hidden" id="last_id" name="last_id" value="<?php echo $_REQUEST['last_id'] ?? ''; ?>"/>

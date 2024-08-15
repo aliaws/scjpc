@@ -43,7 +43,7 @@
           <select class="form-select" id="base_owner" name="base_owner" aria-label="Default select example" required>
             <option value=""></option>
             <?php foreach (BASE_OWNERS as $key => $value) { ?>
-              <option <?php echo isset($_POST['base_owner']) && $_POST['base_owner'] == $key ? 'selected' : '' ?>
+              <option <?php echo isset($_REQUEST['base_owner']) && $_REQUEST['base_owner'] == $key ? 'selected' : '' ?>
                 value="<?php echo $key; ?>"><?php echo $value; ?></option>
             <?php } ?>
           </select>
@@ -81,7 +81,7 @@
 </div>
 <?php include_once SCJPC_PLUGIN_FRONTEND_BASE . "table/spinner.php"; ?>
 <div class="response-table">
-  <?php if (!empty($_REQUEST) && !empty($_REQUEST['s3_key'])) {
+  <?php if (!empty($_REQUEST) && (!empty($_REQUEST['s3_key']) || !empty($_REQUEST['base_owner']))) {
     $_REQUEST['action'] = 'multiple_pole_search';
     include_once SCJPC_PLUGIN_FRONTEND_BASE . "table/multiple_pole_results.php";
   } ?>
