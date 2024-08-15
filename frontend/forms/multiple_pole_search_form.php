@@ -48,9 +48,7 @@
               </option>
             <?php } ?>
           </select>
-          <div id="invalid-feedback" class="invalid-feedback ">
-            Please Upload Excel/Csv file or Select Owner Code.
-          </div>
+          <div id="invalid-feedback" class="invalid-feedback ">Please Upload Excel/Csv file or Select Owner Code.</div>
         </div>
         <input type="hidden" id="action" name="action" value="multiple_pole_search"/>
         <input type="hidden" id="per_page" name="per_page" value="<?php echo $_REQUEST['per_page'] ?? '50'; ?>"/>
@@ -59,7 +57,7 @@
         <input type="hidden" id="sort_key" name="sort_key" value="<?php echo $_REQUEST['sort_key'] ?? 'unique_id'; ?>"/>
         <input type="hidden" id="sort_order" name="sort_order" value="<?php echo $_REQUEST['sort_order'] ?? 'asc'; ?>"/>
         <input type="hidden" id="admin_ajax_url" value="<?php echo admin_url('admin-ajax.php'); ?>"/>
-        <input type="hidden" id="s3_key" name="s3_key" value="<?php echo $_REQUEST['s3_key']; ?>"/>
+        <input type="hidden" id="s3_key" name="s3_key" value="<?php echo $_REQUEST['s3_key'] ?? ''; ?>"/>
         <input type="hidden" id="page_slug" name="page_slug"
                value="<?php echo get_post_field('post_name', get_the_ID()); ?>"/>
         <div class="d-none d-lg-flex mt-auto justify-content-between">
