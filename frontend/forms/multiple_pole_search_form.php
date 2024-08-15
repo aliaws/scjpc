@@ -41,9 +41,11 @@
           <label for="base_owner" class="form-label">OR, Select Code</label>
           <select class="form-select" id="base_owner" name="base_owner" aria-label="Default select example" required>
             <option value=""></option>
-            <?php foreach (BASE_OWNERS as $key => $value) { ?>
-              <option <?php echo isset($_REQUEST['base_owner']) && $_REQUEST['base_owner'] == $key ? 'selected' : '' ?>
-                value="<?php echo $key; ?>"><?php echo $value; ?></option>
+            <?php foreach (BASE_OWNERS as $key => $value) {
+              $is_selected = isset($_REQUEST['base_owner']) && $_REQUEST['base_owner'] == $key ? 'selected' : ''; ?>
+              <option <?php echo $is_selected; ?> value="<?php echo $key; ?>">
+                <?php echo $value == $key ? $value : "$key ($value)"; ?>
+              </option>
             <?php } ?>
           </select>
           <div id="invalid-feedback" class="invalid-feedback ">
@@ -52,8 +54,7 @@
         </div>
         <input type="hidden" id="action" name="action" value="multiple_pole_search"/>
         <input type="hidden" id="per_page" name="per_page" value="<?php echo $_REQUEST['per_page'] ?? '50'; ?>"/>
-        <input type="hidden" id="page_number" name="page_number"
-               value="<?php echo $num_results_on_page ?? '1'; ?>"/>
+        <input type="hidden" id="page_number" name="page_number" value="<?php echo $num_results_on_page ?? '1'; ?>"/>
         <input type="hidden" id="last_id" name="last_id" value="<?php echo $_REQUEST['last_id'] ?? ''; ?>"/>
         <input type="hidden" id="sort_key" name="sort_key" value="<?php echo $_REQUEST['sort_key'] ?? 'unique_id'; ?>"/>
         <input type="hidden" id="sort_order" name="sort_order" value="<?php echo $_REQUEST['sort_order'] ?? 'asc'; ?>"/>

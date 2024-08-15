@@ -110,7 +110,8 @@ function scjpc_update_base_owners(WP_REST_Request $request): WP_REST_Response {
     return new WP_REST_Response(['message' => 'Please provide the API security key'], 401);
   }
   $body = $request->get_json_params();
-  update_option('scjpc_base_owners', array_combine($body, $body));
+//  update_option('scjpc_base_owners', array_combine($body, $body));
+  update_option('scjpc_base_owners', $body);
   return new WP_REST_Response(['message' => 'Base Owners updated successfully.'], 200);
 
 }
