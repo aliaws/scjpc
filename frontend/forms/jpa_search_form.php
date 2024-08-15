@@ -1,5 +1,5 @@
 <div class="card-wrapper d-flex justify-content-center">
-  <div class="card custom-card p-4">
+  <div class="card custom-card p-2">
     <form class="needs-validation" id="jpa_search" method="post" novalidate>
       <div class="mb-3">
         <label for="jpa_number_visible" class="form-label">Enter JPA Number</label>

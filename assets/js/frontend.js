@@ -341,6 +341,8 @@ function validateForm(formId, formData) {
       break;
     case 'advanced_pole_search' :
       const location = jQuery("#location");
+      const latitude = jQuery("#id_latitude");
+      const longitude = jQuery("#id_longitude");
       if (location.length > 0 && jQuery.trim(location.val()).length > 0) {
         if (jQuery.trim(location.val()).length < 2) {
           location.addClass('is-invalid input-danger-border')
@@ -351,6 +353,27 @@ function validateForm(formId, formData) {
         }
         formData.append('location_encoded', Base64.encode(jQuery.trim(location.val())));
       }
+      if (jQuery.trim(latitude.val()).length > 0 ) {
+        if(!validateLatitudeLongitude(latitude.val())) {
+          latitude.addClass('is-invalid input-danger-border')
+          isValid = false;
+        }
+        else {
+          latitude.removeClass('is-invalid input-danger-border')
+          isValid = true;
+        }
+      }
+      if (jQuery.trim(longitude.val()).length > 0 ) {
+        if(!validateLatitudeLongitude(longitude.val())) {
+          longitude.addClass('is-invalid input-danger-border')
+          isValid = false;
+        }
+        else {
+          longitude.removeClass('is-invalid input-danger-border')
+          isValid = true;
+        }
+      }
+
       // return isValid;
       break;
     default:
@@ -360,6 +383,11 @@ function validateForm(formId, formData) {
   return isValid
 }
 
+
+const validateLatitudeLongitude = (input) => {
+  const decimalPattern = /^-?\d+\.\d{3,}$/;
+  return decimalPattern.test(input);
+}
 const clearSearchInputFields = () => {
   const elements = ['jpa_number_visible', 'pole_number_visible'];
   elements.forEach(element => {

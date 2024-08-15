@@ -1,6 +1,6 @@
 <?php $search_key = $search_key ?? ''; ?>
 <div id="response-overlay"></div>
-<div class="mw-100 mt-5">
+<div class="mw-100 mt-1">
   <div class="remove-print d-flex flex-column flex-sm-row justify-content-between align-items-sm-center">
     <div>
       <?php if ($search_key != '') { ?>
