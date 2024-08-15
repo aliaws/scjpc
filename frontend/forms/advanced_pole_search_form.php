@@ -76,6 +76,8 @@
       <input type="hidden" id="sort_key" name="sort_key" value="<?php echo $_POST['sort_key'] ?? 'unique_id'; ?>"/>
       <input type="hidden" id="sort_order" name="sort_order" value="<?php echo $_POST['sort_order'] ?? 'asc'; ?>"/>
       <input type="hidden" id="admin_ajax_url" value="<?php echo admin_url('admin-ajax.php'); ?>"/>
+      <input type="hidden" id="page_slug" name="page_slug"
+             value="<?php echo get_post_field('post_name', get_the_ID()); ?>"/>
     </form>
     <div class="accordion mt-5" id="accordionPanelsStayOpenExample">
       <div class="accordion-item">
@@ -112,5 +114,11 @@
   </div>
 </div>
 <?php include_once SCJPC_PLUGIN_FRONTEND_BASE . "table/spinner.php"; ?>
-<div class="response-table"></div>
-<div class="database-update-information alert alert-primary mt-4"><?php echo scjpc_database_update_information(); ?></div>
+<div class="response-table">
+  <?php if (!empty($_REQUEST) && !empty($_REQUEST['jpa_number'])) {
+    $_REQUEST['action'] = 'jpa_search';
+    include_once SCJPC_PLUGIN_FRONTEND_BASE . "table/jpa_results.php";
+  } ?>
+</div>
+<div
+  class="database-update-information alert alert-primary mt-4"><?php echo scjpc_database_update_information(); ?></div>
