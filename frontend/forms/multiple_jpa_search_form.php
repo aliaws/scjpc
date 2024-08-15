@@ -12,13 +12,13 @@
     </p>
     <form class="needs-validation" id="multiple_jpa_search" method="post" enctype="multipart/form-data" novalidate>
       <div class="mb-3">
-        <label for="excel_contains_header" class="form-label d-block">Does Excel/CSV contains Header?</label>
+        <label for="excel_contains_header" class="form-label d-block">Does Excel contains Header?</label>
         <input type="checkbox" name="contains_header" class="" id="excel_contains_header"
           <?php echo isset($_REQUEST['contains_header']) && $_REQUEST['contains_header'] ? 'checked' : ''; ?> />
       </div>
       <div class="mb-3">
         <label for="formFile" class="form-label">Select File</label>
-        <input class="form-control" name="uploaded_file" type="file" id="formFile" accept=".xlsx,.csv" required/>
+        <input class="form-control" name="uploaded_file" type="file" id="formFile" accept=".xlsx" required/>
       </div>
       <input type="hidden" id="action" name="action" value="multiple_jpa_search"/>
       <input type="hidden" id="per_page" name="per_page" value="<?php echo $_REQUEST['per_page'] ?? '50'; ?>"/>
