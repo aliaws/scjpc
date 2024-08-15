@@ -36,7 +36,7 @@
             </p>
             <p class="col-6 ps-3 m-0">
               <input type="text" name="location" class="form-control" id="location"
-                     value="<?php echo $_REQUEST['location'] ?? ''; ?>"/>
+                     value="<?php echo $_REQUEST['location'] ?? ''; ?>" />
               <span id="location_feedback_length" class="invalid-feedback">
                   Characters length should be more than 1
               </span>
@@ -49,11 +49,17 @@
           <label for="id_latitude" class="form-label">Latitude</label>
           <input type="text" name="latitude" class="form-control" id="id_latitude" aria-describedby="emailHelp"
                  value="<?php echo $_REQUEST['latitude'] ?? ''; ?>"/>
+          <div id="invalid-feedback" class="invalid-feedback ">
+              Latitude must have atleast 3 decimal places (Example: 79.123)
+          </div>
         </div>
         <div class="mb-3 col-12 col-sm-6 col-lg-4">
           <label for="id_longitude" class="form-label">Longitude</label>
           <input type="text" name="longitude" class="form-control" id="id_longitude" aria-describedby="emailHelp"
                  value="<?php echo $_REQUEST['longitude'] ?? ''; ?>"/>
+          <div id="invalid-feedback" class="invalid-feedback ">
+                Longitude must have atleast 3 decimal places (Example: 79.123)
+          </div>
         </div>
         <div class="mb-3 col-12 col-sm-6 col-lg-4">
           <label for="id_distance" class="form-label">Distance</label>
