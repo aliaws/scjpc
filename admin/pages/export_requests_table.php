@@ -1,5 +1,6 @@
 <?php
 load_bootstrap_assets();
+load_admin_assets();
 $api_url = trim(get_option('scjpc_es_host'), '/') . "/export-requests?" . http_build_query($_GET);
 $export_requests = make_search_api_call($api_url);
 
@@ -15,6 +16,14 @@ if (!empty($export_requests)) {
   $base_cdn_url = str_starts_with($base_cdn_url, 'https://') ? $base_cdn_url : "https://$base_cdn_url";
   $site_url = get_site_url(); ?>
   <div class="export-container overflow-auto">
+    <div class=" my-2 float-end" role="group" aria-label="Basic example">
+       <button data-api-action = "remove-all-processed-exports"
+               id="remove_all_processed_exports"
+               type="button" class="btn btn-danger"
+       >
+           Remove All Processed Requests
+       </button>
+    </div>
     <table class="table w-100 table-striped wp-list-table widefat fixed striped table-view-list posts">
       <thead>
       <tr>
