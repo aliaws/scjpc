@@ -1,5 +1,6 @@
 <?php
 load_bootstrap_assets();
+load_admin_assets();
 $api_url = trim(get_option('scjpc_es_host'), '/') . "/export-requests?" . http_build_query($_GET);
 $export_requests = make_search_api_call($api_url);
 
