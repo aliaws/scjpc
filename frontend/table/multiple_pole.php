@@ -1,7 +1,7 @@
 <?php $search_key = $search_key ?? '';
 $prev_search_query = $_REQUEST['search_query'] ?? ''; ?>
 <div id="response-overlay"></div>
-<div class="mw-100 mt-5">
+<div class="mw-100 mt-2">
   <div class="remove-print d-flex flex-column flex-sm-row justify-content-between align-items-sm-center">
     <div>
       <?php if ($prev_search_query != '') {

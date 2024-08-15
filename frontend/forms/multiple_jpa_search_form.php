@@ -1,5 +1,5 @@
 <div class="card-wrapper d-flex justify-content-center">
-  <div class="card custom-card p-4">
+  <div class="card custom-card p-2">
     <p class="text  mb-0 fw-light ">
       <small>
         Click "Chose File" button, select an Excel file, and click "Search multiple JPAs" button (one time only)

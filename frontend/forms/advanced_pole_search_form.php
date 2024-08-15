@@ -1,5 +1,5 @@
 <div class="card-wrapper d-flex justify-content-center">
-  <div class="card advance-custom-card p-2 p-md-4">
+  <div class="card advance-custom-card p-2 p-md-2">
     <form class="needs-validation" id="advanced_pole_search" method="get" novalidate>
       <div class="row">
         <div class="mb-3 col-12 col-md-6">
