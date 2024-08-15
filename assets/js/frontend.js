@@ -152,6 +152,7 @@ function registerFormSubmissionHandler(form) {
           jQuery('div.response-table').html(response);
           registerExportButtonCalls();
           registerPaginationButtonAndSortHeaderClicks();
+          trigger_exports_on_search();
         },
         error: (error) => {
           remove_actions_change();
@@ -212,11 +213,12 @@ const registerTableSortClicks = () => {
 }
 
 function registerExportButtonCalls() {
-  ['export_as_excel', 'export_as_csv', 'restart'].forEach(button => {
-    jQuery(`button#${button}`).on('click', () => {
-      const export_button = jQuery(`button#${button}`);
-      export_button.prop('disabled', true);
-      make_export_api_call(export_button)
+  ['export_as_excel', 'export_as_csv', 'restart'].forEach(button_key => {
+    const button = jQuery(`button#${button_key}`);
+    button.on('click', () => {
+      const clicked_button = jQuery(`button#${button_key}`);
+      clicked_button.prop('disabled', true);
+      make_export_api_call(clicked_button)
     })
   })
   jQuery('button#print_window').on('click', () => {
@@ -226,10 +228,10 @@ function registerExportButtonCalls() {
 }
 
 
-function make_export_api_call(button) {
+function make_export_api_call(button, execute_actions = true) {
   const body = button.data();
   body['action'] = 'make_export_data_call';
-  add_actions_change();
+  add_actions_change(execute_actions);
   jQuery.ajax({
     url: admin_ajax_url,
     type: 'post',
@@ -237,22 +239,45 @@ function make_export_api_call(button) {
     dataType: 'json',
     success: function (response) {
       const {file_path, export_format} = response;
-      window.location.href = `/download-export?file_path=${file_path}&format=${export_format}`;
-      setTimeout(function () {
-        remove_actions_change();
-      }, 1000);
+      redirect_to_download_export(file_path, export_format, execute_actions)
     },
     error: function (error) {
-      remove_actions_change();
-      button.prop('disabled', false);
+      remove_disabled_prop(execute_actions);
     }
   })
 }
 
-function add_actions_change() {
-  jQuery('.custom-spinner-wrapper').removeClass('d-none');
-  jQuery('.clearBtn, button[type=submit]').attr('disabled', 'disabled');
-  jQuery('#response-overlay').addClass('response-overlay');
+function trigger_exports_on_search() {
+  ['export_as_excel', 'export_as_csv'].forEach(button_key => {
+    const button = jQuery(`button#${button_key}`);
+    if (button.length >0) {
+      make_export_api_call(button, false);
+    }
+  })
+}
+
+function redirect_to_download_export(file_path, export_format, execute_actions = true) {
+  if (execute_actions) {
+    window.location.href = `/download-export?file_path=${file_path}&format=${export_format}`;
+    setTimeout(function () {
+      remove_actions_change();
+    }, 1000);
+  }
+}
+
+function remove_disabled_prop(execute_actions = true) {
+  if (execute_actions) {
+    remove_actions_change();
+    button.prop('disabled', false);
+  }
+}
+
+function add_actions_change(execute = true) {
+  if (execute) {
+    jQuery('.custom-spinner-wrapper').removeClass('d-none');
+    jQuery('.clearBtn, button[type=submit]').attr('disabled', 'disabled');
+    jQuery('#response-overlay').addClass('response-overlay');
+  }
 }
 
 function remove_actions_change() {
