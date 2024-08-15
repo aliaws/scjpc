@@ -1,3 +1,9 @@
+<?php
+$contains_header_attr = 'checked';
+if (isset($_REQUEST['go_back'])) {
+    $contains_header_attr = isset($_REQUEST['contains_header'])  ? 'checked' : '';
+}
+?>
 <div class="card p-2 p-sm-4">
   <p class="text  mb-0 fw-light ">
     <strong class="me-2">
@@ -20,7 +26,7 @@
         <div class="mb-3">
           <label for="excel_contains_header" class="form-label d-block">Does Excel contains Header?</label>
           <input type="checkbox" name="contains_header"
-                 id="excel_contains_header" <?php echo isset($_REQUEST['contains_header']) && $_REQUEST['contains_header'] ? 'checked' : ''; ?> />
+                 id="excel_contains_header" <?php echo $contains_header_attr; ?> />
         </div>
         <div class="mb-3">
           <label for="id_search_file" class="form-label">Select File</label>

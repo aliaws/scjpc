@@ -8,7 +8,8 @@ $prev_search_query = $_REQUEST['search_query'] ?? ''; ?>
         $prev_search_query = urldecode($prev_search_query);
         parse_str($prev_search_query, $query_params);
         $query_params['last_id'] = '';
-        $redirect_url = "/{$query_params['page_slug']}?" . http_build_query($query_params); ?>
+        $redirect_url = "/{$query_params['page_slug']}?" . http_build_query($query_params)."&go_back=1";
+        ?>
         <a class="btn" href="<?php echo $redirect_url ?>">Go Back To Search Results</a>
       <?php } ?>
       <?php if ($search_key != '') { ?>
