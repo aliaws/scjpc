@@ -1,4 +1,6 @@
-<?php $search_key = $search_key ?? ''; ?>
+<?php $search_key = $search_key ?? '';
+$base_cdn_url = rtrim(get_option('scjpc_aws_cdn'), '/');
+$base_cdn_url = str_starts_with($base_cdn_url, 'https://') ? $base_cdn_url : "https://$base_cdn_url"; ?>
 <div id="response-overlay"></div>
 <div class="mw-100 mt-1">
   <div class="remove-print d-flex flex-column flex-sm-row justify-content-between align-items-sm-center">
@@ -40,6 +42,11 @@
             d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1"/>
         </svg>
       </button>
+      <?php if (!empty($search_result['errors_file_path']) && $search_result['errors_file_path'] != '') { ?>
+        <a class="btn" href="<?php echo $base_cdn_url . "/" . $search_result['errors_file_path']; ?>">
+          Errors List
+        </a>
+      <?php } ?>
     </div>
     <input type="hidden" id="admin_ajax_url" value="<?php echo admin_url('admin-ajax.php'); ?>"/>
   </div>
@@ -58,9 +65,7 @@
       </tr>
       </thead>
       <tbody>
-      <?php $base_cdn_url = rtrim(get_option('scjpc_aws_cdn'), '/');
-      $base_cdn_url = str_starts_with($base_cdn_url, 'https://') ? $base_cdn_url : "https://$base_cdn_url";
-      foreach ($search_results as $result) {
+      <?php foreach ($search_results as $result) {
         $jpa_pdf_url = "$base_cdn_url/{$result['pdf_s3_key']}";
         $jpa_number = $result['jpa_number_2'];
         $jpa_detail_url = "/pole-search/?jpa_number=$jpa_number&action=jpa_detail_search&per_page=50&page_number=1&last_id=&search_query=$search_query"; ?>
