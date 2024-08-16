@@ -48,6 +48,9 @@ function make_post_api_call($api_url, $body = []) {
 function perform_jpa_search($request): array {
   $request['action'] = 'single-jpa';
   $request['columns'] = implode(",", array_keys(JPAS_KEYS));
+  $request['contains_headers'] = !empty($request['contains_headers']) ? 'true' : 'false';
+  $request['active_only'] = !empty($request['active_only']) ? 'true' : 'false';
+
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/jpa-search?" . http_build_query($request);
   $response = make_search_api_call($api_url, true);
   $response['result_per_page'] = RESULTS_PER_PAGE;
@@ -62,7 +65,7 @@ function perform_multiple_jpa_search($request): array {
 
   $request['jpa_number'] = $upload["numbers"] ?? [];
   $request['s3_key'] = $upload["s3_key"] ?? "";
-  $request['contains_headers'] = $upload["contains_headers"] ?? "";
+//  $request['contains_headers'] = !!$upload["headers"];
   $request['columns'] = implode(",", array_keys(JPAS_KEYS));
 
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/jpa-search?" . http_build_query($request);
@@ -93,7 +96,7 @@ function perform_quick_pole_search($request) {
   return $response;
 }
 
-function perform_pole_detail($request) {
+function perform_pole_detail($request): array {
   $request['action'] = 'pole-detail';
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/pole-detail?" . http_build_query($request);
   return [
@@ -120,8 +123,9 @@ function perform_multiple_pole_search($request) {
   $upload = upload_and_read_file($request);
   $request['pole_number'] = $upload["numbers"] ?? [];
   $request['s3_key'] = $upload["s3_key"] ?? "";
-  $request['contains_headers'] = $upload["contains_headers"] ?? "";
+//  $request['contains_headers'] = !!$upload["headers"];
   $request['active_only'] = !empty($request['active_only']) ? 'true' : 'false';
+  $request['contains_headers'] = !empty($request['contains_headers']) ? 'true' : 'false';
 
   $columns = !empty($request['choices']) ? $request['choices'] : [];
   $multi_keys = ["members_code", "antenna_info"];
@@ -161,7 +165,7 @@ function upload_and_read_file($request): array|string {
   $s3_key = $request['s3_key'] ?? '';
   if (empty($_FILES) || $s3_key != '') {
     return ['s3_key' => $s3_key, 'headers' => $contains_headers];
-//    return implode(" ", $searchable_numbers);
+//    return implode( " ", $searchable_numbers);
   }
   $file_name = preg_replace('/xls$/', 'xlsx', $_FILES['uploaded_file']['name']);
   $upload_file_path = WP_CONTENT_DIR . '/uploads/scjpc-exports/' . $file_name;

@@ -1,9 +1,8 @@
 <?php
-$contains_header_attr = 'checked';
+$contains_headers = 'checked';
 if (isset($_REQUEST['go_back'])) {
-    $contains_header_attr = isset($_REQUEST['contains_header'])  ? 'checked' : '';
-}
-?>
+  $contains_headers = isset($_REQUEST['contains_header']) ? 'checked' : '';
+} ?>
 <div class="card-wrapper d-flex justify-content-center">
   <div class="card custom-card p-2">
     <p class="text  mb-0 fw-light ">
@@ -19,8 +18,8 @@ if (isset($_REQUEST['go_back'])) {
     <form class="needs-validation" id="multiple_jpa_search" method="post" enctype="multipart/form-data" novalidate>
       <div class="mb-3">
         <label for="excel_contains_header" class="form-label d-block">Does Excel contains Header?</label>
-        <input type="checkbox" name="contains_header" class="" id="excel_contains_header"
-          <?php echo $contains_header_attr; ?> />
+        <input type="checkbox" name="contains_headers" class=""
+               id="excel_contains_header" <?php echo $contains_headers; ?> />
       </div>
       <div class="mb-3">
         <label for="formFile" class="form-label">Select File</label>
@@ -34,7 +33,7 @@ if (isset($_REQUEST['go_back'])) {
              value="<?php echo $_REQUEST['sort_key'] ?? 'jpa_unique_id'; ?>"/>
       <input type="hidden" id="sort_order" name="sort_order" value="<?php echo $_REQUEST['sort_order'] ?? 'asc'; ?>"/>
       <input type="hidden" id="admin_ajax_url" value="<?php echo admin_url('admin-ajax.php'); ?>"/>
-      <input type="hidden" id="s3_key" name="s3_key" value="<?php echo $_REQUEST['s3_key']; ?>"/>
+      <input type="hidden" id="s3_key" name="s3_key" value="<?php echo $_REQUEST['s3_key'] ?? ''; ?>"/>
       <input type="hidden" id="page_slug" name="page_slug"
              value="<?php echo get_post_field('post_name', get_the_ID()); ?>"/>
       <div class="d-flex justify-content-between">
