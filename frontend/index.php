@@ -166,3 +166,13 @@ function get_export_status_callback() {
 
 add_action('wp_ajax_get_export_status', 'get_export_status_callback');
 add_action('wp_ajax_nopriv_get_export_status', 'get_export_status_callback');
+
+
+function scjp_reveal_contact_callback($attributes): string {
+  $contact_info = isset($attributes['contact']) ? esc_attr($attributes['contact']) : '';
+  $label = isset($attributes['label']) ? esc_html($attributes['label']) : 'Click to Reveal';
+
+  return "<span class='reveal-contact' data-contact='$contact_info' style='cursor: pointer;'>$label</span>";
+}
+
+add_shortcode('scjpc_reveal_contact', 'scjp_reveal_contact_callback');
