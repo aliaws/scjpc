@@ -30,9 +30,13 @@ h6 {
 }
 
 .result-row {
-  padding-top: 5px !important;
-  padding-bottom: 5px !important;
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
   border-top: #cccccc 1px dotted;
+}
+
+.row.result-row:nth-child(even) {
+  background-color: #F3F5F8;
 }
 
 .filter-form-wrapper .well {
@@ -69,7 +73,7 @@ input[type="checkbox"]:checked + label:before {
   font-size: 1rem !important;
   color: #fff !important;
   background-color: var(--e-global-color-secondary) !important;
-  border-color: var( -e-global-color-secondary) !important;
+  border-color: var(-e-global-color-secondary) !important;
 }
 
 .btn-primary {
@@ -213,25 +217,30 @@ a {
   background: #fdfbfe87;
   z-index: 10;
 }
-.admin-search a.edit-icon.text-decoration-none.d-none{
+
+.admin-search a.edit-icon.text-decoration-none.d-none {
   display: inline !important;
   cursor: pointer;
 
 }
-.admin-search button.btn-icon-wrapper{
-  display:none;
-}
-.pdf-icon-wrapper:focus{
-  box-shadow: none !important;
-}
-span.invalid-feedback {
-  font-size:small;
+
+.admin-search button.btn-icon-wrapper {
+  display: none;
 }
 
-.input-danger-border{
+.pdf-icon-wrapper:focus {
+  box-shadow: none !important;
+}
+
+span.invalid-feedback {
+  font-size: small;
+}
+
+.input-danger-border {
   border-color: #dc3545 !important;
   background-image: none !important;
 }
-.input-danger-border:focus{
-  box-shadow: 0 0 0 0.25rem rgba(220,53,69,.25) !important;
+
+.input-danger-border:focus {
+  box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, .25) !important;
 }

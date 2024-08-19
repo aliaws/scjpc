@@ -7,7 +7,6 @@ require_once SCJPC_PLUGIN_ADMIN_BASE . 'api.php';
 require_once SCJPC_PLUGIN_ADMIN_BASE . 'functions.php';
 
 
-
 add_action('init', 'scjpc_register_post_type_migration_logs');
 function scjpc_register_post_type_migration_logs(): void {
   $supports = [
@@ -38,7 +37,7 @@ function scjpc_register_post_type_migration_logs(): void {
   $args = array(
     'supports' => $supports,
     'labels' => $labels,
-    'public' => true,
+    'public' => false,
     'query_var' => true,
     'rewrite' => array('slug' => 'migration-logs'),
     'has_archive' => true,
@@ -179,26 +178,28 @@ function scjpc_custom_admin_menu() {
 }
 
 function load_admin_assets(): void {
-    wp_enqueue_script('admin_js', SCJPC_ASSETS_URL . 'js/admin.js', false, '2.3', true);
+  wp_enqueue_script('admin_js', SCJPC_ASSETS_URL . 'js/admin.js', false, '2.3', true);
 }
 
-function admin_scjpc_dashboard(){
-    ob_start();
-    include_once SCJPC_PLUGIN_ADMIN_BASE . "pages/admin_scjpc_dashboard.php";
+function admin_scjpc_dashboard() {
+  ob_start();
+  include_once SCJPC_PLUGIN_ADMIN_BASE . "pages/admin_scjpc_dashboard.php";
 }
+
 function admin_jpa_search() {
   ob_start();
   include_once SCJPC_PLUGIN_ADMIN_BASE . "pages/admin_jpa_search.php";
 }
 
 function scjpc_export_logs_page() {
-    ob_start();
-    include_once(SCJPC_PLUGIN_ADMIN_BASE . 'pages/export_requests_table.php');
+  ob_start();
+  include_once(SCJPC_PLUGIN_ADMIN_BASE . 'pages/export_requests_table.php');
 //  return ob_get_clean();
 }
+
 function scjpc_migration_logs() {
-    ob_start();
-    include_once(SCJPC_PLUGIN_ADMIN_BASE . 'pages/migration_logs_table.php');
+  ob_start();
+  include_once(SCJPC_PLUGIN_ADMIN_BASE . 'pages/migration_logs_table.php');
 //  return ob_get_clean();
 }
 
@@ -233,34 +234,34 @@ add_action('wp_ajax_jpa_search_update_pdf', 'ajax_jpa_search_update_pdf');
 add_action('wp_ajax_nopriv_jpa_search_update_pdf', 'ajax_jpa_search_update_pdf');
 
 function flush_cache() {
-    $api_url = rtrim(get_option('scjpc_es_host'), '/') . "/".$_REQUEST['apiAction'];
-    $headers = ["Content-Type: application/json", "security_key: " . get_option('scjpc_client_auth_key')];
+  $api_url = rtrim(get_option('scjpc_es_host'), '/') . "/" . $_REQUEST['apiAction'];
+  $headers = ["Content-Type: application/json", "security_key: " . get_option('scjpc_client_auth_key')];
 
-    $request_method = !empty($_REQUEST["method"]) ? $_REQUEST["method"] : "DELETE";
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $api_url);
-    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $request_method); // Use DELETE method
-    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+  $request_method = !empty($_REQUEST["method"]) ? $_REQUEST["method"] : "DELETE";
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $api_url);
+  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $request_method); // Use DELETE method
+  curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
-    if(!empty($_REQUEST['key'])) {
-        curl_setopt($ch, CURLOPT_POSTFIELDS,  json_encode(["keys" => [$_REQUEST['key']]])); // Set the request body
-    }
-    if(!empty($_REQUEST['elastic_search_re_index'])) {
-        curl_setopt($ch, CURLOPT_POSTFIELDS,  json_encode(["elastic_search_re_index" => $_REQUEST['key']])); // Set the request body
-    }
+  if (!empty($_REQUEST['key'])) {
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(["keys" => [$_REQUEST['key']]])); // Set the request body
+  }
+  if (!empty($_REQUEST['elastic_search_re_index'])) {
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(["elastic_search_re_index" => $_REQUEST['key']])); // Set the request body
+  }
 
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    
-    $response = curl_exec($ch);
-    
-    if(curl_errno($ch)) {
-      echo 'Error:' . curl_error($ch);
-    } else {
-      echo $response;
-    }
-    
-    curl_close($ch);
-    wp_die();
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+  $response = curl_exec($ch);
+
+  if (curl_errno($ch)) {
+    echo 'Error:' . curl_error($ch);
+  } else {
+    echo $response;
+  }
+
+  curl_close($ch);
+  wp_die();
 }
 
 add_action('admin_post_nopriv_flush_cache', 'flush_cache');
@@ -268,7 +269,8 @@ add_action('wp_ajax_flush_cache', 'flush_cache');
 add_action('wp_ajax_nopriv_flush-cache', 'flush_cache');
 
 
-function custom_lost_password_html_link( $html_link ) {
-    return "";
+function custom_lost_password_html_link($html_link) {
+  return "";
 }
-add_filter( 'lost_password_html_link', 'custom_lost_password_html_link' );
+
+add_filter('lost_password_html_link', 'custom_lost_password_html_link');

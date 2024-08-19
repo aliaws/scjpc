@@ -9,7 +9,7 @@
 
 .excel-table-container table {
   border-collapse: collapse;
-  width: auto;
+  width: 100%;
 }
 
 .excel-table-container th,
@@ -44,3 +44,18 @@
 .excel-table-container th:first-child {
   z-index: 4; /* Higher z-index to ensure it's above other headers and cells */
 }
+
+.emergency-contacts-table p {
+  width: 210px;
+}
+
+.emergency-contacts-table tr th:first-child p,
+.emergency-contacts-table tr td:first-child p {
+  width: 100px;
+}
+
+svg.e-font-icon-svg.e-fas-phone-volume {
+  width: var(--e-icon-list-icon-size, 1em);
+  height: var(--e-icon-list-icon-size, 1em);
+}
+

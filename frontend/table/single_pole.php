@@ -9,7 +9,7 @@ if ($prev_search_query != '') {
   <?php }
 } ?>
 <div class="well mw-100 text-secondary">
-  <div class="row">
+  <div class="row result-row">
     <div class="col-sm-6">
       <h5>Pole Number: <?php echo $pole_result['pole_number']; ?></h5>
     </div>
