@@ -59,7 +59,8 @@ jQuery(document).ready(function () {
 
     [
         'clear-export', 'clear-pdf', 'clear-redis', 're-index',
-        'es_settings', 'remove_all_processed_exports'
+        'es_settings',
+        'remove_all_processed_exports', 'remove_pending_exports', 'remove_processing_exports'
     ].forEach(button => {
         jQuery(`button#${button}`).on('click', () => {
             if (confirm('Are you sure you want to do this ?')) {

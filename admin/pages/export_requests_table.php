@@ -22,10 +22,22 @@ if (!empty($export_requests)) {
     <div class=" my-2 float-end" role="group" aria-label="Basic example">
        <button data-api-action = "remove-all-processed-exports"
                id="remove_all_processed_exports"
-               type="button" class="btn btn-danger"
+               type="button" class="btn btn-danger remove_exports"
        >
            Remove All Processed Requests
        </button>
+        <button data-api-action = "remove-pending-exports"
+                id="remove_pending_exports"
+                type="button" class="btn btn-danger remove_exports"
+        >
+            Remove Pending Requests
+        </button>
+        <button data-api-action = "remove-processing-exports"
+                id="remove_processing_exports"
+                type="button" class="btn btn-danger remove_exports"
+        >
+            Remove Processing Requests
+        </button>
     </div>
     <table class="table w-100 table-striped wp-list-table widefat fixed striped table-view-list posts">
       <thead>
