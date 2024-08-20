@@ -73,14 +73,6 @@ function scjpc_download_export() {
 
 add_shortcode('scjpc_download_export', 'scjpc_download_export');
 
-function scjpc_website_doc_search() {
-  ob_start();
-  include_once SCJPC_PLUGIN_FRONTEND_BASE . "pages/website_doc_search.php";
-  return ob_get_clean();
-}
-
-add_shortcode('scjpc_website_doc_search', 'scjpc_website_doc_search');
-
 add_action('admin_post_nopriv_make_export_data_call', 'make_export_data_call');
 add_action('wp_ajax_make_export_data_call', 'make_export_data_call');
 add_action('wp_ajax_nopriv_make_export_data_call', 'make_export_data_call');
