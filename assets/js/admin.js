@@ -57,11 +57,18 @@ jQuery(document).ready(function () {
 
     });
 
-    ['clear-export', 'clear-pdf', 'clear-redis', 're-index', 'es_settings'].forEach(button => {
+    [
+        'clear-export', 'clear-pdf', 'clear-redis', 're-index',
+        'es_settings',
+        'remove_all_processed_exports', 'remove_pending_exports', 'remove_processing_exports'
+    ].forEach(button => {
         jQuery(`button#${button}`).on('click', () => {
-            const clear_cache_button = jQuery(`button#${button}`);
-            clear_cache_button.prop('disabled', true);
-            execute_clear_cache(clear_cache_button)
+            if (confirm('Are you sure you want to do this ?')) {
+                const clear_cache_button = jQuery(`button#${button}`);
+                clear_cache_button.prop('disabled', true);
+                execute_clear_cache(clear_cache_button)
+            }
+
         })
     })
     function execute_clear_cache(button) {

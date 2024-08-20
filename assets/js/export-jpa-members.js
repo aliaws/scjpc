@@ -123,12 +123,55 @@ const registerExportJPAMemberClickEvent = () => {
     })
   })
 };
+
+const registerRevealContactInformationEvent = () => {
+  jQuery('.reveal-contact').on('click', function () {
+    const $this = jQuery(this);
+    const contactInfo = $this.data('contact');
+
+    if ($this.text() === contactInfo) {
+      const placeholder = `Click to Reveal ${contactInfo.includes('@') ? 'Email' : 'Phone Number'}`;
+      $this.text(placeholder);
+    } else {
+      $this.text(contactInfo);
+      navigator.clipboard.writeText(contactInfo).then(() => {
+        showTooltip($this, 'Copied!');
+      }).catch((err) => {
+        console.error('Failed to copy contact information to clipboard', err);
+      });
+    }
+  });
+}
+
+const showTooltip = ($element, message) => {
+  $element.find('.tooltip').remove();
+  const $tooltip = jQuery(`<span class='tooltip'>${message}</span>`);
+  $element.append($tooltip);
+  $tooltip.css({
+    backgroundColor: '#333',
+    color: '#fff',
+    padding: '5px',
+    borderRadius: '5px',
+    marginLeft: '5px',
+    whiteSpace: 'nowrap',
+    position: 'relative',
+    zIndex: 1000,
+    display: 'inline-block',
+  });
+
+  $tooltip.fadeIn(300);
+  setTimeout(() => {
+    $tooltip.fadeOut(300, () => $tooltip.remove());
+  }, 2000);
+}
+
 jQuery(document).ready(() => {
-  registerExportJPAMembersClickEvent()
-  registerExportJPAMemberClickEvent()
-  registerExportPoleMembersClickEvent()
-  registerExportEmergencyContactsClickEvent()
-  registerExportBuddyPoleMembersClickEvent()
-  registerExportGraffitiRemovalMembersClickEvent()
-  registerExportFieldAssistanceClickEvent()
+  registerExportJPAMembersClickEvent();
+  registerExportJPAMemberClickEvent();
+  registerExportPoleMembersClickEvent();
+  registerExportEmergencyContactsClickEvent();
+  registerExportBuddyPoleMembersClickEvent();
+  registerExportGraffitiRemovalMembersClickEvent();
+  registerExportFieldAssistanceClickEvent();
+  registerRevealContactInformationEvent();
 })

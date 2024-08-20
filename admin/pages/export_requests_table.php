@@ -1,6 +1,9 @@
 <?php
 load_bootstrap_assets();
-$api_url = trim(get_option('scjpc_es_host'), '/') . "/export-requests?" . http_build_query($_GET);
+load_admin_assets();
+$status = ucfirst(str_replace("export-requests-","",$_GET['page']));
+$query = ["status" => $status];
+$api_url = trim(get_option('scjpc_es_host'), '/') . "/export-requests?" . http_build_query($query);
 $export_requests = make_search_api_call($api_url);
 
 if (!empty($export_requests)) {
@@ -14,7 +17,13 @@ if (!empty($export_requests)) {
   $base_cdn_url = rtrim(get_option('scjpc_aws_cdn'), '/');
   $base_cdn_url = str_starts_with($base_cdn_url, 'https://') ? $base_cdn_url : "https://$base_cdn_url";
   $site_url = get_site_url(); ?>
+  <div class="alert custom-alert-wrapper d-none my-3 alert-success " role="alert">
+        <h4 class="alert-heading custom-alert m-2 fs-5 ">CDN cache has been successfully cleared</h4>
+  </div>
   <div class="export-container overflow-auto">
+    <div class=" my-2 float-end" role="group" aria-label="Basic example">
+        <?php include_once(SCJPC_PLUGIN_ADMIN_BASE."partials/_remove_request_btn.php"); ?>
+    </div>
     <table class="table w-100 table-striped wp-list-table widefat fixed striped table-view-list posts">
       <thead>
       <tr>

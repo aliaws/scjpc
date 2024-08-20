@@ -1,5 +1,5 @@
 <div class="card-wrapper d-flex justify-content-center">
-  <div class="card advance-custom-card p-2 p-md-4">
+  <div class="card advance-custom-card p-2 p-md-2">
     <form class="needs-validation" id="advanced_pole_search" method="get" novalidate>
       <div class="row">
         <div class="mb-3 col-12 col-md-6">
@@ -36,7 +36,7 @@
             </p>
             <p class="col-6 ps-3 m-0">
               <input type="text" name="location" class="form-control" id="location"
-                     value="<?php echo $_REQUEST['location'] ?? ''; ?>"/>
+                     value="<?php echo $_REQUEST['location'] ?? ''; ?>" />
               <span id="location_feedback_length" class="invalid-feedback">
                   Characters length should be more than 1
               </span>
@@ -49,11 +49,17 @@
           <label for="id_latitude" class="form-label">Latitude</label>
           <input type="text" name="latitude" class="form-control" id="id_latitude" aria-describedby="emailHelp"
                  value="<?php echo $_REQUEST['latitude'] ?? ''; ?>"/>
+          <div id="invalid-feedback" class="invalid-feedback ">
+              Latitude must have atleast 3 decimal places (Example: 79.123)
+          </div>
         </div>
         <div class="mb-3 col-12 col-sm-6 col-lg-4">
           <label for="id_longitude" class="form-label">Longitude</label>
           <input type="text" name="longitude" class="form-control" id="id_longitude" aria-describedby="emailHelp"
                  value="<?php echo $_REQUEST['longitude'] ?? ''; ?>"/>
+          <div id="invalid-feedback" class="invalid-feedback ">
+                Longitude must have atleast 3 decimal places (Example: 79.123)
+          </div>
         </div>
         <div class="mb-3 col-12 col-sm-6 col-lg-4">
           <label for="id_distance" class="form-label">Distance</label>
@@ -76,6 +82,8 @@
       <input type="hidden" id="sort_key" name="sort_key" value="<?php echo $_POST['sort_key'] ?? 'unique_id'; ?>"/>
       <input type="hidden" id="sort_order" name="sort_order" value="<?php echo $_POST['sort_order'] ?? 'asc'; ?>"/>
       <input type="hidden" id="admin_ajax_url" value="<?php echo admin_url('admin-ajax.php'); ?>"/>
+      <input type="hidden" id="page_slug" name="page_slug"
+             value="<?php echo get_post_field('post_name', get_the_ID()); ?>"/>
     </form>
     <div class="accordion mt-5" id="accordionPanelsStayOpenExample">
       <div class="accordion-item">
@@ -112,5 +120,11 @@
   </div>
 </div>
 <?php include_once SCJPC_PLUGIN_FRONTEND_BASE . "table/spinner.php"; ?>
-<div class="response-table"></div>
-<div class="database-update-information alert alert-primary mt-4"><?php echo scjpc_database_update_information(); ?></div>
+<div class="response-table">
+  <?php if (!empty($_REQUEST) && !empty($_REQUEST['jpa_number'])) {
+    $_REQUEST['action'] = 'jpa_search';
+    include_once SCJPC_PLUGIN_FRONTEND_BASE . "results/jpa_results.php";
+  } ?>
+</div>
+<div
+  class="database-update-information alert alert-primary mt-4"><?php echo scjpc_database_update_information(); ?></div>

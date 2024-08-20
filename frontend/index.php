@@ -1,8 +1,10 @@
 <?php
 include_once(SCJPC_PLUGIN_PATH . 'aws/aws-autoloader.php');
 include_once(SCJPC_PLUGIN_FRONTEND_BASE . 'functions.php');
-function scjpc_database_update_information() {
+function scjpc_database_update_information(): string {
   $migration_date = get_option('scjpc_migration_date');
+  $migration_date = DateTime::createFromFormat('d/m/Y', $migration_date);
+  $migration_date = $migration_date->format('m/d/Y');
   $latest_billed_jpa = get_option('scjpc_latest_billed_jpa_date');
   $latest_billed_jpa_pdf = get_option('scjpc_latest_billed_jpa_pdf_date');
   return "Last database update on: $migration_date (B/S $latest_billed_jpa)<br>PDF Finals available from: 2003 to B/S $latest_billed_jpa_pdf";
@@ -71,14 +73,6 @@ function scjpc_download_export() {
 
 add_shortcode('scjpc_download_export', 'scjpc_download_export');
 
-function scjpc_website_doc_search() {
-  ob_start();
-  include_once SCJPC_PLUGIN_FRONTEND_BASE . "pages/website_doc_search.php";
-  return ob_get_clean();
-}
-
-add_shortcode('scjpc_website_doc_search', 'scjpc_website_doc_search');
-
 add_action('admin_post_nopriv_make_export_data_call', 'make_export_data_call');
 add_action('wp_ajax_make_export_data_call', 'make_export_data_call');
 add_action('wp_ajax_nopriv_make_export_data_call', 'make_export_data_call');
@@ -110,7 +104,7 @@ add_action('wp_ajax_nopriv_jpa_search', 'ajax_jpa_search');
 
 
 function ajax_jpa_search() {
-  include_once SCJPC_PLUGIN_FRONTEND_BASE . 'table/jpa_results.php';
+  include_once SCJPC_PLUGIN_FRONTEND_BASE . 'results/jpa_results.php';
   wp_die();
 }
 
@@ -135,7 +129,7 @@ add_action('wp_ajax_nopriv_jpa_detail_search', 'ajax_pole_search');
 
 function ajax_pole_search() {
 //  echo "<pre>GET=" . count($_GET) . "==POST=" . count($_POST) . "==FILES=" . count($_FILES) . "==REQUEST=" . count($_REQUEST) . print_r($_GET, true) . print_r($_POST, true) . print_r($_FILES, true) . print_r($_REQUEST, true) . "</pre>";
-  include_once SCJPC_PLUGIN_FRONTEND_BASE . "table/pole_results.php";
+  include_once SCJPC_PLUGIN_FRONTEND_BASE . "results/pole_results.php";
   wp_die();
 }
 
@@ -145,16 +139,15 @@ add_action('wp_ajax_nopriv_multiple_pole_search', 'ajax_multiple_pole_search');
 
 
 function ajax_multiple_pole_search() {
-//  echo "<pre>GET=" . count($_GET) . "==POST=" . count($_POST) . "==FILES=" . count($_FILES) . "==REQUEST=" . count($_REQUEST) . print_r($_GET, true) . print_r($_POST, true) . print_r($_FILES, true) . print_r($_REQUEST, true) . "</pre>";
-  include_once SCJPC_PLUGIN_FRONTEND_BASE . "table/multiple_pole_results.php";
+  include_once SCJPC_PLUGIN_FRONTEND_BASE . "results/multiple_pole_results.php";
   wp_die();
 }
 
 function get_export_status_callback() {
   if (function_exists('get_export_status')) {
     $response = get_export_status($_GET);
-    if(!empty($response) && !empty($response['status'])){
-      $response_array =  download_export_array($response);
+    if (!empty($response) && !empty($response['status'])) {
+      $response_array = download_export_array($response);
       wp_send_json_success($response_array);
     }
   } else {
@@ -164,3 +157,13 @@ function get_export_status_callback() {
 
 add_action('wp_ajax_get_export_status', 'get_export_status_callback');
 add_action('wp_ajax_nopriv_get_export_status', 'get_export_status_callback');
+
+
+function scjp_reveal_contact_callback($attributes): string {
+  $contact_info = isset($attributes['contact']) ? esc_attr($attributes['contact']) : '';
+  $label = isset($attributes['label']) ? esc_html($attributes['label']) : 'Click to Reveal';
+
+  return "<span class='reveal-contact' data-contact='$contact_info' style='cursor: pointer;'>$label</span>";
+}
+
+add_shortcode('scjpc_reveal_contact', 'scjp_reveal_contact_callback');

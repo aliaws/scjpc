@@ -5,7 +5,7 @@
     <thead>
     <tr>
       <?php foreach ($response[array_key_first($response)] as $field => $value) { ?>
-        <th><?php echo $field_labels[$field]; ?></th>
+        <th><p><?php echo $field_labels[$field]; ?></p></th>
       <?php } ?>
     </tr>
     </thead>
@@ -13,7 +13,7 @@
     <?php foreach ($response as $key => $row) { ?>
       <tr>
         <?php foreach ($row as $field => $value) { ?>
-          <td><?php echo $value; ?></td>
+          <td><p><?php echo $value; ?></p></td>
         <?php } ?>
       </tr>
     <?php } ?>

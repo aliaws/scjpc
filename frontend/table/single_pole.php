@@ -1,5 +1,15 @@
+<?php $prev_search_query = $_REQUEST['search_query'] ?? '';
+if ($prev_search_query != '') {
+  $prev_search_query = urldecode($prev_search_query);
+  parse_str($prev_search_query, $query_params);
+  $page_slug = $query_params['page_slug'] ?? '';
+  $redirect_url = $page_slug != '' ? "/{$query_params['page_slug']}?" . http_build_query($query_params) . "&go_back=1" : '';
+  if ($redirect_url != '') { ?>
+    <a class="btn mb-1" href="<?php echo $redirect_url ?>">Go Back To Search Results</a>
+  <?php }
+} ?>
 <div class="well mw-100 text-secondary">
-  <div class="row">
+  <div class="row result-row">
     <div class="col-sm-6">
       <h5>Pole Number: <?php echo $pole_result['pole_number']; ?></h5>
     </div>
