@@ -128,12 +128,29 @@ function scjpc_custom_admin_menu() {
   // Add the Export Requests submenu item
   add_submenu_page(
     'scjpc',                     // Parent slug
-    __('Export Excel/Csv Requests', 'textdomain'), // Page title
-    'Export Excel/Csv Requests',         // Menu title
+    __('Export Excel/Csv Processed Requests', 'textdomain'), // Page title
+    'Export Excel/Csv Processed Requests',         // Menu title
     'manage_options',          // Capability
-    'export-requests',         // Menu slug
+    'export-requests-processed',         // Menu slug
     'scjpc_export_logs_page'   // Function to display page content
   );
+  add_submenu_page(
+    'scjpc',                     // Parent slug
+    __('Export Excel/Csv Pending Requests', 'textdomain'), // Page title
+    'Export Excel/Csv Pending Requests',         // Menu title
+    'manage_options',          // Capability
+    'export-requests-pending',         // Menu slug
+    'scjpc_export_logs_page'   // Function to display page content
+  );
+  add_submenu_page(
+    'scjpc',                     // Parent slug
+    __('Export Excel/Csv Processing Requests', 'textdomain'), // Page title
+    'Export Excel/Csv Processing Requests',         // Menu title
+    'manage_options',          // Capability
+    'export-requests-processing',         // Menu slug
+    'scjpc_export_logs_page'   // Function to display page content
+  );
+
   // Add the migration_logs submenu item
   add_submenu_page(
     'scjpc',                     // Parent slug

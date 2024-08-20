@@ -1,7 +1,9 @@
 <?php
 load_bootstrap_assets();
 load_admin_assets();
-$api_url = trim(get_option('scjpc_es_host'), '/') . "/export-requests?" . http_build_query($_GET);
+$status = ucfirst(str_replace("export-requests-","",$_GET['page']));
+$query = ["status" => $status];
+$api_url = trim(get_option('scjpc_es_host'), '/') . "/export-requests?" . http_build_query($query);
 $export_requests = make_search_api_call($api_url);
 
 if (!empty($export_requests)) {
@@ -20,24 +22,7 @@ if (!empty($export_requests)) {
   </div>
   <div class="export-container overflow-auto">
     <div class=" my-2 float-end" role="group" aria-label="Basic example">
-       <button data-api-action = "remove-all-processed-exports"
-               id="remove_all_processed_exports"
-               type="button" class="btn btn-danger remove_exports"
-       >
-           Remove All Processed Requests
-       </button>
-        <button data-api-action = "remove-pending-exports"
-                id="remove_pending_exports"
-                type="button" class="btn btn-danger remove_exports"
-        >
-            Remove Pending Requests
-        </button>
-        <button data-api-action = "remove-processing-exports"
-                id="remove_processing_exports"
-                type="button" class="btn btn-danger remove_exports"
-        >
-            Remove Processing Requests
-        </button>
+        <?php include_once(SCJPC_PLUGIN_ADMIN_BASE."partials/_remove_request_btn.php"); ?>
     </div>
     <table class="table w-100 table-striped wp-list-table widefat fixed striped table-view-list posts">
       <thead>
