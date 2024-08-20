@@ -45,12 +45,12 @@
   z-index: 4; /* Higher z-index to ensure it's above other headers and cells */
 }
 
-.emergency-contacts-table p {
+.excel-table-container p {
   width: 210px;
 }
 
-.emergency-contacts-table tr th:first-child p,
-.emergency-contacts-table tr td:first-child p {
+.excel-table-container tr th:first-child p,
+.excel-table-container tr td:first-child p {
   width: 100px;
 }
 
