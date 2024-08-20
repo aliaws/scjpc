@@ -13,10 +13,10 @@ if (!empty($db_db_counts)) {
     <div class="export-container overflow-auto">
         
         <div class=" my-2 float-end" role="group" aria-label="Basic example">
-            <button data-api-action = "clear-cdn-cache"  data-key = "/exports/*" id="clear-export" type="button" class="btn btn-primary">Clear Export Cache</button>
-            <button data-api-action = "clear-cdn-cache" data-key = "/pdf/*" id="clear-pdf" type="button" class="btn btn-primary">Clear PDF Cache</button>
-            <button data-api-action = "flush-redis-cache" id="clear-redis" type="button" class="btn btn-primary">Clear Redis Cache</button>
-            <button data-method="POST" data-api-action = "elastic-search-re-index" id="re-index"  data-elastic_search_re_index="yes" type="button" class="btn btn-primary">Re-Index Elastic Search</button>
+            <button data-api-action = "clear-cdn-cache"  data-key = "/exports/*" id="clear-export" type="button" class="btn btn-primary clear-cache">Clear Export Cache</button>
+            <button data-api-action = "clear-cdn-cache" data-key = "/pdf/*" id="clear-pdf" type="button" class="btn btn-primary clear-cache">Clear PDF Cache</button>
+            <button data-api-action = "flush-redis-cache" id="clear-redis" type="button" class="btn btn-primary clear-cache">Clear Redis Cache</button>
+            <button data-method="POST" data-api-action = "elastic-search-re-index" id="re-index"  data-elastic_search_re_index="yes" type="button" class="btn btn-primary clear-cache">Re-Index Elastic Search</button>
         </div>
         <table class="table w-100 table-striped wp-list-table widefat fixed striped table-view-list posts">
             <thead>

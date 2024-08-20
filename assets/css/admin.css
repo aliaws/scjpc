@@ -1,0 +1,8 @@
+.btn.remove-all-processed-exports {
+    background-color: var(--bs-btn-bg) !important;
+}
+
+.btn.btn-primary.clear-cache {
+    background-color: var(--bs-btn-bg) !important;
+    border-color: var(--bs-btn-border-color) !important;
+}
