@@ -152,7 +152,7 @@ function registerExportButtonCalls() {
     })
   })
   jQuery('button#print_window').on('click', () => {
-    jQuery('a').removeAttr('href');
+    jQuery('div.response-table a').removeAttr('href');
     window.print();
   })
 }
