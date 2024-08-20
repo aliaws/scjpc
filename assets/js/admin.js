@@ -62,9 +62,12 @@ jQuery(document).ready(function () {
         'es_settings', 'remove_all_processed_exports'
     ].forEach(button => {
         jQuery(`button#${button}`).on('click', () => {
-            const clear_cache_button = jQuery(`button#${button}`);
-            clear_cache_button.prop('disabled', true);
-            execute_clear_cache(clear_cache_button)
+            if (confirm('Are you sure you want to do this ?')) {
+                const clear_cache_button = jQuery(`button#${button}`);
+                clear_cache_button.prop('disabled', true);
+                execute_clear_cache(clear_cache_button)
+            }
+
         })
     })
     function execute_clear_cache(button) {
