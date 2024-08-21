@@ -71,7 +71,7 @@ if (isset($_REQUEST['go_back'])) {
         </div>
       </div>
       <div class="col-12 col-lg-6 mb-3 mb-lg-0">
-        <?php include_once SCJPC_PLUGIN_FRONTEND_BASE . 'forms/multiple_pole_search_columns_form.php' ?>
+        <?php include_once SCJPC_PLUGIN_FRONTEND_BASE . 'forms/multiple_pole_search/_columns_form.php' ?>
       </div>
       <div class="col-12">
         <div class="d-flex d-lg-none mb-3 justify-content-between">
@@ -86,7 +86,7 @@ if (isset($_REQUEST['go_back'])) {
 <div class="response-table">
   <?php if (!empty($_REQUEST) && (!empty($_REQUEST['s3_key']) || !empty($_REQUEST['base_owner']))) {
     $_REQUEST['action'] = 'multiple_pole_search';
-    include_once SCJPC_PLUGIN_FRONTEND_BASE . "table/multiple_pole_results.php";
+    include_once SCJPC_PLUGIN_FRONTEND_BASE . "results/multiple_pole_results.php";
   } ?>
 </div>
 <div

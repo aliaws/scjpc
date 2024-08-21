@@ -4,7 +4,8 @@ $prev_search_query = $_REQUEST['search_query'] ?? ''; ?>
 <div class="mw-100 mt-2">
   <div class="remove-print d-flex flex-column flex-sm-row justify-content-between align-items-sm-center">
     <div>
-      <?php if ($prev_search_query != '') {
+      <?php
+      if ($prev_search_query != '') {
         $prev_search_query = urldecode($prev_search_query);
         parse_str($prev_search_query, $query_params);
         $query_params['last_id'] = '';

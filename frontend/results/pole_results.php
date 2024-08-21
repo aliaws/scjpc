@@ -18,7 +18,7 @@ if (!empty($_REQUEST)) {
   $user_email = $current_user->user_email;
   $export_endpoint = trim(get_option('scjpc_es_host'), '/') . "/data-export";
   if ($total_records == 0) {
-    include_once SCJPC_PLUGIN_FRONTEND_BASE . '/table/not_found.php';
+    include_once SCJPC_PLUGIN_FRONTEND_BASE . '/partials/_not_found.php';
   } else {
     if ($_REQUEST['action'] == 'quick_pole_search') {
       if ($search_result['results'][0]['status'] === 'A') {
@@ -26,10 +26,10 @@ if (!empty($_REQUEST)) {
         $jpa_results = $search_result['results'][0]['associated_jpas'];
         include_once SCJPC_PLUGIN_FRONTEND_BASE . "table/single_pole.php";
       } else {
-        include_once SCJPC_PLUGIN_FRONTEND_BASE . "table/multiple_pole.php";
+        include_once SCJPC_PLUGIN_FRONTEND_BASE . "table/poles/_simple_table.php";
       }
     } elseif ($_REQUEST['action'] == 'advanced_pole_search' || $_REQUEST['action'] == 'jpa_detail_search') {
-      include_once SCJPC_PLUGIN_FRONTEND_BASE . "table/multiple_pole.php";
+      include_once SCJPC_PLUGIN_FRONTEND_BASE . "table/poles/_simple_table.php";
     } elseif ($_REQUEST['action'] == 'pole_detail') {
       $pole_result = $search_result['results'][0];
       $jpa_results = $search_result['results'][0]['associated_jpas'];
