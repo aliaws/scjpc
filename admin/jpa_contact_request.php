@@ -158,7 +158,7 @@ function scjpc_validate_member_code_existence($member_code = ''): array|null {
   $sql = "SELECT wp_postmeta.meta_value, wp_postmeta.post_id FROM wp_postmeta WHERE 
             wp_postmeta.meta_value = '$member_code' 
             AND wp_postmeta.meta_key = 'member_code' 
-            AND post_id IN (SELECT id FROM wp_posts WHERE post_type = 'member');";
+            AND post_id IN (SELECT id FROM wp_posts WHERE post_type = 'member' and post_status = 'pulish');";
   global $wpdb;
   return $wpdb->get_row($sql, ARRAY_A);
 }
