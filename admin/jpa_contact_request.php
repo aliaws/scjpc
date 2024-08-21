@@ -47,7 +47,7 @@ add_filter('gform_admin_pre_render_1', 'scjpc_enqueue_gform_scripts');
 //add_filter('gform_pre_submission_filter_1', 'scjpc_enqueue_gform_scripts');
 
 function scjpc_enqueue_gform_scripts($form) {
-  wp_enqueue_script("scjpc-gform", SCJPC_ASSETS_URL . "js/gform.js", array("jquery"), '1.0335', true);
+  wp_enqueue_script("scjpc-gform", SCJPC_ASSETS_URL . "js/gform.js", array("jquery"), '1.0336', true);
   return $form;
 }
 

@@ -5,6 +5,7 @@ jQuery(document).ready(function () {
 const mailingAddressField = ['Full Name', 'Mailing Address', 'City, State, Zip Code', 'Telephone Number', 'Mobile Number (if applicable)', 'Fax Number (if applicable)', 'Email Address'];
 const billingAddressField = ['Full Name', 'Billing Address', 'City, State, Zip Code', 'Telephone Number', 'Mobile Number (if applicable)', 'Fax Number (if applicable)', 'Email Address'];
 const paperMailingField = ['Full Name', 'Mailing Address', 'City, State, Zip Code', 'Telephone Number', 'Mobile Number (if applicable)', 'Fax Number (if applicable)'];
+const buddyPoleContactField = ['Full Name', 'Telephone Number(s)', 'Email Address'];
 const nameField = ['Full Name', 'Email Address'];
 const contactField = ['Telephone Number', 'Email Address'];
 
@@ -100,6 +101,21 @@ const registerAddressChangeEvent = () => {
         viewHtml += `<strong>${value}</strong> - ${inputValueArr[index] ?? ''} <br>`
       })
       viewHtml += getUnusedValues(inputValueArr, paperMailingField.length)
+      viewField.html(viewHtml)
+    })
+  });
+
+  const buddyPoleFields = {'28': '48', '29': '50'}
+  jQuery.each(buddyPoleFields, (input, view) => {
+    const addressField = jQuery(`textarea#input_1_${input}`);
+    addressField.on('input', (event) => {
+      const inputValueArr = event.target.value.split("\n");
+      const viewField = jQuery(`div#field_1_${view}`);
+      let viewHtml = '';
+      buddyPoleContactField.forEach((value, index) => {
+        viewHtml += `<strong>${value}</strong> - ${inputValueArr[index] ?? ''} <br>`
+      })
+      viewHtml += getUnusedValues(inputValueArr, buddyPoleContactField.length)
       viewField.html(viewHtml)
     })
   });
