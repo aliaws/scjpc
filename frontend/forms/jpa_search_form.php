@@ -28,8 +28,7 @@
     </form>
     <p class="text mt-4 fw-light ">
       <small>
-        To search: omit space, slash, hyphen, and other special characters.
-        <br>
+        To search: omit space, slash, hyphen, and other special characters. <br>
         Example: JPA: ABC1256NN12 (instead of ABC-1256/NN-12).
       </small>
     </p>
@@ -42,5 +41,6 @@
     include_once SCJPC_PLUGIN_FRONTEND_BASE . "table/jpa_results.php";
   } ?>
 </div>
-<div
-  class="database-update-information alert alert-primary mt-4"><?php echo scjpc_database_update_information(); ?></div>
+<div class="database-update-information alert alert-primary mt-4">
+  <?php echo scjpc_database_update_information(); ?>
+</div>

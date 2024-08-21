@@ -37,7 +37,7 @@ function scjpc_register_post_type_migration_logs(): void {
   $args = array(
     'supports' => $supports,
     'labels' => $labels,
-    'public' => false,
+    'public' => true,
     'query_var' => true,
     'rewrite' => array('slug' => 'migration-logs'),
     'has_archive' => true,
@@ -195,7 +195,7 @@ function scjpc_custom_admin_menu() {
 }
 
 function load_admin_assets(): void {
-    wp_enqueue_style('admin_css', SCJPC_ASSETS_URL . 'css/admin.css', false, '1.0');
+  wp_enqueue_style('admin_css', SCJPC_ASSETS_URL . 'css/admin.css', false, '1.0');
   wp_enqueue_script('admin_js', SCJPC_ASSETS_URL . 'js/admin.js', false, '2.4', true);
 }
 
