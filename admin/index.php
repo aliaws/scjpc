@@ -1,6 +1,7 @@
 <?php
 require_once SCJPC_PLUGIN_ADMIN_BASE . 'migration_logs.php';
 require_once SCJPC_PLUGIN_ADMIN_BASE . 'jpa_contacts.php';
+require_once SCJPC_PLUGIN_ADMIN_BASE . 'jpa_contact_request.php';
 require_once SCJPC_PLUGIN_ADMIN_BASE . 'pole_contacts.php';
 require_once SCJPC_PLUGIN_ADMIN_BASE . 'create_users.php';
 require_once SCJPC_PLUGIN_ADMIN_BASE . 'api.php';
