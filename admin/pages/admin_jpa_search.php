@@ -2,9 +2,11 @@
 load_admin_assets();
 $base_cdn_url = rtrim(get_option('scjpc_aws_cdn'), '/');
 $base_cdn_url = str_starts_with($base_cdn_url, 'https://') ? $base_cdn_url : "https://$base_cdn_url";
-const IS_ADMIN = "true"; ?>
+if (!defined('IS_ADMIN')) {
+  define("IS_ADMIN", true);
+} ?>
 <div class='admin-search'>
-  <?php include_once SCJPC_PLUGIN_FRONTEND_BASE . "frontend/forms/jpa_search_form.php"; ?>
+  <?php include_once SCJPC_PLUGIN_FRONTEND_BASE . "forms/jpa_search_form.php"; ?>
   <div class="modal fade" id="jpaModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
