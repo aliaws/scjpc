@@ -38,7 +38,7 @@ add_action('wp_ajax_nopriv_scjpc_export_jpa_members', 'ajax_scjpc_export_jpa_mem
 
 function ajax_scjpc_export_jpa_members() {
   [$fields, $jpa_contacts] = scjpc_get_jpa_contacts($_REQUEST);
-  [$response, $field_labels] = scjpc_fetch_jpa_contacts_fields($fields, $jpa_contacts, 'jpa');
+  [$response, $field_labels] = scjpc_fetch_jpa_contacts_fields($fields, $jpa_contacts, 'jpa', true);
   $export_file_path = scjpc_process_contacts_csv_writing($response, $field_labels, 'jpa', true);
   wp_send_json_success(['export_file_path' => $export_file_path], 200);
   wp_die();
@@ -62,7 +62,7 @@ function scjpc_get_jpa_contacts($query = []): array {
   return [$fields, $jpa_contacts];
 }
 
-function scjpc_fetch_jpa_contacts_fields(array $fields, array $jpa_contacts, string $group = ''): array {
+function scjpc_fetch_jpa_contacts_fields(array $fields, array $jpa_contacts, string $group = '', bool $export = false): array {
   $response = [];
   $field_labels = [];
   foreach ($jpa_contacts as $post) {
@@ -78,12 +78,18 @@ function scjpc_fetch_jpa_contacts_fields(array $fields, array $jpa_contacts, str
 
       if (!in_array($field["name"], $unwanted_fields)) {
         if ($field["type"] == "wysiwyg") {
-          $response[$post->ID][$field["name"]] = trim(strip_tags(get_field($field["name"], $post->ID)));
+//          $response[$post->ID][$field["name"]] = trim(strip_tags(get_field($field["name"], $post->ID)));
+//          $response[$post->ID][$field["name"]] = trim(get_field($field["name"], $post->ID));
+          if ($export) {
+            $response[$post->ID][$field["name"]] = trim(strip_tags(get_field($field["name"], $post->ID)));
+          } else {
+            $response[$post->ID][$field["name"]] = trim(strip_tags(get_field($field["name"], $post->ID), '<br>'));
+          }
         } elseif ($field["type"] == "date_picker") {
           $date = get_field($field["name"], $post->ID);
-          if ($date != '') {
-            $date = DateTime::createFromFormat("d/m/Y", $date)->format('m/d/Y');
-          }
+//          if ($date != '') {
+//            $date = DateTime::createFromFormat("d/m/Y", $date)->format('m/d/Y');
+//          }
           $response[$post->ID][$field["name"]] = $date;
         } else {
           try {

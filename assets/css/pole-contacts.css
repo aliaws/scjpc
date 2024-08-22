@@ -47,6 +47,7 @@
 
 .excel-table-container p {
   width: 210px;
+  word-wrap: break-word;
 }
 
 .excel-table-container tr th:first-child p,

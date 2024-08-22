@@ -2,6 +2,11 @@
 
 
 add_action('init', 'scjpc_register_post_type_jpa_contact_request');
+/**
+ * This method registers the custom post type jpa contacts request to upsert JPA Contact
+ * by default the post is saved as draft and when it is published the request is executed i.e a contact is created or updated
+ * @return void
+ */
 function scjpc_register_post_type_jpa_contact_request(): void {
   $supports = [
     'title', // post title
@@ -46,12 +51,23 @@ add_filter('gform_pre_render_1', 'scjpc_enqueue_gform_scripts');
 add_filter('gform_admin_pre_render_1', 'scjpc_enqueue_gform_scripts');
 //add_filter('gform_pre_submission_filter_1', 'scjpc_enqueue_gform_scripts');
 
-function scjpc_enqueue_gform_scripts($form) {
+/**
+ * this method enqueues a custom js script when the contact upsert request form is loaded
+ * @param $form
+ * @return mixed
+ */
+function scjpc_enqueue_gform_scripts($form): mixed {
   wp_enqueue_script("scjpc-gform", SCJPC_ASSETS_URL . "js/gform.js", array("jquery"), '1.0336', true);
   return $form;
 }
 
 add_action('gform_after_submission_1', 'scjpc_process_jpa_contact_request', 10, 2);
+/**
+ * this method creates a draft post of jpa_contact_request type when the upsert contact form is submitted.
+ * @param $entry
+ * @param $form
+ * @return void
+ */
 function scjpc_process_jpa_contact_request($entry, $form): void {
   $current_user = wp_get_current_user();
   $fields_mapping = $field_values = [];
@@ -85,35 +101,6 @@ function scjpc_process_jpa_contact_request($entry, $form): void {
     }
   }
 
-}
-
-function scjpc_append_acf_field_groups(mixed $field_values) {
-  $field_values['_cable_tags'] = 'field_663e59388793a';
-  $field_values['_contact_last_updated_at'] = 'field_66464f6f2545c';
-  $field_values['_contact_jpa'] = 'field_66464f0e2545b';
-  $field_values['_claim_contact_last_updated_at'] = 'field_6646501af76c6';
-  $field_values['_claims_contact'] = 'field_66465007f76c5';
-  $field_values['_member_code'] = 'field_662d02563dbb0';
-  $field_values['_company'] = 'field_662d26756a0a3';
-  $field_values['_primary_representative'] = 'field_666c61f482c7d';
-  $field_values['_representative_alternate_last_updated_at'] = 'field_66672be82ab0a';
-  $field_values['_representative_alternate'] = 'field_662d02d73dbb2';
-  $field_values['_authorized_signature_bill_of_sale_form_44_last_updated_at'] = 'field_66672c195b777';
-  $field_values['_authorized_signature__bill_of_sale_form_44'] = 'field_666c62b1248ca';
-  $field_values['_billing_address_last_updated_at'] = 'field_66672c4c35b2d';
-  $field_values['_billing_address'] = 'field_662d03383dbb5';
-  $field_values['_form_submission_electronic_last_updated_at'] = 'field_66672c7678aa5';
-  $field_values['_form_submission_electronic'] = 'field_662d03693dbb6';
-  $field_values['_form_submission_mailing_last_updated_at'] = 'field_66672ca309cc6';
-  $field_values['_form_submission_mailing'] = 'field_662d03ab3dbb7';
-  $field_values['_additional_form_mailing_address_last_updated_at'] = 'field_66672cfa068f9';
-  $field_values['_additional_form_mailing_address'] = 'field_662d04103dbb8d';
-  $field_values['_request_to_expedite_jpa_last_updated_at'] = 'field_66672d10068fa';
-  $field_values['_request_to_expedite_jpa'] = 'field_662d04323dbb9';
-  $field_values['_additional_information_last_updated_at'] = 'field_66672df774d61';
-  $field_values['_additional_information'] = 'field_662d044139ef6';
-  $field_values['_priority_poles_definitions_last_updated_at'] = 'field_66672e23d4005';
-  return $field_values;
 }
 
 
@@ -190,6 +177,7 @@ function scjpc_upsert_contact_on_publishing_request($new_status, $old_status, $p
     if ($request_meta['request_type'] == 'update_member') {
       $result = scjpc_validate_member_code_existence($request_meta['member_code']);
       $member_id = $result['post_id'] ?? 0;
+      wp_update_post(['ID' => $member_id, 'post_title' => "{$request_meta['company']}"]);
     } else {
       $current_user = wp_get_current_user();
       $member_id = wp_insert_post([
@@ -213,4 +201,63 @@ function scjpc_get_post_meta($post_id): array {
     $post_meta[$key] = $key == 'cable_tags' ? unserialize($value[0]) : $value[0];
   }
   return $post_meta;
+}
+
+function scjpc_append_acf_field_groups(mixed $field_values) {
+  $field_values['_cable_tags'] = 'field_663e59388793a';
+  $field_values['_contact_jpa'] = 'field_66464f0e2545b';
+  $field_values['_claims_contact'] = 'field_66465007f76c5';
+  $field_values['_member_code'] = 'field_662d02563dbb0';
+  $field_values['_company'] = 'field_662d26756a0a3';
+  $field_values['_primary_representative'] = 'field_666c61f482c7d';
+  $field_values['_representative_alternate'] = 'field_662d02d73dbb2';
+  $field_values['_authorized_signature__bill_of_sale_form_44'] = 'field_666c62b1248ca';
+  $field_values['_billing_address'] = 'field_662d03383dbb5';
+  $field_values['_form_submission_electronic'] = 'field_662d03693dbb6';
+  $field_values['_form_submission_mailing'] = 'field_662d03ab3dbb7';
+  $field_values['_additional_form_mailing_address'] = 'field_662d04103dbb8d';
+  $field_values['_request_to_expedite_jpa'] = 'field_662d04323dbb9';
+  $field_values['_additional_information'] = 'field_662d044139ef6';
+
+  $field_values['_last_updated'] = 'field_664639ed86bac';
+  $field_values['_claim_contact_updated'] = 'field_6646501af76c6';
+  $field_values['_representative_primary_last_updated_at'] = 'field_6667289bc34bb';
+  $field_values['_representative_alternate_last_updated_at'] = 'field_66672be82ab0a';
+  $field_values['_authorized_signature__bill_of_sale__form_44_last_updated_at'] = 'field_66672c195b777';
+  $field_values['_billing_address_last_updated_at'] = 'field_66672c4c35b2d';
+  $field_values['_form_submission_electronic_last_updated_at'] = 'field_66672c7678aa5';
+  $field_values['_form_submission_mailing_last_updated_at'] = 'field_66672ca309cc6';
+  $field_values['_additional_form_mailing_address_last_updated_at'] = 'field_66672cfa068f9';
+  $field_values['_request_to_expedite_jpa_last_updated_at'] = 'field_66672d10068fa';
+  $field_values['_additional_information_last_updated_at'] = 'field_66672df774d61';
+  $field_values['_priority_poles_definitions_last_updated_at'] = 'field_66672e23d4005';
+  $field_values['_approved_contractors_last_updated_at'] = 'field_66672e57db724';
+  $field_values['_authorized_signature_bill_of_sale_form_44_last_updated_at'] = 'field_66672e57db724';
+  $field_values['_pi_last_updated'] = 'field_6671920e4198b';
+  $field_values['_contact_last_updated_at'] = 'field_66464f6f2545c';
+  $field_values['_claim_contact_last_updated_at'] = 'field_6646501af76c6';
+  $field_values['_ii_last_updated'] = 'field_6667411894757';
+
+  if ($field_values['request_type'] == 'new_member') {
+    $current_date = date('Ymd');
+    $field_values['last_updated'] = $current_date;
+    $field_values['claim_contact_updated'] = $current_date;
+    $field_values['representative_primary_last_updated_at'] = $current_date;
+    $field_values['representative_alternate_last_updated_at'] = $current_date;
+    $field_values['authorized_signature__bill_of_sale__form_44_last_updated_at'] = $current_date;
+    $field_values['billing_address_last_updated_at'] = $current_date;
+    $field_values['form_submission_electronic_last_updated_at'] = $current_date;
+    $field_values['form_submission_mailing_last_updated_at'] = $current_date;
+    $field_values['additional_form_mailing_address_last_updated_at'] = $current_date;
+    $field_values['request_to_expedite_jpa_last_updated_at'] = $current_date;
+    $field_values['additional_information_last_updated_at'] = $current_date;
+    $field_values['priority_poles_definitions_last_updated_at'] = $current_date;
+    $field_values['approved_contractors_last_updated_at'] = $current_date;
+    $field_values['authorized_signature_bill_of_sale_form_44_last_updated_at'] = $current_date;
+    $field_values['pi_last_updated'] = $current_date;
+    $field_values['contact_last_updated_at'] = $current_date;
+    $field_values['claim_contact_last_updated_at'] = $current_date;
+    $field_values['ii_last_updated'] = $current_date;
+  }
+  return $field_values;
 }
