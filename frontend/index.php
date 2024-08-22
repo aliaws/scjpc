@@ -167,3 +167,19 @@ function scjp_reveal_contact_callback($attributes): string {
 }
 
 add_shortcode('scjpc_reveal_contact', 'scjp_reveal_contact_callback');
+
+function authorize_homepage() {
+    // Check if it is the homepage
+    if (is_front_page()) {
+        // Check if the query string contains 's'
+        if (isset($_GET['s'])) {
+            // Perform your authorization logic here
+            // Example: Restrict access for unauthorized users
+            if (!is_user_logged_in()) {
+                wp_redirect(wp_login_url());
+                exit;
+            }
+        }
+    }
+}
+add_action('template_redirect', 'authorize_homepage');
