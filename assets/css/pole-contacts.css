@@ -60,3 +60,15 @@ svg.e-font-icon-svg.e-fas-phone-volume {
   height: var(--e-icon-list-icon-size, 1em);
 }
 
+.sub-menu-arrow-css .elementor-item.has-submenu .sub-arrow {
+  display: none;
+}
+
+span.sub-arrow {
+  display: none !important;
+}
+
+/*a.has-submenu > i.wpmi__icon {*/
+/*  padding-top: 2px;*/
+/*}*/
+

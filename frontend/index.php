@@ -159,6 +159,7 @@ add_action('wp_ajax_get_export_status', 'get_export_status_callback');
 add_action('wp_ajax_nopriv_get_export_status', 'get_export_status_callback');
 
 
+add_shortcode('scjpc_reveal_contact', 'scjp_reveal_contact_callback');
 function scjp_reveal_contact_callback($attributes): string {
   $contact_info = isset($attributes['contact']) ? esc_attr($attributes['contact']) : '';
   $label = isset($attributes['label']) ? esc_html($attributes['label']) : 'Click to Reveal';
@@ -166,19 +167,14 @@ function scjp_reveal_contact_callback($attributes): string {
   return "<span class='reveal-contact' data-contact='$contact_info' style='cursor: pointer;'>$label</span>";
 }
 
-add_shortcode('scjpc_reveal_contact', 'scjp_reveal_contact_callback');
 
-function authorize_search_page() {
-
-    // Check if the query string contains 's'
-    if (isset($_GET['s'])) {
-        // Perform your authorization logic here
-        // Example: Restrict access for unauthorized users
-        if (!is_user_logged_in()) {
-            wp_redirect("/login?redirect_to=".get_home_url()."?s=");
-            exit;
-        }
-    }
-
-}
 add_action('template_redirect', 'authorize_search_page');
+function authorize_search_page(): void {
+  if (isset($_GET['s'])) {
+    if (!is_user_logged_in()) {
+      wp_redirect("/login?redirect_to=" . get_home_url() . "?s=");
+      exit;
+    }
+  }
+}
+
