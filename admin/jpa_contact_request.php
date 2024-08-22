@@ -238,26 +238,25 @@ function scjpc_append_acf_field_groups(mixed $field_values) {
   $field_values['_claim_contact_last_updated_at'] = 'field_6646501af76c6';
   $field_values['_ii_last_updated'] = 'field_6667411894757';
 
-  if ($field_values['request_type'] == 'new_member') {
-    $current_date = date('Ymd');
-    $field_values['last_updated'] = $current_date;
-    $field_values['claim_contact_updated'] = $current_date;
-    $field_values['representative_primary_last_updated_at'] = $current_date;
-    $field_values['representative_alternate_last_updated_at'] = $current_date;
-    $field_values['authorized_signature__bill_of_sale__form_44_last_updated_at'] = $current_date;
-    $field_values['billing_address_last_updated_at'] = $current_date;
-    $field_values['form_submission_electronic_last_updated_at'] = $current_date;
-    $field_values['form_submission_mailing_last_updated_at'] = $current_date;
-    $field_values['additional_form_mailing_address_last_updated_at'] = $current_date;
-    $field_values['request_to_expedite_jpa_last_updated_at'] = $current_date;
-    $field_values['additional_information_last_updated_at'] = $current_date;
-    $field_values['priority_poles_definitions_last_updated_at'] = $current_date;
-    $field_values['approved_contractors_last_updated_at'] = $current_date;
-    $field_values['authorized_signature_bill_of_sale_form_44_last_updated_at'] = $current_date;
-    $field_values['pi_last_updated'] = $current_date;
-    $field_values['contact_last_updated_at'] = $current_date;
-    $field_values['claim_contact_last_updated_at'] = $current_date;
-    $field_values['ii_last_updated'] = $current_date;
-  }
+  $current_date = date('Ymd');
+  $field_values['last_updated'] = $current_date;
+  $field_values['claim_contact_updated'] = $current_date;
+  $field_values['representative_primary_last_updated_at'] = $current_date;
+  $field_values['representative_alternate_last_updated_at'] = $current_date;
+  $field_values['authorized_signature__bill_of_sale__form_44_last_updated_at'] = $current_date;
+  $field_values['billing_address_last_updated_at'] = $current_date;
+  $field_values['form_submission_electronic_last_updated_at'] = $current_date;
+  $field_values['form_submission_mailing_last_updated_at'] = $current_date;
+  $field_values['additional_form_mailing_address_last_updated_at'] = $current_date;
+  $field_values['request_to_expedite_jpa_last_updated_at'] = $current_date;
+  $field_values['additional_information_last_updated_at'] = $current_date;
+  $field_values['priority_poles_definitions_last_updated_at'] = $current_date;
+  $field_values['approved_contractors_last_updated_at'] = $current_date;
+  $field_values['authorized_signature_bill_of_sale_form_44_last_updated_at'] = $current_date;
+  $field_values['pi_last_updated'] = $current_date;
+  $field_values['contact_last_updated_at'] = $current_date;
+  $field_values['claim_contact_last_updated_at'] = $current_date;
+  $field_values['ii_last_updated'] = $current_date;
+  
   return $field_values;
 }
