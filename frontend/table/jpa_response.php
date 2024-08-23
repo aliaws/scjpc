@@ -9,7 +9,8 @@ $base_cdn_url = str_starts_with($base_cdn_url, 'https://') ? $base_cdn_url : "ht
         <span>Search Key: <strong><?php echo $search_key; ?></strong></span>
       <?php } ?>
       <p class="text-secondary order-sm-0 order-1 result-text mb-2 mb-sm-0">
-        Found <?php echo $search_result['total_records'] ?> results.</p>
+        <?php echo "Found " . number_format($search_result['total_records']) . " results."; ?>
+      </p>
     </div>
     <div class="d-flex b justify-content-end mb-2 align-items-center" role="group">
       <div class="d-flex b justify-content-end mb-2" role="group" aria-label="Basic outlined example">

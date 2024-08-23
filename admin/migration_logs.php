@@ -110,6 +110,16 @@ function scjpc_update_base_owners(WP_REST_Request $request): WP_REST_Response {
     return new WP_REST_Response(['message' => 'Please provide the API security key'], 401);
   }
   $body = $request->get_json_params();
+  $values = [];
+  foreach ($body as $code => $name) {
+    $values[] = "('$code', '$name', 'active')";
+  }
+  if (count($values) > 0) {
+    global $wpdb;
+    $table_name = scjpc_get_base_owners_table_name();
+    $sql = "INSERT IGNORE INTO $table_name (base_owner_code, base_owner_name, status) VALUES " . implode(',', $values);
+    $wpdb->query($sql);
+  }
 //  update_option('scjpc_base_owners', array_combine($body, $body));
   update_option('scjpc_base_owners', $body);
   return new WP_REST_Response(['message' => 'Base Owners updated successfully.'], 200);

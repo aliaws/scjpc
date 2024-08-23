@@ -102,7 +102,7 @@ add_action('admin_menu', 'scjpc_custom_admin_menu');
 function scjpc_custom_admin_menu() {
   // Add the main menu item for jpa
   add_menu_page(
-    __('Scjpc', 'textdomain'),   // Page title
+    __('Scjpc', 'scjpc'),   // Page title
     'Scjpc',                     // Menu title
     'manage_options',          // Capability
     'scjpc',                     // Menu slug
@@ -112,7 +112,7 @@ function scjpc_custom_admin_menu() {
   );
   add_submenu_page(
     'scjpc',                     // Parent slug
-    __('Jpa', 'textdomain'), // Page title
+    __('Jpa', 'scjpc'), // Page title
     'Dashboard',         // Menu title
     'manage_options',          // Capability
     'scjpc-dashboard',         // Menu slug
@@ -120,7 +120,7 @@ function scjpc_custom_admin_menu() {
   );
   add_submenu_page(
     'scjpc',                     // Parent slug
-    __('Jpa', 'textdomain'), // Page title
+    __('Jpa', 'scjpc'), // Page title
     'Update JPA PDF',         // Menu title
     'manage_options',          // Capability
     'update-jpa-pdf',         // Menu slug
@@ -129,7 +129,7 @@ function scjpc_custom_admin_menu() {
   // Add the Export Requests submenu item
   add_submenu_page(
     'scjpc',                     // Parent slug
-    __('Export Excel/Csv Processed Requests', 'textdomain'), // Page title
+    __('Export Excel/Csv Processed Requests', 'scjpc'), // Page title
     'Export Excel/Csv Processed Requests',         // Menu title
     'manage_options',          // Capability
     'export-requests-processed',         // Menu slug
@@ -137,7 +137,7 @@ function scjpc_custom_admin_menu() {
   );
   add_submenu_page(
     'scjpc',                     // Parent slug
-    __('Export Excel/Csv Pending Requests', 'textdomain'), // Page title
+    __('Export Excel/Csv Pending Requests', 'scjpc'), // Page title
     'Export Excel/Csv Pending Requests',         // Menu title
     'manage_options',          // Capability
     'export-requests-pending',         // Menu slug
@@ -145,7 +145,7 @@ function scjpc_custom_admin_menu() {
   );
   add_submenu_page(
     'scjpc',                     // Parent slug
-    __('Export Excel/Csv Processing Requests', 'textdomain'), // Page title
+    __('Export Excel/Csv Processing Requests', 'scjpc'), // Page title
     'Export Excel/Csv Processing Requests',         // Menu title
     'manage_options',          // Capability
     'export-requests-processing',         // Menu slug
@@ -155,7 +155,7 @@ function scjpc_custom_admin_menu() {
   // Add the migration_logs submenu item
   add_submenu_page(
     'scjpc',                     // Parent slug
-    __('Database Migration Logs V2', 'textdomain'), // Page title
+    __('Database Migration Logs V2', 'scjpc'), // Page title
     'Database Migration Logs V2',         // Menu title
     'manage_options',          // Capability
     'migration-logs',         // Menu slug
@@ -166,7 +166,7 @@ function scjpc_custom_admin_menu() {
 
   add_submenu_page(
     'scjpc',
-    __('SCJPC Settings', 'textdomain'), // Page title
+    __('SCJPC Settings', 'scjpc'), // Page title
     'Settings',
     'administrator',
     __FILE__,
@@ -177,21 +177,31 @@ function scjpc_custom_admin_menu() {
   // Add the migration_logs submenu item
   add_submenu_page(
     'scjpc',                     // Parent slug
-    __('ES Shards', 'textdomain'), // Page title
-    'ES Shards',         // Menu title
-    'manage_options',          // Capability
-    'es-shards',         // Menu slug
-    'scjpc_es_shards'   // Function to display page content
+    __('ES Shards', 'scjpc'),              // Page title
+    'ES Shards',                  // Menu title
+    'manage_options',             // Capability
+    'es-shards',                  // Menu slug
+    'scjpc_es_shards'              // Function to display page content
   );
 
   // Add the migration_logs submenu item
   add_submenu_page(
     'scjpc',                     // Parent slug
-    __('ES Health', 'textdomain'), // Page title
+    __('ES Health', 'scjpc'), // Page title
     'ES Health',         // Menu title
     'manage_options',          // Capability
     'es-health',         // Menu slug
     'scjpc_es_health'   // Function to display page content
+  );
+
+  // Add the base owners submenu item
+  add_submenu_page(
+    'scjpc',                     // Parent slug
+    __('Base Owners', 'scjpc'), // Page title
+    'Base Owners',         // Menu title
+    'manage_options',          // Capability
+    'base-owners',         // Menu slug
+    'scjpc_base_owners_settings'   // Function to display page content
   );
 }
 
@@ -222,19 +232,66 @@ function scjpc_migration_logs() {
 //  return ob_get_clean();
 }
 
-function scjpc_es_shards() {
+function scjpc_es_shards(): void {
   ob_start();
   include_once(SCJPC_PLUGIN_ADMIN_BASE . 'pages/es_shards_table.php');
 //  return ob_get_clean();
 }
 
-function scjpc_es_health() {
+function scjpc_es_health(): void {
   ob_start();
   include_once(SCJPC_PLUGIN_ADMIN_BASE . 'pages/es_health_table.php');
 //  return ob_get_clean();
 }
 
-function ajax_jpa_search_update_pdf() {
+
+function scjpc_base_owners_settings(): void {
+  ob_start();
+  include_once(SCJPC_PLUGIN_ADMIN_BASE . 'pages/base_owners.php');
+}
+
+add_action('admin_enqueue_scripts', 'scjpc_enqueue_admin_scripts');
+
+function scjpc_enqueue_admin_scripts($hook): void {
+  if ($hook == 'scjpc_page_base-owners') {
+    wp_enqueue_script('base-owners', SCJPC_ASSETS_URL . 'js/base-owners.js', array('jquery'), '1.001', true);
+    wp_localize_script('base-owners', 'scjpc_ajax', array('ajax_url' => admin_url('admin-ajax.php')));
+  }
+}
+
+add_action('wp_ajax_scjpc_toggle_status', 'scjpc_toggle_status');
+/**
+ * this method toggles the status of the base owners to show in the dropdown on multiple poles search page
+ * @return void
+ */
+function scjpc_toggle_status(): void {
+  global $wpdb;
+
+  $base_owner_code = sanitize_text_field($_POST['base_owner_code']);
+  $table_name = scjpc_get_base_owners_table_name();
+  $current_status = $wpdb->get_var($wpdb->prepare(
+    "SELECT status FROM $table_name WHERE base_owner_code = %s",
+    $base_owner_code
+  ));
+
+  $new_status = $current_status === 'active' ? 'inactive' : 'active';
+  $updated = $wpdb->update(
+    $table_name,
+    ['status' => $new_status],
+    ['base_owner_code' => $base_owner_code],
+    ['%s'],
+    ['%s']
+  );
+
+  if ($updated !== false) {
+    wp_send_json_success(['new_status' => $new_status]);
+  } else {
+    wp_send_json_error();
+  }
+}
+
+
+function ajax_jpa_search_update_pdf(): void {
 //  echo "<pre>GET=" . count($_GET) . "==POST=" . count($_POST) . "==FILES=" . count($_FILES) . "==REQUEST=" . count($_REQUEST) . print_r($_GET, true) . print_r($_POST, true) . print_r($_FILES, true) . print_r($_REQUEST, true) . "</pre>";
   $s3_key = $_REQUEST['s3_key'];
   $client = getS3Client();
@@ -293,3 +350,4 @@ function custom_lost_password_html_link($html_link) {
 }
 
 add_filter('lost_password_html_link', 'custom_lost_password_html_link');
+

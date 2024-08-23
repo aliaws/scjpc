@@ -46,7 +46,7 @@ if (isset($_REQUEST['go_back'])) {
           <label for="base_owner" class="form-label">OR, Select Code</label>
           <select class="form-select" id="base_owner" name="base_owner" aria-label="Default select example" required>
             <option value=""></option>
-            <?php foreach (BASE_OWNERS as $key => $value) {
+            <?php foreach (scjpc_get_base_owners(true, true) as $key => $value) {
               $is_selected = isset($_REQUEST['base_owner']) && $_REQUEST['base_owner'] == $key ? 'selected' : ''; ?>
               <option <?php echo $is_selected; ?> value="<?php echo $key; ?>">
                 <?php echo $value == $key ? $value : "$key ($value)"; ?>

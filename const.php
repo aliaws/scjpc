@@ -13,7 +13,7 @@ const DISTANCES = [
   150 => '150 feet',
   300 => '300 feet',
 ];
-define("BASE_OWNERS", get_option('scjpc_base_owners'));
+//define("BASE_OWNERS", get_option('scjpc_base_owners'));
 const POLES_KEYS = [
   'unique_id' => 'Unique ID', 'pole_number' => 'Pole Number', 'status' => 'Status', 'location' => 'Location',
   'city' => 'City', 'jpa_number_2' => 'JPA Number', 'billed_date' => 'Billed Date'
