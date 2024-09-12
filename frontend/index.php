@@ -1,6 +1,8 @@
 <?php
 include_once(SCJPC_PLUGIN_PATH . 'aws/aws-autoloader.php');
 include_once(SCJPC_PLUGIN_FRONTEND_BASE . 'functions.php');
+include_once(SCJPC_PLUGIN_FRONTEND_BASE . 'relevanssi.php');
+
 function scjpc_database_update_information(): string {
   $migration_date = get_option('scjpc_migration_date');
   $migration_date = DateTime::createFromFormat('d/m/Y', $migration_date);
