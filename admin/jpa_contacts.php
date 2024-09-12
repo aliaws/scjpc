@@ -7,7 +7,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 function scjpc_enqueue_export_members_script(): void {
     wp_enqueue_script("jquery");
-    wp_enqueue_script("scjpc-export-members", SCJPC_ASSETS_URL . "js/export-jpa-members.js", ["jquery"], "1.27", true);
+    wp_enqueue_script("scjpc-export-members", SCJPC_ASSETS_URL . "js/export-jpa-members.js", ["jquery"], "1.45", true);
     wp_localize_script("scjpc-export-members", "scjpc_ajax", ["ajax_url" => admin_url("admin-ajax.php")]);
 }
 
@@ -154,7 +154,8 @@ function scjpc_get_sheet_last_row_column(int $row, string $column): array {
 function scjpc_process_contacts_csv_writing(array $data, array $field_labels, string $type, bool $transpose = false): string {
     $spreadsheet = new Spreadsheet();
     $sheet = $spreadsheet->getActiveSheet();
-    $excel_file_name = "$type-contacts_" . time() . "_" . get_current_user_id() . ".xlsx";
+    $file_name = isset($_GET['export_file_name']) ?  $_GET['export_file_name']."_" : "$type-contacts_";
+    $excel_file_name = $file_name.time() . "_" . get_current_user_id() . ".xlsx";
     $excel_file_path = WP_CONTENT_DIR . "/uploads/scjpc-exports/" . $excel_file_name;
     if ($transpose) {
         $data = scjpc_transpose_contacts_data($data, $field_labels);
