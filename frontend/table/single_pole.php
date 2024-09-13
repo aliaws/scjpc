@@ -1,4 +1,4 @@
-<?php $prev_search_query = $_REQUEST['search_query'] ?? '';
+-<?php $prev_search_query = $_REQUEST['search_query'] ?? '';
 if ($prev_search_query != '') {
   $prev_search_query = urldecode($prev_search_query);
   parse_str($prev_search_query, $query_params);

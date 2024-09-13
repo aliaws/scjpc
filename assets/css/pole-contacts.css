@@ -3,9 +3,9 @@
   height: 100vh;
 }
 
-.excel-table-container-auto-height {
-  height: unset !important;
-}
+/*.excel-table-container-auto-height {*/
+/*  height: unset !important;*/
+/*}*/
 
 .excel-table-container table {
   border-collapse: collapse;
@@ -36,7 +36,7 @@
   background-color: #8064A2 !important; /* Background color for the first column */
   color: #fff; /* Font color for the first column */
   font-weight: bold; /* Bold font for the first column */
-  z-index: 2; /* Increased z-index to ensure it's above the first row */
+  /*z-index: 2; !* Increased z-index to ensure it's above the first row *!*/
   text-align: center;
   vertical-align: middle;
 }
