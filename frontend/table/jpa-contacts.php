@@ -1,6 +1,10 @@
 <?php [$fields, $jpa_contacts] = scjpc_get_jpa_contacts();
-[$response, $field_labels] = scjpc_fetch_jpa_contacts_fields($fields, $jpa_contacts, 'jpa');
+[$response, $field_labels] = scjpc_fetch_jpa_contacts_fields($fields, $jpa_contacts, 'jpa', false);
 //$response = scjpc_transpose_contacts_data($response, $field_labels)
+//foreach ($response as $contact) {
+//  echo "<pre>" . print_r($contact['cable_tags'], 1) . "</pre>";
+//}
+//echo "<pre>" . print_r($response, true) . "</pre>";
 ?>
 <div class="excel-table-container excel-table-container-auto-height">
   <table class="excel-table">

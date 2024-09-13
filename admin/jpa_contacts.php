@@ -27,7 +27,11 @@ function scjpc_export_jpa_contacts(WP_REST_Request $request): WP_REST_Response {
   if (!isset($security_key) || $security_key != get_option("scjpc_client_auth_key")) {
     return new WP_REST_Response(["message" => "Please provide the API security key"], 401);
   }
-  $export_file_path = scjpc_get_jpa_contacts($_REQUEST);
+  [$fields, $jpa_contacts] = scjpc_get_jpa_contacts($_REQUEST);
+  [$response, $field_labels] = scjpc_fetch_jpa_contacts_fields($fields, $jpa_contacts, 'jpa', true, false);
+//  echo "<pre>" . print_r($response, 1) . "</pre>";
+  $export_file_path = scjpc_process_contacts_csv_writing($response, $field_labels, 'jpa');
+//  $export_file_path = scjpc_get_jpa_contacts($_REQUEST);
   return new WP_REST_Response(["export_file" => $export_file_path], 200);
 
 }
@@ -37,12 +41,41 @@ add_action('wp_ajax_nopriv_scjpc_export_jpa_members', 'ajax_scjpc_export_jpa_mem
 
 
 function ajax_scjpc_export_jpa_members() {
-  [$fields, $jpa_contacts] = scjpc_get_jpa_contacts($_REQUEST);
-  [$response, $field_labels] = scjpc_fetch_jpa_contacts_fields($fields, $jpa_contacts, 'jpa', true);
-  $export_file_path = scjpc_process_contacts_csv_writing($response, $field_labels, 'jpa', true);
+//  [$fields, $jpa_contacts] = scjpc_get_jpa_contacts($_REQUEST);
+  [$fields, $jpa_contacts] = scjpc_get_jpa_contacts_all_fields($_REQUEST);
+  [$response, $field_labels] = scjpc_fetch_jpa_contacts_fields($fields, $jpa_contacts, 'jpa', true, false);
+  $export_file_path = scjpc_process_contacts_csv_writing($response, $field_labels, 'jpa');
   wp_send_json_success(['export_file_path' => $export_file_path], 200);
   wp_die();
 }
+
+function scjpc_get_jpa_contacts_all_fields($query = []): array {
+  $fields_group = acf_get_field_group("group_662d0256002a6"); // Server
+  $fields = acf_get_fields($fields_group);
+
+  $fields_group = acf_get_field_group("group_66464f0e51512"); // Server
+  $fields = array_merge($fields, acf_get_fields($fields_group));
+  $fields_group = acf_get_field_group("group_664639ed6409d"); // Server
+  $fields = array_merge($fields, acf_get_fields($fields_group));
+  $fields_group = acf_get_field_group("group_662e732c50241"); // Server
+  $fields = array_merge($fields, acf_get_fields($fields_group));
+  $fields_group = acf_get_field_group("group_665623aed72ff"); // Server
+  $fields = array_merge($fields, acf_get_fields($fields_group));
+
+  if (!empty($query["jpa_contact_id"])) {
+    $jpa_contacts = [get_post($query["jpa_contact_id"])];
+  } else {
+    $jpa_contacts = get_posts([
+      "post_type" => "member", // Server
+//      "post_type" => "jpa-contact", // Local
+      "posts_per_page" => -1,
+      "order" => "ASC"
+    ]);
+  }
+  return [$fields, $jpa_contacts];
+
+}
+
 
 function scjpc_get_jpa_contacts($query = []): array {
   $fields_group = acf_get_field_group("group_662d0256002a6"); // Server
@@ -62,7 +95,7 @@ function scjpc_get_jpa_contacts($query = []): array {
   return [$fields, $jpa_contacts];
 }
 
-function scjpc_fetch_jpa_contacts_fields(array $fields, array $jpa_contacts, string $group = '', bool $export = false): array {
+function scjpc_fetch_jpa_contacts_fields(array $fields, array $jpa_contacts, string $group = '', bool $export = false, $remove_unwanted = true): array {
   $response = [];
   $field_labels = [];
   foreach ($jpa_contacts as $post) {
@@ -73,30 +106,31 @@ function scjpc_fetch_jpa_contacts_fields(array $fields, array $jpa_contacts, str
     } elseif (in_array($group, ['emergency', 'buddy-pole', 'graffiti-removal', 'field-assistance'])) {
       [$response, $field_labels] = scjpc_add_emergency_additional_fields($response, $field_labels, $post);
     }
-    $unwanted_fields = scjpc_get_jpa_contacts_unwanted_fields();
+    $unwanted_fields = $remove_unwanted ? scjpc_get_jpa_contacts_unwanted_fields() : [];
     foreach ($fields as $field) {
       $field_labels[$field['name']] = $field['label'];
 
       if (!in_array($field["name"], $unwanted_fields)) {
 
         if ($field["type"] == "wysiwyg") {
-//          $response[$post->ID][$field["name"]] = trim(strip_tags(get_field($field["name"], $post->ID)));
-//          $response[$post->ID][$field["name"]] = trim(get_field($field["name"], $post->ID));
           if ($export) {
             $response[$post->ID][$field["name"]] = trim(strip_tags(get_field($field["name"], $post->ID)));
           } else {
             $original_data = get_field($field["name"], $post->ID);
-            $stripped_data = strip_tags($original_data, '<br>');
-            $formatted_data = trim($stripped_data);
-
             $response[$post->ID][$field["name"]] = $original_data;
           }
         } elseif ($field["type"] == "date_picker") {
           $date = get_field($field["name"], $post->ID);
-//          if ($date != '') {
-//            $date = DateTime::createFromFormat("d/m/Y", $date)->format('m/d/Y');
-//          }
           $response[$post->ID][$field["name"]] = $date;
+        } elseif ($field["type"] == "gallery") {
+          $response[$post->ID][$field["name"]] = [];
+          $cable_tags = get_field($field["name"], $post->ID);
+          if (is_array($cable_tags) && !empty($cable_tags)) {
+            foreach ($cable_tags as $image) {
+              $response[$post->ID][$field["name"]][] = $image['url'];
+            }
+          }
+          $response[$post->ID][$field["name"]] = implode("\n", $response[$post->ID][$field["name"]]);
         } else {
           try {
             $response[$post->ID][$field["name"]] = trim(get_field($field["name"], $post->ID));
@@ -152,17 +186,18 @@ function scjpc_get_sheet_last_row_column(int $row, string $column): array {
 }
 
 
-function scjpc_process_contacts_csv_writing(array $data, array $field_labels, string $type, bool $transpose = false): string {
+function scjpc_process_contacts_csv_writing(array $contacts, array $field_labels, string $type, bool $transpose = false): string {
   $spreadsheet = new Spreadsheet();
   $sheet = $spreadsheet->getActiveSheet();
   $file_name = isset($_GET['export_file_name']) ? $_GET['export_file_name'] . "_" : "$type-contacts_";
   $excel_file_name = $file_name . time() . "_" . get_current_user_id() . ".xlsx";
   $excel_file_path = WP_CONTENT_DIR . "/uploads/scjpc-exports/" . $excel_file_name;
+
   if ($transpose) {
-    $data = scjpc_transpose_contacts_data($data, $field_labels);
+    $contacts = scjpc_transpose_contacts_data($contacts, $field_labels);
   }
 
-  [$row, $column, $max_lengths] = scjpc_write_data_to_sheet($data, $sheet, $type);
+  [$row, $column, $max_lengths] = scjpc_write_data_to_sheet($contacts, $sheet, $type, $field_labels);
 
   $sheet->getStyle("A1:$column$row")->getFont()->setSize(9);
   $sheet->getStyle("A1:{$column}1")->applyFromArray(scjpc_get_header_style());
@@ -170,23 +205,23 @@ function scjpc_process_contacts_csv_writing(array $data, array $field_labels, st
   $sheet->getStyle("A1:A1")->applyFromArray(scjpc_get_first_row_alignment());
   $sheet->getStyle("B2:$column$row")->applyFromArray(scjpc_get_sheet_styles());
 
-  if (in_array($type, ['pole', 'buddy-pole', 'graffiti-removal'])) {
-    $col = 'A';
-    foreach ($data[0] as $key => $info) {
-      if (in_array($key, ['phone_number', 'pi_last_updated', 'zip_code'])) {
-        $sheet->getStyle("{$col}2:$col$row")->applyFromArray(scjpc_get_date_cell_styles());
-      }
-      $col++;
+//  if (in_array($type, ['pole', 'buddy-pole', 'graffiti-removal'])) {
+  $col = 'A';
+  foreach ($contacts[0] as $key => $info) {
+    if (in_array($key, ['phone_number', 'pi_last_updated', 'zip_code'])) {
+      $sheet->getStyle("{$col}2:$col$row")->applyFromArray(scjpc_get_date_cell_styles());
     }
-    unset($col);
-  } else {
-    foreach ($max_lengths as $key => $info) {
-      if (str_ends_with($info['name'], 'last_updated_at')) {
-        $sheet->getStyle("B$key:$column$key")->applyFromArray(scjpc_get_date_cell_styles());
-      }
-    }
+    $col++;
   }
-  scjpc_set_cells_height_width($sheet, $max_lengths, $row, $type, $data);
+  unset($col);
+//  } else {
+//    foreach ($max_lengths as $key => $info) {
+//      if (str_ends_with($info['name'], 'last_updated_at')) {
+//        $sheet->getStyle("B$key:$column$key")->applyFromArray(scjpc_get_date_cell_styles());
+//      }
+//    }
+//  }
+  scjpc_set_cells_height_width($sheet, $max_lengths, $row, $type, $contacts);
 
   $sheet->freezePane('B2');
   $writer = new Xlsx($spreadsheet);
@@ -211,11 +246,20 @@ function scjpc_transpose_contacts_data(array $data, array $field_labels): array 
 }
 
 
-function scjpc_write_data_to_sheet(array $transposedContacts, \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet $sheet, string $type): array {
+function scjpc_write_data_to_sheet(array $contacts, \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet $sheet, string $type, $field_labels): array {
   $max_lengths = [];
   $column = 'A';
   $row = 1;
-  foreach ($transposedContacts as $name => $contact) {
+  foreach ($contacts[array_key_first($contacts)] as $key => $value) {
+    $sheet->setCellValue($column . $row, $field_labels[$key] ?? trim(ucwords(str_replace("_", " ", $key))));
+    $max_lengths[$row] = [
+      'length' => 50,
+      'name' => $field_labels[$key] ?? trim(ucwords(str_replace("_", " ", $key)))
+    ];
+    $column++;
+  }
+  $row++;
+  foreach ($contacts as $name => $contact) {
     $column = 'A';
     foreach ($contact as $key => $value) {
       $sheet->setCellValue($column . $row, $value);

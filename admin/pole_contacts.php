@@ -152,7 +152,8 @@ add_action('wp_ajax_nopriv_scjpc_export_emergency_contacts', 'ajax_scjpc_export_
 function ajax_scjpc_export_emergency_contacts() {
   [$fields, $jpa_contacts] = scjpc_get_emergency_claim_contacts();
   [$response, $field_labels] = scjpc_fetch_jpa_contacts_fields($fields, $jpa_contacts, 'emergency', true);
-  $export_file_path = scjpc_process_contacts_csv_writing($response, $field_labels, 'emergency', true);
+  $export_file_path = scjpc_process_contacts_csv_writing($response, $field_labels, 'emergency');
+//  $export_file_path = scjpc_process_contacts_csv_writing($response, $field_labels, 'emergency', true);
   wp_send_json_success(['export_file_path' => $export_file_path], 200);
   wp_die();
 }
@@ -182,7 +183,8 @@ add_action('wp_ajax_nopriv_scjpc_export_field_assistance_contacts', 'ajax_scjpc_
 function ajax_scjpc_export_field_assistance_contacts() {
   [$fields, $jpa_contacts] = scjpc_get_field_assistance_contacts();
   [$response, $field_labels] = scjpc_fetch_jpa_contacts_fields($fields, $jpa_contacts, 'field-assistance', true);
-  $export_file_path = scjpc_process_contacts_csv_writing($response, $field_labels, 'field-assistance', true);
+  $export_file_path = scjpc_process_contacts_csv_writing($response, $field_labels, 'field-assistance');
+//  $export_file_path = scjpc_process_contacts_csv_writing($response, $field_labels, 'field-assistance', true);
   wp_send_json_success(['export_file_path' => $export_file_path], 200);
   wp_die();
 }
