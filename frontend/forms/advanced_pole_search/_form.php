@@ -36,7 +36,7 @@
             </p>
             <p class="col-6 ps-3 m-0">
               <input type="text" name="location" class="form-control" id="location"
-                     value="<?php echo $_REQUEST['location'] ?? ''; ?>" />
+                     value="<?php echo $_REQUEST['location'] ?? ''; ?>"/>
               <span id="location_feedback_length" class="invalid-feedback">
                   Characters length should be more than 1
               </span>
@@ -50,7 +50,7 @@
           <input type="text" name="latitude" class="form-control" id="id_latitude" aria-describedby="emailHelp"
                  value="<?php echo $_REQUEST['latitude'] ?? ''; ?>"/>
           <div id="invalid-feedback" class="invalid-feedback ">
-              Latitude must have atleast 3 decimal places (Example: 79.123)
+            Latitude must have atleast 3 decimal places (Example: 79.123)
           </div>
         </div>
         <div class="mb-3 col-12 col-sm-6 col-lg-4">
@@ -58,7 +58,7 @@
           <input type="text" name="longitude" class="form-control" id="id_longitude" aria-describedby="emailHelp"
                  value="<?php echo $_REQUEST['longitude'] ?? ''; ?>"/>
           <div id="invalid-feedback" class="invalid-feedback ">
-                Longitude must have atleast 3 decimal places (Example: 79.123)
+            Longitude must have atleast 3 decimal places (Example: 79.123)
           </div>
         </div>
         <div class="mb-3 col-12 col-sm-6 col-lg-4">
@@ -81,6 +81,7 @@
       <input type="hidden" id="last_id" name="last_id" value="<?php echo $_REQUEST['last_id'] ?? ''; ?>"/>
       <input type="hidden" id="sort_key" name="sort_key" value="<?php echo $_POST['sort_key'] ?? 'unique_id'; ?>"/>
       <input type="hidden" id="sort_order" name="sort_order" value="<?php echo $_POST['sort_order'] ?? 'asc'; ?>"/>
+      <input type="hidden" id="download_name" name="download_name" value="advanced_pole_results"/>
       <input type="hidden" id="admin_ajax_url" value="<?php echo admin_url('admin-ajax.php'); ?>"/>
       <input type="hidden" id="page_slug" name="page_slug"
              value="<?php echo get_post_field('post_name', get_the_ID()); ?>"/>

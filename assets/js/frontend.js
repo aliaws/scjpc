@@ -1,4 +1,3 @@
-
 const admin_ajax_url = jQuery("#admin_ajax_url").val();
 
 jQuery(document).ready(function () {
@@ -161,6 +160,12 @@ function registerExportButtonCalls() {
 function make_export_api_call(button, execute_actions = true) {
   const body = button.data();
   body['action'] = 'make_export_data_call';
+  let download_name = '';
+  try {
+    download_name = jQuery('input#download_name').val()
+  } catch (e) {
+    download_name = ''
+  }
   add_actions_change(execute_actions);
   jQuery.ajax({
     url: admin_ajax_url,
@@ -169,7 +174,7 @@ function make_export_api_call(button, execute_actions = true) {
     dataType: 'json',
     success: function (response) {
       const {file_path, export_format} = response;
-      redirect_to_download_export(file_path, export_format, execute_actions)
+      redirect_to_download_export(file_path, export_format, execute_actions, download_name)
     },
     error: function (error) {
       remove_disabled_prop(execute_actions);
@@ -183,15 +188,15 @@ function make_export_api_call(button, execute_actions = true) {
 function trigger_exports_on_search() {
   ['export_as_excel', 'export_as_csv'].forEach(button_key => {
     const button = jQuery(`button#${button_key}`);
-    if (button.length >0) {
+    if (button.length > 0) {
       make_export_api_call(button, false);
     }
   })
 }
 
-function redirect_to_download_export(file_path, export_format, execute_actions = true) {
+function redirect_to_download_export(file_path, export_format, execute_actions = true, download_name = '') {
   if (execute_actions) {
-    window.location.href = `/download-export?file_path=${file_path}&format=${export_format}`;
+    window.location.href = `/download-export?file_path=${file_path}&format=${export_format}&download_name=${download_name}`;
     setTimeout(function () {
       remove_actions_change();
     }, 1000);
@@ -311,22 +316,20 @@ function validateForm(formId, formData) {
         }
         formData.append('location_encoded', Base64.encode(jQuery.trim(location.val())));
       }
-      if (jQuery.trim(latitude.val()).length > 0 ) {
-        if(!validateLatitudeLongitude(latitude.val())) {
+      if (jQuery.trim(latitude.val()).length > 0) {
+        if (!validateLatitudeLongitude(latitude.val())) {
           latitude.addClass('is-invalid input-danger-border')
           isValid = false;
-        }
-        else {
+        } else {
           latitude.removeClass('is-invalid input-danger-border')
           isValid = true;
         }
       }
-      if (jQuery.trim(longitude.val()).length > 0 ) {
-        if(!validateLatitudeLongitude(longitude.val())) {
+      if (jQuery.trim(longitude.val()).length > 0) {
+        if (!validateLatitudeLongitude(longitude.val())) {
           longitude.addClass('is-invalid input-danger-border')
           isValid = false;
-        }
-        else {
+        } else {
           longitude.removeClass('is-invalid input-danger-border')
           isValid = true;
         }
