@@ -2,7 +2,7 @@
   <div class="card advance-custom-card p-2 p-md-2">
     <form class="needs-validation" id="advanced_pole_search" method="get" novalidate>
       <div class="row">
-        <div class="mb-3 col-12 col-md-6">
+        <div class="mb-3 col-12 col-md-12">
           <label class="form-label">Pole Number</label>
           <div class="d-flex border p-1 p-md-2 rounded input-bg">
             <p class="col-6 m-0">
@@ -21,7 +21,9 @@
             </p>
           </div>
         </div>
-        <div class="mb-3 col-12 col-md-6">
+      </div>
+      <div class="row">
+        <div class="mb-3 col-12 col-md-12">
           <label class="form-label">Location</label>
           <div class="d-flex border p-1 p-md-2 rounded input-bg">
             <p class="col-6 m-0">
@@ -50,7 +52,7 @@
           <input type="text" name="latitude" class="form-control" id="id_latitude" aria-describedby="emailHelp"
                  value="<?php echo $_REQUEST['latitude'] ?? ''; ?>"/>
           <div id="invalid-feedback" class="invalid-feedback ">
-            Latitude must have atleast 3 decimal places (Example: 79.123)
+            Latitude must have at least 3 decimal places (Example: 79.123)
           </div>
         </div>
         <div class="mb-3 col-12 col-sm-6 col-lg-4">
@@ -58,7 +60,7 @@
           <input type="text" name="longitude" class="form-control" id="id_longitude" aria-describedby="emailHelp"
                  value="<?php echo $_REQUEST['longitude'] ?? ''; ?>"/>
           <div id="invalid-feedback" class="invalid-feedback ">
-            Longitude must have atleast 3 decimal places (Example: 79.123)
+            Longitude must have at least 3 decimal places (Example: 79.123)
           </div>
         </div>
         <div class="mb-3 col-12 col-sm-6 col-lg-4">
@@ -97,19 +99,20 @@
         <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
              aria-labelledby="panelsStayOpen-headingThree">
           <div class="accordion-body input-bg">
-            <small>Use this search when pole numbers or locations are partially known. Search will return a list of all
-              records found in the database, dead or active. O<span style="line-height: 20.8px;">mit space, slash, hyphen, and other special characters.&nbsp;</span><br
-                style="line-height: 20.8px;">
-              To search:&nbsp;<br>
-              1. Select a category from&nbsp;the drop-down list.&nbsp;<br>
+            <small>
+              Use this search when pole numbers or locations are partially known. Search will return a list of all
+              records found in the database, dead or active. Omit space, slash, hyphen, and other special
+              characters.<br>
+              To search:<br>
+              1. Select a category from the drop-down list.<br>
               2. Type partial pole number and/or location in the respective search boxes. If location is unknown (left
-              blank), you must enter at least 3 characters in the&nbsp;pole number search box.<br>
-              3. Click Search.&nbsp;<br>
-              4. Click on column heading to sort the list.&nbsp;<br>
+              blank), you must enter at least 3&nbsp;characters in the pole number search box.<br>
+              3. Click Search.<br>
+              4. Click on column heading to sort the list.<br>
               5. Click the unique ID to view the record.<br>
-              Tips&nbsp;<br>
-              Users can use the percent symbol (%) as a wildcard to replace missing numbers (e.g. 456%17E) or locations
-              (e.g. LA BREA%FAIRVIEW).&nbsp;<br>
+              Tips<br>
+              Users can use the percent symbol (%) as a wildcard to replace missing numbers (e.g., 456%17E) or locations
+              (e.g., LA BREA%FAIRVIEW).<br>
               The search will return all records (dead or active records). If the complete <strong>pole number is known
                 and only the current active record is needed</strong>, use the Quick Pole Search page for faster search
               performance.</small>
@@ -126,5 +129,6 @@
     include_once SCJPC_PLUGIN_FRONTEND_BASE . "results/jpa_results.php";
   } ?>
 </div>
-<div
-  class="database-update-information alert alert-primary mt-4"><?php echo scjpc_database_update_information(); ?></div>
+<div class="database-update-information alert alert-primary mt-4">
+  <?php echo scjpc_database_update_information(); ?>
+</div>
