@@ -23,7 +23,7 @@
   color: #fff; /* Font color for the first row */
   font-weight: bold; /* Bold font for the first row */
   position: sticky;
-  top: 0;
+  top: -2px;
   z-index: 1;
   vertical-align: middle;
 }
@@ -32,7 +32,7 @@
 .excel-table-container td:first-child,
 .excel-table-container th:first-child {
   position: sticky;
-  left: 0;
+  left: -2px;
   background-color: #8064A2 !important; /* Background color for the first column */
   color: #fff; /* Font color for the first column */
   font-weight: bold; /* Bold font for the first column */

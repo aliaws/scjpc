@@ -1,8 +1,1 @@
-function toggleTableVisibility(event, selector) {
-  let current_table = jQuery(`div#${selector}`)
-  if (current_table.hasClass('display-none')) {
-    current_table.removeClass('display-none')
-  } else {
-    current_table.addClass('display-none')
-  }
-}
+function scrollToElement(event, selector) {jQuery([document.documentElement, document.body]).animate({scrollTop: jQuery(`div#${selector}`).offset().top}, 500);}

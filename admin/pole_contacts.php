@@ -1,9 +1,9 @@
 <?php
 add_action("elementor/frontend/after_enqueue_styles", "scjpc_enqueue_pole_members_script");
 function scjpc_enqueue_pole_members_script(): void {
-  wp_enqueue_style('poles-contacts', SCJPC_ASSETS_URL . 'css/pole-contacts.css', false, '1.32');
-  wp_enqueue_script('poles-contacts', SCJPC_ASSETS_URL . 'js/pole-contacts.js', ['jquery'], '1.32');
-  wp_enqueue_style('print', SCJPC_ASSETS_URL . 'css/print.css', [], '7.9', 'print');
+  wp_enqueue_style('poles-contacts', SCJPC_ASSETS_URL . 'css/pole-contacts.css', false, '1.36');
+  wp_enqueue_script('poles-contacts', SCJPC_ASSETS_URL . 'js/pole-contacts.js', ['jquery'], '1.36');
+  wp_enqueue_style('print', SCJPC_ASSETS_URL . 'css/print.css', [], '7.96', 'print');
 }
 
 function scjpc_get_pole_inspection_contacts($query = []): array {

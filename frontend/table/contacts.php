@@ -16,8 +16,12 @@
             <?php if (!scjpc_string_contains_html_table($value)) {
               echo $value;
             } else {
-              $html_fields[] = ['id' => "$field-$key", 'field_label' => $field_labels[$field], 'value' => $value]; ?>
-              <button class="btn btn-primary" onclick="toggleTableVisibility(event, '<?php echo "$field-$key"; ?>')">
+              $html_fields[] = [
+                'id' => "$field-$key",
+                'member_code' => $row['member_code'],
+                'field_label' => $field_labels[$field],
+                'value' => $value]; ?>
+              <button class="btn btn-primary" onclick="scrollToElement(event, '<?php echo "$field-$key"; ?>')">
                 Click to view <?php echo $field_labels[$field]; ?> below.
               </button>
             <?php } ?>
@@ -31,11 +35,11 @@
 
 
 <?php foreach ($html_fields as $field) { ?>
-  <div class="margin-top-5pc display-none" id="<?php echo $field['id']; ?>">
-    <strong><span><?php echo $field['field_label']; ?></span></strong>
-    <button class="btn btn-primary" onclick="toggleTableVisibility(event, '<?php echo $field['id']; ?>')">
-      Hide Table
-    </button>
+  <div class="margin-top-5pc" id="<?php echo $field['id']; ?>">
+    <span>
+      <i>Member Code: </i><strong><?php echo $field['member_code']; ?></strong><br>
+      <i>Table Field: </i><strong><?php echo $field['field_label']; ?></strong>
+    </span>
     <div class="excel-table-container margin-top-10px">
       <?php echo $field['value']; ?>
     </div>

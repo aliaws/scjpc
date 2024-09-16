@@ -24,7 +24,7 @@
     padding: 0 !important;
   }
 
-  table.table {
+  table.excel-table-container {
     margin: 0 !important;
     padding: 0 !important;
     visibility: visible !important;
@@ -38,5 +38,31 @@
   body:not(table), html:not(table) {
     margin: 0;
     padding: 0;
+  }
+
+  body {
+    margin: 0;
+  }
+
+  table {
+    width: 100%;
+    page-break-inside: auto; /* Prevent breaking inside the table */
+  }
+
+  tr {
+    page-break-inside: avoid; /* Prevent breaking inside rows */
+    page-break-after: auto; /* Allow page breaks between rows */
+  }
+
+  thead {
+    display: table-header-group; /* Ensure header is repeated on each page */
+  }
+
+  tfoot {
+    display: table-footer-group; /* Ensure footer is repeated on each page if needed */
+  }
+
+  .no-print {
+    display: none;
   }
 }
