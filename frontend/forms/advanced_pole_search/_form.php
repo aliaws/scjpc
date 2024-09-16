@@ -81,7 +81,6 @@
       <input type="hidden" id="last_id" name="last_id" value="<?php echo $_REQUEST['last_id'] ?? ''; ?>"/>
       <input type="hidden" id="sort_key" name="sort_key" value="<?php echo $_POST['sort_key'] ?? 'unique_id'; ?>"/>
       <input type="hidden" id="sort_order" name="sort_order" value="<?php echo $_POST['sort_order'] ?? 'asc'; ?>"/>
-      <input type="hidden" id="download_name" name="download_name" value="advanced_pole_results"/>
       <input type="hidden" id="admin_ajax_url" value="<?php echo admin_url('admin-ajax.php'); ?>"/>
       <input type="hidden" id="page_slug" name="page_slug"
              value="<?php echo get_post_field('post_name', get_the_ID()); ?>"/>

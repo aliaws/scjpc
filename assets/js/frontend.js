@@ -160,12 +160,6 @@ function registerExportButtonCalls() {
 function make_export_api_call(button, execute_actions = true) {
   const body = button.data();
   body['action'] = 'make_export_data_call';
-  let download_name = '';
-  try {
-    download_name = jQuery('input#download_name').val()
-  } catch (e) {
-    download_name = ''
-  }
   add_actions_change(execute_actions);
   jQuery.ajax({
     url: admin_ajax_url,
@@ -174,7 +168,7 @@ function make_export_api_call(button, execute_actions = true) {
     dataType: 'json',
     success: function (response) {
       const {file_path, export_format} = response;
-      redirect_to_download_export(file_path, export_format, execute_actions, download_name)
+      redirect_to_download_export(file_path, export_format, execute_actions)
     },
     error: function (error) {
       remove_disabled_prop(execute_actions);
@@ -194,9 +188,9 @@ function trigger_exports_on_search() {
   })
 }
 
-function redirect_to_download_export(file_path, export_format, execute_actions = true, download_name = '') {
+function redirect_to_download_export(file_path, export_format, execute_actions = true) {
   if (execute_actions) {
-    window.location.href = `/download-export?file_path=${file_path}&format=${export_format}&download_name=${download_name}`;
+    window.location.href = `/download-export?file_path=${file_path}&format=${export_format}`;
     setTimeout(function () {
       remove_actions_change();
     }, 1000);
