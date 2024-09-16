@@ -60,12 +60,44 @@ svg.e-font-icon-svg.e-fas-phone-volume {
   height: var(--e-icon-list-icon-size, 1em);
 }
 
-.sub-menu-arrow-css .elementor-item.has-submenu .sub-arrow {
+.sub-menu-arrow-css .elementor-item.has-submenu .sub-arrow,
+.display-none {
   display: none;
 }
 
 span.sub-arrow {
   display: none !important;
+}
+
+.margin-top-5pc {
+  margin-top: 5%
+}
+
+.margin-top-10px {
+  margin-top: 10px
+}
+
+.btn {
+  padding: 0.375rem 0.75rem !important;
+  font-size: 1rem !important;
+  color: #fff !important;
+  background-color: var(--e-global-color-secondary) !important;
+  border-color: var(-e-global-color-secondary) !important;
+}
+
+.btn-primary {
+  -bs-btn-bg: var(--e-global-color-secondary) !important;
+  --bs-btn-border-color: var(--e-global-color-secondary) !important;
+}
+
+.btn:hover {
+  color: #fff !important;
+  background-color: #5c636a !important;
+  border-color: #565e64 !important;
+}
+
+.btn-primary:hover {
+  color: #fff !important;
 }
 
 /*a.has-submenu > i.wpmi__icon {*/
