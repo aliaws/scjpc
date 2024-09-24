@@ -115,11 +115,12 @@ function download_export_array($response): array {
 
 /**
  * This method returns an array of the BASE Owners added while migration having status active
- * @param bool $formatted if passed true the response array will have key value pairs or base owners code and name
- *                        if passed false the table row like array will be returned
+ * @param bool $active
+ * @param bool $formatted if passed true, the response array will have key value pairs or base owners code and name
+ *                        if passed false, the table row like array will be returned
  * @return array
  */
-function scjpc_get_base_owners($active = false, bool $formatted = false): array {
+function scjpc_get_base_owners(bool $active = false, bool $formatted = false): array {
   $table_name = scjpc_get_base_owners_table_name();
   $active_check = $active ? "WHERE status='active'" : '';
   $sql = "SELECT * from $table_name $active_check";
@@ -137,4 +138,9 @@ function scjpc_get_base_owners($active = false, bool $formatted = false): array 
 
 function scjpc_get_base_owners_table_name() {
   return get_option('scjpc_base_owners_table', '');
+}
+
+
+function scjpc_string_contains_html_table($value): bool {
+  return preg_match('/<table\b[^>]*>/i', $value);
 }

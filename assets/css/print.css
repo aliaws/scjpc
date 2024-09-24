@@ -1,9 +1,11 @@
 @page {
-  size: A4 landscape;
+  size: A4 landscape; /* Set the paper size and orientation */
+  margin: 10mm; /* Adjust margins to fit content better */
 }
 
 @media print {
 
+  /* Hide unnecessary elements */
   header,
   .elementor-location-footer,
   .card-wrapper,
@@ -19,24 +21,77 @@
     display: none !important;
   }
 
+  /* Reset margin and padding for all elements except table */
   *:not(table) {
     margin: 0 !important;
     padding: 0 !important;
   }
 
-  table.table {
+  /* Ensure the table container is properly positioned */
+  div.excel-table-container {
     margin: 0 !important;
     padding: 0 !important;
     visibility: visible !important;
-    position: absolute !important;
-    left: 0 !important;
-    top: 0 !important;
-    height: 100% !important;
-    width: 100% !important;
+    position: relative !important; /* Changed from absolute to relative */
+    overflow: visible !important; /* Allow overflow */
+    width: 100% !important; /* Ensure full width */
+    height: auto !important; /* Allow height to adjust automatically */
   }
 
-  body:not(table), html:not(table) {
+  /* Ensure the body and html margins are reset */
+  body, html {
     margin: 0;
     padding: 0;
+    font-size: 12px; /* Set base font size for consistency */
+    line-height: 1.5; /* Set a line height for better readability */
+  }
+
+  /* Style for the table */
+  table {
+    width: 100%;
+    border-collapse: collapse; /* Ensure borders are handled correctly */
+    page-break-inside: auto; /* Prevent breaking inside the table */
+    font-size: 12px; /* Ensure font size is consistent within the table */
+  }
+
+  /* Style for table rows */
+  tr {
+    page-break-inside: avoid; /* Prevent breaking inside rows */
+    page-break-after: auto; /* Allow page breaks after rows */
+  }
+
+  /* Style for table headers and footers */
+  thead {
+    display: table-header-group; /* Ensure header is repeated on each page */
+    font-size: 12px; /* Consistent font size for headers */
+  }
+
+  tfoot {
+    display: table-footer-group; /* Ensure footer is printed if needed */
+    font-size: 12px; /* Consistent font size for footers */
+  }
+
+  /* Hide elements with class 'no-print' */
+  .no-print {
+    display: none;
+  }
+
+  /* Ensure proper text wrapping and visibility */
+  td, th {
+    word-wrap: break-word; /* Handle long text within cells */
+    overflow: visible; /* Ensure content is not cut off */
+    font-size: 12px; /* Consistent font size for table cells */
+  }
+
+
+  a {
+    color: black !important; /* Ensure links are visible in print */
+    text-decoration: none !important; /* Remove underline for a cleaner print */
+    font-size: 12px !important; /* Consistent font size for links */
+  }
+
+  /* Ensure consistency for general text elements */
+  a, span, p, div {
+    font-size: 12px !important; /* Ensures consistency for general text elements */
   }
 }

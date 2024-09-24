@@ -1,0 +1,1 @@
+function scrollToElement(event, selector) {jQuery([document.documentElement, document.body]).animate({scrollTop: jQuery(`div#${selector}`).offset().top}, 500);}
