@@ -209,6 +209,7 @@ table a {
 
 .response-table {
   position: relative;
+  overflow: hidden;
 }
 
 .response-overlay {
