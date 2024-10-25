@@ -5,7 +5,7 @@
         <div class="mb-3 col-12 col-md-12">
           <label class="form-label">Pole Number</label>
           <div class="d-flex border p-1 p-md-2 rounded input-bg">
-            <p class="col-6 m-0">
+            <p class="col-md-2 col-sm-3 col m-0">
               <select name="pole_number_filter" class="form-select">
                 <?php foreach (STRING_FILTER as $key => $label) { ?>
                   <option <?php echo isset($_REQUEST['pole_number_filter']) && $_REQUEST['pole_number_filter'] == $key ? 'selected' : '' ?>
@@ -15,7 +15,7 @@
                 <?php } ?>
               </select>
             </p>
-            <p class="col-6 ps-3 m-0">
+            <p class="col-md-10 col-sm-9 col ps-sm-3 ps-2 m-0">
               <input type="text" name="pole_number" class="form-control" id="pole"
                      value="<?php echo $_REQUEST['pole_number'] ?? ''; ?>"/>
             </p>
@@ -26,7 +26,7 @@
         <div class="mb-3 col-12 col-md-12">
           <label class="form-label">Location</label>
           <div class="d-flex border p-1 p-md-2 rounded input-bg">
-            <p class="col-6 m-0">
+            <p class="col-md-2 col-sm-3 col m-0">
               <select name="location_filter" class="form-select " aria-label=".form-select-lg example">
                 <?php foreach (STRING_FILTER as $key => $label) { ?>
                   <option <?php echo isset($_REQUEST['location_filter']) && $_REQUEST['location_filter'] == $key ? 'selected' : '' ?>
@@ -36,7 +36,7 @@
                 <?php } ?>
               </select>
             </p>
-            <p class="col-6 ps-3 m-0">
+            <p class="col-md-10 col-sm-9 col ps-sm-3 ps-2 m-0">
               <input type="text" name="location" class="form-control" id="location"
                      value="<?php echo $_REQUEST['location'] ?? ''; ?>"/>
               <span id="location_feedback_length" class="invalid-feedback">
