@@ -6,7 +6,7 @@ if (!defined('IS_ADMIN')) {
   define("IS_ADMIN", true);
 } ?>
 <div class='admin-search'>
-  <?php include_once SCJPC_PLUGIN_FRONTEND_BASE . "forms/jpa_search_form.php"; ?>
+  <?php include_once SCJPC_PLUGIN_FRONTEND_BASE . "forms/jpa_search/_form.php"; ?>
   <div class="modal fade" id="jpaModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
