@@ -20,6 +20,8 @@
   $user_id = $current_user->ID;
   $user_email = $current_user->user_email;
   $export_endpoint = trim(get_option('scjpc_es_host'), '/') . "/data-export";
+  $base_cdn_url = rtrim(get_option('scjpc_aws_cdn'), '/');
+  $base_cdn_url = str_starts_with($base_cdn_url, 'https://') ? $base_cdn_url : "https://$base_cdn_url";
   if ($total_records == 0) {
     if (!empty($search_result['errors_file_path']) && $search_result['errors_file_path'] != '') { ?>
       <div class="d-flex b justify-content-end mb-2 align-items-center" role="group">
