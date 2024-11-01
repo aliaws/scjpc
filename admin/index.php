@@ -8,80 +8,80 @@ require_once SCJPC_PLUGIN_ADMIN_BASE . 'api.php';
 require_once SCJPC_PLUGIN_ADMIN_BASE . 'functions.php';
 
 
-add_action('init', 'scjpc_register_post_type_migration_logs');
-function scjpc_register_post_type_migration_logs(): void {
-  $supports = [
-    'title', // post title
-    'editor', // post content
-//    'author', // post author
-//    'thumbnail', // featured images
-//    'excerpt', // post excerpt
-    'custom-fields', // custom fields
-//    'comments', // post comments
-//    'revisions', // post revisions
-//    'post-formats', // post formats
-  ];
-  $labels = array(
-    'name' => _x('Migration Logs', 'plural', 'scjpc'),
-    'singular_name' => _x('Migration Log', 'singular', 'scjpc'),
-    'menu_name' => _x('Migration Logs', 'admin menu', 'scjpc'),
-    'name_admin_bar' => _x('Migration Logs', 'admin bar', 'scjpc'),
-//    'add_new' => _x('Add New', 'add new'),
-//    'add_new_item' => __('Add New news'),
-//    'new_item' => __('New news', 'scjpc'),
-//    'edit_item' => __('Edit news'),
-    'view_item' => __('View Migration Logs', 'scjpc'),
-    'all_items' => __('Database Migration Logs', 'scjpc'),
-    'search_items' => __('Search Migration Logs', 'scjpc'),
-    'not_found' => __('No Migration Logs found.', 'scjpc'),
-  );
-  $args = array(
-    'supports' => $supports,
-    'labels' => $labels,
-    'public' => true,
-    'query_var' => true,
-    'rewrite' => array('slug' => 'migration-logs'),
-    'has_archive' => true,
-    'hierarchical' => false,
-    'show_in_menu' => 'scjpc', // Add this line to place under the "Scjpc" menu
-  );
-  register_post_type('migration_logs', $args);
-}
+// add_action('init', 'scjpc_register_post_type_migration_logs');
+//function scjpc_register_post_type_migration_logs(): void {
+//  $supports = [
+//    'title', // post title
+//    'editor', // post content
+////    'author', // post author
+////    'thumbnail', // featured images
+////    'excerpt', // post excerpt
+//    'custom-fields', // custom fields
+////    'comments', // post comments
+////    'revisions', // post revisions
+////    'post-formats', // post formats
+//  ];
+//  $labels = array(
+//    'name' => _x('Migration Logs', 'plural', 'scjpc'),
+//    'singular_name' => _x('Migration Log', 'singular', 'scjpc'),
+//    'menu_name' => _x('Migration Logs', 'admin menu', 'scjpc'),
+//    'name_admin_bar' => _x('Migration Logs', 'admin bar', 'scjpc'),
+////    'add_new' => _x('Add New', 'add new'),
+////    'add_new_item' => __('Add New news'),
+////    'new_item' => __('New news', 'scjpc'),
+////    'edit_item' => __('Edit news'),
+//    'view_item' => __('View Migration Logs', 'scjpc'),
+//    'all_items' => __('Database Migration Logs', 'scjpc'),
+//    'search_items' => __('Search Migration Logs', 'scjpc'),
+//    'not_found' => __('No Migration Logs found.', 'scjpc'),
+//  );
+//  $args = array(
+//    'supports' => $supports,
+//    'labels' => $labels,
+//    'public' => true,
+//    'query_var' => true,
+//    'rewrite' => array('slug' => 'migration-logs'),
+//    'has_archive' => true,
+//    'hierarchical' => false,
+//    'show_in_menu' => 'scjpc', // Add this line to place under the "Scjpc" menu
+//  );
+//  register_post_type('migration_logs', $args);
+//}
+//
+//add_filter('manage_migration_logs_posts_columns', 'scjpc_migrations_logs_columns');
+//function scjpc_migrations_logs_columns($columns): array {
+//  $scjpc_columns = [
+//    'status' => __('Status', 'scjpc'),
+//    'jpas_s3_key' => __('JPAs S3 Key', 'scjpc'),
+//    'poles_s3_key' => __('Poles S3 Key', 'scjpc'),
+//    'request_host' => __('Request Host', 'scjpc'),
+////    'job_datetime' => __('Job Datetime', 'scjpc'),
+//    'date' => __('Date', 'scjpc'),
+//  ];
+//  return array_merge(array_slice($columns, 0, 2), $scjpc_columns);
+//}
+//
+//add_action('manage_migration_logs_posts_custom_column', 'scjpc_fill_migrations_logs_columns', 10, 2);
+//function scjpc_fill_migrations_logs_columns($column, $post_id): void {
+//  $scjpc_columns = get_scjpc_columns_array();
+//  if (isset($scjpc_columns[$column])) {
+//    echo get_post_meta($post_id, $scjpc_columns[$column], true);
+//  }
+//}
 
-add_filter('manage_migration_logs_posts_columns', 'scjpc_migrations_logs_columns');
-function scjpc_migrations_logs_columns($columns): array {
-  $scjpc_columns = [
-    'status' => __('Status', 'scjpc'),
-    'jpas_s3_key' => __('JPAs S3 Key', 'scjpc'),
-    'poles_s3_key' => __('Poles S3 Key', 'scjpc'),
-    'request_host' => __('Request Host', 'scjpc'),
-//    'job_datetime' => __('Job Datetime', 'scjpc'),
-    'date' => __('Date', 'scjpc'),
-  ];
-  return array_merge(array_slice($columns, 0, 2), $scjpc_columns);
-}
-
-add_action('manage_migration_logs_posts_custom_column', 'scjpc_fill_migrations_logs_columns', 10, 2);
-function scjpc_fill_migrations_logs_columns($column, $post_id): void {
-  $scjpc_columns = get_scjpc_columns_array();
-  if (isset($scjpc_columns[$column])) {
-    echo get_post_meta($post_id, $scjpc_columns[$column], true);
-  }
-}
-
-function get_scjpc_columns_array(): array {
-  return [
-    'status' => 'scjpc_status',
-    'jpas_s3_key' => 'scjpc_jpas_s3_key',
-    'jpas_created' => 'scjpc_no_of_jpas_created',
-    'jpas_updated' => 'scjpc_no_of_jpas_updated',
-    'poles_s3_key' => 'scjpc_poles_s3_key',
-    'poles_created' => 'scjpc_no_of_poles_created',
-    'poles_updated' => 'scjpc_no_of_poles_updated',
-//    'job_datetime' => 'scjpc_job_datetime',
-    'request_host' => 'scjpc_request_host',
-  ];
-}
+//function get_scjpc_columns_array(): array {
+//  return [
+//    'status' => 'scjpc_status',
+//    'jpas_s3_key' => 'scjpc_jpas_s3_key',
+//    'jpas_created' => 'scjpc_no_of_jpas_created',
+//    'jpas_updated' => 'scjpc_no_of_jpas_updated',
+//    'poles_s3_key' => 'scjpc_poles_s3_key',
+//    'poles_created' => 'scjpc_no_of_poles_created',
+//    'poles_updated' => 'scjpc_no_of_poles_updated',
+////    'job_datetime' => 'scjpc_job_datetime',
+//    'request_host' => 'scjpc_request_host',
+//  ];
+//}
 
 function scjpc_options_menu_settings(): void {
   register_setting('scjpc-settings-group', 'scjpc_es_host');
@@ -102,11 +102,11 @@ add_action('admin_menu', 'scjpc_custom_admin_menu');
 function scjpc_custom_admin_menu() {
   // Add the main menu item for jpa
   add_menu_page(
-    __('Scjpc', 'scjpc'),   // Page title
-    'Scjpc',                     // Menu title
+    __('Dashboard', 'scjpc'),   // Page title
+    'SCJPC',                     // Menu title
     'manage_options',          // Capability
-    'scjpc',                     // Menu slug
-    '',                        // Function (empty for now)
+    'scjpc',         // Menu slug
+    'admin_scjpc_dashboard',                        // Function (empty for now)
     'dashicons-admin-generic', // Icon URL
     6                          // Position
   );
@@ -115,7 +115,7 @@ function scjpc_custom_admin_menu() {
     __('Jpa', 'scjpc'), // Page title
     'Dashboard',         // Menu title
     'manage_options',          // Capability
-    'scjpc-dashboard',         // Menu slug
+    'scjpc',         // Menu slug
     'admin_scjpc_dashboard'   // Function to display page content
   );
   add_submenu_page(
@@ -206,7 +206,7 @@ function scjpc_custom_admin_menu() {
 }
 
 function load_admin_assets(): void {
-  wp_enqueue_style('admin_css', SCJPC_ASSETS_URL . 'css/admin.css', false, '1.0');
+  wp_enqueue_style('admin_css', SCJPC_ASSETS_URL . 'css/admin.css', false, '1.1');
   wp_enqueue_script('admin_js', SCJPC_ASSETS_URL . 'js/admin.js', false, '2.4', true);
 }
 
@@ -350,4 +350,3 @@ function custom_lost_password_html_link($html_link) {
 }
 
 add_filter('lost_password_html_link', 'custom_lost_password_html_link');
-
