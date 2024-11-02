@@ -11,6 +11,6 @@
     --bs-btn-border-color: var(--e-global-color-secondary) !important;
 }
 div.modal-footer .btn.btn-primary {
-    --bs-btn-bg: var(--e-global-color-secondary) !important;
-    --bs-btn-border-color: var(--e-global-color-secondary) !important;
+    background-color: var(--bs-primary) !important;
+    border-color: var(--bs-primary) !important;
 }
