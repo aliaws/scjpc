@@ -155,8 +155,8 @@ function scjpc_custom_admin_menu() {
   // Add the migration_logs submenu item
   add_submenu_page(
     'scjpc',                     // Parent slug
-    __('Database Migration Logs V2', 'scjpc'), // Page title
-    'Database Migration Logs V2',         // Menu title
+    __('Database Migration Logs', 'scjpc'), // Page title
+    'Database Migration Logs',         // Menu title
     'manage_options',          // Capability
     'migration-logs',         // Menu slug
     'scjpc_migration_logs'   // Function to display page content
