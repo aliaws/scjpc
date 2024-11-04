@@ -123,7 +123,7 @@ function scjpc_dequeue_unwanted_scripts(): void { wp_dequeue_script('smartmenus'
 
 add_action('wp_enqueue_scripts', 'scjpc_enqueue_scripts');
 function scjpc_enqueue_scripts(): void {
-  wp_enqueue_script('scjpc-smartmenus', SCJPC_ASSETS_URL . '/js/smartmenus.min.js', ['jquery'], '', true);
+  wp_enqueue_script('scjpc-smartmenus', SCJPC_ASSETS_URL . 'js/smartmenus.min.js', ['jquery'], '', true);
 }
 
 add_action('wp_enqueue_scripts', function () {

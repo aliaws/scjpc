@@ -1,0 +1,10 @@
+@media (max-width: 1024px) and (min-width: 768px) {
+  .elementor-135 .elementor-element.elementor-element-3659625 .elementor-nav-menu .elementor-item,
+  .elementor-135 .elementor-element.elementor-element-53e5ad6 .elementor-nav-menu .elementor-item,
+  .elementor-135 .elementor-element.elementor-element-72a617b .elementor-nav-menu .elementor-item {
+    text-wrap: auto;
+    line-height: 1.1 !important;
+    padding: 5px 10px 5px 20px;
+    align-items: start;
+  }
+}

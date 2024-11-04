@@ -206,8 +206,8 @@ function scjpc_custom_admin_menu() {
 }
 
 function load_admin_assets(): void {
-  wp_enqueue_style('admin_css', SCJPC_ASSETS_URL . 'css/admin.css', false, '2.1');
-  wp_enqueue_script('admin_js', SCJPC_ASSETS_URL . 'js/admin.js', false, '2.4', true);
+  wp_enqueue_style('admin_css', SCJPC_ASSETS_URL . 'css/admin.css', false, '2.6');
+  wp_enqueue_script('admin_js', SCJPC_ASSETS_URL . 'js/admin.js', false, '2.6', true);
 }
 
 function admin_scjpc_dashboard() {
