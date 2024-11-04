@@ -9,7 +9,7 @@ if (isset($_REQUEST['go_back'])) {
     <strong class="me-2">
       Search Option 1:
     </strong>
-    <small>Search multiple poles by pole numbers listed in an excel file.</small>
+    <small>Search multiple poles by pole numbers listed in an Excel file.</small>
     <small class="my-3 d-block">
       <a href="<?php echo SCJPC_URL . "frontend/ExamplePoleNumbers.xlsx"; ?>" download>
         Example of Pole Numbers Excel file - (.xlsx)

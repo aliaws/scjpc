@@ -89,6 +89,7 @@ function perform_advanced_pole_search($request): array {
 
 function perform_quick_pole_search($request) {
   $request['action'] = 'single-pole';
+  $request['columns'] = implode(",", array_keys(POLES_KEYS));
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/pole-search?" . http_build_query($request);
   $response = make_search_api_call($api_url, true);
   $response['result_per_page'] = RESULTS_PER_PAGE;

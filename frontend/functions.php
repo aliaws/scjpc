@@ -6,7 +6,7 @@ function load_bootstrap_assets(): void {
   wp_enqueue_script('jquery');
   wp_enqueue_script('bootstrap-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js', array('jquery'), null, true);
 
-  wp_enqueue_style('frontend_css', SCJPC_ASSETS_URL . 'css/frontend.css', false, '6.4');
+  wp_enqueue_style('frontend_css', SCJPC_ASSETS_URL . 'css/frontend.css', false, '6.8');
   wp_enqueue_style('responsive_css', SCJPC_ASSETS_URL . 'css/responsive.css', false, '1.7');
   wp_enqueue_style('print_css', SCJPC_ASSETS_URL . 'css/print.css', array(), '7.9', 'print');
   wp_enqueue_script('base64_js', SCJPC_ASSETS_URL . 'js/base64.js', false, '1.0', true);
@@ -115,11 +115,12 @@ function download_export_array($response): array {
 
 /**
  * This method returns an array of the BASE Owners added while migration having status active
- * @param bool $formatted if passed true the response array will have key value pairs or base owners code and name
- *                        if passed false the table row like array will be returned
+ * @param bool $active
+ * @param bool $formatted if passed true, the response array will have key value pairs or base owners code and name
+ *                        if passed false, the table row like array will be returned
  * @return array
  */
-function scjpc_get_base_owners($active = false, bool $formatted = false): array {
+function scjpc_get_base_owners(bool $active = false, bool $formatted = false): array {
   $table_name = scjpc_get_base_owners_table_name();
   $active_check = $active ? "WHERE status='active'" : '';
   $sql = "SELECT * from $table_name $active_check";
@@ -137,4 +138,9 @@ function scjpc_get_base_owners($active = false, bool $formatted = false): array 
 
 function scjpc_get_base_owners_table_name() {
   return get_option('scjpc_base_owners_table', '');
+}
+
+
+function scjpc_string_contains_html_table($value): bool {
+  return preg_match('/<table\b[^>]*>/i', $value);
 }

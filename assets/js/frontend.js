@@ -1,4 +1,3 @@
-
 const admin_ajax_url = jQuery("#admin_ajax_url").val();
 
 jQuery(document).ready(function () {
@@ -183,7 +182,7 @@ function make_export_api_call(button, execute_actions = true) {
 function trigger_exports_on_search() {
   ['export_as_excel', 'export_as_csv'].forEach(button_key => {
     const button = jQuery(`button#${button_key}`);
-    if (button.length >0) {
+    if (button.length > 0) {
       make_export_api_call(button, false);
     }
   })
@@ -311,22 +310,20 @@ function validateForm(formId, formData) {
         }
         formData.append('location_encoded', Base64.encode(jQuery.trim(location.val())));
       }
-      if (jQuery.trim(latitude.val()).length > 0 ) {
-        if(!validateLatitudeLongitude(latitude.val())) {
+      if (jQuery.trim(latitude.val()).length > 0) {
+        if (!validateLatitudeLongitude(latitude.val())) {
           latitude.addClass('is-invalid input-danger-border')
           isValid = false;
-        }
-        else {
+        } else {
           latitude.removeClass('is-invalid input-danger-border')
           isValid = true;
         }
       }
-      if (jQuery.trim(longitude.val()).length > 0 ) {
-        if(!validateLatitudeLongitude(longitude.val())) {
+      if (jQuery.trim(longitude.val()).length > 0) {
+        if (!validateLatitudeLongitude(longitude.val())) {
           longitude.addClass('is-invalid input-danger-border')
           isValid = false;
-        }
-        else {
+        } else {
           longitude.removeClass('is-invalid input-danger-border')
           isValid = true;
         }

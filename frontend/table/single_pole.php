@@ -8,7 +8,7 @@ if ($prev_search_query != '') {
     <a class="btn mb-1" href="<?php echo $redirect_url ?>">Go Back To Search Results</a>
   <?php }
 } ?>
-<div class="well mw-100 text-secondary">
+<div class="well mw-100 text-secondary mt-5">
   <div class="row result-row">
     <div class="col-sm-6">
       <h5>Pole Number: <?php echo $pole_result['pole_number']; ?></h5>

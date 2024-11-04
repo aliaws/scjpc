@@ -2,8 +2,13 @@ const registerExportJPAMembersClickEvent = () => {
   jQuery('a#export-jpa-members').on('click', (event) => {
     event.preventDefault()
     jQuery(this).prop('href', '');
-    jQuery.ajax(`${scjpc_ajax.ajax_url}?action=scjpc_export_jpa_members`, {
+    jQuery.ajax({
+      url: `${scjpc_ajax.ajax_url}`,
       type: 'GET',
+      data: {
+        action: 'scjpc_export_jpa_members',
+        export_file_name: extractExportFileName()
+      },
       success: (success) => {
         if (success.data !== "undefined" && typeof success.data.export_file_path !== "undefined") {
           window.location.href = success.data.export_file_path
@@ -20,8 +25,13 @@ const registerExportPoleMembersClickEvent = () => {
   jQuery('a#export-pole-members').on('click', (event) => {
     event.preventDefault()
     jQuery(this).prop('href', '');
-    jQuery.ajax(`${scjpc_ajax.ajax_url}?action=scjpc_export_pole_members`, {
+    jQuery.ajax({
+      url: `${scjpc_ajax.ajax_url}`,
       type: 'GET',
+      data: {
+        action: 'scjpc_export_pole_members',
+        export_file_name: extractExportFileName()
+      },
       success: (success) => {
         if (success.data !== "undefined" && typeof success.data.export_file_path !== "undefined") {
           window.location.href = success.data.export_file_path
@@ -37,8 +47,13 @@ const registerExportBuddyPoleMembersClickEvent = () => {
   jQuery('a#export-buddy-poles').on('click', (event) => {
     event.preventDefault()
     jQuery(this).prop('href', '');
-    jQuery.ajax(`${scjpc_ajax.ajax_url}?action=scjpc_export_buddy_pole_members`, {
+    jQuery.ajax({
+      url: `${scjpc_ajax.ajax_url}`,
       type: 'GET',
+      data: {
+        action: 'scjpc_export_buddy_pole_members',
+        export_file_name: extractExportFileName()
+      },
       success: (success) => {
         if (success.data !== "undefined" && typeof success.data.export_file_path !== "undefined") {
           window.location.href = success.data.export_file_path
@@ -55,8 +70,13 @@ const registerExportGraffitiRemovalMembersClickEvent = () => {
   jQuery('a#export-graffiti-removal-contacts').on('click', (event) => {
     event.preventDefault()
     jQuery(this).prop('href', '');
-    jQuery.ajax(`${scjpc_ajax.ajax_url}?action=scjpc_export_graffiti_removal_members`, {
+    jQuery.ajax({
+      url: `${scjpc_ajax.ajax_url}`,
       type: 'GET',
+      data: {
+        action: 'scjpc_export_graffiti_removal_members',
+        export_file_name:  extractExportFileName()
+      },
       success: (success) => {
         if (success.data !== "undefined" && typeof success.data.export_file_path !== "undefined") {
           window.location.href = success.data.export_file_path
@@ -72,8 +92,13 @@ const registerExportEmergencyContactsClickEvent = () => {
   jQuery('a#export-emergency-contacts').on('click', (event) => {
     event.preventDefault()
     jQuery(this).prop('href', '');
-    jQuery.ajax(`${scjpc_ajax.ajax_url}?action=scjpc_export_emergency_contacts`, {
+    jQuery.ajax({
+      url: `${scjpc_ajax.ajax_url}`,
       type: 'GET',
+      data: {
+        action: 'scjpc_export_emergency_contacts',
+        export_file_name:  extractExportFileName()
+      },
       success: (success) => {
         if (success.data !== "undefined" && typeof success.data.export_file_path !== "undefined") {
           window.location.href = success.data.export_file_path
@@ -90,8 +115,13 @@ const registerExportFieldAssistanceClickEvent = () => {
   jQuery('a#export-field-assistance').on('click', (event) => {
     event.preventDefault()
     jQuery(this).prop('href', '');
-    jQuery.ajax(`${scjpc_ajax.ajax_url}?action=scjpc_export_field_assistance_contacts`, {
+    jQuery.ajax({
+      url: `${scjpc_ajax.ajax_url}`,
       type: 'GET',
+      data: {
+        action: 'scjpc_export_field_assistance_contacts',
+        export_file_name:  extractExportFileName()
+      },
       success: (success) => {
         if (success.data !== "undefined" && typeof success.data.export_file_path !== "undefined") {
           window.location.href = success.data.export_file_path
@@ -175,3 +205,21 @@ jQuery(document).ready(() => {
   registerExportFieldAssistanceClickEvent();
   registerRevealContactInformationEvent();
 })
+
+function extractExportFileName() {
+  const ob = jQuery('.elementor-page-title .elementor-heading-title')[0]
+  const pageHeading = jQuery(ob).text();
+  return toSnakeCase(pageHeading);
+}
+
+/**
+ * Converts a given string to snake case.
+ * @param {string} str - The string to convert.
+ * @returns {string} - The snake case version of the string.
+ */
+function toSnakeCase(str) {
+  return str
+      .toLowerCase() 
+      .replace(/[\s\/–]+/g, '_')
+      .replace(/[^\w_]/g, '');
+}

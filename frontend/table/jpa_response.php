@@ -76,7 +76,7 @@ $base_cdn_url = str_starts_with($base_cdn_url, 'https://') ? $base_cdn_url : "ht
         $jpa_detail_url = "/pole-search/?jpa_number=$jpa_number&action=jpa_detail_search&per_page=50&page_number=1&last_id=&search_query=$search_query"; ?>
         <tr>
           <th scope="row"><?php echo $result['jpa_unique_id']; ?></th>
-          <td><a href="<?php echo $jpa_detail_url; ?>" target="_self"><?php echo $jpa_number; ?></a></td>
+          <td><a href="<?php echo $jpa_detail_url; ?>" target="_self" class="jpa_number"><?php echo $jpa_number; ?></a></td>
           <td>
             <?php if ($result['pdf_s3_key'] !== null) { ?>
               <a class="text-decoration-none pdf-icon-wrapper" href="<?php echo $jpa_pdf_url; ?>">

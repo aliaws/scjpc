@@ -125,3 +125,11 @@ add_action('wp_enqueue_scripts', 'scjpc_enqueue_scripts');
 function scjpc_enqueue_scripts(): void {
   wp_enqueue_script('scjpc-smartmenus', SCJPC_ASSETS_URL . '/js/smartmenus.min.js', ['jquery'], '', true);
 }
+
+add_action('wp_enqueue_scripts', function () {
+  if (!class_exists('\Elementor\Core\Files\CSS\Post')) {
+    return;
+  }
+  $css_file = new \Elementor\Core\Files\CSS\Post(5203);
+  $css_file->enqueue();
+}, 10);
