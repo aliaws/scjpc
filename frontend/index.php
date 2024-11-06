@@ -13,8 +13,8 @@ function scjpc_prepare_date_format($db_date, $input_format, $output_format): str
 
 function scjpc_database_update_information(): string {
   $migration_date = scjpc_prepare_date_format(get_option('scjpc_migration_date'), 'd/m/Y', 'm/d/Y');
-  $latest_billed_jpa = scjpc_prepare_date_format(get_option('scjpc_latest_billed_jpa_date'), 'm/y', 'm/Y');
-  $latest_billed_jpa_pdf = scjpc_prepare_date_format(get_option('scjpc_latest_billed_jpa_pdf_date'), 'm/y', 'm/Y');
+  $latest_billed_jpa = scjpc_prepare_date_format(get_option('scjpc_latest_billed_jpa_date'), 'm/y', 'm/y');
+  $latest_billed_jpa_pdf = scjpc_prepare_date_format(get_option('scjpc_latest_billed_jpa_pdf_date'), 'm/y', 'm/y');
   return "Last database update on: $migration_date (B/S $latest_billed_jpa)<br>PDF Finals available from: 2003 to B/S $latest_billed_jpa_pdf";
 }
 
