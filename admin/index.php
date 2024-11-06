@@ -83,6 +83,12 @@ require_once SCJPC_PLUGIN_ADMIN_BASE . 'functions.php';
 //  ];
 //}
 
+function scjpc_options_menu_migration_dates(): void {
+  register_setting('scjpc-migration-dates-settings', 'scjpc_migration_date');
+  register_setting('scjpc-migration-dates-settings', 'scjpc_latest_billed_jpa_date');
+  register_setting('scjpc-migration-dates-settings', 'scjpc_latest_billed_jpa_pdf_date');
+}
+
 function scjpc_options_menu_settings(): void {
   register_setting('scjpc-settings-group', 'scjpc_es_host');
   register_setting('scjpc-settings-group', 'scjpc_client_auth_key');
@@ -169,7 +175,7 @@ function scjpc_custom_admin_menu() {
     __('SCJPC Settings', 'scjpc'), // Page title
     'Settings',
     'administrator',
-    __FILE__,
+    'settings',
     'scjpc_options_menu_settings_page',
   );
   add_action('admin_init', 'scjpc_options_menu_settings');
@@ -203,6 +209,16 @@ function scjpc_custom_admin_menu() {
     'base-owners',         // Menu slug
     'scjpc_base_owners_settings'   // Function to display page content
   );
+  add_submenu_page(
+    'scjpc',                     // Parent slug
+    __('Migration Dates', 'scjpc'), // Page title
+    'Migration Dates',         // Menu title
+    'manage_options',          // Capability
+    'migration-dates',         // Menu slug
+    'scjpc_update_migration_dates_manually'   // Function to display page content
+  );
+  add_action('admin_init', 'scjpc_options_menu_migration_dates');
+
 }
 
 function load_admin_assets(): void {
@@ -248,6 +264,11 @@ function scjpc_es_health(): void {
 function scjpc_base_owners_settings(): void {
   ob_start();
   include_once(SCJPC_PLUGIN_ADMIN_BASE . 'pages/base_owners.php');
+}
+
+function scjpc_update_migration_dates_manually(): void {
+  ob_start();
+  include_once(SCJPC_PLUGIN_ADMIN_BASE . 'templates/migration_dates.php');
 }
 
 add_action('admin_enqueue_scripts', 'scjpc_enqueue_admin_scripts');

@@ -3,12 +3,18 @@ include_once(SCJPC_PLUGIN_PATH . 'aws/aws-autoloader.php');
 include_once(SCJPC_PLUGIN_FRONTEND_BASE . 'functions.php');
 include_once(SCJPC_PLUGIN_FRONTEND_BASE . 'relevanssi.php');
 
+function scjpc_prepare_date_format($db_date, $input_format, $output_format): string {
+  $formatted_date = DateTime::createFromFormat($input_format, $db_date);
+  if (!$formatted_date) {
+    $formatted_date = DateTime::createFromFormat('Y-m-d', $db_date);
+  }
+  return $formatted_date->format($output_format);
+}
+
 function scjpc_database_update_information(): string {
-  $migration_date = get_option('scjpc_migration_date');
-  $migration_date = DateTime::createFromFormat('d/m/Y', $migration_date);
-  $migration_date = $migration_date->format('m/d/Y');
-  $latest_billed_jpa = get_option('scjpc_latest_billed_jpa_date');
-  $latest_billed_jpa_pdf = get_option('scjpc_latest_billed_jpa_pdf_date');
+  $migration_date = scjpc_prepare_date_format(get_option('scjpc_migration_date'), 'd/m/Y', 'm/d/Y');
+  $latest_billed_jpa = scjpc_prepare_date_format(get_option('scjpc_latest_billed_jpa_date'), 'm/y', 'm/Y');
+  $latest_billed_jpa_pdf = scjpc_prepare_date_format(get_option('scjpc_latest_billed_jpa_pdf_date'), 'm/y', 'm/Y');
   return "Last database update on: $migration_date (B/S $latest_billed_jpa)<br>PDF Finals available from: 2003 to B/S $latest_billed_jpa_pdf";
 }
 
