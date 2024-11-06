@@ -1,6 +1,7 @@
 <?php
 if (!empty($_REQUEST)) {
   $search_result = search_scjpc($_REQUEST);
+
   $search_key = !empty($_REQUEST['pole_number']) && $_REQUEST['action'] != 'advanced_pole_search' ? $_REQUEST['pole_number'] : '';
   $search_query = urlencode(http_build_query($_REQUEST));
   $record_keys = array_keys($search_result['results'][0] ?? []);
@@ -9,6 +10,14 @@ if (!empty($_REQUEST)) {
   $result_per_page = $search_result['result_per_page'];
   $num_results_on_page = $search_result['per_page'];
   $total_records = $search_result['total_records'] ?? 0;
+
+  if ($_REQUEST['action'] == 'quick_pole_search' && $total_records == 0) {
+    try {
+      $total_records = count($search_result['results']);
+    } catch (Exception $e) {
+      $total_records = 0;
+    }
+  }
   $sort_keys = POLE_SORT_KEYS;
   $response_sort_key = $search_result['sort_key'] ?? 'unique_id';
   $response_sort_order = $search_result['sort_order'] ?? 'asc';
