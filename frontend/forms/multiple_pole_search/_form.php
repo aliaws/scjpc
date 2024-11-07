@@ -29,7 +29,7 @@ if (isset($_REQUEST['go_back'])) {
         </div>
         <div class="mb-3">
           <label for="id_search_file" class="form-label">Select File</label>
-          <input class="form-control" name="uploaded_file" type="file" id="id_search_file" accept=".xlsx"
+          <input class="form-control" name="uploaded_file" type="file" id="id_search_file" accept=".xlsx" autofocus
                  required/>
 
         </div>
@@ -89,5 +89,6 @@ if (isset($_REQUEST['go_back'])) {
     include_once SCJPC_PLUGIN_FRONTEND_BASE . "results/multiple_pole_results.php";
   } ?>
 </div>
-<div
-  class="database-update-information alert alert-primary mt-4"><?php echo scjpc_database_update_information(); ?></div>
+<div class="database-update-information alert alert-primary mt-4">
+  <?php echo scjpc_database_update_information(); ?>
+</div>

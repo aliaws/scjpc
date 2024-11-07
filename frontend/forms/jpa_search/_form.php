@@ -3,7 +3,7 @@
     <form class="needs-validation" id="jpa_search" method="post" novalidate>
       <div class="mb-3">
         <label for="jpa_number_visible" class="form-label">Enter JPA Number</label>
-        <input type="text" name="jpa_number_visible" id="jpa_number_visible"
+        <input type="text" name="jpa_number_visible" id="jpa_number_visible" autofocus
                value="<?php echo $_REQUEST['jpa_number'] ?? ''; ?>" required/>
         <input type="hidden" id="jpa_number" name="jpa_number" value="<?php echo $_REQUEST['jpa_number'] ?? ''; ?>"/>
         <input type="hidden" id="action" name="action" value="jpa_search"/>

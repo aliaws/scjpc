@@ -4,7 +4,7 @@
       <div class="mb-3">
         <label for="pole_number_visible" class="form-label">Enter Pole Number</label>
         <input type="text" name="pole_number_visible" id="pole_number_visible"
-               value="<?php echo $_REQUEST['pole_number'] ?? ''; ?>" required/>
+               value="<?php echo $_REQUEST['pole_number'] ?? ''; ?>" autofocus required/>
         <!--        <div id="jpa_number_feedback" class="invalid-feedback"> Pole Number is Required.</div>-->
       </div>
       <input type="hidden" id="pole_number" name="pole_number" value="<?php echo $_REQUEST['pole_number'] ?? ''; ?>"/>

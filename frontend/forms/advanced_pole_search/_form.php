@@ -16,7 +16,7 @@
               </select>
             </p>
             <p class="col-md-10 col-sm-9 col ps-sm-3 ps-2 m-0">
-              <input type="text" name="pole_number" class="form-control" id="pole"
+              <input type="text" name="pole_number" class="form-control" id="pole" autofocus
                      value="<?php echo $_REQUEST['pole_number'] ?? ''; ?>"/>
             </p>
           </div>
