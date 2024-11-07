@@ -33,6 +33,13 @@ if (!empty($_REQUEST)) {
       if ($search_result['results'][0]['status'] === 'A') {
         $pole_result = $search_result['results'][0];
         $jpa_results = $search_result['results'][0]['associated_jpas'];
+        if (count($jpa_results) == 0) {
+          try {
+            $jpa_number = $search_result['results'][0]['jpa_number'];
+            $jpa_results = [['jpa_number_2' => $jpa_number, 'pdf_s3_key' => '']];
+          } catch (Exception $e) {
+          }
+        }
         include_once SCJPC_PLUGIN_FRONTEND_BASE . "table/single_pole.php";
       } else {
         include_once SCJPC_PLUGIN_FRONTEND_BASE . "table/poles/_simple_table.php";
