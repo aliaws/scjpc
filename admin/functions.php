@@ -75,8 +75,8 @@ function getStyles($state) {
   ];
 }
 
-add_action('add_attachment', 'scjpc_modify_attachment_title', 10, 1);
 
+add_action('add_attachment', 'scjpc_modify_attachment_title', 10, 1);
 function scjpc_modify_attachment_title($attachment_id): void {
   // Get the attachment post object
   $attachment = get_post($attachment_id);
@@ -88,16 +88,16 @@ function scjpc_modify_attachment_title($attachment_id): void {
 
     // Get file info
     $file_info = pathinfo($file_path); // Get all the file information (name, extension, etc.)
-    $file_name = $file_info['filename']; // File name without extension
+    $file_name = $file_info['filename']; // File name without an extension
     $file_extension = $file_info['extension']; // File extension (e.g., 'jpg', 'pdf')
-    $mime_type = get_post_mime_type($attachment);  // Get MIME type
     $file_size = filesize($file_path);  // Get file size in bytes
 
     // Convert file size to human-readable format
     $human_readable_size = size_format($file_size, 2);  // Format it (e.g., 2 MB, 250 KB)
+    $file_icon = scjpc_get_extension_icon($file_extension);
 
-    // Construct the new title: File name | Extension | MIME type | File size
-    $new_title = sprintf('%s | %s | %s | %s', $file_name, $file_extension, $human_readable_size, $mime_type);
+    // Construct the new title: fileName.extension | fileSize fileIcon
+    $new_title = sprintf('%s %s.%s (%s)', $file_icon, $file_name, $file_extension, $human_readable_size);
 
     // Update the title of the attachment
     wp_update_post([
@@ -105,4 +105,43 @@ function scjpc_modify_attachment_title($attachment_id): void {
       'post_title' => $new_title,
     ]);
   }
+}
+
+function scjpc_get_extension_icon($extension) {
+  $file_icons = [
+    'png' => '🖼️',      // Image (PNG)
+    'jpeg' => '🖼️',     // Image (JPEG)
+    'jpg' => '🖼️',      // Image (JPG)
+    'gif' => '🖼️',      // Image (GIF)
+    'tiff' => '🖼️',     // Image (TIFF)
+    'xls' => '📊',       // Excel (XLS)
+    'xlsx' => '📊',      // Excel (XLSX)
+    'csv' => '📊',       // CSV (Excel)
+    'pdf' => '📄',       // PDF
+    'mp4' => '🎥',       // Video (MP4)
+    'avi' => '🎥',       // Video (AVI)
+    'mov' => '🎥',       // Video (MOV)
+    'mkv' => '🎥',       // Video (MKV)
+    'mp3' => '🎵',       // Audio (MP3)
+    'wav' => '🎵',       // Audio (WAV)
+    'flac' => '🎵',      // Audio (FLAC)
+    'aac' => '🎵',       // Audio (AAC)
+    'ogg' => '🎵',       // Audio (OGG)
+    'webm' => '🎥',      // Video (WEBM)
+    'txt' => '📄',       // Text file (TXT)
+    'doc' => '📄',       // Word Document (DOC)
+    'docx' => '📄',      // Word Document (DOCX)
+    'ppt' => '📈',       // PowerPoint (PPT)
+    'pptx' => '📈',      // PowerPoint (PPTX)
+    'zip' => '📦',       // ZIP Archive
+    'rar' => '📦',       // RAR Archive
+    '7z' => '📦',        // 7z Archive
+    'json' => '🔧',      // JSON file
+    'xml' => '🔧',       // XML file
+    'html' => '🌐',      // HTML file
+    'css' => '🎨',       // CSS file
+    'js' => '💻',        // JavaScript file
+    'default' => '🗃️'
+  ];
+  return !empty($file_icons[$extension]) ? $file_icons[$extension] : $file_icons['default'];
 }
