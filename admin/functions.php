@@ -97,7 +97,7 @@ function scjpc_modify_attachment_title($attachment_id): void {
     $file_icon = scjpc_get_extension_icon($file_extension);
 
     // Construct the new title: fileName.extension | fileSize fileIcon
-    $new_title = sprintf('%s %s.%s (%s)', $file_icon, $file_name, $file_extension, $human_readable_size);
+    $new_title = sprintf('%s  %s.%s (%s)', $file_icon, $file_name, $file_extension, $human_readable_size);
 
     // Update the title of the attachment
     wp_update_post([
