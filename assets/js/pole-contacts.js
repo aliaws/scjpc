@@ -16,4 +16,11 @@ jQuery(document).ready(function ($) {
 
     $loginForm.append("<p><span>Contact your representative for username and password.</span></p>")
   }
+
+  const $loginUsername = $('div.um-login input#username-5519');
+  if ($loginUsername.length > 0) {
+    $loginUsername.focus();
+    $loginUsername.click();
+    $loginUsername.focusin();
+  }
 });
