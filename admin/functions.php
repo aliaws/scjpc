@@ -109,15 +109,18 @@ function scjpc_modify_attachment_title($attachment_id): void {
 
 function scjpc_get_extension_icon($extension) {
   $file_icons = [
-    'png' => '🖼️',      // Image (PNG)
-    'jpeg' => '🖼️',     // Image (JPEG)
-    'jpg' => '🖼️',      // Image (JPG)
-    'gif' => '🖼️',      // Image (GIF)
-    'tiff' => '🖼️',     // Image (TIFF)
-    'xls' => '📊',       // Excel (XLS)
-    'xlsx' => '📊',      // Excel (XLSX)
-    'csv' => '📊',       // CSV (Excel)
-    'pdf' => '📄',       // PDF
+    'png' => '<img decoding="async" src="/wp-content/uploads/2024/11/image.png" alt="" width="16px">',      // Image (PNG)
+    'jpeg' => '<img decoding="async" src="/wp-content/uploads/2024/11/image.png" alt="" width="16px">',     // Image (JPEG)
+    'jpg' => '<img decoding="async" src="/wp-content/uploads/2024/11/image.png" alt="" width="16px">',      // Image (JPG)
+    'gif' => '<img decoding="async" src="/wp-content/uploads/2024/11/gif.png" alt="" width="16px">',      // Image (GIF)
+    'tiff' => '<img decoding="async" src="/wp-content/uploads/2024/11/tiff.png" alt="" width="16px">',     // Image (TIFF)
+//    'xls' => '📊',       // Excel (XLS)
+//    'xlsx' => '📊',      // Excel (XLSX)
+    'xls' => '<img decoding="async" src="/wp-content/uploads/2024/11/excel.png" alt="" width="16px">',       // Excel (XLS)
+    'xlsx' => '<img decoding="async" src="/wp-content/uploads/2024/11/excel.png" alt="" width="16px">',      // Excel (XLSX)
+    'csv' => '<img decoding="async" src="/wp-content/uploads/2024/11/csv.png" alt="" width="16px">',       // CSV (Excel)
+//    'pdf' => '📄',       // PDF
+    'pdf' => '<img decoding="async" src="/wp-content/uploads/2024/06/pdf.gif" alt="" width="16px">',       // PDF
     'mp4' => '🎥',       // Video (MP4)
     'avi' => '🎥',       // Video (AVI)
     'mov' => '🎥',       // Video (MOV)
@@ -129,16 +132,19 @@ function scjpc_get_extension_icon($extension) {
     'ogg' => '🎵',       // Audio (OGG)
     'webm' => '🎥',      // Video (WEBM)
     'txt' => '📄',       // Text file (TXT)
-    'doc' => '📄',       // Word Document (DOC)
-    'docx' => '📄',      // Word Document (DOCX)
-    'ppt' => '📈',       // PowerPoint (PPT)
-    'pptx' => '📈',      // PowerPoint (PPTX)
+//    'doc' => '📄',       // Word Document (DOC)
+//    'docx' => '📄',      // Word Document (DOCX)
+    'doc' => '<img decoding="async" src="/wp-content/uploads/2024/11/word.svg" alt="" width="16px">',       // Word Document (DOC)
+    'docx' => '<img decoding="async" src="/wp-content/uploads/2024/11/word.svg" alt="" width="16px">',      // Word Document (DOCX)
+//    'ppt' => '📈',       // PowerPoint (PPT)
+    'ppt' => '<img decoding="async" src="/wp-content/uploads/2024/11/powerpoint.png" alt="" width="16px">',       // PowerPoint (PPT)
+    'pptx' => '<img decoding="async" src="/wp-content/uploads/2024/11/powerpoint.png" alt="" width="16px">',      // PowerPoint (PPTX)
     'zip' => '📦',       // ZIP Archive
     'rar' => '📦',       // RAR Archive
     '7z' => '📦',        // 7z Archive
-    'json' => '🔧',      // JSON file
-    'xml' => '🔧',       // XML file
-    'html' => '🌐',      // HTML file
+    'json' => '<img decoding="async" src="/wp-content/uploads/2024/11/json.png" alt="" width="16px">',      // JSON file
+    'xml' => '<img decoding="async" src="/wp-content/uploads/2024/11/xml.png" alt="" width="16px">',       // XML file
+    'html' => '<img decoding="async" src="/wp-content/uploads/2024/11/html.png" alt="" width="16px">',      // HTML file
     'css' => '🎨',       // CSS file
     'js' => '💻',        // JavaScript file
     'default' => '🗃️'
