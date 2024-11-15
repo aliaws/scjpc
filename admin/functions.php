@@ -112,6 +112,7 @@ function scjpc_get_extension_icon($extension) {
     'png' => '<img decoding="async" src="/wp-content/uploads/2024/11/image.png" alt="" width="16px">',      // Image (PNG)
     'jpeg' => '<img decoding="async" src="/wp-content/uploads/2024/11/image.png" alt="" width="16px">',     // Image (JPEG)
     'jpg' => '<img decoding="async" src="/wp-content/uploads/2024/11/image.png" alt="" width="16px">',      // Image (JPG)
+    'webp' => '<img decoding="async" src="/wp-content/uploads/2024/11/image.png" alt="" width="16px">',      // Image (JPG)
     'gif' => '<img decoding="async" src="/wp-content/uploads/2024/11/gif.png" alt="" width="16px">',      // Image (GIF)
     'tiff' => '<img decoding="async" src="/wp-content/uploads/2024/11/tiff.png" alt="" width="16px">',     // Image (TIFF)
 //    'xls' => '📊',       // Excel (XLS)
