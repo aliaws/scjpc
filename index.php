@@ -130,6 +130,16 @@ add_action('wp_enqueue_scripts', function () {
   if (!class_exists('\Elementor\Core\Files\CSS\Post')) {
     return;
   }
+  $css_file = new \Elementor\Core\Files\CSS\Post(2);
+  $css_file->enqueue();
+  $css_file = new \Elementor\Core\Files\CSS\Post(48);
+  $css_file->enqueue();
+  $css_file = new \Elementor\Core\Files\CSS\Post(130);
+  $css_file->enqueue();
+  $css_file = new \Elementor\Core\Files\CSS\Post(135);
+  $css_file->enqueue();
+  $css_file = new \Elementor\Core\Files\CSS\Post(901);
+  $css_file->enqueue();
   $css_file = new \Elementor\Core\Files\CSS\Post(5203);
   $css_file->enqueue();
 }, 10);

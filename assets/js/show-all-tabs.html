@@ -1,0 +1,79 @@
+<script>
+  jQuery(document).ready(function ($) {
+    const $priceTabsContent = $('.elementor-tab-content');
+    $priceTabsContent.addClass('elementor-active').removeAttr('hidden').css('display', 'block');
+    $priceTabsContent.parent().css('border', '1px solid').css('border-color', '#d5d8dc')
+    console.log('How you doing!');
+
+    // Select the target element(s) you want to observe
+    const targetElements = document.querySelectorAll('.elementor-tab-content');
+
+// Create a MutationObserver callback function
+    const mutationCallback = (mutationsList, observer) => {
+      mutationsList.forEach(mutation => {
+        if (mutation.type === 'childList') {
+          $priceTabsContent.addClass('elementor-active').removeAttr('hidden').css('display', 'block');
+        } else if (mutation.type === 'attributes') {
+          $priceTabsContent.addClass('elementor-active').removeAttr('hidden').css('display', 'block');
+        } else if (mutation.type === 'characterData') {
+          $priceTabsContent.addClass('elementor-active').removeAttr('hidden').css('display', 'block');
+        }
+      });
+    };
+
+// Create a MutationObserver instance
+    const observer = new MutationObserver(mutationCallback);
+
+// Observer configuration: Watch for child changes, attribute changes, and text content changes
+    const config = {
+      childList: true,        // Detect changes in child elements
+      attributes: true,       // Detect changes in element's attributes
+      characterData: true,    // Detect changes to text content
+      subtree: true           // Observe all descendants (if needed)
+    };
+
+// Attach the observer to each target element
+    targetElements.forEach(element => {
+      observer.observe(element, config);
+    });
+
+    const $priceTabTitles = $('.elementor-tab-title');
+    $priceTabTitles.on('click', function (e) {
+      e.preventDefault(); // Prevent default tab switching behavior
+      const priceTabTitleID = $(this).attr('id');
+      const priceTabContentID = priceTabTitleID.replace('title', 'content');
+      console.log('button clicked', priceTabTitleID, priceTabContentID)
+      $("html, body").animate({scrollTop: $(`#${priceTabContentID}`).offset().top}, "slow");
+    })
+    $priceTabsContent.append('<div style="padding-bottom: 15px;"><button class="scjpc-back-to-top">Top</button></div>');
+
+    function scrollToTop() {
+      console.log('button clicked');
+      $("html, body").animate({scrollTop: 0}, "fast");
+    }
+
+    const $backToTopButton = $('button.scjpc-back-to-top');
+    $backToTopButton.on('click', scrollToTop);
+  });
+
+</script>
+<style>
+  .eael-advance-tabs .eael-tabs-content > div {
+    display: unset !important;
+    opacity: 1 !important;
+  }
+
+  button.scjpc-back-to-top {
+    padding: 2px 20px;
+    border: 0;
+  }
+
+  .elementor-281 .elementor-element.elementor-element-88bee08 .eael-advance-tabs .eael-tabs-nav > ul li.active {
+    background-color: #f1f1f1 !important;
+    color: #333 !important;
+  }
+
+  div.elementor-tabs-wrapper .elementor-active {
+    color: #1C3F3A !important;
+  }
+</style>

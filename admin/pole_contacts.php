@@ -31,7 +31,7 @@ add_action('wp_ajax_nopriv_scjpc_export_pole_members', 'ajax_scjpc_export_pole_m
 function ajax_scjpc_export_pole_members() {
   [$fields, $jpa_contacts] = scjpc_get_pole_inspection_contacts();
   [$response, $field_labels] = scjpc_fetch_jpa_contacts_fields($fields, $jpa_contacts, 'pole', true);
-  array_unshift($response, $field_labels);
+//  array_unshift($response, $field_labels);
   $export_file_path = scjpc_process_contacts_csv_writing($response, $field_labels, 'pole');
   wp_send_json_success(['export_file_path' => $export_file_path], 200);
   wp_die();
@@ -126,6 +126,11 @@ function ajax_scjpc_export_emergency_contacts() {
 function scjpc_get_field_assistance_contacts($query = []): array {
   $fields_group = acf_get_field_group("group_664639ed6409d"); // Server
   $fields = acf_get_fields($fields_group);
+  foreach ($fields as $key => $field) {
+    if ($field['key'] == 'field_664639ed86bac') {
+      unset($fields[$key]);
+    }
+  }
   $jpa_contacts = get_posts([
     "post_type" => "member", // Server  
     "posts_per_page" => -1,

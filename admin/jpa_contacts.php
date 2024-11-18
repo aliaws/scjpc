@@ -56,7 +56,13 @@ function scjpc_get_jpa_contacts_all_fields($query = []): array {
   $fields_group = acf_get_field_group("group_66464f0e51512"); // Server
   $fields = array_merge($fields, acf_get_fields($fields_group));
   $fields_group = acf_get_field_group("group_664639ed6409d"); // Server
-  $fields = array_merge($fields, acf_get_fields($fields_group));
+  $sub_fields = acf_get_fields($fields_group);
+  foreach ($sub_fields as $key => $field) {
+    if ($field['key'] == 'field_664639ed86bac') {
+      unset($sub_fields[$key]);
+    }
+  }
+  $fields = array_merge($fields, $sub_fields);
   $fields_group = acf_get_field_group("group_662e732c50241"); // Server
   $fields = array_merge($fields, acf_get_fields($fields_group));
   $fields_group = acf_get_field_group("group_665623aed72ff"); // Server
@@ -207,7 +213,7 @@ function scjpc_process_contacts_csv_writing(array $contacts, array $field_labels
 
 //  if (in_array($type, ['pole', 'buddy-pole', 'graffiti-removal'])) {
   $col = 'A';
-  foreach ($contacts[0] as $key => $info) {
+  foreach ($contacts[array_key_first($contacts)] as $key => $info) {
     if (in_array($key, ['phone_number', 'pi_last_updated', 'zip_code'])) {
       $sheet->getStyle("{$col}2:$col$row")->applyFromArray(scjpc_get_date_cell_styles());
     }
@@ -289,8 +295,8 @@ function scjpc_set_cells_height_width(\PhpOffice\PhpSpreadsheet\Worksheet\Worksh
   }
   if (in_array($type, ['pole', 'buddy-pole', 'graffiti-removal'])) {
     $col = 'A';
-    foreach ($data[0] as $key => $info) {
-      if (in_array($key, ['city', 'state', 'zip_code', 'country', 'pi_last_updated'])) {
+    foreach ($data[array_key_first($data)] as $key => $info) {
+      if (in_array($key, ['city', 'state', 'zip_code', 'country', 'county', 'pi_last_updated'])) {
         $sheet->getColumnDimension($col++)->setAutoSize(true);
       } else {
         $sheet->getColumnDimension($col++)->setWidth(21);
