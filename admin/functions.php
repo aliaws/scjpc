@@ -119,6 +119,7 @@ function scjpc_get_extension_icon($extension) {
 //    'xlsx' => '📊',      // Excel (XLSX)
     'xls' => '<img decoding="async" src="/wp-content/uploads/2024/11/excel.png" alt="" width="16px">',       // Excel (XLS)
     'xlsx' => '<img decoding="async" src="/wp-content/uploads/2024/11/excel.png" alt="" width="16px">',      // Excel (XLSX)
+    'msexcel' => '<img decoding="async" src="/wp-content/uploads/2024/11/excel.png" alt="" width="16px">',      // Excel (XLSX)
     'csv' => '<img decoding="async" src="/wp-content/uploads/2024/11/csv.png" alt="" width="16px">',       // CSV (Excel)
 //    'pdf' => '📄',       // PDF
     'pdf' => '<img decoding="async" src="/wp-content/uploads/2024/06/pdf.gif" alt="" width="16px">',       // PDF
@@ -137,6 +138,7 @@ function scjpc_get_extension_icon($extension) {
 //    'docx' => '📄',      // Word Document (DOCX)
     'doc' => '<img decoding="async" src="/wp-content/uploads/2024/11/word.svg" alt="" width="16px">',       // Word Document (DOC)
     'docx' => '<img decoding="async" src="/wp-content/uploads/2024/11/word.svg" alt="" width="16px">',      // Word Document (DOCX)
+    'msword' => '<img decoding="async" src="/wp-content/uploads/2024/11/word.svg" alt="" width="16px">',      // Word Document (DOCX)
 //    'ppt' => '📈',       // PowerPoint (PPT)
     'ppt' => '<img decoding="async" src="/wp-content/uploads/2024/11/powerpoint.png" alt="" width="16px">',       // PowerPoint (PPT)
     'pptx' => '<img decoding="async" src="/wp-content/uploads/2024/11/powerpoint.png" alt="" width="16px">',      // PowerPoint (PPTX)

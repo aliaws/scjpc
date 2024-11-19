@@ -7,7 +7,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 function scjpc_enqueue_export_members_script(): void {
   wp_enqueue_script("jquery");
-  wp_enqueue_script("scjpc-export-members", SCJPC_ASSETS_URL . "js/export-jpa-members.js", ["jquery"], "1.45", true);
+  wp_enqueue_script("scjpc-export-members", SCJPC_ASSETS_URL . "js/export-jpa-members.js", ["jquery"], "1.57", true);
   wp_localize_script("scjpc-export-members", "scjpc_ajax", ["ajax_url" => admin_url("admin-ajax.php")]);
 }
 
@@ -109,7 +109,7 @@ function scjpc_fetch_jpa_contacts_fields(array $fields, array $jpa_contacts, str
     if ($group == 'pole') {
       [$response, $field_labels] = scjpc_add_pole_additional_fields($response, $field_labels, $post);
 
-    } elseif (in_array($group, ['emergency', 'buddy-pole', 'graffiti-removal', 'field-assistance'])) {
+    } elseif (in_array($group, ['emergency', 'buddy-pole', 'graffiti-removal', 'field-assistance', 'cable-tags'])) {
       [$response, $field_labels] = scjpc_add_emergency_additional_fields($response, $field_labels, $post);
     }
     $unwanted_fields = $remove_unwanted ? scjpc_get_jpa_contacts_unwanted_fields() : [];
@@ -132,9 +132,21 @@ function scjpc_fetch_jpa_contacts_fields(array $fields, array $jpa_contacts, str
           $response[$post->ID][$field["name"]] = [];
           $cable_tags = get_field($field["name"], $post->ID);
           if (is_array($cable_tags) && !empty($cable_tags)) {
+            $media_array = [];
             foreach ($cable_tags as $image) {
-              $response[$post->ID][$field["name"]][] = $image['url'];
+              $file_icon = scjpc_get_extension_icon($image['subtype']);
+              if ($export) {
+                $media_array[] = $image['url'];
+              } else {
+                if ($image['title']) {
+                  $media_array[] = "<a href='{$image['url']}' style='display:flex; gap:5px;'>$file_icon {$image['title']}</a>";
+                } else {
+                  $media_array[] = "<a href='{$image['url']}' style='display: flex; gap:5px;'>$file_icon {$image['filename']}</a>";
+                }
+              }
             }
+            $media_array_separator = $export ? "\n" : "<br>";
+            $response[$post->ID][$field["name"]][] = implode($media_array_separator, $media_array);
           }
           $response[$post->ID][$field["name"]] = implode("\n", $response[$post->ID][$field["name"]]);
         } else {
@@ -296,7 +308,7 @@ function scjpc_set_cells_height_width(\PhpOffice\PhpSpreadsheet\Worksheet\Worksh
   if (in_array($type, ['pole', 'buddy-pole', 'graffiti-removal'])) {
     $col = 'A';
     foreach ($data[array_key_first($data)] as $key => $info) {
-      if (in_array($key, ['city', 'state', 'zip_code', 'country', 'county', 'pi_last_updated'])) {
+      if (in_array($key, ['city', 'state', 'zip_code', 'country', 'county', 'pi_last_updated', 'cable_tags'])) {
         $sheet->getColumnDimension($col++)->setAutoSize(true);
       } else {
         $sheet->getColumnDimension($col++)->setWidth(21);

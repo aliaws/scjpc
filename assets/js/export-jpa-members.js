@@ -75,7 +75,7 @@ const registerExportGraffitiRemovalMembersClickEvent = () => {
       type: 'GET',
       data: {
         action: 'scjpc_export_graffiti_removal_members',
-        export_file_name:  extractExportFileName()
+        export_file_name: extractExportFileName()
       },
       success: (success) => {
         if (success.data !== "undefined" && typeof success.data.export_file_path !== "undefined") {
@@ -97,7 +97,7 @@ const registerExportEmergencyContactsClickEvent = () => {
       type: 'GET',
       data: {
         action: 'scjpc_export_emergency_contacts',
-        export_file_name:  extractExportFileName()
+        export_file_name: extractExportFileName()
       },
       success: (success) => {
         if (success.data !== "undefined" && typeof success.data.export_file_path !== "undefined") {
@@ -110,17 +110,38 @@ const registerExportEmergencyContactsClickEvent = () => {
     })
   })
 };
-
-const registerExportFieldAssistanceClickEvent = () => {
-  jQuery('a#export-field-assistance').on('click', (event) => {
+const registerExportPoleMarkingsClickEvent = () => {
+  jQuery('a#export-pole-cable-markings').on('click', (event) => {
     event.preventDefault()
     jQuery(this).prop('href', '');
     jQuery.ajax({
       url: `${scjpc_ajax.ajax_url}`,
       type: 'GET',
       data: {
+        action: 'scjpc_export_pole_cable_markings',
+        export_file_name: extractExportFileName()
+      },
+      success: (success) => {
+        if (success.data !== "undefined" && typeof success.data.export_file_path !== "undefined") {
+          window.location.href = success.data.export_file_path
+        }
+      },
+      error: (error) => {
+        console.log('error====', error)
+      }
+    })
+  })
+}
+const registerExportFieldAssistanceClickEvent = () => {
+  jQuery('a#export-field-assistance').on('click', (event) => {
+    event.preventDefault();
+    jQuery(this).prop('href', '');
+    jQuery.ajax({
+      url: `${scjpc_ajax.ajax_url}`,
+      type: 'GET',
+      data: {
         action: 'scjpc_export_field_assistance_contacts',
-        export_file_name:  extractExportFileName()
+        export_file_name: extractExportFileName()
       },
       success: (success) => {
         if (success.data !== "undefined" && typeof success.data.export_file_path !== "undefined") {
@@ -203,6 +224,7 @@ jQuery(document).ready(() => {
   registerExportBuddyPoleMembersClickEvent();
   registerExportGraffitiRemovalMembersClickEvent();
   registerExportFieldAssistanceClickEvent();
+  registerExportPoleMarkingsClickEvent();
   registerRevealContactInformationEvent();
 })
 
@@ -219,7 +241,7 @@ function extractExportFileName() {
  */
 function toSnakeCase(str) {
   return str
-      .toLowerCase() 
-      .replace(/[\s\/–]+/g, '_')
-      .replace(/[^\w_]/g, '');
+    .toLowerCase()
+    .replace(/[\s\/–]+/g, '_')
+    .replace(/[^\w_]/g, '');
 }

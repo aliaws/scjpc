@@ -37,13 +37,26 @@ function ajax_scjpc_export_pole_members() {
   wp_die();
 }
 
+add_action('wp_ajax_scjpc_export_pole_cable_markings', 'ajax_scjpc_export_pole_cable_markings');
+add_action('wp_ajax_nopriv_scjpc_export_pole_cable_markings', 'ajax_scjpc_export_pole_cable_markings');
+
+
+function ajax_scjpc_export_pole_cable_markings() {
+  [$fields, $jpa_contacts] = scjpc_get_cable_marking_contacts();
+  [$response, $field_labels] = scjpc_fetch_jpa_contacts_fields($fields, $jpa_contacts, 'cable-tags', true, false);
+//  array_unshift($response, $field_labels);
+  $export_file_path = scjpc_process_contacts_csv_writing($response, $field_labels, 'pole');
+  wp_send_json_success(['export_file_path' => $export_file_path], 200);
+  wp_die();
+}
+
 
 function scjpc_get_buddy_pole_contacts($query = []): array {
 //  $fields_group = acf_get_field_group("group_662e732c50241"); // Server
 //  $fields[] = ;  
 //  $fields = [acf_get_field('dual_poles_in_field_buddy_poles')];
 //  $fields[] = acf_get_field('contact_jpa');
-  $fields = [acf_get_field('contact_jpa')];
+  $fields = [acf_get_field('dual_poles_in_field_buddy_poles')];
 
   $jpa_contacts = get_posts([
     "post_type" => "member", // Server
@@ -61,18 +74,33 @@ add_action('wp_ajax_nopriv_scjpc_export_buddy_pole_members', 'ajax_scjpc_export_
 function ajax_scjpc_export_buddy_pole_members() {
   [$fields, $jpa_contacts] = scjpc_get_buddy_pole_contacts();
   [$response, $field_labels] = scjpc_fetch_jpa_contacts_fields($fields, $jpa_contacts, 'buddy-pole', true);
-  array_unshift($response, $field_labels);
+//  array_unshift($response, $field_labels);
   $export_file_path = scjpc_process_contacts_csv_writing($response, $field_labels, 'buddy-pole');
   wp_send_json_success(['export_file_path' => $export_file_path], 200);
   wp_die();
 }
 
 
-function scjpc_get_graffiti_removal_contacts($query = []): array {
+function scjpc_get_cable_marking_contacts($query = []): array {
 //  $fields_group = acf_get_field_group("group_662e732c50241"); // Server  
 //  $fields = [acf_get_field('single_point_of_contact_graffiti_removal')];
 //  $fields[] = acf_get_field('contact_jpa');
-  $fields = [acf_get_field('contact_jpa')];
+  $fields = [acf_get_field('cable_tags')];
+
+  $jpa_contacts = get_posts([
+    "post_type" => "member", // Server
+//      "post_type" => "jpa-contact", // Local
+    "posts_per_page" => -1,
+    "order" => "ASC"
+  ]);
+  return [$fields, $jpa_contacts];
+}
+
+function scjpc_get_graffiti_removal_contacts($query = []): array {
+//  $fields_group = acf_get_field_group("group_662e732c50241"); // Server
+//  $fields = [acf_get_field('single_point_of_contact_graffiti_removal')];
+//  $fields[] = acf_get_field('contact_jpa');
+  $fields = [acf_get_field('single_point_of_contact_graffiti_removal')];
 
   $jpa_contacts = get_posts([
     "post_type" => "member", // Server
@@ -90,7 +118,7 @@ add_action('wp_ajax_nopriv_scjpc_export_graffiti_removal_members', 'ajax_scjpc_e
 function ajax_scjpc_export_graffiti_removal_members() {
   [$fields, $jpa_contacts] = scjpc_get_graffiti_removal_contacts();
   [$response, $field_labels] = scjpc_fetch_jpa_contacts_fields($fields, $jpa_contacts, 'graffiti-removal', true);
-  array_unshift($response, $field_labels);
+//  array_unshift($response, $field_labels);
   $export_file_path = scjpc_process_contacts_csv_writing($response, $field_labels, 'graffiti-removal');
   wp_send_json_success(['export_file_path' => $export_file_path], 200);
   wp_die();

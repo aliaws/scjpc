@@ -58,6 +58,15 @@ function scjpc_field_assistance_contacts_callback(): void {
   echo ob_get_clean();
 }
 
+add_shortcode('scjpc_cable_tags_pole_markings', 'scjpc_cable_tags_pole_markings_callback');
+function scjpc_cable_tags_pole_markings_callback(): void {
+  [$fields, $jpa_contacts] = scjpc_get_cable_marking_contacts();
+  [$response, $field_labels] = scjpc_fetch_jpa_contacts_fields($fields, $jpa_contacts, 'cable-tags', false, false);
+  ob_start();
+  require_once SCJPC_PLUGIN_FRONTEND_BASE . 'table/contacts.php';
+  echo ob_get_clean();
+}
+
 
 add_shortcode('scjpc_jpa_search', 'scjpc_jpa_search');
 function scjpc_jpa_search(): bool|string {
