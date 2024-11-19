@@ -154,3 +154,45 @@ function scjpc_get_extension_icon($extension) {
   ];
   return !empty($file_icons[$extension]) ? $file_icons[$extension] : $file_icons['default'];
 }
+
+
+// Step 1: Add 'Member Code' column
+add_filter('manage_member_posts_columns', 'scjpc_add_member_code_column');
+function scjpc_add_member_code_column($columns) {
+  // Split the array into two parts: before and after the second-last position
+  $before = array_slice($columns, 0, 2, true); // Get the elements before the last column
+  $after = array_slice($columns, 2, null, true); // Get the last column
+
+  // Add 'member_code' just before the last column
+  return $before + ['member_code' => __('Member Code', 'scjpc')] + $after;
+}
+
+// Step 2: Display data in the 'Member Code' column
+add_action('manage_member_posts_custom_column', 'scjpc_add_member_code_column_data', 10, 2);
+function scjpc_add_member_code_column_data($column, $post_id): void {
+  if ($column == 'member_code') {
+    echo get_post_meta($post_id, 'member_code', true);
+  }
+}
+
+// Step 3: Make the 'member_code' column sortable
+add_filter('manage_edit-member_sortable_columns', 'scjpc_member_code_column_sortable');
+function scjpc_member_code_column_sortable($columns) {
+  $columns['member_code'] = 'member_code'; // Make the column sortable by meta_key 'member_code'
+  return $columns;
+}
+
+// Step 4: Modify the query to sort by the 'member_code' meta field
+add_action('pre_get_posts', 'scjpc_sort_member_code_column');
+function scjpc_sort_member_code_column($query) {
+  if (!is_admin() || !$query->is_main_query()) {
+    return;
+  }
+
+  // Check if sorting by 'member_code' is requested
+  if (isset($_GET['orderby']) && 'member_code' === $_GET['orderby']) {
+    // Sort by the 'member_code' meta key
+    $query->set('meta_key', 'member_code'); // The custom field (meta_key) to sort by
+    $query->set('orderby', 'meta_value'); // Sort by meta_value
+  }
+}
