@@ -100,6 +100,12 @@ span.sub-arrow {
   color: #fff !important;
 }
 
+.scjpc-cable-marking {
+  display: flex;
+  gap: 5px;
+  margin: 5px 0;
+}
+
 /*a.has-submenu > i.wpmi__icon {*/
 /*  padding-top: 2px;*/
 /*}*/

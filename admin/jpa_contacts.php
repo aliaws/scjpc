@@ -7,7 +7,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 function scjpc_enqueue_export_members_script(): void {
   wp_enqueue_script("jquery");
-  wp_enqueue_script("scjpc-export-members", SCJPC_ASSETS_URL . "js/export-jpa-members.js", ["jquery"], "1.57", true);
+  wp_enqueue_script("scjpc-export-members", SCJPC_ASSETS_URL . "js/export-jpa-members.js", ["jquery"], "1.58", true);
   wp_localize_script("scjpc-export-members", "scjpc_ajax", ["ajax_url" => admin_url("admin-ajax.php")]);
 }
 
@@ -139,13 +139,13 @@ function scjpc_fetch_jpa_contacts_fields(array $fields, array $jpa_contacts, str
                 $media_array[] = $image['url'];
               } else {
                 if ($image['title']) {
-                  $media_array[] = "<a href='{$image['url']}' style='display:flex; gap:5px;'>$file_icon {$image['title']}</a>";
+                  $media_array[] = "<a href='{$image['url']}' class='scjpc-cable-markings'>$file_icon {$image['title']}</a>";
                 } else {
-                  $media_array[] = "<a href='{$image['url']}' style='display: flex; gap:5px;'>$file_icon {$image['filename']}</a>";
+                  $media_array[] = "<a href='{$image['url']}' class='scjpc-cable-markings'>$file_icon {$image['filename']}</a>";
                 }
               }
             }
-            $media_array_separator = $export ? "\n" : "<br>";
+            $media_array_separator = $export ? "\n" : " ";
             $response[$post->ID][$field["name"]][] = implode($media_array_separator, $media_array);
           }
           $response[$post->ID][$field["name"]] = implode("\n", $response[$post->ID][$field["name"]]);
