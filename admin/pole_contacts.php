@@ -2,7 +2,7 @@
 add_action("elementor/frontend/after_enqueue_styles", "scjpc_enqueue_pole_members_script");
 function scjpc_enqueue_pole_members_script(): void {
   wp_enqueue_style('poles-contacts', SCJPC_ASSETS_URL . 'css/pole-contacts.css', false, '1.58');
-  wp_enqueue_style('scjpc-global', SCJPC_ASSETS_URL . 'css/global.css', [], '1.01');
+  wp_enqueue_style('scjpc-global', SCJPC_ASSETS_URL . 'css/global.css', [], '1.02');
 
   wp_enqueue_script('poles-contacts', SCJPC_ASSETS_URL . 'js/pole-contacts.js', ['jquery'], '1.58');
   wp_enqueue_style('print', SCJPC_ASSETS_URL . 'css/print.css', [], '8.10', 'print');
@@ -14,12 +14,13 @@ function scjpc_get_pole_inspection_contacts($query = []): array {
   if (!empty($query["jpa_contact_id"])) {
     $jpa_contacts = [get_post($query["jpa_contact_id"])];
   } else {
-    $jpa_contacts = get_posts([
-      "post_type" => "member", // Server
-//      "post_type" => "jpa-contact", // Local
-      "posts_per_page" => -1,
-      "order" => "ASC"
-    ]);
+    $jpa_contacts = scjpc_get_jpa_contacts_posts();
+//    $jpa_contacts = get_posts([
+//      "post_type" => "member", // Server
+////      "post_type" => "jpa-contact", // Local
+//      "posts_per_page" => -1,
+//      "order" => "ASC"
+//    ]);
   }
   return [$fields, $jpa_contacts];
 }
@@ -57,13 +58,14 @@ function scjpc_get_buddy_pole_contacts($query = []): array {
 //  $fields = [acf_get_field('dual_poles_in_field_buddy_poles')];
 //  $fields[] = acf_get_field('contact_jpa');
   $fields = [acf_get_field('dual_poles_in_field_buddy_poles')];
+  $jpa_contacts = scjpc_get_jpa_contacts_posts();
 
-  $jpa_contacts = get_posts([
-    "post_type" => "member", // Server
-//      "post_type" => "jpa-contact", // Local  
-    "posts_per_page" => -1,
-    "order" => "ASC"
-  ]);
+//  $jpa_contacts = get_posts([
+//    "post_type" => "member", // Server
+////      "post_type" => "jpa-contact", // Local
+//    "posts_per_page" => -1,
+//    "order" => "ASC"
+//  ]);
   return [$fields, $jpa_contacts];
 }
 
@@ -86,13 +88,13 @@ function scjpc_get_cable_marking_contacts($query = []): array {
 //  $fields = [acf_get_field('single_point_of_contact_graffiti_removal')];
 //  $fields[] = acf_get_field('contact_jpa');
   $fields = [acf_get_field('cable_tags')];
-
-  $jpa_contacts = get_posts([
-    "post_type" => "member", // Server
-//      "post_type" => "jpa-contact", // Local
-    "posts_per_page" => -1,
-    "order" => "ASC"
-  ]);
+  $jpa_contacts = scjpc_get_jpa_contacts_posts();
+//  $jpa_contacts = get_posts([
+//    "post_type" => "member", // Server
+////      "post_type" => "jpa-contact", // Local
+//    "posts_per_page" => -1,
+//    "order" => "ASC"
+//  ]);
   return [$fields, $jpa_contacts];
 }
 
@@ -101,13 +103,13 @@ function scjpc_get_graffiti_removal_contacts($query = []): array {
 //  $fields = [acf_get_field('single_point_of_contact_graffiti_removal')];
 //  $fields[] = acf_get_field('contact_jpa');
   $fields = [acf_get_field('single_point_of_contact_graffiti_removal')];
-
-  $jpa_contacts = get_posts([
-    "post_type" => "member", // Server
-//      "post_type" => "jpa-contact", // Local
-    "posts_per_page" => -1,
-    "order" => "ASC"
-  ]);
+  $jpa_contacts = scjpc_get_jpa_contacts_posts();
+//  $jpa_contacts = get_posts([
+//    "post_type" => "member", // Server
+////      "post_type" => "jpa-contact", // Local
+//    "posts_per_page" => -1,
+//    "order" => "ASC"
+//  ]);
   return [$fields, $jpa_contacts];
 }
 
@@ -128,12 +130,14 @@ function ajax_scjpc_export_graffiti_removal_members() {
 function scjpc_get_emergency_claim_contacts($query = []): array {
   $fields_group = acf_get_field_group("group_66464f0e51512"); // Server
   $fields = acf_get_fields($fields_group);
-  $jpa_contacts = get_posts([
-    "post_type" => "member", // Server
-//      "post_type" => "jpa-contact", // Local    
-    "posts_per_page" => -1,
-    "order" => "ASC"
-  ]);
+  $jpa_contacts = scjpc_get_jpa_contacts_posts();
+
+//  $jpa_contacts = get_posts([
+//    "post_type" => "member", // Server
+////      "post_type" => "jpa-contact", // Local
+//    "posts_per_page" => -1,
+//    "order" => "ASC"
+//  ]);
   return [$fields, $jpa_contacts];
 }
 
@@ -159,11 +163,13 @@ function scjpc_get_field_assistance_contacts($query = []): array {
       unset($fields[$key]);
     }
   }
-  $jpa_contacts = get_posts([
-    "post_type" => "member", // Server  
-    "posts_per_page" => -1,
-    "order" => "ASC"
-  ]);
+  $jpa_contacts = scjpc_get_jpa_contacts_posts();
+
+//  $jpa_contacts = get_posts([
+//    "post_type" => "member", // Server
+//    "posts_per_page" => -1,
+//    "order" => "ASC"
+//  ]);
   return [$fields, $jpa_contacts];
 }
 

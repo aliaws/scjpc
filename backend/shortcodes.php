@@ -42,8 +42,9 @@ function scjpc_emergency_claim_contacts_callback(): void {
 
 add_shortcode('scjpc_jpa_contacts', 'scjpc_jpa_contacts_callback');
 function scjpc_jpa_contacts_callback(): void {
-  [$fields, $jpa_contacts] = scjpc_get_jpa_contacts();
-  [$response, $field_labels] = scjpc_fetch_jpa_contacts_fields($fields, $jpa_contacts, 'jpa');
+//  [$fields, $jpa_contacts] = scjpc_get_jpa_contacts();
+  [$fields, $jpa_contacts] = scjpc_get_jpa_contacts_all_fields();
+  [$response, $field_labels] = scjpc_fetch_jpa_contacts_fields($fields, $jpa_contacts, 'jpa', false, false);
   ob_start();
   require_once SCJPC_PLUGIN_FRONTEND_BASE . 'table/contacts.php';
   echo ob_get_clean();

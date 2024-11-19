@@ -71,31 +71,45 @@ function scjpc_get_jpa_contacts_all_fields($query = []): array {
   if (!empty($query["jpa_contact_id"])) {
     $jpa_contacts = [get_post($query["jpa_contact_id"])];
   } else {
-    $jpa_contacts = get_posts([
-      "post_type" => "member", // Server
-//      "post_type" => "jpa-contact", // Local
-      "posts_per_page" => -1,
-      "order" => "ASC"
-    ]);
+    $jpa_contacts = scjpc_get_jpa_contacts_posts();
+//    $jpa_contacts = get_posts([
+//      "post_type" => "member", // Server
+////      "post_type" => "jpa-contact", // Local
+//      "posts_per_page" => -1,
+//      "order" => "ASC"
+//    ]);
   }
   return [$fields, $jpa_contacts];
 
 }
 
+function scjpc_get_jpa_contacts_posts() {
+  return get_posts([
+    "post_type" => "member", // Server
+//      "post_type" => "jpa-contact", // Local
+    "posts_per_page" => -1,
+    "order" => "ASC",
+    "orderby" => "meta_value",
+    "meta_key" => "member_code"
+  ]);
+}
 
 function scjpc_get_jpa_contacts($query = []): array {
   $fields_group = acf_get_field_group("group_662d0256002a6"); // Server
 //  $fields_group = acf_get_field_group("group_666716c1891dd"); // Local
   $fields = acf_get_fields($fields_group);
+
   if (!empty($query["jpa_contact_id"])) {
     $jpa_contacts = [get_post($query["jpa_contact_id"])];
   } else {
-    $jpa_contacts = get_posts([
-      "post_type" => "member", // Server
-//      "post_type" => "jpa-contact", // Local
-      "posts_per_page" => -1,
-      "order" => "ASC"
-    ]);
+    $jpa_contacts = scjpc_get_jpa_contacts_posts();
+
+//    $jpa_contacts = get_posts([
+//      "post_type" => "member", // Server
+////      "post_type" => "jpa-contact", // Local
+//      "posts_per_page" => -1,
+//      "order" => "ASC"
+//    ]);
   }
 
   return [$fields, $jpa_contacts];
@@ -120,7 +134,7 @@ function scjpc_fetch_jpa_contacts_fields(array $fields, array $jpa_contacts, str
 
         if ($field["type"] == "wysiwyg") {
           if ($export) {
-            $response[$post->ID][$field["name"]] = trim(strip_tags(get_field($field["name"], $post->ID)));
+            $response[$post->ID][$field["name"]] = html_entity_decode(trim(strip_tags(get_field($field["name"], $post->ID))));
           } else {
             $original_data = get_field($field["name"], $post->ID);
             $response[$post->ID][$field["name"]] = $original_data;
