@@ -49,22 +49,53 @@ function ajax_scjpc_export_jpa_members() {
     wp_die();
 }
 
+function acf_get_db_fields($group_id) {
+    $data = [];
+    $sub_db_fields = get_posts([
+        'post_type'   => 'acf-field',
+        'post_parent' => $group_id,
+        'numberposts' => -1, // Retrieve all fields
+    ]);
+    foreach($sub_db_fields as $db_field) {
+        $data[$db_field->post_name] = $db_field;
+    }
+    return $data;
+}
+
 function scjpc_get_jpa_contacts_all_fields($query = []): array {
-    $fields_group = acf_get_field_group("group_662d0256002a6"); // Server
+    // Server JPA Contacts (?post=315&action=edit)
+    $fields_group = acf_get_field_group("group_662d0256002a6");
     $fields = acf_get_fields($fields_group);
 
-    $fields_group = acf_get_field_group("group_66464f0e51512"); // Server
+
+    // Server 24 HR EMERGENCY TELEPHONE NUMBER & EMAIL (?post=2655&action=edit)
+    $fields_group = acf_get_field_group("group_66464f0e51512");
     $fields = array_merge($fields, acf_get_fields($fields_group));
-    $fields_group = acf_get_field_group("group_664639ed6409d"); // Server
-    $sub_fields = acf_get_fields($fields_group);
+
+
+    // Server FIELD ASSISTANCE/ JOINT MEET *(post=2595&action=edit)
+    $fields_group = acf_get_field_group("group_664639ed6409d");
+    $sub_fields= acf_get_fields('group_664639ed6409d');
+    // I am doing for just making sure correct datrabase reference
+    $sub_db_fields = acf_get_db_fields($fields_group['ID']);
+
     foreach ($sub_fields as $key => $field) {
+        // Unset Last Updated
         if ($field['key'] == 'field_664639ed86bac') {
             unset($sub_fields[$key]);
         }
+        if ($field['key'] == 'field_66463a5e86bad' && isset($sub_db_fields['field_66463a5e86bad'])) {
+            $sub_fields[$key]['label'] = $sub_db_fields['field_66463a5e86bad']->post_title;
+        }
     }
     $fields = array_merge($fields, $sub_fields);
+
+
+    // Multiple Document Upload (post=2138&action=edit)
     $fields_group = acf_get_field_group("group_662e732c50241"); // Server
     $fields = array_merge($fields, acf_get_fields($fields_group));
+
+    // Single Points of Contact (?post=3097&action=edit)
     $fields_group = acf_get_field_group("group_665623aed72ff"); // Server
     $fields = array_merge($fields, acf_get_fields($fields_group));
 //   echo "<pre>==Count==" . count($fields) . "====" . print_r($fields, 1) . "</pre>";
