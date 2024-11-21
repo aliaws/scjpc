@@ -110,3 +110,11 @@ span.sub-arrow {
 /*  padding-top: 2px;*/
 /*}*/
 
+.eael-team-content li a {
+  font-family: unset;
+  font-size: unset;
+}
+
+.eael-team-content ul {
+  margin: 11px;
+}
