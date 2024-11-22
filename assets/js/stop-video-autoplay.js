@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Get the value of the aria-controls attribute
         const ariaControls = tab.getAttribute('aria-controls');
         const $contentTabVideo = document.querySelector(`#${ariaControls} video`);
-
+        $contentTabVideo.pause();
         // Check if the video element exists
         if ($contentTabVideo) {
           // Add the canplay event listener to the video element
