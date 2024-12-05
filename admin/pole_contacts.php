@@ -1,7 +1,7 @@
 <?php
 add_action("elementor/frontend/after_enqueue_styles", "scjpc_enqueue_pole_members_script");
 function scjpc_enqueue_pole_members_script(): void {
-  wp_enqueue_style('poles-contacts', SCJPC_ASSETS_URL . 'css/pole-contacts.css', false, '1.58');
+  wp_enqueue_style('poles-contacts', SCJPC_ASSETS_URL . 'css/pole-contacts.css', false, '1.60');
   wp_enqueue_style('scjpc-global', SCJPC_ASSETS_URL . 'css/global.css', [], '1.02');
 
   wp_enqueue_script('poles-contacts', SCJPC_ASSETS_URL . 'js/pole-contacts.js', ['jquery'], '1.58');
@@ -158,18 +158,18 @@ function ajax_scjpc_export_emergency_contacts() {
 function scjpc_get_field_assistance_contacts($query = []): array {
   $fields_group = acf_get_field_group("group_664639ed6409d"); // Server
   $fields = acf_get_fields($fields_group);
+  $db_fields = acf_get_db_fields($fields_group['key']);
+
   foreach ($fields as $key => $field) {
     if ($field['key'] == 'field_664639ed86bac') {
       unset($fields[$key]);
     }
+    if ($field['key'] == 'field_66463a5e86bad' && isset($db_fields['field_66463a5e86bad'])) {
+      $fields[$key]['label'] = $db_fields['field_66463a5e86bad']->post_title;
+    }
   }
   $jpa_contacts = scjpc_get_jpa_contacts_posts();
-
-//  $jpa_contacts = get_posts([
-//    "post_type" => "member", // Server
-//    "posts_per_page" => -1,
-//    "order" => "ASC"
-//  ]);
+  
   return [$fields, $jpa_contacts];
 }
 

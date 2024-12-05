@@ -75,9 +75,10 @@ function scjpc_get_jpa_contacts_all_fields($query = []): array {
 
     // Server FIELD ASSISTANCE/ JOINT MEET *(post=2595&action=edit)
     $fields_group = acf_get_field_group("group_664639ed6409d");
+    // I am doing for just making sure databas reference
     $sub_fields= acf_get_fields('group_664639ed6409d');
-    // I am doing for just making sure correct datrabase reference
-    $sub_db_fields = acf_get_db_fields($fields_group['ID']);
+
+    $sub_db_fields = acf_get_db_fields($fields_group['key']);
 
     foreach ($sub_fields as $key => $field) {
         // Unset Last Updated
@@ -89,7 +90,10 @@ function scjpc_get_jpa_contacts_all_fields($query = []): array {
         }
     }
     $fields = array_merge($fields, $sub_fields);
-
+//    echo "<pre>........";
+//    print_r($fields_group);
+//    print_r(array_values($sub_fields));
+//    die;
 
     // Multiple Document Upload (post=2138&action=edit)
     $fields_group = acf_get_field_group("group_662e732c50241"); // Server
@@ -147,7 +151,8 @@ function scjpc_get_jpa_contacts($query = []): array {
 }
 
 function scjpc_fetch_jpa_contacts_fields(array $fields, array $jpa_contacts, string $group = '', bool $export = false, $remove_unwanted = true): array {
-    $response = [];
+//       echo "<pre>" . print_r($fields, true) . "</pre>";
+$response = [];
     $field_labels = [];
     foreach ($jpa_contacts as $post) {
         $response[$post->ID] = [];
