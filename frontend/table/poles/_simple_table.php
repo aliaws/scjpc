@@ -60,7 +60,7 @@ $prev_search_query = $_REQUEST['search_query'] ?? ''; ?>
       <thead>
       <tr>
         <?php foreach (POLES_KEYS as $key => $label) {
-          [$css_classes, $data_sort_order] = getSortingAttributes($key, $sort_keys, $response_sort_key, $response_sort_order);
+          [$css_classes, $data_sort_order] = get_sorting_attributes($key, $sort_keys, $response_sort_key, $response_sort_order);
           echo "<th class='text-capitalize $css_classes' scope='col' data-sort-key='$key' data-sort-order='$data_sort_order' scope='col'  >" . str_replace("_", " ", $label) . "</th>";
         } ?>
       </tr>

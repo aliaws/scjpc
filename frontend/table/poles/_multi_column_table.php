@@ -60,7 +60,7 @@
             <th><?php echo $extra; ?></th>
           <?php }
         } else { ?>
-          <?php [$css_classes, $data_sort_order] = getSortingAttributes($column, $sort_keys, $response_sort_key, $response_sort_order); ?>
+          <?php [$css_classes, $data_sort_order] = get_sorting_attributes($column, $sort_keys, $response_sort_key, $response_sort_order); ?>
           <th class='<?php echo $css_classes; ?>' data-sort-key=<?php echo $column; ?>
           data-sort-order="<?php echo $data_sort_order; ?>"><?php echo $value['label']; ?></th>
         <?php }
