@@ -49,7 +49,7 @@ function post_url_change() {
   }
 }
 
-function getSortingAttributes($key, $sort_keys, $response_sort_key, $response_sort_order) {
+function get_sorting_attributes($key, $sort_keys, $response_sort_key, $response_sort_order): array {
   if ($css_sort_classes = isset($sort_keys[$key]) ? 'has_sort' : '') {
     $response_sort_key = str_replace('_sort', '', $response_sort_key);
     if ($key == $response_sort_key) {

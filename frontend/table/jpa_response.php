@@ -60,7 +60,7 @@ $base_cdn_url = str_starts_with($base_cdn_url, 'https://') ? $base_cdn_url : "ht
       <thead>
       <tr>
         <?php foreach ($record_keys as $key => $label) { ?>
-          <?php [$css_classes, $data_sort_order] = getSortingAttributes($key, $sort_keys, $response_sort_key, $response_sort_order); ?>
+          <?php [$css_classes, $data_sort_order] = get_sorting_attributes($key, $sort_keys, $response_sort_key, $response_sort_order); ?>
 
           <th key="<?php echo $key; ?>" class='text-capitalize <?php echo $css_classes; ?>'
               data-sort-key=<?php echo $key; ?> data-sort-order="<?php echo $data_sort_order; ?>" scope='col'>
@@ -76,7 +76,8 @@ $base_cdn_url = str_starts_with($base_cdn_url, 'https://') ? $base_cdn_url : "ht
         $jpa_detail_url = "/pole-search/?jpa_number=$jpa_number&action=jpa_detail_search&per_page=50&page_number=1&last_id=&search_query=$search_query"; ?>
         <tr>
           <th scope="row"><?php echo $result['jpa_unique_id']; ?></th>
-          <td><a href="<?php echo $jpa_detail_url; ?>" target="_self" class="jpa_number"><?php echo $jpa_number; ?></a></td>
+          <td><a href="<?php echo $jpa_detail_url; ?>" target="_self" class="jpa_number"><?php echo $jpa_number; ?></a>
+          </td>
           <td>
             <?php if ($result['pdf_s3_key'] !== null) { ?>
               <a class="text-decoration-none pdf-icon-wrapper" href="<?php echo $jpa_pdf_url; ?>">
