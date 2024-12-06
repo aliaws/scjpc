@@ -79,6 +79,7 @@ function scjpc_get_jpa_contacts_all_fields($query = []): array {
   // I am doing for just making sure correct datrabase reference
   $sub_db_fields = acf_get_db_fields($fields_group['key']);
 
+
   foreach ($sub_fields as $key => $field) {
     // Unset Last Updated
     if ($field['key'] == 'field_664639ed86bac') {
@@ -89,7 +90,6 @@ function scjpc_get_jpa_contacts_all_fields($query = []): array {
     }
   }
   $fields = array_merge($fields, $sub_fields);
-
 
   // Multiple Document Upload (post=2138&action=edit)
   $fields_group = acf_get_field_group("group_662e732c50241"); // Server

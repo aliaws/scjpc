@@ -33,6 +33,12 @@ if (!empty($export_requests)) {
         <th scope="col" style="font-size: 16px;" class="text-capitalize manage-column">
           Import Finished Time
         </th>
+        <th scope="col" style="font-size: 16px;" class="text-capitalize manage-column">
+           Deleted JPA's
+        </th>
+        <th scope="col" style="font-size: 16px;" class="text-capitalize manage-column">
+           Deleted Pole's
+        </th>
       </tr>
       </thead>
       <tbody>
@@ -66,6 +72,12 @@ if (!empty($export_requests)) {
           </td>
           <td class="align-middle">
             <?php echo $value['updated_at']; ?>
+          </td>
+          <td class="align-middle">
+              <?php echo $value['deleted_jpas']; ?>
+          </td>
+          <td class="align-middle">
+              <?php echo $value['deleted_poles']; ?>
           </td>
         </tr>
       <?php } ?>

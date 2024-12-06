@@ -45,6 +45,10 @@ function scjpc_jpa_contacts_callback(): void {
 //  [$fields, $jpa_contacts] = scjpc_get_jpa_contacts();
     [$fields, $jpa_contacts] = scjpc_get_jpa_contacts_all_fields();
     [$response, $field_labels] = scjpc_fetch_jpa_contacts_fields($fields, $jpa_contacts, 'jpa', false, false);
+//    echo "<pre>";
+//    print_r($response);
+//    print_r($field_labels);
+//    die;
     ob_start();
     require_once SCJPC_PLUGIN_FRONTEND_BASE . 'table/contacts.php';
     echo ob_get_clean();

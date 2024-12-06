@@ -1,6 +1,6 @@
 .excel-table-container {
   overflow-x: auto;
-  height: 95vh;
+  max-height: 95vh;
 }
 
 /*.excel-table-container-auto-height {*/
@@ -100,10 +100,10 @@ span.sub-arrow {
   color: #fff !important;
 }
 
-.scjpc-cable-marking {
-  display: flex;
-  gap: 5px;
-  margin: 5px 0;
+a.scjpc-cable-markings {
+  display: flex !important;
+  gap: 5px !important;
+  margin: 5px 0 !important;
 }
 
 /*a.has-submenu > i.wpmi__icon {*/

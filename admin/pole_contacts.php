@@ -169,7 +169,6 @@ function scjpc_get_field_assistance_contacts($query = []): array {
     }
   }
   $jpa_contacts = scjpc_get_jpa_contacts_posts();
-
   return [$fields, $jpa_contacts];
 }
 
