@@ -59,7 +59,7 @@ jQuery(document).ready(function () {
 
     [
         'clear-export', 'clear-pdf', 'clear-redis', 're-index',
-        'es_settings',
+        'es_settings', 'remove-deleted-data',
         'remove_all_processed_exports', 'remove_pending_exports', 'remove_processing_exports'
     ].forEach(button => {
         jQuery(`button#${button}`).on('click', () => {
