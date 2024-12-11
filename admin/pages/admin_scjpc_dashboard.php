@@ -17,6 +17,7 @@ if (!empty($db_db_counts)) {
             <button data-api-action = "clear-cdn-cache" data-key = "/pdf/*" id="clear-pdf" type="button" class="btn btn-primary clear-cache">Clear PDF Cache</button>
             <button data-api-action = "flush-redis-cache" id="clear-redis" type="button" class="btn btn-primary clear-cache">Clear Redis Cache</button>
             <button data-method="POST" data-api-action = "elastic-search-re-index" id="re-index"  data-elastic_search_re_index="yes" type="button" class="btn btn-primary clear-cache">Re-Index Elastic Search</button>
+            <button data-method="POST" data-api-action = "remove-deleted-data" id="remove-deleted-data"  data-remove_deleted_data="yes" type="button" class="btn btn-primary clear-cache">Remove Deleted Data</button>
         </div>
         <table class="table w-100 table-striped wp-list-table widefat fixed striped table-view-list posts">
             <thead>

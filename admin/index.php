@@ -223,7 +223,7 @@ function scjpc_custom_admin_menu() {
 
 function load_admin_assets(): void {
   wp_enqueue_style('admin_css', SCJPC_ASSETS_URL . 'css/admin.css', false, '2.7');
-  wp_enqueue_script('admin_js', SCJPC_ASSETS_URL . 'js/admin.js', false, '2.7', true);
+  wp_enqueue_script('admin_js', SCJPC_ASSETS_URL . 'js/admin.js', false, '3.0', true);
 }
 
 function admin_scjpc_dashboard() {
@@ -346,6 +346,9 @@ function flush_cache() {
   if (!empty($_REQUEST['elastic_search_re_index'])) {
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(["elastic_search_re_index" => $_REQUEST['key']])); // Set the request body
   }
+ if (!empty($_REQUEST['remove_deleted_data'])) {
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(["remove_deleted_data" => $_REQUEST['key']])); // Set the request body
+ }
 
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
