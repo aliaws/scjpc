@@ -125,6 +125,7 @@ add_action('wp_enqueue_scripts', 'scjpc_enqueue_scripts');
 function scjpc_enqueue_scripts(): void {
   wp_enqueue_script('scjpc-smartmenus', SCJPC_ASSETS_URL . 'js/smartmenus.min.js', ['jquery'], '', true);
 }
+
 add_action('wp_enqueue_scripts', function () {
   if (!class_exists('\Elementor\Core\Files\CSS\Post')) {
     return;
@@ -142,3 +143,16 @@ add_action('wp_enqueue_scripts', function () {
   $css_file = new \Elementor\Core\Files\CSS\Post(5203);
   $css_file->enqueue();
 }, 10);
+
+
+function redirect_to_login_with_redirect_to() {
+  if (!is_user_logged_in() && is_singular('member')) {
+    global $wp;
+    $current_url = esc_url(home_url(add_query_arg($_GET, $wp->request)));
+    $redirect_url = "/login?redirect_to=" . urlencode($current_url);
+    wp_redirect($redirect_url);
+    exit;
+  }
+}
+
+add_action('template_redirect', 'redirect_to_login_with_redirect_to');
