@@ -67,7 +67,7 @@ function scjpc_update_migration_log(WP_REST_Request $request): WP_REST_Response 
   return $response;
 }
 
-function get_migration_log_by_title($job_datetime): ?WP_Post {
+function get_migration_log_by_title($job_datetime) {
   $query = new WP_Query([
     'post_type' => 'migration_logs',
     'title' => $job_datetime,

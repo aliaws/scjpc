@@ -9,7 +9,7 @@ require_once SCJPC_PLUGIN_ADMIN_BASE . 'functions.php';
 
 
 // add_action('init', 'scjpc_register_post_type_migration_logs');
-//function scjpc_register_post_type_migration_logs(): void {
+//function scjpc_register_post_type_migration_logs() {
 //  $supports = [
 //    'title', // post title
 //    'editor', // post content
@@ -49,7 +49,7 @@ require_once SCJPC_PLUGIN_ADMIN_BASE . 'functions.php';
 //}
 //
 //add_filter('manage_migration_logs_posts_columns', 'scjpc_migrations_logs_columns');
-//function scjpc_migrations_logs_columns($columns): array {
+//function scjpc_migrations_logs_columns($columns) {
 //  $scjpc_columns = [
 //    'status' => __('Status', 'scjpc'),
 //    'jpas_s3_key' => __('JPAs S3 Key', 'scjpc'),
@@ -62,14 +62,14 @@ require_once SCJPC_PLUGIN_ADMIN_BASE . 'functions.php';
 //}
 //
 //add_action('manage_migration_logs_posts_custom_column', 'scjpc_fill_migrations_logs_columns', 10, 2);
-//function scjpc_fill_migrations_logs_columns($column, $post_id): void {
+//function scjpc_fill_migrations_logs_columns($column, $post_id) {
 //  $scjpc_columns = get_scjpc_columns_array();
 //  if (isset($scjpc_columns[$column])) {
 //    echo get_post_meta($post_id, $scjpc_columns[$column], true);
 //  }
 //}
 
-//function get_scjpc_columns_array(): array {
+//function get_scjpc_columns_array() {
 //  return [
 //    'status' => 'scjpc_status',
 //    'jpas_s3_key' => 'scjpc_jpas_s3_key',
