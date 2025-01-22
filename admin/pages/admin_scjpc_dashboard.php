@@ -2,9 +2,13 @@
 load_bootstrap_assets();
 load_admin_assets();
 
-$api_url = trim(get_option('scjpc_es_host'), '/') . "/es-db-counts";
+$api_url_es_db_counts = trim(get_option('scjpc_es_host'), '/') . "/es-db-counts";
+$api_url_deleted_poles = trim(get_option('scjpc_es_host'), '/') . "/deleted-records?table=deleted_poles&order=desc";
+$api_url_deleted_jpas = trim(get_option('scjpc_es_host'), '/') . "/deleted-records?table=deleted_jpas&order=desc";
 
-$db_db_counts = make_search_api_call($api_url);
+$db_db_counts = make_search_api_call($api_url_es_db_counts);
+$deleted_poles = make_search_api_call($api_url_deleted_poles);
+$deleted_jpas = make_search_api_call($api_url_deleted_jpas);
 if (!empty($db_db_counts)) {
     ?>
     <div class="alert custom-alert-wrapper d-none my-3 alert-success " role="alert">
@@ -34,6 +38,9 @@ if (!empty($db_db_counts)) {
                 <th scope="col" style="font-size: 16px;" class="small-width-column text-capitalize manage-column">
                     Difference
                 </th>
+                <th title="Deleted Difference" scope="col" style="font-size: 16px;" class="small-width-column text-capitalize manage-column">
+                    Difference From Client DB
+                </th>
             </tr>
             </thead>
             <tbody>
@@ -50,6 +57,9 @@ if (!empty($db_db_counts)) {
                 <td class="align-middle <?php echo $db_db_counts['poles_db_es_diff'] != 0 ? "bold-red": "";  ?>" scope="row">
                     <?php echo $db_db_counts['poles_db_es_diff']; ?>
                 </td>
+                <td class="align-middle <?php echo $deleted_poles['total'] != 0 ? "bold-red": "";  ?>" scope="row">
+                    <?php echo $deleted_poles['total']; ?>
+                </td>
             </tr>
             <tr>
                 <td class="align-middle" scope="row">
@@ -64,6 +74,9 @@ if (!empty($db_db_counts)) {
                 <td class="align-middle <?php echo $db_db_counts['jpas_db_es_diff'] != 0 ? "bold-red": "";  ?>" scope="row">
                     <?php echo $db_db_counts['jpas_db_es_diff']; ?>
                 </td>
+                <td class="align-middle <?php echo $deleted_jpas['total'] != 0 ? "bold-red": "";  ?>" scope="row">
+                    <?php echo $deleted_jpas['total']; ?>
+                </td>
             </tr>
             </tbody>
         </table>
@@ -71,6 +84,23 @@ if (!empty($db_db_counts)) {
 <?php } else { ?>
     <div class="card p-4"><p> No Requests found!</p></div>
 <?php } ?>
+<?php
+$deleted_ids = ["Poles" => $deleted_poles["deleted_ids"], "Jpas" => $deleted_jpas["deleted_ids"]];
+foreach($deleted_ids as $heading => $ids): ?>
+    <h6> Deleted <?php echo $heading; ?></h6>
+    <table class="table w-100 table-striped wp-list-table widefat fixed striped table-view-list posts">
+
+    <?php
+        foreach($ids as $id):  ?>
+            <tr>
+                <td class="align-middle" scope="row">
+                    <?php echo $id; ?>
+                </td>
+            </tr>
+    <?php endforeach; ?>
+    </table>
+<?php endforeach; ?>
+
 <style>
     .small-width-column {
         width: 3.5em;
