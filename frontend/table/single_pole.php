@@ -5,7 +5,7 @@ if ($prev_search_query != '') {
   $page_slug = $query_params['page_slug'] ?? '';
   $redirect_url = $page_slug != '' ? "/{$query_params['page_slug']}?" . http_build_query($query_params) . "&go_back=1" : '';
   if ($redirect_url != '') { ?>
-    <a class="btn mb-1" href="<?php echo $redirect_url ?>">Go Back To Search Results</a>
+    <a class="btn mb-1" href="<?php echo $redirect_url ?>" style="color: black;">Go Back To Search Results</a>
   <?php }
 } ?>
 <div class="well mw-100 text-secondary mt-5">

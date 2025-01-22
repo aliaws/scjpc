@@ -1,25 +1,18 @@
 <?php $search_key = $search_key ?? '';
-$prev_search_query = $_REQUEST['search_query'] ?? ''; ?>
+scjpc_internal_log($search_result, "Search Results");
+//$prev_search_query = $_REQUEST['search_query'] ?? '';
+?>
 <div id="response-overlay"></div>
 <div class="mw-100 mt-2">
   <div class="remove-print d-flex flex-column flex-sm-row justify-content-between align-items-sm-center">
     <div>
-      <?php
-      if ($prev_search_query != '') {
-        $prev_search_query = urldecode($prev_search_query);
-        parse_str($prev_search_query, $query_params);
-        $query_params['last_id'] = '';
-        $page_slug = $query_params['page_slug'] ?? '';
-        $redirect_url = $page_slug != '' ? "/{$query_params['page_slug']}?" . http_build_query($query_params) . "&go_back=1" : '';
-        if ($redirect_url != '') { ?>
-          <a class="btn" href="<?php echo $redirect_url ?>">Go Back To Search Results</a>
-        <?php }
-      } ?>
-      <?php if ($search_key != '') { ?>
+      <?php if ( $redirect_url = $search_result['redirect_url'] ) { ?>
+        <a class="btn" href="<?php echo $redirect_url ?>" style="color: black;">Go Back To Search Results</a>
+      <?php }
+      if ($search_key != '') { ?>
         <span>Search Key: <strong><?php echo $search_key; ?></strong></span>
       <?php } ?>
-      <p class="text-secondary order-sm-0 order-1 result-text mb-2 mb-sm-0">
-        Found <?php echo $search_result['total_records'] ?> results.</p>
+      <p class="text-secondary order-sm-0 order-1 result-text mb-2 mb-sm-0">Found <?php echo $search_result['total_records'] ?> results.</p>
     </div>
     <div class="d-flex justify-content-end mb-2" role="group" aria-label="Basic outlined example">
       <button type="button" id="export_as_excel" title="Export as Excel"

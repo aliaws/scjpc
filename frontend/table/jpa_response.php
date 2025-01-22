@@ -1,15 +1,15 @@
 <?php $search_key = $search_key ?? '';
-$base_cdn_url = rtrim(get_option('scjpc_aws_cdn'), '/');
-$base_cdn_url = str_starts_with($base_cdn_url, 'https://') ? $base_cdn_url : "https://$base_cdn_url"; ?>
+$base_cdn_url = rtrim( get_option( 'scjpc_aws_cdn' ), '/' );
+$base_cdn_url = str_starts_with( $base_cdn_url, 'https://' ) ? $base_cdn_url : "https://$base_cdn_url"; ?>
 <div id="response-overlay"></div>
 <div class="mw-100 mt-1">
   <div class="remove-print d-flex flex-column flex-sm-row justify-content-between align-items-sm-center">
     <div>
-      <?php if ($search_key != '') { ?>
+      <?php if ( $search_key != '' ) { ?>
         <span>Search Key: <strong><?php echo $search_key; ?></strong></span>
       <?php } ?>
       <p class="text-secondary order-sm-0 order-1 result-text mb-2 mb-sm-0">
-        <?php echo "Found " . number_format($search_result['total_records']) . " results."; ?>
+        <?php echo "Found " . number_format( $search_result['total_records'] ) . " results."; ?>
       </p>
     </div>
     <div class="d-flex b justify-content-end mb-2 align-items-center" role="group">
@@ -18,12 +18,11 @@ $base_cdn_url = str_starts_with($base_cdn_url, 'https://') ? $base_cdn_url : "ht
                 data-format="xlsx" title="Export as Excel" data-user_id="<?php echo $user_id; ?>"
                 data-user_email="<?php echo $user_email; ?>" data-endpoint="<?php echo $export_endpoint; ?>"
                 class="btn-icon-wrapper">
+
           <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
                class="btn-icon bi bi-file-earmark-excel" viewBox="0 0 16 16">
-            <path
-              d="M5.884 6.68a.5.5 0 1 0-.768.64L7.349 10l-2.233 2.68a.5.5 0 0 0 .768.64L8 10.781l2.116 2.54a.5.5 0 0 0 .768-.641L8.651 10l2.233-2.68a.5.5 0 0 0-.768-.64L8 9.219l-2.116-2.54z"/>
-            <path
-              d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+            <path d="M5.884 6.68a.5.5 0 1 0-.768.64L7.349 10l-2.233 2.68a.5.5 0 0 0 .768.64L8 10.781l2.116 2.54a.5.5 0 0 0 .768-.641L8.651 10l2.233-2.68a.5.5 0 0 0-.768-.64L8 9.219l-2.116-2.54z"/>
+            <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
           </svg>
         </button>
         <button type="button" id="export_as_csv" data-query="<?php echo $search_result['search_query']; ?>"

@@ -64,10 +64,7 @@ if (isset($_REQUEST['go_back'])) {
         <input type="hidden" id="admin_ajax_url" value="<?php echo admin_url('admin-ajax.php'); ?>"/>
         <input type="hidden" id="s3_key" name="s3_key" value="<?php echo $_REQUEST['s3_key'] ?? ''; ?>"/>
         <input type="hidden" id="page_slug" name="page_slug" value="<?php echo get_post_field('post_name', get_the_ID()); ?>"/>
-
-        <?php if ( empty ( $_REQUEST['query_id'] ) ) { ?>
-          <input type="hidden" id="query_id" name="query_id" value="<?php echo time(); ?>"/>
-        <?php } ?>
+        <input type="hidden" id="query_id" name="query_id" value="<?php echo time(); ?>"/>
 
         <div class="d-none d-lg-flex mt-auto justify-content-between">
           <button type="button" class="clearBtn btn btn-secondary">Clear</button>
