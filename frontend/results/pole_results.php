@@ -2,7 +2,7 @@
 if ( ! empty ( $_REQUEST ) ) {
 
   $search_result = search_scjpc( $_REQUEST );
-
+  $query_id      = $search_result['query_id'];
   $search_key = !empty($_REQUEST['pole_number']) && $_REQUEST['action'] != 'advanced_pole_search' ? $_REQUEST['pole_number'] : '';
 
   $search_query = urlencode( http_build_query( $_REQUEST ) );
