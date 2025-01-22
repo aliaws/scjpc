@@ -214,5 +214,5 @@ function scjpc_internal_log( $message, $heading = '', $level = 'info' ): void {
   file_put_contents(scjpc_get_internal_log_file(), $log_entry, FILE_APPEND);
 }
 function scjpc_get_internal_log_file(): string {
-  return sprintf( "%s/%s.log", SCJPC_PLUGIN_PATH, date('Y-J-d' ) );
+  return sprintf( "%s/%s.log", SCJPC_PLUGIN_PATH, date('Y-F-d' ) );
 }

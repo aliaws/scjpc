@@ -85,8 +85,9 @@
       <input type="hidden" id="sort_order" name="sort_order" value="<?php echo $_POST['sort_order'] ?? 'asc'; ?>"/>
       <input type="hidden" id="admin_ajax_url" value="<?php echo admin_url('admin-ajax.php'); ?>"/>
       <input type="hidden" id="page_slug" name="page_slug" value="<?php echo get_post_field('post_name', get_the_ID()); ?>"/>
-      <input type="hidden" id="query_id" name="query_id" value="<?php echo time(); ?>"/>
-      
+      <?php if ( empty ( $_REQUEST['query_id'] ) ) { ?>
+        <input type="hidden" id="query_id" name="query_id" value="<?php echo time(); ?>"/>
+      <?php } ?>
     </form>
     <div class="accordion mt-5" id="accordionPanelsStayOpenExample">
       <div class="accordion-item">
