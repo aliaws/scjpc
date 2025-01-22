@@ -1,11 +1,30 @@
 <?php
 load_bootstrap_assets();
-$api_url = trim(get_option('scjpc_es_host'), '/') . "/migration_logs";
+$api_url_migration_logs = trim(get_option('scjpc_es_host'), '/') . "/migration_logs";
+$api_url_deleted_poles = trim(get_option('scjpc_es_host'), '/') . "/deleted-records?table=deleted_poles&order=desc";
+$api_url_deleted_jpas = trim(get_option('scjpc_es_host'), '/') . "/deleted-records?table=deleted_jpas&order=desc";
 
-$export_requests = make_search_api_call($api_url);
+$export_requests = make_search_api_call($api_url_migration_logs);
+$deleted_poles = make_search_api_call($api_url_deleted_poles);
+$deleted_jpas = make_search_api_call($api_url_deleted_jpas);
+
 if (!empty($export_requests)) {
 ?>
   <div class="export-container overflow-auto">
+      <table class="table w-100 table-striped wp-list-table widefat fixed striped table-view-list posts">
+          <tr>
+              <th>Deleted Poles Counts</th>
+              <td class="align-middle <?php echo $deleted_poles['total'] != 0 ? "bold-red": "";  ?>" scope="row">
+                  <?php echo $deleted_poles['total']; ?>
+              </td>
+          </tr>
+          <tr>
+              <th>Deleted Jpas Counts</th>
+              <td class="align-middle <?php echo $deleted_jpas['total'] != 0 ? "bold-red": "";  ?>" scope="row">
+                  <?php echo $deleted_jpas['total']; ?>
+              </td>
+          </tr>
+      </table>  
     <table class="table w-100 table-striped wp-list-table widefat fixed striped table-view-list posts">
       <thead>
       <tr>
@@ -87,8 +106,13 @@ if (!empty($export_requests)) {
 <?php } else { ?>
   <div class="card p-4"><p> No Requests found!</p></div>
 <?php } ?>
+
 <style>
     .small-width-column {
         width: 3.5em
+    }
+    .bold-red {
+        color:red !important;
+        font-weight: bold;
     }
 </style>
