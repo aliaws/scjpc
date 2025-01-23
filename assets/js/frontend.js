@@ -114,6 +114,8 @@ const registerPageNavigationClicks = () => {
 
     const action = jQuery('#action').val();
     jQuery('input#page_number').val(pageNumber);
+    jQuery('input#go_back').prop('disabled', 'disabled')
+
     jQuery(`#${action}`).submit();
   });
 }
@@ -124,6 +126,9 @@ const registerPaginationLimitClicks = () => {
     jQuery(this).addClass("active");
     jQuery('input#per_page').val(perPage);
     jQuery('input#page_number').val(1);
+
+    jQuery('input#go_back').prop('disabled', 'disabled')
+
     const action = jQuery('#action').val();
     jQuery(`#${action}`).submit();
   });
@@ -135,6 +140,8 @@ const registerTableSortClicks = () => {
 
     const sortKey = event.currentTarget.dataset['sortKey'];
     jQuery('input#sort_key').val(sortKey)
+
+    jQuery('input#go_back').prop('disabled', 'disabled')
 
     const form = jQuery('.needs-validation')[0];
     jQuery(`form#${form.id}`).submit()

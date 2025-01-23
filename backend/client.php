@@ -17,6 +17,7 @@ function make_search_api_call($api_url, $append_search_query = false) {
   $response = curl_exec($ch);
   curl_close($ch);
   $parsed_response = json_decode($response, true);
+//  scjpc_internal_log($parsed_response, "parsed response");
   if ( $append_search_query ) {
     $total_records = $parsed_response["total_records"] ?? null;
     $parsed_response["search_query"] = prepare_search_query($api_url, $total_records);
@@ -71,6 +72,9 @@ function scjpc_add_query_transient_log( $request, $response, $nested = false ): 
       $response['query_id']     = $query_transient_id;
       $response['redirect_url'] = scjpc_get_query_transient_url( $query_transient_id );
 
+      // scjpc_internal_log( $response['query_id'], "Query ID" );
+      // scjpc_internal_log( $response['transient'], "Query Transient" );
+      // scjpc_internal_log( $response['redirect_url'], "Redirect URL" );
     }
 
   }
@@ -85,7 +89,7 @@ function scjpc_get_query_transient_url( $query_transient_id ) {
       parse_str($redirect_url, $query_params);
       if ( isset ( $query_params['page_slug'] ) ){
         $redirect_url = $query_params['page_slug'];
-        unset ( $query_params['page_slug'] );
+//        unset ( $query_params['page_slug'] );
         return "/" . $redirect_url . '?' . http_build_query( $query_params );
       }
       return $redirect_url;
@@ -103,6 +107,8 @@ function scjpc_set_query_transient( $query_id, $request, $nested = false ) {
   $transient_value = ['original' => $original_query, 'filtered' => $filtered_query];
   $set = false;
 
+  // scjpc_internal_log($request, "incoming query" );
+
   if ( ! empty ( $request ) && isset ( $request['go_back'] ) && $nested ) {
     if ( $transient ) {
       unset( $transient[array_key_last( $transient )] );
@@ -112,11 +118,14 @@ function scjpc_set_query_transient( $query_id, $request, $nested = false ) {
   } else {
     if ( ! $transient || ! $nested ) {
       $transient   = [$transient_value];
-      $set = true;
-    } elseif ( scjpc_is_new_search_query( $filtered_query, $transient ) ) {
-      $transient[] = $transient_value;
-      $set = true;
+    } else {
+      if ( scjpc_is_new_search_query( $filtered_query, $transient ) ) {
+        $transient[] = $transient_value;
+      } else {
+        $transient[array_key_last($transient)] = $transient_value;
+      }
     }
+    $set = true;
   }
   if ( $set ) {
     set_transient( $query_id, $transient, HOUR_IN_SECONDS * 6 );
@@ -198,6 +207,7 @@ function perform_advanced_pole_search($request): array {
 }
 
   function perform_quick_pole_search( $request ) {
+  // scjpc_internal_log("perform_quick_pole_search");
   $request['action']  = 'single-pole';
   $request['columns'] = implode(",", array_keys(POLES_KEYS));
   $api_url            = trim(get_option('scjpc_es_host'), '/') . "/pole-search?" . http_build_query($request);
@@ -211,6 +221,7 @@ function perform_advanced_pole_search($request): array {
 }
 
 function perform_pole_detail($request): array {
+  // scjpc_internal_log("perform_pole_detail");
   $request['action'] = 'pole-detail';
   $api_url  = trim(get_option('scjpc_es_host'), '/') . "/pole-detail?" . http_build_query($request);
   $response = [
@@ -225,6 +236,7 @@ function perform_pole_detail($request): array {
 }
 
 function perform_jpa_detail_search($request) {
+  // scjpc_internal_log("perform_jpa_detail_search");
   $request['action'] = 'jpa-detail';
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/pole-search?" . http_build_query($request);
   $response = make_search_api_call($api_url, true);
@@ -237,6 +249,7 @@ function perform_jpa_detail_search($request) {
 }
 
 function perform_multiple_pole_search($request) {
+  // scjpc_internal_log("perform_multiple_pole_search");
   $request['action'] = 'multiple-pole';
   $upload = upload_and_read_file($request);
   $request['pole_number'] = $upload["numbers"] ?? [];
@@ -271,6 +284,7 @@ function perform_multiple_pole_search($request) {
 
 
 function get_pole_result($request): array {
+  // scjpc_internal_log("get_pole_result");
   $request['action'] = 'multiple-pole';
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/pole-search?" . http_build_query($request);
   $response = make_search_api_call($api_url, true);
