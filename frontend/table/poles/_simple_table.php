@@ -5,8 +5,8 @@
 <div class="mw-100 mt-2">
   <div class="remove-print d-flex flex-column flex-sm-row justify-content-between align-items-sm-center">
     <div>
-      <?php if ( $redirect_url = $search_result['redirect_url'] ) { ?>
-        <a class="btn" href="<?php echo $redirect_url ?>" style="color: black;">Go Back To Search Results</a>
+      <?php if ( $redirect_url ) { ?>
+        <a class="btn" href="<?php echo $redirect_url . "&go_back=1"; ?>" style="color: black;">Go Back To Search Results</a>
       <?php }
       if ($search_key != '') { ?>
         <span>Search Key: <strong><?php echo $search_key; ?></strong></span>

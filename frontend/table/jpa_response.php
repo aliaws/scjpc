@@ -1,5 +1,4 @@
 <?php $search_key = $search_key ?? '';
-echo "<pre>".print_r($search_result, true)."</pre>";
 $base_cdn_url = rtrim( get_option( 'scjpc_aws_cdn' ), '/' );
 $base_cdn_url = str_starts_with( $base_cdn_url, 'https://' ) ? $base_cdn_url : "https://$base_cdn_url"; ?>
 <div id="response-overlay"></div>
@@ -69,7 +68,7 @@ $base_cdn_url = str_starts_with( $base_cdn_url, 'https://' ) ? $base_cdn_url : "
       <?php foreach ($search_results as $result) {
         $jpa_pdf_url = "$base_cdn_url/{$result['pdf_s3_key']}";
         $jpa_number = $result['jpa_number_2'];
-        $jpa_detail_url = "/pole-search/?jpa_number=$jpa_number&action=jpa_detail_search&per_page=50&page_number=1&last_id=&query_id=$query_id"; ?>
+        $jpa_detail_url = "/pole-search/?jpa_number=$jpa_number&action=jpa_detail_search&per_page=50&page_number=1&last_id=&search_query=$search_query&query_id=$query_id"; ?>
         <tr>
           <th scope="row"><?php echo $result['jpa_unique_id']; ?></th>
           <td><a href="<?php echo $jpa_detail_url; ?>" target="_self" class="jpa_number"><?php echo $jpa_number; ?></a>

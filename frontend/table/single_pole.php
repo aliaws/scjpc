@@ -1,13 +1,7 @@
 <?php $prev_search_query = $_REQUEST['search_query'] ?? '';
-if ($prev_search_query != '') {
-  $prev_search_query = urldecode($prev_search_query);
-  parse_str($prev_search_query, $query_params);
-  $page_slug = $query_params['page_slug'] ?? '';
-  $redirect_url = $page_slug != '' ? "/{$query_params['page_slug']}?" . http_build_query($query_params) . "&go_back=1" : '';
-  if ($redirect_url != '') { ?>
-    <a class="btn mb-1" href="<?php echo $redirect_url ?>" style="color: black;">Go Back To Search Results</a>
-  <?php }
-} ?>
+if ( $redirect_url ) { ?>
+  <a class="btn" href="<?php echo $redirect_url . "&go_back=1" ?>" style="color: black;">Go Back To Search Results</a>
+<?php } ?>
 <div class="well mw-100 text-secondary mt-5">
   <div class="row result-row">
     <div class="col-sm-6">
@@ -93,11 +87,13 @@ if ($prev_search_query != '') {
   </div>
   <?php
   for ($i = 1; $i <= 10; $i++) {
-    if ($pole_result["company_{$i}"]) { ?>
+    if ($pole_result["company_{$i}"]) {
+      $company_gns = $pole_result["company_{$i}_gn_s"] ? str_replace("''", "'", $pole_result["company_{$i}_gn_s"]) : '';
+      ?>
       <div class="row result-row">
         <div class="col-sm-1"><?php echo $pole_result["company_{$i}"]; ?></div>
         <div class="col-sm-1"><?php echo $pole_result["antenna{$i}"] ? "ON" : '-'; ?></div>
-        <div class="col-sm-4"><?php echo str_replace("''", "'", $pole_result["company_{$i}_gn_s"]); ?></div>
+        <div class="col-sm-4"><?php echo $company_gns; ?></div>
         <div class="col-sm-6"><?php echo $pole_result["anc_for_company_{$i}"]; ?></div>
         <?php if ($i <= 3) { ?>
           <div class="col-sm-6"><?php echo $pole_result["anc_for_company_{$i}_a"]; ?></div>
@@ -113,7 +109,7 @@ if ($prev_search_query != '') {
       $jpas_length = count($jpa_results);
       foreach ($jpa_results as $index => $jpa_result) {
         $jpa_number = $jpa_result['jpa_number_2'];
-        $jpa_detail_url = "/pole-search/?jpa_number=$jpa_number&action=jpa_detail_search&per_page=50&page_number=1&last_id=";
+        $jpa_detail_url = "/pole-search/?jpa_number=$jpa_number&action=jpa_detail_search&per_page=50&page_number=1&last_id=&query_id=$query_id";
         $jpa_pdf_url = "$base_cdn_url/{$jpa_result['pdf_s3_key']}"; ?>
         <a href="<?php echo $jpa_detail_url; ?>"><?php echo $jpa_number; ?></a>
         <?php if ($jpa_result['pdf_s3_key']) { ?>
