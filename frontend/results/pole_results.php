@@ -1,9 +1,14 @@
 <?php
-if (!empty($_REQUEST)) {
-  $search_result = search_scjpc($_REQUEST);
+if ( ! empty ( $_REQUEST ) ) {
+
+  $search_result = search_scjpc( $_REQUEST );
+
+  $redirect_url  = $search_result['redirect_url'];
+  $query_id      = $search_result['query_id'];
 
   $search_key = !empty($_REQUEST['pole_number']) && $_REQUEST['action'] != 'advanced_pole_search' ? $_REQUEST['pole_number'] : '';
-  $search_query = urlencode(http_build_query($_REQUEST));
+
+  $search_query = urlencode( http_build_query( $_REQUEST ) );
   $record_keys = array_keys($search_result['results'][0] ?? []);
   $total_pages = isset($search_result["total_pages"]) ? (int)$search_result["total_pages"] : 0;
   $page = (int)$search_result["page_number"];
@@ -18,6 +23,7 @@ if (!empty($_REQUEST)) {
       $total_records = 0;
     }
   }
+
   $sort_keys = POLE_SORT_KEYS;
   $response_sort_key = $search_result['sort_key'] ?? 'unique_id';
   $response_sort_order = $search_result['sort_order'] ?? 'asc';
@@ -26,6 +32,7 @@ if (!empty($_REQUEST)) {
   $user_id = $current_user->ID;
   $user_email = $current_user->user_email;
   $export_endpoint = trim(get_option('scjpc_es_host'), '/') . "/data-export";
+
   if ($total_records == 0) {
     include_once SCJPC_PLUGIN_FRONTEND_BASE . '/partials/_not_found.php';
   } else {

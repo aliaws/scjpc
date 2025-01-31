@@ -196,3 +196,23 @@ function scjpc_sort_member_code_column($query) {
     $query->set('orderby', 'meta_value'); // Sort by meta_value
   }
 }
+
+function scjpc_internal_log( $message, $heading = '', $level = 'info' ): void {
+  if ( gettype( $message ) != 'string') {
+    $message = print_r( $message, true );
+  }
+  // Prepare the log entry
+  $timestamp = date('Y-m-d H:i:s');
+  $log_entry = sprintf("[%s] [%s] %s\n", $timestamp, strtoupper($level), $message) . "\n";
+
+  // Write the log entry heading to the log file
+  if ($heading != '') {
+    $heading = sprintf("[%s] [%s] %s\n", $timestamp, strtoupper($level), $heading);
+    file_put_contents(scjpc_get_internal_log_file(), $heading, FILE_APPEND);
+  }
+  // Write the log entry to the log file
+  file_put_contents(scjpc_get_internal_log_file(), $log_entry, FILE_APPEND);
+}
+function scjpc_get_internal_log_file(): string {
+  return sprintf( "%s/%s.log", SCJPC_PLUGIN_PATH, date('Y-F-d' ) );
+}

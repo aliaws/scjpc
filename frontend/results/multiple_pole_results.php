@@ -1,6 +1,10 @@
 <!--is using for advance search results-->
 <?php if (!empty($_REQUEST)) {
   $search_result = search_scjpc($_REQUEST);
+
+  $redirect_url  = $search_result['redirect_url'];
+  $query_id      = $search_result['query_id'];
+
   $search_key = $_REQUEST['pole_number'] ?? '';
   if (!empty($search_result['s3_key'])) {
     $_REQUEST['s3_key'] = $search_result['s3_key'];
