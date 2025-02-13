@@ -18,7 +18,7 @@ if ( ! empty ( $_REQUEST ) ) {
 
   if ($_REQUEST['action'] == 'quick_pole_search' && $total_records == 0) {
     try {
-      if ( is_countable($search_result['results'])){
+      if ( isset( $search_result['results'] ) && is_countable( $search_result['results'] ) ) {
         $total_records = count($search_result['results']);
       } else {
         $total_records = 0;
