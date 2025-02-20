@@ -44,7 +44,7 @@ const submitFormIfNotEmpty = (form) => {
     if (value.value !== '') {
       const stored_previous_data = localStorage.getItem('previous_data') ? localStorage.getItem('previous_data') : "";
       if (stored_previous_data.length > 0) {
-        jQuery('div.response-table').html(stored_previous_data);
+        // jQuery('div.response-table').html(stored_previous_data);
         registerExportButtonCalls();
         registerPaginationButtonAndSortHeaderClicks();
       }
@@ -62,6 +62,9 @@ function registerFormSubmissionHandler(form) {
     const form = event.target;
     const formId = jQuery(this).attr('id');
     const formData = new FormData(form);
+    if (!['jpa_detail_search', 'pole_detail'].includes(form.id)) {
+      formData.delete('go_back')
+    }
     const validate = validateForm(formId, formData);
 
 
