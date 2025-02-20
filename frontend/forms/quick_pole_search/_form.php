@@ -4,7 +4,7 @@
       <div class="mb-3">
         <label for="pole_number_visible" class="form-label">Enter Pole Number</label>
         <input type="text" name="pole_number_visible" id="pole_number_visible"
-               value="<?php echo $_REQUEST['pole_number'] ?? ''; ?>" autofocus required/>
+               value="<?php echo $_REQUEST['pole_number_visible'] ?? ''; ?>" autofocus required/>
         <!--        <div id="jpa_number_feedback" class="invalid-feedback"> Pole Number is Required.</div>-->
       </div>
       <input type="hidden" id="pole_number" name="pole_number" value="<?php echo $_REQUEST['pole_number'] ?? ''; ?>"/>
@@ -39,7 +39,13 @@
   </div>
 </div>
 <?php include_once SCJPC_PLUGIN_FRONTEND_BASE . "table/spinner.php"; ?>
-<div class="response-table"></div>
+<div class="response-table">
+  <?php if (!empty($_REQUEST) && !empty($_REQUEST['pole_number'])) {
+    $_REQUEST['action'] = 'quick_pole_search';
+    include_once SCJPC_PLUGIN_FRONTEND_BASE . "results/pole_results.php";
+  } ?>
+</div>
 <div class="database-update-information alert alert-primary mt-4">
   <?php echo scjpc_database_update_information(); ?>
 </div>
+

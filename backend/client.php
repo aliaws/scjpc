@@ -2,6 +2,7 @@
 
 function search_scjpc($request) {
   $action = $request['action'] ?? 'ads_nothing'; // Check if 'action' key exists
+  scjpc_internal_log($request['action'], "request action searching for");
   $data = call_user_func_array('perform_' . $action, [$request]);
   $data["per_page"]    = $request["per_page"] ?? 50;
   $data["page_number"] = $request["page_number"] ?? 1;
@@ -63,31 +64,38 @@ function perform_jpa_search($request): array {
   return $response;
 }
 
-function scjpc_add_query_transient_log( $request, $response, $nested = false ): array {
+function scjpc_add_query_transient_log( $request, $response, $nested = true ): array {
+  scjpc_internal_log("Inside the query transient log");
 
   if ( $query_transient_id = scjpc_get_query_transient_id( $request ) ) {
+    scjpc_internal_log("Inside the query transient log first if");
 
     if ( $query_transient = scjpc_set_query_transient( $query_transient_id, $request, $nested ) ) {
+      scjpc_internal_log("Inside the query transient log second if");
       $response['transient']    = $query_transient;
       $response['query_id']     = $query_transient_id;
       $response['redirect_url'] = scjpc_get_query_transient_url( $query_transient_id );
 
-      // scjpc_internal_log( $response['query_id'], "Query ID" );
-      // scjpc_internal_log( $response['transient'], "Query Transient" );
-      // scjpc_internal_log( $response['redirect_url'], "Redirect URL" );
+       scjpc_internal_log( $response['query_id'], "Query ID" );
+       scjpc_internal_log( $response['transient'], "Query Transient" );
+       scjpc_internal_log( $response['redirect_url'], "Redirect URL" );
     }
 
   }
-
+//  scjpc_internal_log($response, "Response");
   return $response;
 }
 
 function scjpc_get_query_transient_url( $query_transient_id ) {
+  scjpc_internal_log("Inside scjpc_get_query_transient_url");
   if ( $query_transient = scjpc_get_query_transient( $query_transient_id ) ) {
+    scjpc_internal_log("Inside scjpc_get_query_transient_url first if");
     if ( ! empty( $query_transient[ count( $query_transient ) - 2] ) && ! empty ( $query_transient[ count( $query_transient ) - 2]['original'] ) ) {
+      scjpc_internal_log("Inside scjpc_get_query_transient_url second if");
       $redirect_url = $query_transient[ count( $query_transient ) - 2]['original'];
       parse_str($redirect_url, $query_params);
       if ( isset ( $query_params['page_slug'] ) ){
+        scjpc_internal_log("Inside scjpc_get_query_transient_url third if");
         $redirect_url = $query_params['page_slug'];
 //        unset ( $query_params['page_slug'] );
         return "/" . $redirect_url . '?' . http_build_query( $query_params );
@@ -100,34 +108,83 @@ function scjpc_get_query_transient_url( $query_transient_id ) {
 
 
 
-function scjpc_set_query_transient( $query_id, $request, $nested = false ) {
-  $transient = get_transient( $query_id );
+//function scjpc_set_query_transient( $query_id, $request, $nested = true ) {
+//  $transient = get_transient( $query_id );
+//  $original_query = http_build_query($request);
+//  $filtered_query = scjpc_remove_filters_from_request( $request );
+//  $transient_value = ['original' => $original_query, 'filtered' => $filtered_query];
+//  $set = false;
+//
+//  scjpc_internal_log($request, "incoming query" );
+//
+//  if ( ! empty ( $request ) && isset ( $request['go_back'] ) ) {
+//    scjpc_internal_log("Inside scjpc_set_query_transient first if");
+//    if ( $transient ) {
+//      scjpc_internal_log("Inside scjpc_set_query_transient second if");
+//      unset( $transient[array_key_last( $transient )] );
+//      unset( $request['go_back'] );
+//      $set = true;
+//    }
+//  } else {
+//    scjpc_internal_log("Inside scjpc_set_query_transient first if else");
+//    if ( ! $transient  ) {
+//      scjpc_internal_log("Inside scjpc_set_query_transient first if else if");
+//      $transient   = [$transient_value];
+//    } else {
+//      scjpc_internal_log("Inside scjpc_set_query_transient first if else if else");
+//      if ( scjpc_is_new_search_query( $filtered_query, $transient ) ) {
+//        scjpc_internal_log("Inside scjpc_set_query_transient first if else if else if");
+//        $transient[] = $transient_value;
+//      } else {
+//        scjpc_internal_log("Inside scjpc_set_query_transient first if else if else if else");
+//        $transient[array_key_last($transient)] = $transient_value;
+//      }
+//    }
+//    $set = true;
+//  }
+//  if ( $set ) {
+//    scjpc_internal_log("Inside scjpc_set_query_transient if set true");
+//    set_transient( $query_id, $transient, HOUR_IN_SECONDS * 6 );
+//  }
+//  return $transient;
+//}
+
+function scjpc_set_query_transient( $query_id, $request, $nested = true ) {
+  $transient      = get_transient( $query_id );
   $original_query = http_build_query($request);
   $filtered_query = scjpc_remove_filters_from_request( $request );
   $transient_value = ['original' => $original_query, 'filtered' => $filtered_query];
   $set = false;
 
-  // scjpc_internal_log($request, "incoming query" );
+  scjpc_internal_log($request, "incoming query" );
 
   if ( ! empty ( $request ) && isset ( $request['go_back'] ) && $nested ) {
+    scjpc_internal_log("scjpc_set_query_transient first if");
     if ( $transient ) {
+      scjpc_internal_log("scjpc_set_query_transient first if first if");
       unset( $transient[array_key_last( $transient )] );
       unset( $request['go_back'] );
       $set = true;
     }
   } else {
+    scjpc_internal_log("scjpc_set_query_transient first if else");
     if ( ! $transient || ! $nested ) {
+      scjpc_internal_log("scjpc_set_query_transient first if else first if");
       $transient   = [$transient_value];
     } else {
+      scjpc_internal_log("scjpc_set_query_transient first if else first if else");
       if ( scjpc_is_new_search_query( $filtered_query, $transient ) ) {
+        scjpc_internal_log("scjpc_set_query_transient first if else first if else if");
         $transient[] = $transient_value;
       } else {
+        scjpc_internal_log("scjpc_set_query_transient first if else first if else if else");
         $transient[array_key_last($transient)] = $transient_value;
       }
     }
     $set = true;
   }
   if ( $set ) {
+    scjpc_internal_log("scjpc_set_query_transient set is true");
     set_transient( $query_id, $transient, HOUR_IN_SECONDS * 6 );
   }
   return $transient;
@@ -143,6 +200,8 @@ function scjpc_get_query_transient( $query_id ) {
 function scjpc_get_query_transient_id( $request ) {
 
   if ( ! empty ( $request['query_id'] ) ) {
+    scjpc_internal_log("found query transient ID");
+
     return $request['query_id'];
   }
 
@@ -212,6 +271,8 @@ function perform_advanced_pole_search($request): array {
   $request['columns'] = implode(",", array_keys(POLES_KEYS));
   $api_url            = trim(get_option('scjpc_es_host'), '/') . "/pole-search?" . http_build_query($request);
   $response           = make_search_api_call($api_url, true);
+
+  scjpc_internal_log("performing quick pole search");
 
   $response = scjpc_add_query_transient_log( $request, $response );
 
@@ -294,7 +355,7 @@ function get_pole_result($request): array {
 }
 
 
-function upload_and_read_file($request): array|string {
+function upload_and_read_file($request) {
   $searchable_numbers = [];
   $contains_headers = isset($request['contains_header']);
   $s3_key = $request['s3_key'] ?? '';
