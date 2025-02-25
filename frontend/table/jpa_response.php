@@ -6,7 +6,7 @@ $base_cdn_url = str_starts_with( $base_cdn_url, 'https://' ) ? $base_cdn_url : "
   <div class="remove-print d-flex flex-column flex-sm-row justify-content-between align-items-sm-center">
     <div>
       <?php if ( ! empty( $redirect_url ) ) { ?>
-      <a class="btn" href="<?php echo $redirect_url . "&go_back=1"; ?>" style="color: black;">Go Back To Search Results</a>
+      <a class="btn" href="<?php echo $redirect_url . "&go_back=1"; ?>" style="color: black;">Go Back</a><br />
       <?php } ?>
       <?php if ( $search_key != '' ) { ?>
         <span>Search Key: <strong><?php echo $search_key; ?></strong></span>
