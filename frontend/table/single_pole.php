@@ -1,6 +1,6 @@
 <?php $prev_search_query = $_REQUEST['search_query'] ?? '';
 if ( $redirect_url ) { ?>
-  <a class="btn" href="<?php echo $redirect_url . "&go_back=1" ?>" style="color: black;">Go Back To Search Results</a>
+  <a class="btn" href="<?php echo $redirect_url . "&go_back=1" ?>" style="color: black;">Go Back</a>
 <?php } ?>
 <div class="well mw-100 text-secondary mt-5">
   <div class="row result-row">
