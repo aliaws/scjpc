@@ -1,0 +1,27 @@
+.small-width-column {
+    width: 3.5em;
+}
+.bold-red {
+    color:red !important;
+    font-weight: bold;
+}
+
+button.edit-setting.btn {
+    background-color: #ffc107 !important;
+    color: #fff !important;
+}
+
+    button.delete-setting.btn {
+    background-color: #dc3545 !important;
+    color: #fff !important;
+}
+    button.create-setting.btn { 
+        background-color: #007bff !important;
+        color: #fff;
+}
+button.edit-setting, button.delete-setting {
+    padding: 2px 5px !important; /* Smaller padding */
+    font-size: 12px !important; /* Smaller text */
+    width: auto !important; /* Prevent forced width */
+    height: auto !important; /* Prevent forced height */
+}

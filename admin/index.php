@@ -6,6 +6,7 @@ require_once SCJPC_PLUGIN_ADMIN_BASE . 'pole_contacts.php';
 require_once SCJPC_PLUGIN_ADMIN_BASE . 'create_users.php';
 require_once SCJPC_PLUGIN_ADMIN_BASE . 'api.php';
 require_once SCJPC_PLUGIN_ADMIN_BASE . 'functions.php';
+require_once SCJPC_PLUGIN_ADMIN_BASE . 'actions/ajax.php';
 
 
 // add_action('init', 'scjpc_register_post_type_migration_logs');
