@@ -125,3 +125,4 @@ function authorize_search_page(): void {
     }
   }
 }
+
