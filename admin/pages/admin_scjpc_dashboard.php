@@ -1,8 +1,6 @@
 <?php
 load_bootstrap_assets();
 load_admin_assets();
-wp_enqueue_script('scjpc-settings', SCJPC_ASSETS_URL . 'js/admin_settings.js', ['jquery'], '', true);
-wp_enqueue_style('settings_css', SCJPC_ASSETS_URL . 'css/admin_settings.css', false, '1.0');
 
 $api_url_es_db_counts = trim(get_option('scjpc_es_host'), '/') . "/es-db-counts";
 $api_url_deleted_poles = trim(get_option('scjpc_es_host'), '/') . "/deleted-records?table=deleted_poles&order=desc";
@@ -103,4 +101,4 @@ foreach($deleted_ids as $heading => $ids): ?>
     </table>
 <?php endforeach; ?>
 
-<?php include_once(SCJPC_PLUGIN_ADMIN_BASE."partials/_settings.php"); ?>
+<?php include_once(SCJPC_PLUGIN_ADMIN_BASE."partials/_settings/_index.php"); ?>

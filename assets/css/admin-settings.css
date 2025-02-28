@@ -25,3 +25,24 @@ button.edit-setting, button.delete-setting {
     width: auto !important; /* Prevent forced width */
     height: auto !important; /* Prevent forced height */
 }
+
+.box-wrapper {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    background: #f9f9f9;
+}
+
+.tag {
+    background-color: #007bff;
+    color: #fff;
+    padding: 5px 5px;
+    border-radius: 12px;
+    font-size: 13px;
+}
+
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}

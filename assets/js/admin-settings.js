@@ -5,7 +5,7 @@ jQuery(document).ready(function($) {
         setTimeout(() => messageDiv.hide(), 5000);
     };
 
-    $('.create-setting').click(() => {g
+    $(document).on('click', '.create-setting', function() {
         $('#form-method').val('POST');
         $('#setting-key').prop('disabled', false).val('');
         $('#setting-value').val('');
