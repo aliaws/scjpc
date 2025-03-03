@@ -4,3 +4,4 @@ test.*
 test_login.php
 *.csv
 *.zip
+*.log

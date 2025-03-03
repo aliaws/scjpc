@@ -101,12 +101,4 @@ foreach($deleted_ids as $heading => $ids): ?>
     </table>
 <?php endforeach; ?>
 
-<style>
-    .small-width-column {
-        width: 3.5em;
-    }
-    .bold-red {
-        color:red !important;
-        font-weight: bold;
-    }
-</style>
+<?php include_once(SCJPC_PLUGIN_ADMIN_BASE."partials/_settings/_index.php"); ?>
