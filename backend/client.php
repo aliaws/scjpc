@@ -2,7 +2,7 @@
 
 function search_scjpc($request) {
   $action = $request['action'] ?? 'ads_nothing'; // Check if 'action' key exists
-  scjpc_internal_log($request['action'], "request action searching for");
+  // scjpc_internal_log($request['action'], "request action searching for");
   $data = call_user_func_array('perform_' . $action, [$request]);
   $data["per_page"]    = $request["per_page"] ?? 50;
   $data["page_number"] = $request["page_number"] ?? 1;
@@ -101,28 +101,28 @@ function scjpc_set_query_transient( $query_id, $request, $nested = true ) {
   $transient_value = ['original' => $original_query, 'filtered' => $filtered_query];
   $set = false;
 
-  scjpc_internal_log($request, "incoming query" );
+  // scjpc_internal_log($request, "incoming query" );
 
   if ( ! empty ( $request ) && isset ( $request['go_back'] ) && $nested ) {
-    scjpc_internal_log("scjpc_set_query_transient first if");
+    // scjpc_internal_log("scjpc_set_query_transient first if");
     if ( $transient ) {
-      scjpc_internal_log("scjpc_set_query_transient first if first if");
+      // scjpc_internal_log("scjpc_set_query_transient first if first if");
       unset( $transient[array_key_last( $transient )] );
       unset( $request['go_back'] );
       $set = true;
     }
   } else {
-    scjpc_internal_log("scjpc_set_query_transient first if else");
+    // scjpc_internal_log("scjpc_set_query_transient first if else");
     if ( ! $transient || ! $nested ) {
-      scjpc_internal_log("scjpc_set_query_transient first if else first if");
+      // scjpc_internal_log("scjpc_set_query_transient first if else first if");
       $transient   = [$transient_value];
     } else {
-      scjpc_internal_log("scjpc_set_query_transient first if else first if else");
+      // scjpc_internal_log("scjpc_set_query_transient first if else first if else");
       if ( scjpc_is_new_search_query( $filtered_query, $transient ) ) {
-        scjpc_internal_log("scjpc_set_query_transient first if else first if else if");
+        // scjpc_internal_log("scjpc_set_query_transient first if else first if else if");
         $transient[] = $transient_value;
       } else {
-        scjpc_internal_log("scjpc_set_query_transient first if else first if else if else");
+        // scjpc_internal_log("scjpc_set_query_transient first if else first if else if else");
         $transient[array_key_last($transient)] = $transient_value;
       }
     }
@@ -144,7 +144,7 @@ function scjpc_get_query_transient( $query_id ) {
 function scjpc_get_query_transient_id( $request ) {
 
   if ( ! empty ( $request['query_id'] ) ) {
-    scjpc_internal_log("found query transient ID");
+    // scjpc_internal_log("found query transient ID");
 
     return $request['query_id'];
   }
@@ -216,7 +216,7 @@ function perform_advanced_pole_search($request): array {
   $api_url            = trim(get_option('scjpc_es_host'), '/') . "/pole-search?" . http_build_query($request);
   $response           = make_search_api_call($api_url, true);
 
-  scjpc_internal_log("performing quick pole search");
+  // scjpc_internal_log("performing quick pole search");
 
   $response = scjpc_add_query_transient_log( $request, $response );
 
