@@ -102,11 +102,20 @@ if ( $redirect_url ) { ?>
     <?php }
   } ?>
   <div class="row result-row">
-    <div class="col-sm-4"><strong>JPA Number:</strong></div>
-    <div class="col-sm-8">
+    <?php $jpas_length = count($jpa_results);; ?>
+    <?php
+        $jpa_numbers_lbl_css = "col-sm-4";
+        $jpa_numbers_data_css = "col-sm-8";
+        if ($jpas_length > 4) {
+            $jpa_numbers_lbl_css = "col-sm-2";
+            $jpa_numbers_data_css = "col-sm-10";
+        }
+    ?>
+    <div class="<?php echo $jpa_numbers_lbl_css; ?>"><strong>JPA Number:</strong></div>
+    <div class="<?php echo $jpa_numbers_data_css; ?>">
       <?php $base_cdn_url = rtrim(get_option('scjpc_aws_cdn'), '/');
       $base_cdn_url = str_starts_with($base_cdn_url, 'https://') ? $base_cdn_url : "https://$base_cdn_url";
-      $jpas_length = count($jpa_results);
+
       foreach ($jpa_results as $index => $jpa_result) {
         $jpa_number = $jpa_result['jpa_number_2'];
         $jpa_detail_url = "/pole-search/?jpa_number=$jpa_number&action=jpa_detail_search&per_page=50&page_number=1&last_id=&query_id=$query_id";
