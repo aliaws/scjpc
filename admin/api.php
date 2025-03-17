@@ -7,8 +7,7 @@ add_action('rest_api_init', function () {
     ]);
 });
 
-function custom_login_endpoint($request): WP_Error|WP_REST_Response
-{
+function custom_login_endpoint($request) {
     $creds = [];
     $creds['user_login'] = $request['username'];
     $creds['user_password'] = $request['password'];

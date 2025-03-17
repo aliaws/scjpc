@@ -74,7 +74,7 @@ function scjpc_cable_tags_pole_markings_callback(): void {
 
 
 add_shortcode('scjpc_jpa_search', 'scjpc_jpa_search');
-function scjpc_jpa_search(): bool|string {
+function scjpc_jpa_search() {
     ob_start();
     include_once SCJPC_PLUGIN_FRONTEND_BASE . "pages/jpa_search.php";
     return ob_get_clean();
@@ -82,14 +82,14 @@ function scjpc_jpa_search(): bool|string {
 
 
 add_shortcode('scjpc_multiple_jpa_search', 'scjpc_multiple_jpa_search');
-function scjpc_multiple_jpa_search(): bool|string {
+function scjpc_multiple_jpa_search() {
     ob_start();
     include_once SCJPC_PLUGIN_FRONTEND_BASE . "pages/multiple_jpa_search.php";
     return ob_get_clean();
 }
 
 add_shortcode('scjpc_quick_pole_search', 'scjpc_quick_pole_search');
-function scjpc_quick_pole_search(): bool|string {
+function scjpc_quick_pole_search() {
     ob_start();
     include_once SCJPC_PLUGIN_FRONTEND_BASE . "pages/quick_pole_search.php";
     return ob_get_clean();
@@ -97,14 +97,14 @@ function scjpc_quick_pole_search(): bool|string {
 
 
 add_shortcode('scjpc_advanced_pole_search', 'scjpc_advanced_pole_search');
-function scjpc_advanced_pole_search(): bool|string {
+function scjpc_advanced_pole_search() {
     ob_start();
     include_once SCJPC_PLUGIN_FRONTEND_BASE . "pages/advanced_pole_search.php";
     return ob_get_clean();
 }
 
 add_shortcode('scjpc_multiple_pole_search', 'scjpc_multiple_pole_search');
-function scjpc_multiple_pole_search(): bool|string {
+function scjpc_multiple_pole_search() {
     ob_start();
     include_once SCJPC_PLUGIN_FRONTEND_BASE . "pages/multiple_pole_search.php";
     return ob_get_clean();
@@ -112,7 +112,7 @@ function scjpc_multiple_pole_search(): bool|string {
 
 
 add_shortcode('scjpc_pole_search', 'scjpc_pole_search');
-function scjpc_pole_search(): bool|string {
+function scjpc_pole_search() {
     ob_start();
     include_once SCJPC_PLUGIN_FRONTEND_BASE . "pages/jpa_detail_search.php";
     return ob_get_clean();
@@ -120,7 +120,7 @@ function scjpc_pole_search(): bool|string {
 
 
 add_shortcode('scjpc_pole_detail', 'scjpc_pole_detail');
-function scjpc_pole_detail(): bool|string {
+function scjpc_pole_detail() {
     ob_start();
     include_once SCJPC_PLUGIN_FRONTEND_BASE . "pages/pole_detail.php";
     return ob_get_clean();
@@ -128,7 +128,7 @@ function scjpc_pole_detail(): bool|string {
 
 
 add_shortcode('scjpc_download_export', 'scjpc_download_export');
-function scjpc_download_export(): bool|string {
+function scjpc_download_export() {
     ob_start();
     include_once SCJPC_PLUGIN_FRONTEND_BASE . "pages/download_export.php";
     return ob_get_clean();

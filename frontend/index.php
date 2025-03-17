@@ -26,7 +26,6 @@ add_action('wp_ajax_make_export_data_call', 'make_export_data_call');
 add_action('wp_ajax_nopriv_make_export_data_call', 'make_export_data_call');
 
 function make_export_data_call() {
-//  echo "<pre>GET=" . count($_GET) . "==POST=" . count($_POST) . "==FILES=" . count($_FILES) . print_r($_GET, true) . print_r($_POST, true) . print_r($_FILES, true) . "</pre>";
 
   $api_url = rtrim(get_option('scjpc_es_host'), '/') . "/data-export";
   $headers = ["Content-Type: application/json", "security_key: " . get_option('scjpc_client_auth_key')];
@@ -38,7 +37,12 @@ function make_export_data_call() {
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
   $response = curl_exec($ch);
   curl_close($ch);
-  echo $response;
+
+  $response = json_decode( $response, true );
+  parse_str( $_POST[ 'query' ], $query );
+  $response[ 'query_id' ] = $query[ 'query_id' ];
+
+  echo json_encode( $response );
   wp_die();
 }
 

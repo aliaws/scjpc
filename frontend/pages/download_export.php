@@ -3,18 +3,28 @@ $user       = wp_get_current_user();
 $response   = get_export_status($_GET);
 
 
-if(!empty($response) && !empty($response['status'])):
-    $response_array =  download_export_array($response);
-    $export_endpoint = trim(get_option('scjpc_es_host'), '/') . "/data-export";
-    $current_user = wp_get_current_user();
-    $user_id = $current_user->ID;
-    $user_email = $current_user->user_email;
-    wp_enqueue_script('download_export', SCJPC_ASSETS_URL . 'js/download_export.js', false, '1.1', true);
+if ( ! empty( $response ) && ! empty( $response[ 'status' ] ) ):
+  $response_array   = download_export_array( $response );
+  $export_endpoint  = trim( get_option( 'scjpc_es_host' ), '/' ) . "/data-export";
+  $current_user     = wp_get_current_user();
+  $user_id          = $current_user->ID;
+  $user_email       = $current_user->user_email;
 
-    ?>
+  $redirect_url     = ! empty ( $_REQUEST[ 'query_id' ] ) ? scjpc_get_last_search_query( $_REQUEST['query_id'] ) : '';
 
-    <div class="card p-4">
-        <form id="data_export" action="<?php echo get_permalink(get_the_ID()); ?>" method="get"
+  wp_enqueue_script( 'download_export', SCJPC_ASSETS_URL . 'js/download_export.js', false, '1.1', true );
+
+  ?>
+
+  <div class="card p-4">
+
+    <div class="remove-print d-flex flex-column flex-sm-row justify-content-between align-items-sm-center">
+      <?php if ( ! empty( $redirect_url ) ) { ?>
+        <a class="btn" href="<?php echo $redirect_url . "&go_back=1"; ?>" style="color: black;">Go Back</a><br />
+      <?php } ?>
+    </div>
+
+    <form id="data_export" action="<?php echo get_permalink(get_the_ID()); ?>" method="get"
               novalidate>
             <div class="mb-3">
                 <input type="hidden" id="action" name="action" value="data_export"/>

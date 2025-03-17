@@ -100,33 +100,35 @@ function scjpc_set_query_transient( $query_id, $request, $nested = true ) {
   $transient_value = ['original' => $original_query, 'filtered' => $filtered_query];
   $set = false;
 
-  // scjpc_internal_log($request, "incoming query" );
-
   if ( ! empty ( $request ) && isset ( $request['go_back'] ) && $nested ) {
-    // scjpc_internal_log("scjpc_set_query_transient first if");
+
     if ( $transient ) {
-      // scjpc_internal_log("scjpc_set_query_transient first if first if");
+
       unset( $transient[array_key_last( $transient )] );
       unset( $request['go_back'] );
       $set = true;
     }
   } else {
-    // scjpc_internal_log("scjpc_set_query_transient first if else");
+
     if ( ! $transient || ! $nested ) {
-      // scjpc_internal_log("scjpc_set_query_transient first if else first if");
+
       $transient   = [$transient_value];
+
     } else {
-      // scjpc_internal_log("scjpc_set_query_transient first if else first if else");
+
       if ( scjpc_is_new_search_query( $filtered_query, $transient ) ) {
-        // scjpc_internal_log("scjpc_set_query_transient first if else first if else if");
+
         $transient[] = $transient_value;
+
       } else {
-        // scjpc_internal_log("scjpc_set_query_transient first if else first if else if else");
+
         $transient[array_key_last($transient)] = $transient_value;
+
       }
     }
     $set = true;
   }
+
   if ( $set ) {
     set_transient( $query_id, $transient, HOUR_IN_SECONDS * 6 );
   }
@@ -170,6 +172,24 @@ function scjpc_is_new_search_query( $filtered_query, $transient ) {
     return $last_set['filtered'] != $filtered_query;
   }
   return true;
+}
+
+
+function scjpc_get_last_search_query( $query_id ) {
+  if ( $query_transient = scjpc_get_query_transient( $query_id ) ) {
+    $redirect_url = $query_transient[ array_key_last( $query_transient ) ][ 'original' ];
+
+    parse_str( $redirect_url, $query_params );
+
+    if ( isset ( $query_params['page_slug'] ) ){
+      $redirect_url = $query_params['page_slug'];
+      return "/" . $redirect_url . '?' . http_build_query( $query_params );
+    }
+    return $redirect_url;
+
+  }
+  return false;
+//  return scjpc_get_query_transient_url( $query_id );
 }
 
 
