@@ -1,8 +1,7 @@
 <?php
 
 function search_scjpc($request) {
-  $action = $request['action'] ?? 'ads_nothing'; // Check if 'action' key exists
-  // scjpc_internal_log($request['action'], "request action searching for");
+  $action = $request['action'] ?? 'ads_nothing';
   $data = call_user_func_array('perform_' . $action, [$request]);
   $data["per_page"]    = $request["per_page"] ?? 50;
   $data["page_number"] = $request["page_number"] ?? 1;

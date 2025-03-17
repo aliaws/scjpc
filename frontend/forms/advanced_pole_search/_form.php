@@ -37,8 +37,10 @@
               </select>
             </p>
             <p class="col-md-10 col-sm-9 col ps-sm-3 ps-2 m-0">
-              <input type="text" name="location" class="form-control" id="location"
-                     value="<?php echo $_REQUEST['location'] ?? ''; ?>"/>
+              <?php $location_str = $_REQUEST['location'] ?? ''; ?>
+              <?php $location_str = base64_decode( $location_str ) ?? $location_str; ?>
+              <?php $_REQUEST['location'] = $location_str; ?>
+              <input type="text" name="location" class="form-control" id="location" value="<?php echo $location_str; ?>"/>
               <span id="location_feedback_length" class="invalid-feedback">
                   Characters length should be more than 1
               </span>
@@ -130,9 +132,12 @@
 </div>
 <?php include_once SCJPC_PLUGIN_FRONTEND_BASE . "table/spinner.php"; ?>
 <div class="response-table">
-  <?php if (!empty($_REQUEST) && !empty($_REQUEST['jpa_number'])) {
-    $_REQUEST['action'] = 'jpa_search';
-    include_once SCJPC_PLUGIN_FRONTEND_BASE . "results/jpa_results.php";
+  <?php $make_search = ! empty ( $_REQUEST[ 'pole_number' ] ); ?>
+  <?php $make_search = $make_search || ! empty ( $_REQUEST[ 'location' ] ); ?>
+  <?php $make_search = $make_search || ( ! empty ( $_REQUEST[ 'latitude' ] ) && ! empty ( $_REQUEST[ 'longitude' ] ) ); ?>
+  <?php if ( ! empty ( $_REQUEST ) && $make_search ) {
+    $_REQUEST[ 'action' ] = 'advanced_pole_search';
+    include_once SCJPC_PLUGIN_FRONTEND_BASE . "results/pole_results.php";
   } ?>
 </div>
 <div class="database-update-information alert alert-primary mt-4">
