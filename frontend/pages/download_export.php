@@ -20,7 +20,7 @@ if ( ! empty( $response ) && ! empty( $response[ 'status' ] ) ):
 
     <div class="remove-print d-flex flex-column flex-sm-row justify-content-between align-items-sm-center">
       <?php if ( ! empty( $redirect_url ) ) { ?>
-        <a class="btn" href="<?php echo $redirect_url . "&go_back=1"; ?>" style="color: black;">Go Back</a><br />
+        <a class="btn" href="<?php echo $redirect_url ; ?>" style="color: black;">Go Back</a><br />
       <?php } ?>
     </div>
 

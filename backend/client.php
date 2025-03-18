@@ -183,6 +183,7 @@ function scjpc_get_last_search_query( $query_id ) {
 
     if ( isset ( $query_params['page_slug'] ) ){
       $redirect_url = $query_params['page_slug'];
+      $query_params[ 'query_id' ] = $query_id;
       return "/" . $redirect_url . '?' . http_build_query( $query_params );
     }
     return $redirect_url;
