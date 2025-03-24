@@ -460,7 +460,7 @@ function scjpc_get_header_style(): array {
 }
 
 
-function scjpc_get_excel_row_height(string $value, string $type): float|int {
+function scjpc_get_excel_row_height(string $value, string $type) {
   $str_array = explode("\n", $value);
   $height = 0;
   foreach ($str_array as $str) {

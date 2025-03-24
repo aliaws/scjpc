@@ -144,3 +144,7 @@ function scjpc_get_base_owners_table_name() {
 function scjpc_string_contains_html_table($value): bool {
   return preg_match('/<table\b[^>]*>/i', $value);
 }
+
+function scjpc_is_base64( $str ): bool {
+  return base64_decode( $str, true );
+}

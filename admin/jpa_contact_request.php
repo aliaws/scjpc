@@ -104,7 +104,7 @@ function scjpc_process_jpa_contact_request($entry, $form): void {
 }
 
 
-function upload_image_to_media_library($image_url): WP_Error|int {
+function upload_image_to_media_library($image_url) {
   $upload_dir = wp_upload_dir();
   $image_path = str_replace($upload_dir['baseurl'], $upload_dir['basedir'], $image_url);
 
@@ -140,7 +140,7 @@ function scjpc_validate_member_code_callback(): void {
   wp_die();
 }
 
-function scjpc_validate_member_code_existence($member_code = ''): array|null {
+function scjpc_validate_member_code_existence($member_code = '') {
   $sql = "SELECT wp_postmeta.meta_value, wp_postmeta.post_id FROM wp_postmeta WHERE 
             wp_postmeta.meta_value = '$member_code' 
             AND wp_postmeta.meta_key = 'member_code' 

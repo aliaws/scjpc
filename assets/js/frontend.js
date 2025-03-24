@@ -177,8 +177,8 @@ function make_export_api_call(button, execute_actions = true) {
     data: body,
     dataType: 'json',
     success: function (response) {
-      const {file_path, export_format} = response;
-      redirect_to_download_export(file_path, export_format, execute_actions)
+      const {file_path, export_format, query_id} = response;
+      redirect_to_download_export(file_path, export_format, query_id, execute_actions )
     },
     error: function (error) {
       remove_disabled_prop(execute_actions);
@@ -198,9 +198,9 @@ function trigger_exports_on_search() {
   })
 }
 
-function redirect_to_download_export(file_path, export_format, execute_actions = true) {
+function redirect_to_download_export(file_path, export_format, query_id, execute_actions = true) {
   if (execute_actions) {
-    window.location.href = `/download-export?file_path=${file_path}&format=${export_format}`;
+    window.location.href = `/download-export?file_path=${file_path}&format=${export_format}&query_id=${query_id}`;
     setTimeout(function () {
       remove_actions_change();
     }, 1000);
