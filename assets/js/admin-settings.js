@@ -25,7 +25,6 @@ jQuery(document).ready(function($) {
     
         $settingValue.email_multiple({ data: existingEmails });
     });
-    
 
     jQuery(document).on('click', '.delete-setting', function() {
         const key = $(this).data('key');
