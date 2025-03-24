@@ -14,8 +14,19 @@ jQuery(document).ready(function($) {
     jQuery(document).on('click', '.edit-setting', function() {
         $('#form-method').val('PUT');
         $('#setting-key').val($(this).data('key')).prop('disabled', true);
-        $('#setting-value').val($(this).data('value'));
+    
+        let existingEmails = $(this).data('value') || "";
+        console.log("Emails to set:", existingEmails);
+    
+        let $settingValue = $('#setting-value');
+    
+        $settingValue.siblings('.all-mail, .enter-mail-id').remove();
+        $settingValue.show().val('');
+    
+        $settingValue.email_multiple({ data: existingEmails });
     });
+    
+    
 
     jQuery(document).on('click', '.delete-setting', function() {
         const key = $(this).data('key');
