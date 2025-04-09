@@ -3,6 +3,8 @@
 add_action('wp_ajax_create_setting', 'handle_setting');
 add_action('wp_ajax_update_setting', 'handle_setting');
 add_action('wp_ajax_delete_setting', 'delete_setting');
+add_action('wp_ajax_delete_email_tag', 'delete_email_tag');
+add_action('wp_ajax_get_settings_html', 'scjpc_get_settings_html');
 
 function handle_setting() {
   $api_url = $_POST['api_url'] ?? '';
@@ -41,33 +43,51 @@ function delete_setting() {
   wp_send_json_success($response);
 }
 
-function make_api_call($url, $body = [], $method = 'POST') {
-  $headers = ["Content-Type: application/json", "security_key: " . get_option('scjpc_client_auth_key')];
-  $ch = curl_init($url);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
-  if (!empty($body)) curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($body));
-  curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+function delete_email_tag() {
+    $api_url = $_POST['api_url'] ?? '';
 
-  $response = curl_exec($ch);
-  $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-  $error = curl_error($ch);
-  curl_close($ch);
+    if (empty($api_url)) {
+        wp_send_json_error(['message' => 'Missing API URL']);
+    }
 
-  if ($error) return ['error' => $error];
+    $response = make_api_call($api_url, [], 'DELETE');
 
-  $decoded_response = json_decode($response, true);
+    if (isset($response['error'])) {
+        wp_send_json_error(['message' => $response['error']]);
+    }
 
-  if (json_last_error() !== JSON_ERROR_NONE) {
-      return ['error' => 'Invalid API response'];
-  }
+    if (!empty($response['success']) && !$response['success']) {
+        wp_send_json_error(['message' => $response['data']['message'] ?? 'Unknown error']);
+    }
 
-  if ($http_code >= 400) {
-      return ['error' => $decoded_response['error'] ?? "HTTP error $http_code"];
-  }
-
-  return $decoded_response;
+    wp_send_json_success($response);
 }
 
+function scjpc_get_settings_html() {
+    $settings = get_option('scjpc_settings', []);
 
+    ob_start();
+    foreach ($settings as $setting) {
+        $key = esc_attr($setting['key']);
+        $emails = array_filter(array_map('trim', explode(',', $setting['value'])));
 
+        echo "<tr>";
+        echo "<td>{$key}</td>";
+        echo "<td>";
+        foreach ($emails as $email) {
+            echo "<span class='tag badge bg-primary me-1 mb-1 p-2'>";
+            echo esc_html($email);
+            echo " <i class='fas fa-times ms-2 text-white delete-tag' data-key='{$key}' data-email='" . esc_attr($email) . "' style='cursor:pointer;'></i>";
+            echo "</span>";
+        }
+        echo "</td>";
+        echo "<td>";
+        echo "<button class='btn btn-warning btn-sm edit-setting' data-key='{$key}' data-value='" . esc_attr($setting['value']) . "'><i class='fas fa-edit'></i></button> ";
+        echo "<button class='btn btn-danger btn-sm delete-setting' data-key='{$key}'><i class='fas fa-trash-alt'></i></button>";
+        echo "</td>";
+        echo "</tr>";
+    }
+    $html = ob_get_clean();
+
+    wp_send_json_success(['html' => $html]);
+}

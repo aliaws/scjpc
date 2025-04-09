@@ -17,11 +17,12 @@
                 <tr data-key="<?= $setting['key'] ?>">
                     <td><?= $setting['key'] ?></td>
                     <td>
-                        <?php $values = explode(',', $setting['value']); ?>
+                        <?php $values = array_filter(explode(',', trim($setting['value']))); ?>
                         <div class="tags-container">
                             <?php foreach ($values as $value): ?>
-                                <span class="tag">
+                                <span class="tag email-tag delete-tag" data-key="<?= esc_attr($setting['key']) ?>" data-email="<?= esc_attr(trim($value)) ?>">
                                     <?= trim($value) ?>
+                                    <span class="remove-email-icon" title="Remove" style="cursor:pointer; margin-left:6px;">&times;</span>
                                 </span>
                             <?php endforeach; ?>
                         </div>
