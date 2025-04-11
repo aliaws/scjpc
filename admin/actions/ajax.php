@@ -63,31 +63,28 @@ function delete_email_tag() {
     wp_send_json_success($response);
 }
 
-function scjpc_get_settings_html() {
-    $settings = get_option('scjpc_settings', []);
+add_action('wp_ajax_render_setting_row', 'render_setting_row_callback');
+
+function render_setting_row_callback() {
+    if (empty($_POST['key']) || empty($_POST['value'])) {
+        wp_send_json_error('Missing key or value');
+    }
+
+    $key = sanitize_text_field($_POST['key']);
+    $value = sanitize_text_field($_POST['value']);
+
+    $setting = compact('key', 'value');
+
+    $template_path = SCJPC_PLUGIN_ADMIN_BASE . 'partials/_settings/_setting_row.php';
+
+    if (!file_exists($template_path)) {
+        wp_send_json_error('Template file not found: ' . $template_path);
+    }
 
     ob_start();
-    foreach ($settings as $setting) {
-        $key = esc_attr($setting['key']);
-        $emails = array_filter(array_map('trim', explode(',', $setting['value'])));
-
-        echo "<tr>";
-        echo "<td>{$key}</td>";
-        echo "<td>";
-        foreach ($emails as $email) {
-            echo "<span class='tag badge bg-primary me-1 mb-1 p-2'>";
-            echo esc_html($email);
-            echo " <i class='fas fa-times ms-2 text-white delete-tag' data-key='{$key}' data-email='" . esc_attr($email) . "' style='cursor:pointer;'></i>";
-            echo "</span>";
-        }
-        echo "</td>";
-        echo "<td>";
-        echo "<button class='btn btn-warning btn-sm edit-setting' data-key='{$key}' data-value='" . esc_attr($setting['value']) . "'><i class='fas fa-edit'></i></button> ";
-        echo "<button class='btn btn-danger btn-sm delete-setting' data-key='{$key}'><i class='fas fa-trash-alt'></i></button>";
-        echo "</td>";
-        echo "</tr>";
-    }
+    include $template_path;
     $html = ob_get_clean();
 
-    wp_send_json_success(['html' => $html]);
+    echo $html;
+    wp_die();
 }

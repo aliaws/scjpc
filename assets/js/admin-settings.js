@@ -56,7 +56,13 @@ jQuery(document).ready(function($) {
             }, function(response) {
                 if (response.success) {
                     parent.remove();
-                    showMessage(response.data.message || 'Email is deleted', 'success');
+                    showMessage(response.data.message || 'Email is deleted', 'success');               
+                    const $editBtn = $(`.edit-setting[data-key="${key}"]`);
+                    let currentEmails = [];
+                    $(`.tag-row[data-key="${key}"] .email-tag`).each(function() {
+                        currentEmails.push($(this).data('email'));
+                    });
+                    $editBtn.data('value', currentEmails.join(','));
                 } else {
                     showMessage(response.data.message || 'Failed to delete.', 'danger');
                 }
@@ -87,35 +93,17 @@ jQuery(document).ready(function($) {
                 $('#setting-key').prop('disabled', false);
                 $('#setting-value').siblings('.all-mail, .enter-mail-id').remove();
 
-                const newRow = `
-                <tr data-key="${key}">
-                    <td>${key}</td>
-                    <td>
-                        <div class="tags-container">
-                            ${value.split(',').map(email => `
-                                <span class="tag email-tag delete-tag" data-key="${key}" data-email="${email}">
-                                    ${email}
-                                    <span class="remove-email-icon" title="Remove" style="cursor:pointer; margin-left:6px;">&times;</span>
-                                    </span>
-                            `).join('')}
-                        </div>
-                    </td>
-                    <td>
-                        <button class="btn btn-warning btn-sm edit-setting" data-key="${key}" data-value="${value}">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="btn btn-danger btn-sm delete-setting" data-key="${key}">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                    </td>
-                </tr>
-            `;
-            
-                if (method === 'PUT') {
-                    $(`tr[data-key="${key}"]`).replaceWith(newRow);
-                } else {
-                    $('#settings-table tbody').append(newRow);
-                }
+                $.post(SCJPC_SETTINGS.AJAX_URL, {
+                    action: 'render_setting_row',
+                    key: key,
+                    value: value
+                }, function(newRow) {
+                    if (method === 'PUT') {
+                        $(`tr[data-key="${key}"]`).replaceWith(newRow);
+                    } else {
+                        $('#settings-table tbody').append(newRow);
+                    }
+                });
             } else {
                 showMessage(response.data.message || 'An error occurred.', 'danger');
             }

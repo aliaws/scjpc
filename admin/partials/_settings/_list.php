@@ -14,28 +14,7 @@
         </thead>
         <tbody>
             <?php foreach ($settings as $setting): ?>
-                <tr data-key="<?= $setting['key'] ?>">
-                    <td><?= $setting['key'] ?></td>
-                    <td>
-                        <?php $values = array_filter(explode(',', trim($setting['value']))); ?>
-                        <div class="tags-container">
-                            <?php foreach ($values as $value): ?>
-                                <span class="tag email-tag delete-tag" data-key="<?= esc_attr($setting['key']) ?>" data-email="<?= esc_attr(trim($value)) ?>">
-                                    <?= trim($value) ?>
-                                    <span class="remove-email-icon" title="Remove" style="cursor:pointer; margin-left:6px;">&times;</span>
-                                </span>
-                            <?php endforeach; ?>
-                        </div>
-                    </td>
-                    <td>
-                        <button type="button" class="btn-warning btn-sm edit-setting btn" data-key="<?= $setting['key'] ?>" data-value="<?= $setting['value'] ?>">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button type="button" class="btn-danger btn-sm delete-setting btn" data-key="<?= $setting['key'] ?>">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                    </td>
-                </tr>
+                <?php include '_setting_row.php'; ?>
             <?php endforeach; ?>
         </tbody>
     </table>
