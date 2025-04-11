@@ -26,24 +26,31 @@ function make_search_api_call($api_url, $append_search_query = false) {
 
 }
 
-function make_post_api_call($api_url, $body = []) {
+function make_api_call($api_url, $body = [], $method = "POST") {
   $headers = ["Content-Type: application/json", "security_key: " . get_option('scjpc_client_auth_key')];
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $api_url);
   curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-  curl_setopt($ch, CURLOPT_POST, true); // Set request method to POST
+  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
   curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($body)); // Attach the JSON-encoded body
 
   $response = curl_exec($ch);
+  $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+  $parsed_response = [];
+
   if (curl_errno($ch)) {
     $error_msg = curl_error($ch);
-    curl_close($ch);
-    return ['error' => $error_msg];
+    $parsed_response =  ['error' => $error_msg, "status_code" =>  $http_code];
   }
 
   curl_close($ch);
-  $parsed_response = json_decode($response, true);
+
+  if(!isset($parsed_response["error"])) {
+    $parsed_response = json_decode($response, true);
+    $parsed_response["status_code"] = $http_code;
+  }
+
   return $parsed_response;
 }
 
@@ -378,7 +385,7 @@ function update_jpa_search_pdf($request) {
     "jpa_unique_id" => $request['jpa_unique_id'],
     "pdf_s3_key" => $request['s3_key']
   ];
-  return make_post_api_call($api_url, $body);
+  return make_api_call($api_url, $body);
 }
 
 function prepare_search_query($api_url, $total_records) {

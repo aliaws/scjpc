@@ -3,6 +3,8 @@
 add_action('wp_ajax_create_setting', 'handle_setting');
 add_action('wp_ajax_update_setting', 'handle_setting');
 add_action('wp_ajax_delete_setting', 'delete_setting');
+add_action('wp_ajax_delete_email_tag', 'delete_email_tag');
+add_action('wp_ajax_get_settings_html', 'scjpc_get_settings_html');
 
 function handle_setting() {
   $api_url = $_POST['api_url'] ?? '';
@@ -41,33 +43,48 @@ function delete_setting() {
   wp_send_json_success($response);
 }
 
-function make_api_call($url, $body = [], $method = 'POST') {
-  $headers = ["Content-Type: application/json", "security_key: " . get_option('scjpc_client_auth_key')];
-  $ch = curl_init($url);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
-  if (!empty($body)) curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($body));
-  curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+function delete_email_tag() {
+    $api_url = $_POST['api_url'] ?? '';
 
-  $response = curl_exec($ch);
-  $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-  $error = curl_error($ch);
-  curl_close($ch);
+    if (empty($api_url)) {
+        wp_send_json_error(['message' => 'Missing API URL']);
+    }
 
-  if ($error) return ['error' => $error];
+    $response = make_api_call($api_url, [], 'DELETE');
 
-  $decoded_response = json_decode($response, true);
+    if (isset($response['error'])) {
+        wp_send_json_error(['message' => $response['error']]);
+    }
 
-  if (json_last_error() !== JSON_ERROR_NONE) {
-      return ['error' => 'Invalid API response'];
-  }
+    if (!empty($response['success']) && !$response['success']) {
+        wp_send_json_error(['message' => $response['data']['message'] ?? 'Unknown error']);
+    }
 
-  if ($http_code >= 400) {
-      return ['error' => $decoded_response['error'] ?? "HTTP error $http_code"];
-  }
-
-  return $decoded_response;
+    wp_send_json_success($response);
 }
 
+add_action('wp_ajax_render_setting_row', 'render_setting_row_callback');
 
+function render_setting_row_callback() {
+    if (empty($_POST['key']) || empty($_POST['value'])) {
+        wp_send_json_error('Missing key or value');
+    }
 
+    $key = sanitize_text_field($_POST['key']);
+    $value = sanitize_text_field($_POST['value']);
+
+    $setting = compact('key', 'value');
+
+    $template_path = SCJPC_PLUGIN_ADMIN_BASE . 'partials/_settings/_setting_row.php';
+
+    if (!file_exists($template_path)) {
+        wp_send_json_error('Template file not found: ' . $template_path);
+    }
+
+    ob_start();
+    include $template_path;
+    $html = ob_get_clean();
+
+    echo $html;
+    wp_die();
+}
