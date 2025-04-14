@@ -6,7 +6,7 @@
     </div>
     <div class="mb-3">
         <label for="setting-value" class="form-label">Value</label>
-        <input type="text" class="form-control" id="setting-value" name="value" required>
+        <input type="text" class="form-control" id="setting-value" name="value">
     </div>
     <?php submit_button(); ?>
 </form>
