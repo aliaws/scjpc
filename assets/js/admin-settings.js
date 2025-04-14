@@ -11,6 +11,7 @@ jQuery(document).ready(function($) {
         let $settingValue = $('#setting-value');
         $settingValue.siblings('.all-mail, .enter-mail-id').remove();
         $settingValue.show().val('');
+        $settingValue.prop('required', true);
     });
 
     $(document).on('click', '.edit-setting', function() {
@@ -20,6 +21,7 @@ jQuery(document).ready(function($) {
         $('#setting-key').val($(this).data('key')).prop('disabled', true);
         $settingValue.siblings('.all-mail, .enter-mail-id').remove();
         $settingValue.show().email_multiple({ data: existingEmails });
+        $settingValue.prop('required', false);
     });
 
     $(document).on('click', '.delete-setting', function() {
@@ -43,26 +45,31 @@ jQuery(document).ready(function($) {
 
     jQuery(document).on('click', '.delete-tag>.remove-email-icon', function(e) {
         e.stopPropagation();
-        const parent = jQuery(jQuery(this).parent()[0]);
+        const parent = jQuery(this).parent();
         const key = parent.data('key');
         const email = parent.data('email');
 
         if (confirm(`Delete "${email}" from "${key}"?`)) {
             const api_url = `${SCJPC_SETTINGS.API_URL_SETTING}/delete-tag?key=${key}&value=${email}`;
-            console.log(api_url);
+
             $.post(SCJPC_SETTINGS.AJAX_URL, {
                 action: 'delete_email_tag',
                 api_url,
             }, function(response) {
                 if (response.success) {
                     parent.remove();
-                    showMessage(response.data.message || 'Email is deleted', 'success');               
-                    const $editBtn = $(`.edit-setting[data-key="${key}"]`);
-                    let currentEmails = [];
-                    $(`.tag-row[data-key="${key}"] .email-tag`).each(function() {
-                        currentEmails.push($(this).data('email'));
+                    showMessage(response.data.message || 'Email is deleted', 'success');
+                    let updatedEmails = [];
+                    $(`.email-tag[data-key="${key}"]`).each(function() {
+                        updatedEmails.push($(this).data('email'));
                     });
-                    $editBtn.data('value', currentEmails.join(','));
+
+                    $(`.edit-setting[data-key="${key}"]`).data('value', updatedEmails.join(','));
+
+                    if ($('#setting-key').val() === key) {
+                        $('#setting-value').val(updatedEmails.join(','));
+                    }
+
                 } else {
                     showMessage(response.data.message || 'Failed to delete.', 'danger');
                 }
@@ -74,9 +81,21 @@ jQuery(document).ready(function($) {
 
     $('#settings-form').submit(function(e) {
         e.preventDefault();
-        const method = $('#form-method').val();
+
+        let method = $('#form-method').val();
         const key = $('#setting-key').val().trim();
-        const value = $('#setting-value').val().trim();
+        let value = $('#setting-value').val().trim();
+
+        if (method === 'POST' && !value) {
+            showMessage('The value field is required!', 'danger');
+            return;
+        }
+
+        if (method === 'PUT' && !value) {  // If in edit mode and value is empty
+            showMessage('At least one email is required!', 'danger');
+            return;
+        }
+
         const action = method === 'POST' ? 'create_setting' : 'update_setting';
         const api_url = method === 'POST'
             ? SCJPC_SETTINGS.API_URL_SETTING
@@ -92,7 +111,6 @@ jQuery(document).ready(function($) {
                 $('#settings-form')[0].reset();
                 $('#setting-key').prop('disabled', false);
                 $('#setting-value').siblings('.all-mail, .enter-mail-id').remove();
-
                 $.post(SCJPC_SETTINGS.AJAX_URL, {
                     action: 'render_setting_row',
                     key: key,
