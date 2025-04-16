@@ -82,22 +82,23 @@ if ( $redirect_url ) { ?>
   <div class="row result-row">
     <div class="col-sm-1"><strong>Company</strong></div>
     <div class="col-sm-1"><strong>ANT</strong></div>
-    <div class="col-sm-4"><strong>Grade &amp; Space</strong></div>
+    <div class="col-sm-4"><strong>Grade & Space</strong></div>
     <div class="col-sm-6"><strong>Additional Info</strong></div>
   </div>
-  <?php
-  for ($i = 1; $i <= 10; $i++) {
-    if ($pole_result["company_{$i}"]) {
-      $company_gns = $pole_result["company_{$i}_gn_s"] ? str_replace("''", "'", $pole_result["company_{$i}_gn_s"]) : '';
-      ?>
+  <?php for ($i = 1; $i <= 10; $i++) { ?>
+    <?php if ($pole_result["company_{$i}"]) { ?>
+      <?php $company_gns = $pole_result["company_{$i}_gn_s"] ? str_replace("''", "'", $pole_result["company_{$i}_gn_s"]) : ''; ?>
       <div class="row result-row">
-        <div class="col-sm-1"><?php echo $pole_result["company_{$i}"]; ?></div>
-        <div class="col-sm-1"><?php echo $pole_result["antenna{$i}"] ? "ON" : '-'; ?></div>
+        <div class="col-sm-1"><?php echo $pole_result[ "company_{$i}" ]; ?></div>
+        <div class="col-sm-1"><?php echo $pole_result[ "antenna{$i}" ] ? "ON" : '-'; ?></div>
         <div class="col-sm-4"><?php echo $company_gns; ?></div>
-        <div class="col-sm-6"><?php echo $pole_result["anc_for_company_{$i}"]; ?></div>
-        <?php if ($i <= 3) { ?>
-          <div class="col-sm-6"><?php echo $pole_result["anc_for_company_{$i}_a"]; ?></div>
-        <?php } ?>
+        <div class="col-sm-6">
+          <?php echo $pole_result[ "anc_for_company_{$i}" ]; ?>
+          <?php if ( $i <= 3 && ! empty ( $pole_result[ "anc_for_company_{$i}_a" ] ) ) { ?>
+            <span style="padding: 0 20px;">|</span>
+            <?php echo $pole_result[ "anc_for_company_{$i}_a" ]; ?>
+          <?php } ?>
+        </div>
       </div>
     <?php }
   } ?>
