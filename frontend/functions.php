@@ -10,7 +10,7 @@ function load_bootstrap_assets(): void {
   wp_enqueue_style('responsive_css', SCJPC_ASSETS_URL . 'css/responsive.css', false, '1.7');
   wp_enqueue_style('print_css', SCJPC_ASSETS_URL . 'css/print.css', array(), '7.9', 'print');
   wp_enqueue_script('base64_js', SCJPC_ASSETS_URL . 'js/base64.js', false, '1.0', true);
-  wp_enqueue_script('frontend_js', SCJPC_ASSETS_URL . 'js/frontend.js', false, '8.82', true);
+  wp_enqueue_script('frontend_js', SCJPC_ASSETS_URL . 'js/frontend.js', false, '8.83', true);
 }
 
 
