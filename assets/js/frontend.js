@@ -54,51 +54,115 @@ const submitFormIfNotEmpty = (form) => {
 
 }
 
+const uploadSearchFileToS3 = async ( formData ) => {
+  formData.set('action', 'upload_file_to_s3')
+
+  return jQuery.ajax( admin_ajax_url, {
+    type: 'post',
+    data: formData,
+    processData: false,
+    contentType: false,
+    headers: { "Accept": "application/json" },
+    success: ( response ) => {
+      return response;
+    },
+    error: ( error ) => {
+      return '';
+    }
+  } );
+};
+
 function registerFormSubmissionHandler(form) {
-  jQuery(form).on('submit', function (event) {
-
-
-    event.preventDefault()
+  jQuery(form).on('submit', async function (event) {
+    event.preventDefault();
     const form = event.target;
     const formId = jQuery(this).attr('id');
     const formData = new FormData(form);
-    if (!['jpa_detail_search', 'pole_detail'].includes(form.id)) {
-      formData.delete('go_back')
-    }
-    const validate = validateForm(formId, formData);
 
+    if (!['jpa_detail_search', 'pole_detail'].includes(form.id)) {
+      formData.delete('go_back');
+    }
+
+    const validate = validateForm(formId, formData);
 
     if (validate) {
       add_actions_change();
-      jQuery.ajax(admin_ajax_url, {
-        type: 'post',
-        data: formData,
-        processData: false,
-        contentType: false,
-        headers: {"Accept": "application/json"},
-        success: (response) => {
-          remove_actions_change();
-          if (!['jpa_detail_search', 'pole_detail'].includes(form.id)) {
-            localStorage.removeItem('previous_data');
-            localStorage.setItem('previous_data', response);
-          }
-          jQuery('div.response-table').html(response);
-          registerExportButtonCalls();
-          registerPaginationButtonAndSortHeaderClicks();
-        },
-        error: (error) => {
-          remove_actions_change();
+
+      // Convert FormData to URLSearchParams
+      const params = new URLSearchParams();
+      for (const [key, value] of formData.entries()) {
+        params.append(key, value);
+      }
+
+      // Redirect to a new page with the query string
+
+      if ( ['multiple_jpa_search', 'multiple_pole_search'].includes(formId) ) {
+        const s3_upload_response = await uploadSearchFileToS3( formData );
+        if ( s3_upload_response && typeof s3_upload_response.data.s3_key !== 'undefined') {
+          params.append('s3_key', s3_upload_response.data.s3_key);
         }
-      });
-      clearSearchInputFields();
+      }
+      const targetUrl = form.getAttribute('action') || window.location.pathname;
+
+      window.location.href = `${ targetUrl }?${ params.toString() }`;
+      // remove_actions_change();
     }
+
+    clearSearchInputFields();
   });
 
-  //submit in case in jpa detail
-  if (['jpa_detail_search', 'pole_detail'].includes(form.id)) {
-    jQuery(`form#${form.id}`).submit()
-  }
+  // Submit automatically for specific forms
+  // if (['jpa_detail_search', 'pole_detail'].includes(form.id)) {
+  //   jQuery(`form#${form.id}`).submit();
+  // }
 }
+
+
+// function registerFormSubmissionHandler(form) {
+//   jQuery(form).on('submit', function (event) {
+//
+//
+//     event.preventDefault()
+//     const form = event.target;
+//     const formId = jQuery(this).attr('id');
+//     const formData = new FormData(form);
+//     if (!['jpa_detail_search', 'pole_detail'].includes(form.id)) {
+//       formData.delete('go_back')
+//     }
+//     const validate = validateForm(formId, formData);
+//
+//
+//     if (validate) {
+//       add_actions_change();
+//       jQuery.ajax(admin_ajax_url, {
+//         type: 'post',
+//         data: formData,
+//         processData: false,
+//         contentType: false,
+//         headers: {"Accept": "application/json"},
+//         success: (response) => {
+//           remove_actions_change();
+//           if (!['jpa_detail_search', 'pole_detail'].includes(form.id)) {
+//             localStorage.removeItem('previous_data');
+//             localStorage.setItem('previous_data', response);
+//           }
+//           jQuery('div.response-table').html(response);
+//           registerExportButtonCalls();
+//           registerPaginationButtonAndSortHeaderClicks();
+//         },
+//         error: (error) => {
+//           remove_actions_change();
+//         }
+//       });
+//       clearSearchInputFields();
+//     }
+//   });
+//
+//   //submit in case in jpa detail
+//   if (['jpa_detail_search', 'pole_detail'].includes(form.id)) {
+//     jQuery(`form#${form.id}`).submit()
+//   }
+// }
 
 const registerPaginationButtonAndSortHeaderClicks = () => {
   //Register Pagination events

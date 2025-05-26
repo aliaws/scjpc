@@ -1,4 +1,6 @@
 <?php $search_key = $search_key ?? '';
+
+echo "<pre>".print_r($search_result,true)."</pre>";
 //$prev_search_query = $_REQUEST['search_query'] ?? '';
 ?>
 <div id="response-overlay"></div>

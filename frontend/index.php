@@ -130,3 +130,11 @@ function authorize_search_page(): void {
   }
 }
 
+add_action( 'admin_post_nopriv_upload_file_to_s3', 'ajax_upload_file_to_s3' );
+add_action( 'wp_ajax_upload_file_to_s3', 'ajax_upload_file_to_s3' );
+add_action( 'wp_ajax_nopriv_upload_file_to_s3', 'ajax_upload_file_to_s3' );
+
+function ajax_upload_file_to_s3() {
+  wp_send_json_success( upload_and_read_file( $_REQUEST ), 200 );
+}
+

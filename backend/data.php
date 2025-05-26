@@ -266,7 +266,7 @@ for ($i = 0; $i < $total; $i++) {
     'member_to_remove' => uniqid('member_to_remove_'),
     "jpa_details" => [
       "jpa_number" => uniqid('jpa_number_'),
-      "JPA Number 2" => uniqid('JPA Number 2_'),
+      "JPA Number 2" => uniqid('jpa_number_2_'),
       "billed_date" => uniqid('billed_date'),
     ],
     'bill_of_sale' => uniqid('bill_of_sale_'),

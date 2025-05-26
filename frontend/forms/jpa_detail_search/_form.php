@@ -22,7 +22,15 @@
 
 </form>
 <?php include_once SCJPC_PLUGIN_FRONTEND_BASE . "table/spinner.php"; ?>
-<div class="response-table"></div>
+<!--<div class="response-table"></div>-->
+
+<div class="response-table">
+  <?php if ( ! empty ( $_REQUEST ) && ! empty ( $_REQUEST['jpa_number'] ) ) {
+    $_REQUEST['action'] = 'jpa_detail_search';
+    include_once SCJPC_PLUGIN_FRONTEND_BASE . "results/jpa_results.php";
+  } ?>
+</div>
+
 <div class="database-update-information alert alert-primary mt-4">
     <?php echo scjpc_database_update_information(); ?>
 </div>

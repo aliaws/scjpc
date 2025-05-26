@@ -1,8 +1,11 @@
 <?php
-$contains_headers = 'checked';
-if (isset($_REQUEST['go_back'])) {
-  $contains_headers = isset($_REQUEST['contains_header']) ? 'checked' : '';
-} ?>
+//$contains_headers = 'checked';
+//if (isset($_REQUEST['go_back'])) {
+//  $contains_headers = isset($_REQUEST['contains_header']) ? 'checked' : '';
+//}
+
+$contains_headers = ( empty( $_REQUEST ) || isset( $_REQUEST[ 'contains_headers' ] ) ) ? 'checked' : '';
+?>
 <div class="card-wrapper d-flex justify-content-center">
   <div class="card custom-card p-2">
     <p class="text  mb-0 fw-light ">
