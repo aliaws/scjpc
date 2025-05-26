@@ -37,7 +37,7 @@
               </select>
             </p>
             <p class="col-md-10 col-sm-9 col ps-sm-3 ps-2 m-0">
-              <?php $location_str = $_REQUEST['location'] ?? ''; ?>
+              <?php $location_str = $_REQUEST['location_encoded'] ?? ''; ?>
               <?php $location_str = base64_decode( $location_str ) ?? $location_str; ?>
               <?php $_REQUEST['location'] = $location_str; ?>
               <input type="text" name="location" class="form-control" id="location" value="<?php echo $location_str; ?>"/>
@@ -143,3 +143,6 @@
 <div class="database-update-information alert alert-primary mt-4">
   <?php echo scjpc_database_update_information(); ?>
 </div>
+
+
+https://scjpc.net/advanced-pole-search/?pole_number_filter=contains&pole_number=&location_filter=contains&location=568%27+N%2FO+CAV&latitude=&longitude=&distance=75&action=advanced_pole_search&per_page=50&page_number=1&last_id=&sort_key=unique_id&sort_order=asc&page_slug=advanced-pole-search&query_id=1748259675&location_encoded=NTY4JyBOL08gQ0FW

@@ -2,7 +2,7 @@
 $base_cdn_url = rtrim( get_option( 'scjpc_aws_cdn' ), '/' );
 $base_cdn_url = str_starts_with( $base_cdn_url, 'https://' ) ? $base_cdn_url : "https://$base_cdn_url";
 
-echo "<pre>".print_r($search_result, TRUE)."</pre>";?>
+?>
 <div id="response-overlay"></div>
 <div class="mw-100 mt-1">
   <div class="remove-print d-flex flex-column flex-sm-row justify-content-between align-items-sm-center">

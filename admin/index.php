@@ -314,7 +314,6 @@ function scjpc_toggle_status(): void {
 
 
 function ajax_jpa_search_update_pdf(): void {
-//  echo "<pre>GET=" . count($_GET) . "==POST=" . count($_POST) . "==FILES=" . count($_FILES) . "==REQUEST=" . count($_REQUEST) . print_r($_GET, true) . print_r($_POST, true) . print_r($_FILES, true) . print_r($_REQUEST, true) . "</pre>";
   $s3_key = $_REQUEST['s3_key'];
   $client = getS3Client();
   $result = $client->putObject([

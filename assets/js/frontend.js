@@ -97,9 +97,14 @@ function registerFormSubmissionHandler(form) {
       // Redirect to a new page with the query string
 
       if ( ['multiple_jpa_search', 'multiple_pole_search'].includes(formId) ) {
-        const s3_upload_response = await uploadSearchFileToS3( formData );
-        if ( s3_upload_response && typeof s3_upload_response.data.s3_key !== 'undefined') {
-          params.append('s3_key', s3_upload_response.data.s3_key);
+        const hasFile = Array.from(form.querySelectorAll('input[type="file"]')).some(input => input.files.length > 0);
+        if ( hasFile ) {
+          const s3_upload_response = await uploadSearchFileToS3( formData );
+          if ( s3_upload_response && typeof s3_upload_response.data.s3_key !== 'undefined') {
+            params.append('s3_key', s3_upload_response.data.s3_key);
+          }
+        } else {
+          params.delete('uploaded_file')
         }
       }
       const targetUrl = form.getAttribute('action') || window.location.pathname;

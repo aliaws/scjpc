@@ -29,9 +29,7 @@ function scjpc_export_jpa_contacts(WP_REST_Request $request): WP_REST_Response {
   }
   [$fields, $jpa_contacts] = scjpc_get_jpa_contacts($_REQUEST);
   [$response, $field_labels] = scjpc_fetch_jpa_contacts_fields($fields, $jpa_contacts, 'jpa', true, false);
-//  echo "<pre>" . print_r($response, 1) . "</pre>";
   $export_file_path = scjpc_process_contacts_csv_writing($response, $field_labels, 'jpa');
-//  $export_file_path = scjpc_get_jpa_contacts($_REQUEST);
   return new WP_REST_Response(["export_file" => $export_file_path], 200);
 
 }
@@ -98,18 +96,11 @@ function scjpc_get_jpa_contacts_all_fields($query = []): array {
   // Single Points of Contact (?post=3097&action=edit)
   $fields_group = acf_get_field_group("group_665623aed72ff"); // Server
   $fields = array_merge($fields, acf_get_fields($fields_group));
-//   echo "<pre>==Count==" . count($fields) . "====" . print_r($fields, 1) . "</pre>";
 
   if (!empty($query["jpa_contact_id"])) {
     $jpa_contacts = [get_post($query["jpa_contact_id"])];
   } else {
     $jpa_contacts = scjpc_get_jpa_contacts_posts();
-//    $jpa_contacts = get_posts([
-//      "post_type" => "member", // Server
-////      "post_type" => "jpa-contact", // Local
-//      "posts_per_page" => -1,
-//      "order" => "ASC"
-//    ]);
   }
   return [$fields, $jpa_contacts];
 

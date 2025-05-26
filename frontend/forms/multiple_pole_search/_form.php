@@ -3,6 +3,9 @@ $contains_headers = 'checked';
 if (isset($_REQUEST['go_back'])) {
   $contains_headers = isset($_REQUEST['contains_header']) ? 'checked' : '';
 }
+
+$contains_headers = ( empty( $_REQUEST ) || isset( $_REQUEST[ 'contains_headers' ] ) ) ? 'checked' : '';
+
 ?>
 <div class="card p-2 p-sm-4">
   <p class="text  mb-0 fw-light ">

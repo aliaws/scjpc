@@ -27,7 +27,7 @@
 <div class="response-table">
   <?php if ( ! empty ( $_REQUEST ) && ! empty ( $_REQUEST['jpa_number'] ) ) {
     $_REQUEST['action'] = 'jpa_detail_search';
-    include_once SCJPC_PLUGIN_FRONTEND_BASE . "results/jpa_results.php";
+    include_once SCJPC_PLUGIN_FRONTEND_BASE . "results/pole_results.php";
   } ?>
 </div>
 

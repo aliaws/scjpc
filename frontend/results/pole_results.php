@@ -2,8 +2,6 @@
 if ( ! empty ( $_REQUEST ) ) {
 
   $search_result = search_scjpc( $_REQUEST );
-  echo "<pre>".print_r( $search_result, true )."</pre>";
-  echo "<pre>".print_r( $_REQUEST, true )."</pre>";
 
   $redirect_url  = $search_result['redirect_url'];
   $query_id      = $search_result['query_id'];
