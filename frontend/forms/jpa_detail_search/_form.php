@@ -13,8 +13,8 @@
   <input type="hidden" id="sort_key" name="sort_key" value="<?php echo $_POST['sort_key'] ?? 'unique_id'; ?>"/>
   <input type="hidden" id="sort_order" name="sort_order" value="<?php echo $_POST['sort_order'] ?? 'asc'; ?>"/>
 
-  <?php $query_id = empty ( $_REQUEST['query_id'] ) ? time() : $_REQUEST['query_id']; ?>
-  <input type="hidden" id="query_id" name="query_id" value="<?php echo $query_id; ?>"/>
+<!--  --><?php //$query_id = empty ( $_REQUEST['query_id'] ) ? time() : $_REQUEST['query_id']; ?>
+<!--  <input type="hidden" id="query_id" name="query_id" value="--><?php //echo $query_id; ?><!--"/>-->
   <?php if ( ! empty ( $_REQUEST['go_back'] ) ) { ?>
     <input type="hidden" id="go_back" name="go_back" value="<?php echo $_REQUEST['go_back']; ?>"/>
   <?php } ?>

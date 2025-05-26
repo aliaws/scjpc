@@ -10,8 +10,6 @@ if ( ! empty( $response ) && ! empty( $response[ 'status' ] ) ):
   $user_id          = $current_user->ID;
   $user_email       = $current_user->user_email;
 
-  $redirect_url     = ! empty ( $_REQUEST[ 'query_id' ] ) ? scjpc_get_last_search_query( $_REQUEST['query_id'] ) : '';
-
   wp_enqueue_script( 'download_export', SCJPC_ASSETS_URL . 'js/download_export.js', false, '1.1', true );
 
   ?>

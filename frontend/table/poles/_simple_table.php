@@ -69,11 +69,15 @@
           <?php foreach (POLES_KEYS as $key => $label) {
             if ($key == 'unique_id' || $key == 'pole_number') {
               $value = $record['unique_id'];
-              $url = "/pole-detail/?unique_id=$value&action=pole_detail&search_query=$search_query&query_id=$query_id"; ?>
+              $url = "/pole-detail/?unique_id=$value&action=pole_detail&search_query=$search_query";
+//              $url = "/pole-detail/?unique_id=$value&action=pole_detail&search_query=$search_query&query_id=$query_id";
+              ?>
               <td><a href="<?php echo $url; ?>"><?php echo $record[$key]; ?></a></td>
             <?php } elseif ($key == 'jpa_number_2' || $key == 'jpa_number') {
               $value = !empty($record['jpa_number_2']) ? $record['jpa_number_2'] : $record['jpa_number'];
-              $url = "/pole-search/?jpa_number=$value&action=jpa_detail_search&per_page=50&page_number=1&last_id=&search_query=$search_query&query_id=$query_id"; ?>
+              $url = "/pole-search/?jpa_number=$value&action=jpa_detail_search&per_page=50&page_number=1&last_id=&search_query=$search_query";
+//              $url = "/pole-search/?jpa_number=$value&action=jpa_detail_search&per_page=50&page_number=1&last_id=&search_query=$search_query&query_id=$query_id";
+              ?>
               <td><a href="<?php echo $url; ?>"><?php echo $value; ?></a></td>
             <?php } elseif ($key == 'status') {
               $value = $record['status'];

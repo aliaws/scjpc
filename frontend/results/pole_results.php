@@ -3,8 +3,8 @@ if ( ! empty ( $_REQUEST ) ) {
 
   $search_result = search_scjpc( $_REQUEST );
 
-  $redirect_url  = $search_result['redirect_url'];
-  $query_id      = $search_result['query_id'];
+//  $redirect_url  = $search_result['redirect_url'];
+//  $query_id      = $search_result['query_id'];
 
   $search_key = !empty($_REQUEST['pole_number']) && $_REQUEST['action'] != 'advanced_pole_search' ? $_REQUEST['pole_number'] : '';
 

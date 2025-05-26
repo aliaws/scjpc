@@ -126,7 +126,7 @@
 
       foreach ($jpa_results as $index => $jpa_result) {
         $jpa_number = $jpa_result['jpa_number_2'];
-        $jpa_detail_url = "/pole-search/?jpa_number=$jpa_number&action=jpa_detail_search&per_page=50&page_number=1&last_id=&query_id=$query_id";
+        $jpa_detail_url = "/pole-search/?jpa_number=$jpa_number&action=jpa_detail_search&per_page=50&page_number=1&last_id=";
         $jpa_pdf_url = "$base_cdn_url/{$jpa_result['pdf_s3_key']}"; ?>
         <a href="<?php echo $jpa_detail_url; ?>"><?php echo $jpa_number; ?></a>
         <?php if ($jpa_result['pdf_s3_key']) { ?>

@@ -29,6 +29,11 @@ const toggleSearchHistoryNavigationButtons = () => {
 
 };
 
+jQuery(window).on('pageshow', function (event) {
+  toggleSearchHistoryNavigationButtons();
+});
+
+
 jQuery(document).ready(function () {
   if (location.search !== '') {
     registerExportButtonCalls();
@@ -86,6 +91,7 @@ const submitFormIfNotEmpty = (form) => {
 
 const uploadSearchFileToS3 = async ( formData ) => {
   formData.set('action', 'upload_file_to_s3')
+  formData.delete('s3_key')
 
   return jQuery.ajax( admin_ajax_url, {
     type: 'post',
@@ -146,58 +152,8 @@ function registerFormSubmissionHandler(form) {
     clearSearchInputFields();
   });
 
-  // Submit automatically for specific forms
-  // if (['jpa_detail_search', 'pole_detail'].includes(form.id)) {
-  //   jQuery(`form#${form.id}`).submit();
-  // }
 }
 
-
-// function registerFormSubmissionHandler(form) {
-//   jQuery(form).on('submit', function (event) {
-//
-//
-//     event.preventDefault()
-//     const form = event.target;
-//     const formId = jQuery(this).attr('id');
-//     const formData = new FormData(form);
-//     if (!['jpa_detail_search', 'pole_detail'].includes(form.id)) {
-//       formData.delete('go_back')
-//     }
-//     const validate = validateForm(formId, formData);
-//
-//
-//     if (validate) {
-//       add_actions_change();
-//       jQuery.ajax(admin_ajax_url, {
-//         type: 'post',
-//         data: formData,
-//         processData: false,
-//         contentType: false,
-//         headers: {"Accept": "application/json"},
-//         success: (response) => {
-//           remove_actions_change();
-//           if (!['jpa_detail_search', 'pole_detail'].includes(form.id)) {
-//             localStorage.removeItem('previous_data');
-//             localStorage.setItem('previous_data', response);
-//           }
-//           jQuery('div.response-table').html(response);
-//           registerExportButtonCalls();
-//           registerPaginationButtonAndSortHeaderClicks();
-//         },
-//         error: (error) => {
-//           remove_actions_change();
-//         }
-//       });
-//       clearSearchInputFields();
-//     }
-//   });
-//
-//   //submit in case in jpa detail
-//   if (['jpa_detail_search', 'pole_detail'].includes(form.id)) {
-//     jQuery(`form#${form.id}`).submit()
-//   }
-// }
 
 const registerPaginationButtonAndSortHeaderClicks = () => {
   //Register Pagination events
@@ -276,8 +232,8 @@ function make_export_api_call(button, execute_actions = true) {
     data: body,
     dataType: 'json',
     success: function (response) {
-      const {file_path, export_format, query_id} = response;
-      redirect_to_download_export(file_path, export_format, query_id, execute_actions )
+      const {file_path, export_format} = response;
+      redirect_to_download_export(file_path, export_format, execute_actions )
     },
     error: function (error) {
       remove_disabled_prop(execute_actions);
@@ -297,9 +253,9 @@ function trigger_exports_on_search() {
   })
 }
 
-function redirect_to_download_export(file_path, export_format, query_id, execute_actions = true) {
+function redirect_to_download_export(file_path, export_format, execute_actions = true) {
   if (execute_actions) {
-    window.location.href = `/download-export?file_path=${file_path}&format=${export_format}&query_id=${query_id}`;
+    window.location.href = `/download-export?file_path=${file_path}&format=${export_format}`;
     setTimeout(function () {
       remove_actions_change();
     }, 1000);

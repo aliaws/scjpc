@@ -40,7 +40,7 @@ function make_export_data_call() {
 
   $response = json_decode( $response, true );
   parse_str( $_POST[ 'query' ], $query );
-  $response[ 'query_id' ] = $query[ 'query_id' ];
+//  $response[ 'query_id' ] = $query[ 'query_id' ];
 
   echo json_encode( $response );
   wp_die();
