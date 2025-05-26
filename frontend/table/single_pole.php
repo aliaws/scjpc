@@ -1,7 +1,14 @@
 <?php $prev_search_query = $_REQUEST['search_query'] ?? '';
-if ( $redirect_url ) { ?>
-  <a class="btn" href="<?php echo $redirect_url . "&go_back=1" ?>" style="color: black;">Go Back</a>
-<?php } ?>
+
+//if ( $redirect_url ) { ?>
+<!--  <a class="btn" href="--><?php //echo $redirect_url . "&go_back=1" ?><!--" style="color: black;">Go Back</a>-->
+<?php //} ?>
+
+<div class="scjpc-navigation-buttons d-flex">
+  <a id="go-back" class="btn" style="color: black; margin-right: 10px; display: none;" onclick="window.history.back()">Go Back</a>
+  <a id="go-forward" class="btn" style="color: black; display: none;" onclick="window.history.forward()">Go Forward</a>
+</div>
+
 <div class="well mw-100 text-secondary mt-5">
   <div class="row result-row">
     <div class="col-sm-6">

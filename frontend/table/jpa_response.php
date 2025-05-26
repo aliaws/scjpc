@@ -7,9 +7,13 @@ $base_cdn_url = str_starts_with( $base_cdn_url, 'https://' ) ? $base_cdn_url : "
 <div class="mw-100 mt-1">
   <div class="remove-print d-flex flex-column flex-sm-row justify-content-between align-items-sm-center">
     <div>
-      <?php if ( ! empty( $redirect_url ) ) { ?>
-      <a class="btn" href="<?php echo $redirect_url . "&go_back=1"; ?>" style="color: black;">Go Back</a><br />
-      <?php } ?>
+      <div class="scjpc-navigation-buttons d-flex">
+        <a id="go-back" class="btn" style="color: black; margin-right: 10px; display: none;" onclick="window.history.back()">Go Back</a>
+        <a id="go-forward" class="btn" style="color: black; display: none;" onclick="window.history.forward()">Go Forward</a>
+      </div>
+<!--      --><?php //if ( ! empty( $redirect_url ) ) { ?>
+<!--      <a class="btn" href="--><?php //echo $redirect_url . "&go_back=1"; ?><!--" style="color: black;">Go Back</a><br />-->
+<!--      --><?php //} ?>
       <?php if ( $search_key != '' ) { ?>
         <span>Search Key: <strong><?php echo $search_key; ?></strong></span>
       <?php } ?>

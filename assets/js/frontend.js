@@ -1,5 +1,34 @@
 const admin_ajax_url = jQuery("#admin_ajax_url").val();
 
+const toggleSearchHistoryNavigationButtons = () => {
+
+  const $goBackBtn = jQuery('a#go-back');
+  const $goForwardBtn = jQuery('a#go-forward');
+
+  if ('navigation' in window) {
+    if (!window.navigation.canGoBack) {
+      $goBackBtn.hide();
+    } else {
+      $goBackBtn.show();
+    }
+    if (!window.navigation.canGoForward) {
+      $goForwardBtn.hide();
+    } else {
+      $goForwardBtn.show();
+    }
+  } else {
+    // Fallback for browsers without Navigation API
+    if (window.history.length <= 1) {
+      $goBackBtn.hide();
+    } else {
+      $goBackBtn.show();
+    }
+    // Forward detection fallback (unreliable, so always hide)
+    $goForwardBtn.hide();
+  }
+
+};
+
 jQuery(document).ready(function () {
   if (location.search !== '') {
     registerExportButtonCalls();
@@ -29,7 +58,8 @@ jQuery(document).ready(function () {
     jQuery('input[id=page_number]').val(1);
   })
   registerSearchFormSubmissionHandler();
-  makeInputFieldsSimilar()
+  makeInputFieldsSimilar();
+  toggleSearchHistoryNavigationButtons();
 });
 const registerSearchFormSubmissionHandler = () => {
   const form = jQuery('.needs-validation')[0];
@@ -109,8 +139,8 @@ function registerFormSubmissionHandler(form) {
       }
       const targetUrl = form.getAttribute('action') || window.location.pathname;
 
+      remove_actions_change();
       window.location.href = `${ targetUrl }?${ params.toString() }`;
-      // remove_actions_change();
     }
 
     clearSearchInputFields();

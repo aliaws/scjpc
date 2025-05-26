@@ -19,9 +19,13 @@ if ( ! empty( $response ) && ! empty( $response[ 'status' ] ) ):
   <div class="card p-4">
 
     <div class="remove-print d-flex flex-column flex-sm-row justify-content-between align-items-sm-center">
-      <?php if ( ! empty( $redirect_url ) ) { ?>
-        <a class="btn" href="<?php echo $redirect_url ; ?>" style="color: black;">Go Back</a><br />
-      <?php } ?>
+<!--      --><?php //if ( ! empty( $redirect_url ) ) { ?>
+<!--        <a class="btn" href="--><?php //echo $redirect_url ; ?><!--" style="color: black;">Go Back</a><br />-->
+<!--      --><?php //} ?>
+      <div class="scjpc-navigation-buttons d-flex">
+        <a id="go-back" class="btn" style="color: black; margin-right: 10px; display: none;" onclick="window.history.back()">Go Back</a>
+        <a id="go-forward" class="btn" style="color: black; display: none;" onclick="window.history.forward()">Go Forward</a>
+      </div>
     </div>
 
     <form id="data_export" action="<?php echo get_permalink(get_the_ID()); ?>" method="get"
