@@ -31,6 +31,8 @@ const toggleSearchHistoryNavigationButtons = () => {
 
 jQuery(window).on('pageshow', function (event) {
   toggleSearchHistoryNavigationButtons();
+  clearSearchInputFields();
+
 });
 
 
@@ -65,6 +67,8 @@ jQuery(document).ready(function () {
   registerSearchFormSubmissionHandler();
   makeInputFieldsSimilar();
   toggleSearchHistoryNavigationButtons();
+  clearSearchInputFields();
+
 });
 const registerSearchFormSubmissionHandler = () => {
   const form = jQuery('.needs-validation')[0];
