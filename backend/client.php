@@ -233,7 +233,7 @@ function get_export_status($request) {
 }
 
 function update_jpa_search_pdf($request) {
-  $api_url = trim(get_option('scjpc_es_host'), '/') . "/jpa-pdf-update";
+  $api_url = trim(get_option('scjpc_es_host'), '/') . "/" . API_NAMESPACE . "/jpa-pdf-update";
   $body = [
     "jpa_unique_id" => $request['jpa_unique_id'],
     "pdf_s3_key" => $request['s3_key']
