@@ -1,8 +1,8 @@
 <?php
 load_bootstrap_assets();
-$api_url_migration_logs = trim(get_option('scjpc_es_host'), '/') . "/migration_logs";
-$api_url_deleted_poles = trim(get_option('scjpc_es_host'), '/') . "/deleted-records?table=deleted_poles&order=desc";
-$api_url_deleted_jpas = trim(get_option('scjpc_es_host'), '/') . "/deleted-records?table=deleted_jpas&order=desc";
+$api_url_migration_logs = trim(get_option('scjpc_es_host'), '/') . "/" . API_NAMESPACE . "/migration_logs";
+$api_url_deleted_poles = trim(get_option('scjpc_es_host'), '/') . "/" . API_NAMESPACE . "/deleted-records?table=deleted_poles&order=desc";
+$api_url_deleted_jpas = trim(get_option('scjpc_es_host'), '/') . "/" . API_NAMESPACE . "/deleted-records?table=deleted_jpas&order=desc";
 
 $export_requests = make_search_api_call($api_url_migration_logs);
 $deleted_poles = make_search_api_call($api_url_deleted_poles);

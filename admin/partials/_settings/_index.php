@@ -5,12 +5,12 @@ wp_enqueue_style('admin-settings', SCJPC_ASSETS_URL . 'css/admin-settings.css', 
 wp_enqueue_script('admin-settings', SCJPC_ASSETS_URL . 'js/admin-settings.js', ['jquery'], '8.1', true);
 wp_enqueue_style('admin-email', SCJPC_ASSETS_URL . 'css/email-multiple.css', [], time(), 'all');
 wp_enqueue_script('admin-email', SCJPC_ASSETS_URL . 'js/email-multiple.js', ['jquery'], '1.6', true);
-$api_url_setting = trim($base_url, '/') . "/setting";
+$api_url_setting = trim($base_url, '/') . "/" . API_NAMESPACE . "/setting";
 wp_localize_script('admin-settings', 'SCJPC_SETTINGS', [
     'API_URL_SETTING' => $api_url_setting,
     'AJAX_URL' => admin_url('admin-ajax.php')
 ]);
-$api_url_settings = trim($base_url, '/') . "/settings";
+$api_url_settings = trim($base_url, '/'). "/" . API_NAMESPACE . "/settings";
 $settings_data = make_search_api_call($api_url_settings);
 $settings = $settings_data['message'] ?? [];
 
