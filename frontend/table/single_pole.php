@@ -97,7 +97,7 @@
       <?php $company_gns = $pole_result["company_{$i}_gn_s"] ? str_replace("''", "'", $pole_result["company_{$i}_gn_s"]) : ''; ?>
       <div class="row result-row">
         <div class="col-sm-1"><?php echo $pole_result[ "company_{$i}" ]; ?></div>
-        <div class="col-sm-1"><?php echo $pole_result[ "antenna{$i}" ] ? "ON" : '-'; ?></div>
+        <div class="col-sm-1"><?php echo $pole_result[ "antenna{$i}" ] ? "ANT" : '-'; ?></div>
         <div class="col-sm-4"><?php echo $company_gns; ?></div>
         <div class="col-sm-6">
           <?php echo $pole_result[ "anc_for_company_{$i}" ]; ?>
