@@ -1,5 +1,6 @@
 <?php
 load_bootstrap_assets();
+wp_enqueue_style('bootstrap-icons', 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css');
 load_admin_assets();
 
 $api_url_es_db_counts = trim(get_option('scjpc_es_host'), '/') . "/es-db-counts";
@@ -15,14 +16,7 @@ if (!empty($db_db_counts)) {
         <h4 class="alert-heading custom-alert m-2 fs-5 ">CDN cache has been successfully cleared</h4>
     </div>
     <div class="export-container overflow-auto">
-        
-        <div class=" my-2 float-end" role="group" aria-label="Basic example">
-            <button data-api-action = "clear-cdn-cache"  data-key = "/exports/*" id="clear-export" type="button" class="btn btn-primary clear-cache">Clear Export Cache</button>
-            <button data-api-action = "clear-cdn-cache" data-key = "/pdf/*" id="clear-pdf" type="button" class="btn btn-primary clear-cache">Clear PDF Cache</button>
-            <button data-api-action = "flush-redis-cache" id="clear-redis" type="button" class="btn btn-primary clear-cache">Clear Redis Cache</button>
-            <button data-method="POST" data-api-action = "elastic-search-re-index" id="re-index"  data-elastic_search_re_index="yes" type="button" class="btn btn-primary clear-cache">Re-Index Elastic Search</button>
-            <button data-method="POST" data-api-action = "remove-deleted-data" id="remove-deleted-data"  data-remove_deleted_data="yes" type="button" class="btn btn-primary clear-cache">Remove Deleted Data</button>
-        </div>
+        <?php include_once(SCJPC_PLUGIN_ADMIN_BASE."partials/_dashboard_buttons.php"); ?>
         <table class="table w-100 table-striped wp-list-table widefat fixed striped table-view-list posts">
             <thead>
             <tr>
