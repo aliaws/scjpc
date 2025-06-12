@@ -2,6 +2,7 @@
 load_bootstrap_assets();
 wp_enqueue_style('bootstrap-icons', 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css');
 load_admin_assets();
+wp_enqueue_script('admin_dashboard', SCJPC_ASSETS_URL . 'js/admin-dashboard.js', false, '3.6', true);
 
 $api_url_es_db_counts = trim(get_option('scjpc_es_host'), '/') . "/" . API_NAMESPACE . "/es-db-counts";
 $api_url_deleted_poles = trim(get_option('scjpc_es_host'), '/') . "/" . API_NAMESPACE . "/deleted-records?table=deleted_poles&order=desc";

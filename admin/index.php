@@ -346,13 +346,13 @@ function flush_cache() {
   if (!empty($_REQUEST['key'])) {
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(["keys" => [$_REQUEST['key']]])); // Set the request body
   }
-  if (!empty($_REQUEST['elastic_search_re_index'])) {
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(["elastic_search_re_index" => $_REQUEST['key']])); // Set the request body
-  }
- if (!empty($_REQUEST['remove_deleted_data'])) {
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(["remove_deleted_data" => $_REQUEST['key']])); // Set the request body
- }
 
+  if(!empty($_REQUEST["postKey"])) {
+      if (!empty($_REQUEST[$_REQUEST["postKey"]])) {
+          curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([$_REQUEST["postKey"] => $_REQUEST['key']])); // Set the request body
+      }
+  }
+  
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
   $response = curl_exec($ch);
