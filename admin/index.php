@@ -352,7 +352,7 @@ function flush_cache() {
           curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([$_REQUEST["postKey"] => $_REQUEST['key']])); // Set the request body
       }
   }
-  
+
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
   $response = curl_exec($ch);
