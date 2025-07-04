@@ -76,6 +76,13 @@ if (!empty($db_db_counts)) {
             </tr>
             </tbody>
         </table>
+        <div class="d-flex justify-content-between">
+            <label for="file">Indexing progress:</label>
+        </div>
+        <div class="d-flex justify-content-between">
+            <progress style="width: 80%" id="file" class="export_progress_bar" value="<?php echo $response_array['export_progress']; ?>" max="100"></progress>
+            <p><span class="export_progress_text"><?php echo $response_array['export_progress']; ?> </span> %</p>
+        </div>
     </div>
 <?php } else { ?>
     <div class="card p-4"><p> No Requests found!</p></div>
