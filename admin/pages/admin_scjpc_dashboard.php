@@ -2,7 +2,7 @@
 load_bootstrap_assets();
 wp_enqueue_style('bootstrap-icons', 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css');
 load_admin_assets();
-wp_enqueue_script('admin_dashboard', SCJPC_ASSETS_URL . 'js/admin-dashboard.js', false, '3.6', true);
+wp_enqueue_script('admin_dashboard', SCJPC_ASSETS_URL . 'js/admin-dashboard.js', false, '4.0', true);
 
 $api_url_es_db_counts = trim(get_option('scjpc_es_host'), '/') . "/" . API_NAMESPACE . "/es-db-counts";
 $api_url_deleted_poles = trim(get_option('scjpc_es_host'), '/') . "/" . API_NAMESPACE . "/deleted-records?table=deleted_poles&order=desc";
@@ -77,12 +77,12 @@ if (!empty($db_db_counts)) {
             </tbody>
         </table>
         <div class="d-flex justify-content-between">
-            <label for="file">Indexing progress:</label>
+        <label for="custom_progress">Indexing progress:</label>
         </div>
-        <div class="d-flex justify-content-between">
-            <progress style="width: 80%" id="file" class="export_progress_bar" value="<?php echo $response_array['export_progress']; ?>" max="100"></progress>
-            <p><span class="export_progress_text"><?php echo $response_array['export_progress']; ?> </span> %</p>
-        </div>
+         <div class="d-flex justify-content-between">
+         <progress style="width: 80%" id="custom_progress" class="es_progress_bar" value="0" max="100"></progress>
+         <p><span class="es_progress_text">0</span> %</p>
+         </div>
     </div>
 <?php } else { ?>
     <div class="card p-4"><p> No Requests found!</p></div>

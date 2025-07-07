@@ -5,6 +5,7 @@ add_action('wp_ajax_update_setting', 'handle_setting');
 add_action('wp_ajax_delete_setting', 'delete_setting');
 add_action('wp_ajax_delete_email_tag', 'delete_email_tag');
 add_action('wp_ajax_get_settings_html', 'scjpc_get_settings_html');
+add_action('wp_ajax_progress', 'handle_progress');
 
 function handle_setting() {
   $api_url = $_POST['api_url'] ?? '';
@@ -87,4 +88,26 @@ function render_setting_row_callback() {
 
     echo $html;
     wp_die();
+}
+
+function update_progress(): int {
+    $progress = (int) get_transient('progress') ?? 0;
+
+    if ($progress >= 100) {
+        $progress = 0;
+    } else {
+        $progress = min($progress + rand(5, 10), 100);
+    }
+
+    set_transient('progress', $progress, 600);
+
+    return $progress;
+}
+
+function handle_progress(): void {
+    $progress = update_progress();
+
+    wp_send_json_success([
+        'progress' => $progress,
+    ]);
 }
