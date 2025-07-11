@@ -90,24 +90,14 @@ function render_setting_row_callback() {
     wp_die();
 }
 
-function update_progress(): int {
-    $progress = (int) get_transient('progress') ?? 0;
+function handle_progress() {
+    $api_url = rtrim(get_option('scjpc_es_host'), '/') . '/' . API_NAMESPACE . '/progress';
+    $response = make_search_api_call($api_url);
 
-    if ($progress >= 100) {
-        $progress = 0;
-    } else {
-        $progress = min($progress + rand(5, 10), 100);
-    }
-
-    set_transient('progress', $progress, 600);
-
-    return $progress;
-}
-
-function handle_progress(): void {
-    $progress = update_progress();
+    $progress = isset($response['progress']) ? (int) $response['progress'] : 0;
 
     wp_send_json_success([
-        'progress' => $progress,
+        'progress' => $progress
     ]);
 }
+

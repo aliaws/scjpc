@@ -53,30 +53,25 @@ const fetchEsProgress = () => {
     method: 'GET',
     url: ajaxurl,
     data: { action: 'progress' },
-    success: (res) => {
-      const { success, data } = res;
-      if (success) {
-        const { progress } = data;
-        updateEsProgress(progress);
-        if (progress < 100) {
-          const delay = Math.max(300, (100 - progress) * 40);
-          setTimeout(fetchEsProgress, delay);
-        }
+    success: ({ success, data }) => {
+      if (success && typeof data.progress !== 'undefined') {
+        updateEsProgress(data.progress);
       } else {
-        handleError('Response failed');
+        console.error('Progress response invalid');
       }
     },
     error: () => {
-      handleError('AJAX failed');
+      console.error('AJAX request failed');
     }
   });
 };
 
 const updateEsProgress = (progress) => {
-  jQuery('.es_progress_bar').attr('value', progress);
-  jQuery('.es_progress_text').text(progress);
-};
-
-const handleError = (msg) => {
-  console.error(msg);
+  if (progress > 0) {
+    jQuery('.es_progress_bar').attr('value', progress);
+    jQuery('.es_progress_text').text(progress);
+    jQuery('#custom_progress').closest('.progress-wrapper').show();
+  } else {
+    jQuery('#custom_progress').closest('.progress-wrapper').hide();
+  }
 };

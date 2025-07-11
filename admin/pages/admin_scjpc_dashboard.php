@@ -7,10 +7,14 @@ wp_enqueue_script('admin_dashboard', SCJPC_ASSETS_URL . 'js/admin-dashboard.js',
 $api_url_es_db_counts = trim(get_option('scjpc_es_host'), '/') . "/" . API_NAMESPACE . "/es-db-counts";
 $api_url_deleted_poles = trim(get_option('scjpc_es_host'), '/') . "/" . API_NAMESPACE . "/deleted-records?table=deleted_poles&order=desc";
 $api_url_deleted_jpas = trim(get_option('scjpc_es_host'), '/') . "/" . API_NAMESPACE . "/deleted-records?table=deleted_jpas&order=desc";
+$api_url_progress = trim(get_option('scjpc_es_host'), '/') . '/' . API_NAMESPACE . '/progress';
 
 $db_db_counts = make_search_api_call($api_url_es_db_counts);
 $deleted_poles = make_search_api_call($api_url_deleted_poles);
 $deleted_jpas = make_search_api_call($api_url_deleted_jpas);
+$progress_response = make_search_api_call($api_url_progress);
+$progress = isset($progress_response['progress']) ? (int) $progress_response['progress'] : 0;
+
 if (!empty($db_db_counts)) {
     ?>
     <div class="alert custom-alert-wrapper d-none my-3 alert-success " role="alert">
@@ -75,14 +79,18 @@ if (!empty($db_db_counts)) {
                 </td>
             </tr>
             </tbody>
-        </table>
-        <div class="d-flex justify-content-between">
-        <label for="custom_progress">Indexing progress:</label>
-        </div>
-         <div class="d-flex justify-content-between">
-         <progress style="width: 80%" id="custom_progress" class="es_progress_bar" value="0" max="100"></progress>
-         <p><span class="es_progress_text">0</span> %</p>
-         </div>
+        </table>     
+        <?php if ($progress > 0): ?>
+          <div class="progress-wrapper mt-3">
+           <div class="d-flex justify-content-between">
+                <label for="custom_progress">Indexing progress:</label>
+           </div>
+           <div class="d-flex justify-content-first align-items-center">
+                <progress style="width: 80%" id="custom_progress" class="es_progress_bar" value="<?php echo $progress; ?>" max="100"></progress>
+                <p><span class="es_progress_text"><?php echo $progress; ?></span> %</p>
+           </div>
+          </div>
+        <?php endif; ?>   
     </div>
 <?php } else { ?>
     <div class="card p-4"><p> No Requests found!</p></div>
@@ -92,14 +100,12 @@ $deleted_ids = ["Poles" => $deleted_poles["deleted_ids"], "Jpas" => $deleted_jpa
 foreach($deleted_ids as $heading => $ids): ?>
     <h6> Deleted <?php echo $heading; ?></h6>
     <table class="table w-100 table-striped wp-list-table widefat fixed striped table-view-list posts">
-
-    <?php
-        foreach($ids as $id):  ?>
-            <tr>
-                <td class="align-middle" scope="row">
-                    <?php echo $id; ?>
-                </td>
-            </tr>
+    <?php foreach($ids as $id):  ?>
+        <tr>
+            <td class="align-middle" scope="row">
+                <?php echo $id; ?>
+            </td>
+        </tr>
     <?php endforeach; ?>
     </table>
 <?php endforeach; ?>
