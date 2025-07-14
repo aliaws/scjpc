@@ -2,7 +2,7 @@
 load_bootstrap_assets();
 wp_enqueue_style('bootstrap-icons', 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css');
 load_admin_assets();
-wp_enqueue_script('admin_dashboard', SCJPC_ASSETS_URL . 'js/admin-dashboard.js', false, '4.0', true);
+wp_enqueue_script('admin_dashboard', SCJPC_ASSETS_URL . 'js/admin-dashboard.js', false, '4.2', true);
 
 $api_url_es_db_counts = trim(get_option('scjpc_es_host'), '/') . "/" . API_NAMESPACE . "/es-db-counts";
 $api_url_deleted_poles = trim(get_option('scjpc_es_host'), '/') . "/" . API_NAMESPACE . "/deleted-records?table=deleted_poles&order=desc";
@@ -23,7 +23,7 @@ if (!empty($db_db_counts)) {
     <div class="export-container overflow-auto">
 
         <?php include_once(SCJPC_PLUGIN_ADMIN_BASE."partials/_dashboard_buttons.php"); ?>
-        <table class="table w-100 table-striped wp-list-table widefat fixed striped table-view-list posts">
+        <table class="table w-100 tablindexe-striped wp-list-table widefat fixed striped table-view-list posts">
             <thead>
             <tr>
                 <th scope="col" style="font-size: 16px;" class="small-width-column text-capitalize manage-column">
@@ -80,7 +80,7 @@ if (!empty($db_db_counts)) {
             </tr>
             </tbody>
         </table>     
-        <?php if ($progress > 0): ?>
+        <?php if ($progress > 0 || $progress < 100): ?>
           <div class="progress-wrapper mt-3">
            <div class="d-flex justify-content-between">
                 <label for="custom_progress">Indexing progress:</label>

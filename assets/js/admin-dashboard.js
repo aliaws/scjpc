@@ -46,6 +46,10 @@ function executeClearCache(button) {
 
 jQuery(document).ready(() => {
   fetchEsProgress();
+
+  jQuery('#re-index').on('click', () => {
+    fetchEsProgress();
+  });
 });
 
 const fetchEsProgress = () => {
@@ -67,11 +71,16 @@ const fetchEsProgress = () => {
 };
 
 const updateEsProgress = (progress) => {
-  if (progress > 0) {
+  const $progressWrapper = jQuery('#custom_progress').closest('.progress-wrapper');
+  const $reindexButton = jQuery('#re-index');
+
+  if (progress > 0 || progress < 100) {
     jQuery('.es_progress_bar').attr('value', progress);
     jQuery('.es_progress_text').text(progress);
-    jQuery('#custom_progress').closest('.progress-wrapper').show();
+    $progressWrapper.show();
+    $reindexButton.prop('disabled', true);
   } else {
-    jQuery('#custom_progress').closest('.progress-wrapper').hide();
+    $progressWrapper.hide();
+    $reindexButton.prop('disabled', false);
   }
 };
