@@ -74,7 +74,7 @@ const updateEsProgress = (progress) => {
   const $progressWrapper = jQuery('#custom_progress').closest('.progress-wrapper');
   const $reindexButton = jQuery('#re-index');
 
-  if (progress > 0 || progress < 100) {
+  if (progress > 0 && progress < 100) {
     jQuery('.es_progress_bar').attr('value', progress);
     jQuery('.es_progress_text').text(progress);
     $progressWrapper.show();
