@@ -91,13 +91,15 @@ function render_setting_row_callback() {
 }
 
 function handle_progress() {
-    $api_url = rtrim(get_option('scjpc_es_host'), '/') . '/' . API_NAMESPACE . '/progress';
+    $api_url = rtrim(get_option('scjpc_es_host'), '/') . '/' . API_NAMESPACE . '/es-indexing-progress';
     $response = make_search_api_call($api_url);
 
-    $progress = isset($response['progress']) ? (int) $response['progress'] : 0;
+    $progress = isset($response['progress']) ? (float) $response['progress'] : 0;
+    $interval_seconds = isset($response['interval_seconds']) ? (int) $response['interval_seconds'] : 0;
 
     wp_send_json_success([
-        'progress' => $progress
+        'progress' => $progress,
+        'interval_seconds' => $interval_seconds,
     ]);
 }
 

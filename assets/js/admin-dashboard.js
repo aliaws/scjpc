@@ -1,4 +1,5 @@
 jQuery(document).ready(function () {
+    fetchEsProgress();
     [
         'clear-export', 'clear-pdf', 'clear-redis', 're-index',
         'es_settings', 'remove-deleted-data', 'clean-es-orphans',
@@ -8,7 +9,7 @@ jQuery(document).ready(function () {
             if (confirm('Are you sure you want to do this ?')) {
                 const clear_cache_button = jQuery(`button#${button}`);
                 clear_cache_button.prop('disabled', true);
-                executeClearCache(clear_cache_button)
+                executeClearCache(clear_cache_button);
             }
 
         })
@@ -36,6 +37,9 @@ function executeClearCache(button) {
         data: body,
         success: function (response) {
             button.removeAttr('disabled');
+            if (body.apiAction === 'elastic-search-re-index') {
+                fetchEsProgress();
+            }
             showSuccessNotification(response);
         },
         error: function (error) {
@@ -44,21 +48,17 @@ function executeClearCache(button) {
     });
 }
 
-jQuery(document).ready(() => {
-  fetchEsProgress();
-
-  jQuery('#re-index').on('click', () => {
-    fetchEsProgress();
-  });
-});
-
 const fetchEsProgress = () => {
   jQuery.ajax({
     method: 'GET',
     url: ajaxurl,
     data: { action: 'progress' },
     success: ({ success, data }) => {
-      if (success && typeof data.progress !== 'undefined') {
+      const { progress, interval_seconds} = data;
+      if (success && typeof progress !== 'undefined') {
+        if (progress > 0 && progress < 100) {
+           setTimeout(() => { fetchEsProgress() }, interval_seconds * 1000)
+        }
         updateEsProgress(data.progress);
       } else {
         console.error('Progress response invalid');
@@ -71,16 +71,24 @@ const fetchEsProgress = () => {
 };
 
 const updateEsProgress = (progress) => {
-  const $progressWrapper = jQuery('#custom_progress').closest('.progress-wrapper');
-  const $reindexButton = jQuery('#re-index');
+  const progressContainer = jQuery('#es-indexing-progress-container');
+  const reindexButton = jQuery('#re-index');
+
+  jQuery('.es_progress_bar').attr('value', progress);
+  jQuery('.es_progress_text').text(progress);
 
   if (progress > 0 && progress < 100) {
-    jQuery('.es_progress_bar').attr('value', progress);
-    jQuery('.es_progress_text').text(progress);
-    $progressWrapper.show();
-    $reindexButton.prop('disabled', true);
+    progressContainer.removeClass("hidden");
+    reindexButton.prop('disabled', true);
   } else {
-    $progressWrapper.hide();
-    $reindexButton.prop('disabled', false);
+    if (progress === 100) {
+        setTimeout(() => {
+            progressContainer.addClass("hidden");
+        }, 2000); // 2000 milliseconds = 2 seconds
+    }
+    else {
+        progressContainer.addClass("hidden");
+    }
+    reindexButton.prop('disabled', false);
   }
 };
