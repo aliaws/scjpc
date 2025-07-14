@@ -156,7 +156,24 @@ function scjpc_fetch_jpa_contacts_fields(array $fields, array $jpa_contacts, str
 
         if ($field["type"] == "wysiwyg") {
           if ($export) {
-            $response[$post->ID][$field["name"]] = html_entity_decode(trim(strip_tags(get_field($field["name"], $post->ID))));
+//            $response[$post->ID][$field["name"]] = html_entity_decode(trim(strip_tags(get_field($field["name"], $post->ID))));
+
+            $raw = get_field($field["name"], $post->ID);
+
+            // Replace <a> tags with (text)[url] format
+            $converted = preg_replace_callback(
+              '/<a[^>]+href="([^"]+)"[^>]*>(.*?)<\/a>/is',
+              function ($matches) {
+                $text = trim(strip_tags($matches[2]));
+                $url = $matches[1];
+                return "({$text})[{$url}]";
+              },
+              $raw
+            );
+
+            // Remove remaining tags but keep plain text like "Last updated..."
+            $response[$post->ID][$field["name"]] = html_entity_decode(trim(strip_tags($converted)));
+
           } else {
             $original_data = get_field($field["name"], $post->ID);
             $response[$post->ID][$field["name"]] = $original_data;
