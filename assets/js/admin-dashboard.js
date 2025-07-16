@@ -39,6 +39,8 @@ function executeClearCache(button) {
             button.removeAttr('disabled');
             if (body.apiAction === 'elastic-search-re-index') {
                 fetchEsProgress();
+
+                setTimeout(() => { fetchEsProgress() }, 10 * 1000)
             }
             showSuccessNotification(response);
         },

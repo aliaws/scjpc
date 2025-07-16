@@ -85,7 +85,7 @@ if (!empty($db_db_counts)) {
                 <div class="d-flex justify-content-first align-items-center">
                     <progress style="width: 80%" id="custom_progress" class="es_progress_bar"
                               value="0" max="100"></progress>
-                    <p><span class="es_progress_text">0</span> %</p>
+                    <p style="margin-left:5px;margin-top:15px"><span class="es_progress_text">0</span> %</p>
                 </div>
             </div>
         </div>
