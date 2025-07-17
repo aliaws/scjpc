@@ -13,7 +13,7 @@
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($settings as $key => $value): ?>
+            <?php foreach ($settings as $key => $setting): ?>
                 <?php include '_row.php'; ?>
             <?php endforeach; ?>
         </tbody>
