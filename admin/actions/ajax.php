@@ -96,10 +96,14 @@ function handle_progress() {
 
     $progress = isset($response['progress']) ? (float) $response['progress'] : 0;
     $interval_seconds = isset($response['interval_seconds']) ? (int) $response['interval_seconds'] : 0;
-
-    wp_send_json_success([
+    $data = [
         'progress' => $progress,
         'interval_seconds' => $interval_seconds,
-    ]);
+    ];
+
+    if(isset($response['count_db'])){
+        $data['count_db'] = $response['count_db'];
+    }
+    wp_send_json_success($data);
 }
 

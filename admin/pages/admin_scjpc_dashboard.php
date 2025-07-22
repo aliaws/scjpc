@@ -2,7 +2,7 @@
 load_bootstrap_assets();
 wp_enqueue_style('bootstrap-icons', 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css');
 load_admin_assets();
-wp_enqueue_script('admin_dashboard', SCJPC_ASSETS_URL . 'js/admin-dashboard.js', false, '4.6', true);
+wp_enqueue_script('admin_dashboard', SCJPC_ASSETS_URL . 'js/admin-dashboard.js', false, '4.8', true);
 
 $api_url_es_db_counts = trim(get_option('scjpc_es_host'), '/') . "/" . API_NAMESPACE . "/es-db-counts";
 $api_url_deleted_poles = trim(get_option('scjpc_es_host'), '/') . "/" . API_NAMESPACE . "/deleted-records?table=deleted_poles&order=desc";
@@ -45,13 +45,13 @@ if (!empty($db_db_counts)) {
                 <td class="align-middle" scope="row">
                     Poles
                 </td>
-                <td class="align-middle" scope="row">
+                <td class="align-middle" scope="row" id="poles_db_count">
                     <?php echo $db_db_counts['poles_db_count']; ?>
                 </td>
-                <td class="align-middle" scope="row">
+                <td class="align-middle" scope="row" id="poles_es_count">
                     <?php echo $db_db_counts['poles_es_count']; ?>
                 </td>
-                <td class="align-middle <?php echo $db_db_counts['poles_db_es_diff'] != 0 ? "bold-red": "";  ?>" scope="row">
+                <td class="align-middle <?php echo $db_db_counts['poles_db_es_diff'] != 0 ? "bold-red": "";  ?>" scope="row" id="poles_db_es_diff">
                     <?php echo $db_db_counts['poles_db_es_diff']; ?>
                 </td>
                 <td class="align-middle <?php echo $deleted_poles['total'] != 0 ? "bold-red": "";  ?>" scope="row">
@@ -62,13 +62,13 @@ if (!empty($db_db_counts)) {
                 <td class="align-middle" scope="row">
                     JPAs
                 </td>
-                <td class="align-middle" scope="row">
+                <td class="align-middle" scope="row" id="jpas_db_count">
                     <?php echo $db_db_counts['jpas_db_count']; ?>
                 </td>
-                <td class="align-middle" scope="row">
+                <td class="align-middle" scope="row" id="jpas_es_count">
                     <?php echo $db_db_counts['jpas_es_count']; ?>
                 </td>
-                <td class="align-middle <?php echo $db_db_counts['jpas_db_es_diff'] != 0 ? "bold-red": "";  ?>" scope="row">
+                <td class="align-middle <?php echo $db_db_counts['jpas_db_es_diff'] != 0 ? "bold-red": "";  ?>" scope="row" id="jpas_db_es_diff">
                     <?php echo $db_db_counts['jpas_db_es_diff']; ?>
                 </td>
                 <td class="align-middle <?php echo $deleted_jpas['total'] != 0 ? "bold-red": "";  ?>" scope="row">

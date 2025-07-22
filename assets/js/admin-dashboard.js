@@ -56,12 +56,19 @@ const fetchEsProgress = () => {
     url: ajaxurl,
     data: { action: 'progress' },
     success: ({ success, data }) => {
-      const { progress, interval_seconds} = data;
+      const { progress, interval_seconds, count_db} = data;
       if (success && typeof progress !== 'undefined') {
         if (progress > 0 && progress < 100) {
            setTimeout(() => { fetchEsProgress() }, interval_seconds * 1000)
         }
-        updateEsProgress(data.progress);
+        updateEsProgress(progress);
+        if(count_db) {
+            for(const e_id in count_db) {
+                const count_v = count_db[e_id]
+                jQuery(`#${e_id}`).html(count_v)
+            }
+        }
+
       } else {
         console.error('Progress response invalid');
       }
