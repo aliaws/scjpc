@@ -1,8 +1,9 @@
 <?php
 load_bootstrap_assets();
-$api_url = trim(get_option("scjpc_es_host"), "/") . "/es-indices-health";
+$api_url = trim(get_option("scjpc_es_host"), "/") . "/" . API_NAMESPACE . "/es-indices-health";
 
 $export_requests = make_search_api_call($api_url);
+
 if (!empty($export_requests)) { ?>
 
 <div class="export-container overflow-auto">

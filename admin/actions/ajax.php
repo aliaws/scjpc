@@ -5,6 +5,7 @@ add_action('wp_ajax_update_setting', 'handle_setting');
 add_action('wp_ajax_delete_setting', 'delete_setting');
 add_action('wp_ajax_delete_email_tag', 'delete_email_tag');
 add_action('wp_ajax_get_settings_html', 'scjpc_get_settings_html');
+add_action('wp_ajax_progress', 'handle_progress');
 
 function handle_setting() {
   $api_url = $_POST['api_url'] ?? '';
@@ -88,3 +89,21 @@ function render_setting_row_callback() {
     echo $html;
     wp_die();
 }
+
+function handle_progress() {
+    $api_url = rtrim(get_option('scjpc_es_host'), '/') . '/' . API_NAMESPACE . '/es-indexing-progress';
+    $response = make_search_api_call($api_url);
+
+    $progress = isset($response['progress']) ? (float) $response['progress'] : 0;
+    $interval_seconds = isset($response['interval_seconds']) ? (int) $response['interval_seconds'] : 0;
+    $data = [
+        'progress' => $progress,
+        'interval_seconds' => $interval_seconds,
+    ];
+
+    if(isset($response['count_db'])){
+        $data['count_db'] = $response['count_db'];
+    }
+    wp_send_json_success($data);
+}
+

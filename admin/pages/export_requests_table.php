@@ -3,7 +3,7 @@ load_bootstrap_assets();
 load_admin_assets();
 $status = ucfirst(str_replace("export-requests-","",$_GET['page']));
 $query = ["status" => $status];
-$api_url = trim(get_option('scjpc_es_host'), '/') . "/export-requests?" . http_build_query($query);
+$api_url = trim(get_option('scjpc_es_host'), '/') . "/" . API_NAMESPACE . "/export-requests?" . http_build_query($query);
 $export_requests = make_search_api_call($api_url);
 
 if (!empty($export_requests)) {

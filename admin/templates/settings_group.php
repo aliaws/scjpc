@@ -5,7 +5,7 @@
     do_settings_sections('scjpc-settings-group'); ?>
     <table class="form-table">
       <tr>
-        <th scope="row">Elasticsearch Host</th>
+        <th scope="row">API Host</th>
         <td>
           <label>
             <input type="text" name="scjpc_es_host" placeholder="https://hostorip.com"

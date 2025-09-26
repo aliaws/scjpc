@@ -331,9 +331,8 @@ add_action('wp_ajax_jpa_search_update_pdf', 'ajax_jpa_search_update_pdf');
 add_action('wp_ajax_nopriv_jpa_search_update_pdf', 'ajax_jpa_search_update_pdf');
 
 function flush_cache() {
-  $api_url = rtrim(get_option('scjpc_es_host'), '/') . "/" . $_REQUEST['apiAction'];
+  $api_url = rtrim(get_option('scjpc_es_host'), '/') . "/" . API_NAMESPACE . "/" . $_REQUEST['apiAction'];
   $headers = ["Content-Type: application/json", "security_key: " . get_option('scjpc_client_auth_key')];
-
   $request_method = !empty($_REQUEST["method"]) ? $_REQUEST["method"] : "DELETE";
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $api_url);
@@ -343,12 +342,12 @@ function flush_cache() {
   if (!empty($_REQUEST['key'])) {
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(["keys" => [$_REQUEST['key']]])); // Set the request body
   }
-  if (!empty($_REQUEST['elastic_search_re_index'])) {
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(["elastic_search_re_index" => $_REQUEST['key']])); // Set the request body
+
+  if(!empty($_REQUEST["postKey"])) {
+      if (!empty($_REQUEST[$_REQUEST["postKey"]])) {
+          curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([$_REQUEST["postKey"] => $_REQUEST['key']])); // Set the request body
+      }
   }
- if (!empty($_REQUEST['remove_deleted_data'])) {
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(["remove_deleted_data" => $_REQUEST['key']])); // Set the request body
- }
 
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 

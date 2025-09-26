@@ -230,6 +230,7 @@ function make_export_api_call(button, execute_actions = true) {
   const body = button.data();
   body['action'] = 'make_export_data_call';
   add_actions_change(execute_actions);
+  // console.log(body);
   jQuery.ajax({
     url: admin_ajax_url,
     type: 'post',
