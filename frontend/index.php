@@ -40,7 +40,7 @@ function make_export_data_call() {
 
   $response = json_decode( $response, true );
   parse_str( $_POST[ 'query' ], $query );
-  $response[ 'query_id' ] = $query[ 'query_id' ];
+//  $response[ 'query_id' ] = $query[ 'query_id' ];
 
   echo json_encode( $response );
   wp_die();
@@ -80,7 +80,6 @@ add_action('wp_ajax_nopriv_jpa_detail_search', 'ajax_pole_search');
 
 
 function ajax_pole_search() {
-//  echo "<pre>GET=" . count($_GET) . "==POST=" . count($_POST) . "==FILES=" . count($_FILES) . "==REQUEST=" . count($_REQUEST) . print_r($_GET, true) . print_r($_POST, true) . print_r($_FILES, true) . print_r($_REQUEST, true) . "</pre>";
   include_once SCJPC_PLUGIN_FRONTEND_BASE . "results/pole_results.php";
   wp_die();
 }
@@ -128,5 +127,13 @@ function authorize_search_page(): void {
       exit;
     }
   }
+}
+
+add_action( 'admin_post_nopriv_upload_file_to_s3', 'ajax_upload_file_to_s3' );
+add_action( 'wp_ajax_upload_file_to_s3', 'ajax_upload_file_to_s3' );
+add_action( 'wp_ajax_nopriv_upload_file_to_s3', 'ajax_upload_file_to_s3' );
+
+function ajax_upload_file_to_s3() {
+  wp_send_json_success( upload_and_read_file( $_REQUEST ), 200 );
 }
 

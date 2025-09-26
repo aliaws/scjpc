@@ -1,7 +1,7 @@
 <?php
 load_bootstrap_assets();
 load_admin_assets();
-$api_url = trim(get_option('scjpc_es_host'), '/') . "/es-shards";
+$api_url = trim(get_option('scjpc_es_host'), '/') . "/" . API_NAMESPACE . "/es-shards";
 
 $export_requests = make_search_api_call($api_url);
 if (!empty($export_requests)) {

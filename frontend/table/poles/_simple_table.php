@@ -1,13 +1,17 @@
-<?php $search_key = $search_key ?? '';
-//$prev_search_query = $_REQUEST['search_query'] ?? '';
-?>
+<?php $search_key = $search_key ?? ''; ?>
 <div id="response-overlay"></div>
 <div class="mw-100 mt-2">
   <div class="remove-print d-flex flex-column flex-sm-row justify-content-between align-items-sm-center">
     <div>
-      <?php if ( $redirect_url ) { ?>
-        <a class="btn" href="<?php echo $redirect_url . "&go_back=1"; ?>" style="color: black;">Go Back</a> <br />
-      <?php }
+
+      <div class="scjpc-navigation-buttons d-flex">
+        <a id="go-back" class="btn" style="color: black; margin-right: 10px; display: none;" onclick="window.history.back()">Go Back</a>
+        <a id="go-forward" class="btn" style="color: black; display: none;" onclick="window.history.forward()">Go Forward</a>
+      </div>
+
+<!--      --><?php //if ( $redirect_url ) { ?>
+<!--        <a class="btn" href="--><?php //echo $redirect_url . "&go_back=1"; ?><!--" style="color: black;">Go Back</a> <br />-->
+<!--      --><?php //}
       if ($search_key != '') { ?>
         <span>Search Key: <strong><?php echo $search_key; ?></strong></span>
       <?php } ?>
@@ -65,11 +69,15 @@
           <?php foreach (POLES_KEYS as $key => $label) {
             if ($key == 'unique_id' || $key == 'pole_number') {
               $value = $record['unique_id'];
-              $url = "/pole-detail/?unique_id=$value&action=pole_detail&search_query=$search_query&query_id=$query_id"; ?>
+              $url = "/pole-detail/?unique_id=$value&action=pole_detail&search_query=$search_query";
+//              $url = "/pole-detail/?unique_id=$value&action=pole_detail&search_query=$search_query&query_id=$query_id";
+              ?>
               <td><a href="<?php echo $url; ?>"><?php echo $record[$key]; ?></a></td>
             <?php } elseif ($key == 'jpa_number_2' || $key == 'jpa_number') {
               $value = !empty($record['jpa_number_2']) ? $record['jpa_number_2'] : $record['jpa_number'];
-              $url = "/pole-search/?jpa_number=$value&action=jpa_detail_search&per_page=50&page_number=1&last_id=&search_query=$search_query&query_id=$query_id"; ?>
+              $url = "/pole-search/?jpa_number=$value&action=jpa_detail_search&per_page=50&page_number=1&last_id=&search_query=$search_query";
+//              $url = "/pole-search/?jpa_number=$value&action=jpa_detail_search&per_page=50&page_number=1&last_id=&search_query=$search_query&query_id=$query_id";
+              ?>
               <td><a href="<?php echo $url; ?>"><?php echo $value; ?></a></td>
             <?php } elseif ($key == 'status') {
               $value = $record['status'];

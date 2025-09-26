@@ -1,5 +1,41 @@
 const admin_ajax_url = jQuery("#admin_ajax_url").val();
 
+const toggleSearchHistoryNavigationButtons = () => {
+
+  const $goBackBtn = jQuery('a#go-back');
+  const $goForwardBtn = jQuery('a#go-forward');
+
+  if ('navigation' in window) {
+    if (!window.navigation.canGoBack) {
+      $goBackBtn.hide();
+    } else {
+      $goBackBtn.show();
+    }
+    if (!window.navigation.canGoForward) {
+      $goForwardBtn.hide();
+    } else {
+      $goForwardBtn.show();
+    }
+  } else {
+    // Fallback for browsers without Navigation API
+    if (window.history.length <= 1) {
+      $goBackBtn.hide();
+    } else {
+      $goBackBtn.show();
+    }
+    // Forward detection fallback (unreliable, so always hide)
+    $goForwardBtn.hide();
+  }
+
+};
+
+jQuery(window).on('pageshow', function (event) {
+  toggleSearchHistoryNavigationButtons();
+  clearSearchInputFields();
+
+});
+
+
 jQuery(document).ready(function () {
   if (location.search !== '') {
     registerExportButtonCalls();
@@ -29,7 +65,10 @@ jQuery(document).ready(function () {
     jQuery('input[id=page_number]').val(1);
   })
   registerSearchFormSubmissionHandler();
-  makeInputFieldsSimilar()
+  makeInputFieldsSimilar();
+  toggleSearchHistoryNavigationButtons();
+  clearSearchInputFields();
+
 });
 const registerSearchFormSubmissionHandler = () => {
   const form = jQuery('.needs-validation')[0];
@@ -54,51 +93,71 @@ const submitFormIfNotEmpty = (form) => {
 
 }
 
+const uploadSearchFileToS3 = async ( formData ) => {
+  formData.set('action', 'upload_file_to_s3')
+  formData.delete('s3_key')
+
+  return jQuery.ajax( admin_ajax_url, {
+    type: 'post',
+    data: formData,
+    processData: false,
+    contentType: false,
+    headers: { "Accept": "application/json" },
+    success: ( response ) => {
+      return response;
+    },
+    error: ( error ) => {
+      return '';
+    }
+  } );
+};
+
 function registerFormSubmissionHandler(form) {
-  jQuery(form).on('submit', function (event) {
-
-
-    event.preventDefault()
+  jQuery(form).on('submit', async function (event) {
+    event.preventDefault();
     const form = event.target;
     const formId = jQuery(this).attr('id');
     const formData = new FormData(form);
-    if (!['jpa_detail_search', 'pole_detail'].includes(form.id)) {
-      formData.delete('go_back')
-    }
-    const validate = validateForm(formId, formData);
 
+    if (!['jpa_detail_search', 'pole_detail'].includes(form.id)) {
+      formData.delete('go_back');
+    }
+
+    const validate = validateForm(formId, formData);
 
     if (validate) {
       add_actions_change();
-      jQuery.ajax(admin_ajax_url, {
-        type: 'post',
-        data: formData,
-        processData: false,
-        contentType: false,
-        headers: {"Accept": "application/json"},
-        success: (response) => {
-          remove_actions_change();
-          if (!['jpa_detail_search', 'pole_detail'].includes(form.id)) {
-            localStorage.removeItem('previous_data');
-            localStorage.setItem('previous_data', response);
+
+      // Convert FormData to URLSearchParams
+      const params = new URLSearchParams();
+      for (const [key, value] of formData.entries()) {
+        params.append(key, value);
+      }
+
+      // Redirect to a new page with the query string
+
+      if ( ['multiple_jpa_search', 'multiple_pole_search'].includes(formId) ) {
+        const hasFile = Array.from(form.querySelectorAll('input[type="file"]')).some(input => input.files.length > 0);
+        if ( hasFile ) {
+          const s3_upload_response = await uploadSearchFileToS3( formData );
+          if ( s3_upload_response && typeof s3_upload_response.data.s3_key !== 'undefined') {
+            params.append('s3_key', s3_upload_response.data.s3_key);
           }
-          jQuery('div.response-table').html(response);
-          registerExportButtonCalls();
-          registerPaginationButtonAndSortHeaderClicks();
-        },
-        error: (error) => {
-          remove_actions_change();
+        } else {
+          params.delete('uploaded_file')
         }
-      });
-      clearSearchInputFields();
+      }
+      const targetUrl = form.getAttribute('action') || window.location.pathname;
+
+      remove_actions_change();
+      window.location.href = `${ targetUrl }?${ params.toString() }`;
     }
+
+    clearSearchInputFields();
   });
 
-  //submit in case in jpa detail
-  if (['jpa_detail_search', 'pole_detail'].includes(form.id)) {
-    jQuery(`form#${form.id}`).submit()
-  }
 }
+
 
 const registerPaginationButtonAndSortHeaderClicks = () => {
   //Register Pagination events
@@ -171,14 +230,15 @@ function make_export_api_call(button, execute_actions = true) {
   const body = button.data();
   body['action'] = 'make_export_data_call';
   add_actions_change(execute_actions);
+  // console.log(body);
   jQuery.ajax({
     url: admin_ajax_url,
     type: 'post',
     data: body,
     dataType: 'json',
     success: function (response) {
-      const {file_path, export_format, query_id} = response;
-      redirect_to_download_export(file_path, export_format, query_id, execute_actions )
+      const {file_path, export_format} = response;
+      redirect_to_download_export(file_path, export_format, execute_actions )
     },
     error: function (error) {
       remove_disabled_prop(execute_actions);
@@ -198,9 +258,9 @@ function trigger_exports_on_search() {
   })
 }
 
-function redirect_to_download_export(file_path, export_format, query_id, execute_actions = true) {
+function redirect_to_download_export(file_path, export_format, execute_actions = true) {
   if (execute_actions) {
-    window.location.href = `/download-export?file_path=${file_path}&format=${export_format}&query_id=${query_id}`;
+    window.location.href = `/download-export?file_path=${file_path}&format=${export_format}`;
     setTimeout(function () {
       remove_actions_change();
     }, 1000);

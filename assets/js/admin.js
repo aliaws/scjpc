@@ -17,7 +17,15 @@ jQuery(document).ready(function () {
         jQuery('#s3_key').attr('value', custom_s3_key);
         jQuery('#aws_cdn_url').attr('value', aws_cdn);
 
-    });
+    }); function showSuccessNotification(message) {
+        console.log("message", message);
+        jQuery('.custom-alert').text(message.replace(/"/g, ''));
+        jQuery('.custom-alert-wrapper').removeClass('d-none');
+
+        setTimeout(function () {
+            jQuery('.custom-alert-wrapper').addClass('d-none');
+        }, 3000);
+    }
     jQuery('#update_jpa_search').on('submit', function (event) {
         event.preventDefault()
         jQuery('#update_submit').text('Updating').attr('disabled', true);
@@ -56,45 +64,4 @@ jQuery(document).ready(function () {
         });
 
     });
-
-    [
-        'clear-export', 'clear-pdf', 'clear-redis', 're-index',
-        'es_settings', 'remove-deleted-data',
-        'remove_all_processed_exports', 'remove_pending_exports', 'remove_processing_exports'
-    ].forEach(button => {
-        jQuery(`button#${button}`).on('click', () => {
-            if (confirm('Are you sure you want to do this ?')) {
-                const clear_cache_button = jQuery(`button#${button}`);
-                clear_cache_button.prop('disabled', true);
-                execute_clear_cache(clear_cache_button)
-            }
-
-        })
-    })
-    function execute_clear_cache(button) {
-        const body = button.data();
-        body['action'] = 'flush_cache';
-        console.log(body);
-        jQuery.ajax({
-            url: ajaxurl,
-            method: 'post',
-            data: body,
-            success: function(response) {
-                button.removeAttr('disabled');
-                showSuccessNotification(response);
-            },
-            error: function(error) {
-                console.log('error==', error);
-            }
-        });
-    }
-    function showSuccessNotification(message) {
-        console.log("message",message);
-        jQuery('.custom-alert').text(message.replace(/"/g, ''));
-        jQuery('.custom-alert-wrapper').removeClass('d-none');
-
-        setTimeout(function() {
-            jQuery('.custom-alert-wrapper').addClass('d-none');
-        }, 3000);
-    }
 });

@@ -6,9 +6,8 @@ if ( ! empty ( $_GET ) || ! empty ( $_POST ) ) {
     $_REQUEST['s3_key'] = $search_result['s3_key'];
   }
   $search_query        = urlencode(http_build_query($_REQUEST));
-//  $search_query        = array_pop( $search_result['transient'] );
-  $redirect_url        = $search_result['redirect_url'];
-  $query_id            = $search_result['query_id'];
+//  $redirect_url        = $search_result['redirect_url'];
+//  $query_id            = $search_result['query_id'];
   $search_key          = $_REQUEST['jpa_number'] ?? '';
   $record_keys         = JPAS_KEYS;
   $sort_keys           = JPAS_SORT_KEYS;

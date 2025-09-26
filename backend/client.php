@@ -63,141 +63,9 @@ function perform_jpa_search($request): array {
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/jpa-search?" . http_build_query($request);
   $response = make_search_api_call($api_url, true);
 
-  $response = scjpc_add_query_transient_log( $request, $response );
-
   $response['result_per_page'] = RESULTS_PER_PAGE;
   $_REQUEST['last_id'] = $response['last_id'] ?? '';
   return $response;
-}
-
-function scjpc_add_query_transient_log( $request, $response, $nested = true ): array {
-
-  if ( $query_transient_id = scjpc_get_query_transient_id( $request ) ) {
-
-    if ( $query_transient = scjpc_set_query_transient( $query_transient_id, $request, $nested ) ) {
-      $response['transient']    = $query_transient;
-      $response['query_id']     = $query_transient_id;
-      $response['redirect_url'] = scjpc_get_query_transient_url( $query_transient_id );
-    }
-
-  }
-  return $response;
-}
-
-function scjpc_get_query_transient_url( $query_transient_id ) {
-  if ( $query_transient = scjpc_get_query_transient( $query_transient_id ) ) {
-    if ( ! empty( $query_transient[ count( $query_transient ) - 2] ) && ! empty ( $query_transient[ count( $query_transient ) - 2]['original'] ) ) {
-      $redirect_url = $query_transient[ count( $query_transient ) - 2]['original'];
-      parse_str($redirect_url, $query_params);
-      if ( isset ( $query_params['page_slug'] ) ){
-        $redirect_url = $query_params['page_slug'];
-        return "/" . $redirect_url . '?' . http_build_query( $query_params );
-      }
-      return $redirect_url;
-    }
-  }
-  return false;
-}
-
-
-function scjpc_set_query_transient( $query_id, $request, $nested = true ) {
-  $transient      = get_transient( $query_id );
-  $original_query = http_build_query($request);
-  $filtered_query = scjpc_remove_filters_from_request( $request );
-  $transient_value = ['original' => $original_query, 'filtered' => $filtered_query];
-  $set = false;
-
-  if ( ! empty ( $request ) && isset ( $request['go_back'] ) && $nested ) {
-
-    if ( $transient ) {
-
-      unset( $transient[array_key_last( $transient )] );
-      unset( $request['go_back'] );
-      $set = true;
-    }
-  } else {
-
-    if ( ! $transient || ! $nested ) {
-
-      $transient   = [$transient_value];
-
-    } else {
-
-      if ( scjpc_is_new_search_query( $filtered_query, $transient ) ) {
-
-        $transient[] = $transient_value;
-
-      } else {
-
-        $transient[array_key_last($transient)] = $transient_value;
-
-      }
-    }
-    $set = true;
-  }
-
-  if ( $set ) {
-    set_transient( $query_id, $transient, HOUR_IN_SECONDS * 6 );
-  }
-  return $transient;
-}
-
-function scjpc_get_query_transient( $query_id ) {
-  if ( $transient = get_transient( $query_id ) ) {
-    return $transient;
-  }
-  return false;
-}
-
-function scjpc_get_query_transient_id( $request ) {
-
-  if ( ! empty ( $request['query_id'] ) ) {
-    // scjpc_internal_log("found query transient ID");
-
-    return $request['query_id'];
-  }
-
-  return false;
-}
-
-
-function scjpc_remove_filters_from_request( $request ) {
-
-  unset( $request['sort_key'] );
-  unset( $request['sort_order'] );
-  unset( $request['per_page'] );
-  unset( $request['page_number'] );
-  unset( $request['search_query'] );
-
-
-  return http_build_query( $request );
-}
-
-function scjpc_is_new_search_query( $filtered_query, $transient ) {
-  $last_set = $transient[array_key_last( $transient )];
-  if ( ! empty ( $last_set['filtered'] ) ) {
-    return $last_set['filtered'] != $filtered_query;
-  }
-  return true;
-}
-
-
-function scjpc_get_last_search_query( $query_id ) {
-  if ( $query_transient = scjpc_get_query_transient( $query_id ) ) {
-    $redirect_url = $query_transient[ array_key_last( $query_transient ) ][ 'original' ];
-
-    parse_str( $redirect_url, $query_params );
-
-    if ( isset ( $query_params['page_slug'] ) ){
-      $redirect_url = $query_params['page_slug'];
-      $query_params[ 'query_id' ] = $query_id;
-      return "/" . $redirect_url . '?' . http_build_query( $query_params );
-    }
-    return $redirect_url;
-
-  }
-  return false;
-//  return scjpc_get_query_transient_url( $query_id );
 }
 
 
@@ -213,8 +81,6 @@ function perform_multiple_jpa_search($request): array {
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/jpa-search?" . http_build_query($request);
   $response = make_search_api_call($api_url, true);
 
-  $response = scjpc_add_query_transient_log( $request, $response );
-
   $response['s3_key'] = $request['s3_key'];
   $response['result_per_page'] = RESULTS_PER_PAGE;
   $response['per_page'] = $request["per_page"];
@@ -228,9 +94,6 @@ function perform_advanced_pole_search($request): array {
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/pole-search?" . http_build_query($request);
   $response = make_search_api_call($api_url, true);
 
-  $response = scjpc_add_query_transient_log( $request, $response );
-
-
   $response['result_per_page'] = RESULTS_PER_PAGE;
   $response['per_page'] = $request["per_page"];
   return $response;
@@ -243,27 +106,21 @@ function perform_advanced_pole_search($request): array {
   $api_url            = trim(get_option('scjpc_es_host'), '/') . "/pole-search?" . http_build_query($request);
   $response           = make_search_api_call($api_url, true);
 
-  // scjpc_internal_log("performing quick pole search");
-
-  $response = scjpc_add_query_transient_log( $request, $response );
-
   $response['result_per_page'] = RESULTS_PER_PAGE;
   $_REQUEST['last_id']         = $response['last_id'] ?? '';
   return $response;
 }
 
 function perform_pole_detail($request): array {
-  // scjpc_internal_log("perform_pole_detail");
   $request['action'] = 'pole-detail';
   $api_url  = trim(get_option('scjpc_es_host'), '/') . "/pole-detail?" . http_build_query($request);
-  $response = [
+  return [
     'result_per_page' => 1,
     'page_number'     => 1,
     'total_records'   => 1,
     'per_page'        => 1,
     'results'         => [make_search_api_call($api_url, true)]
   ];
-  return scjpc_add_query_transient_log( $request, $response, true );
 
 }
 
@@ -272,8 +129,6 @@ function perform_jpa_detail_search($request) {
   $request['action'] = 'jpa-detail';
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/pole-search?" . http_build_query($request);
   $response = make_search_api_call($api_url, true);
-
-  $response = scjpc_add_query_transient_log( $request, $response, true );
 
   $response['result_per_page'] = RESULTS_PER_PAGE;
   $_REQUEST['last_id'] = $response['last_id'];
@@ -305,8 +160,6 @@ function perform_multiple_pole_search($request) {
   $request['columns'] = implode(",", $columns);
   $api_url = trim(get_option('scjpc_es_host'), '/') . "/pole-search?" . http_build_query($request);
   $response = make_search_api_call($api_url, true);
-
-  $response = scjpc_add_query_transient_log( $request, $response );
 
   $response['result_per_page'] = RESULTS_PER_PAGE;
   $response['s3_key'] = $request['s3_key'];
@@ -380,7 +233,7 @@ function get_export_status($request) {
 }
 
 function update_jpa_search_pdf($request) {
-  $api_url = trim(get_option('scjpc_es_host'), '/') . "/jpa-pdf-update";
+  $api_url = trim(get_option('scjpc_es_host'), '/') . "/" . API_NAMESPACE . "/jpa-pdf-update";
   $body = [
     "jpa_unique_id" => $request['jpa_unique_id'],
     "pdf_s3_key" => $request['s3_key']

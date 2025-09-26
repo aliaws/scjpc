@@ -1,7 +1,14 @@
 <?php $prev_search_query = $_REQUEST['search_query'] ?? '';
-if ( $redirect_url ) { ?>
-  <a class="btn" href="<?php echo $redirect_url . "&go_back=1" ?>" style="color: black;">Go Back</a>
-<?php } ?>
+
+//if ( $redirect_url ) { ?>
+<!--  <a class="btn" href="--><?php //echo $redirect_url . "&go_back=1" ?><!--" style="color: black;">Go Back</a>-->
+<?php //} ?>
+
+<div class="scjpc-navigation-buttons d-flex">
+  <a id="go-back" class="btn" style="color: black; margin-right: 10px; display: none;" onclick="window.history.back()">Go Back</a>
+  <a id="go-forward" class="btn" style="color: black; display: none;" onclick="window.history.forward()">Go Forward</a>
+</div>
+
 <div class="well mw-100 text-secondary mt-5">
   <div class="row result-row">
     <div class="col-sm-6">
@@ -90,7 +97,7 @@ if ( $redirect_url ) { ?>
       <?php $company_gns = $pole_result["company_{$i}_gn_s"] ? str_replace("''", "'", $pole_result["company_{$i}_gn_s"]) : ''; ?>
       <div class="row result-row">
         <div class="col-sm-1"><?php echo $pole_result[ "company_{$i}" ]; ?></div>
-        <div class="col-sm-1"><?php echo $pole_result[ "antenna{$i}" ] ? "ON" : '-'; ?></div>
+        <div class="col-sm-1"><?php echo $pole_result[ "antenna{$i}" ] ? "ANT" : '-'; ?></div>
         <div class="col-sm-4"><?php echo $company_gns; ?></div>
         <div class="col-sm-6">
           <?php echo $pole_result[ "anc_for_company_{$i}" ]; ?>
@@ -119,7 +126,7 @@ if ( $redirect_url ) { ?>
 
       foreach ($jpa_results as $index => $jpa_result) {
         $jpa_number = $jpa_result['jpa_number_2'];
-        $jpa_detail_url = "/pole-search/?jpa_number=$jpa_number&action=jpa_detail_search&per_page=50&page_number=1&last_id=&query_id=$query_id";
+        $jpa_detail_url = "/pole-search/?jpa_number=$jpa_number&action=jpa_detail_search&per_page=50&page_number=1&last_id=";
         $jpa_pdf_url = "$base_cdn_url/{$jpa_result['pdf_s3_key']}"; ?>
         <a href="<?php echo $jpa_detail_url; ?>"><?php echo $jpa_number; ?></a>
         <?php if ($jpa_result['pdf_s3_key']) { ?>

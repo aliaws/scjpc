@@ -10,8 +10,6 @@ if ( ! empty( $response ) && ! empty( $response[ 'status' ] ) ):
   $user_id          = $current_user->ID;
   $user_email       = $current_user->user_email;
 
-  $redirect_url     = ! empty ( $_REQUEST[ 'query_id' ] ) ? scjpc_get_last_search_query( $_REQUEST['query_id'] ) : '';
-
   wp_enqueue_script( 'download_export', SCJPC_ASSETS_URL . 'js/download_export.js', false, '1.1', true );
 
   ?>
@@ -19,9 +17,13 @@ if ( ! empty( $response ) && ! empty( $response[ 'status' ] ) ):
   <div class="card p-4">
 
     <div class="remove-print d-flex flex-column flex-sm-row justify-content-between align-items-sm-center">
-      <?php if ( ! empty( $redirect_url ) ) { ?>
-        <a class="btn" href="<?php echo $redirect_url ; ?>" style="color: black;">Go Back</a><br />
-      <?php } ?>
+<!--      --><?php //if ( ! empty( $redirect_url ) ) { ?>
+<!--        <a class="btn" href="--><?php //echo $redirect_url ; ?><!--" style="color: black;">Go Back</a><br />-->
+<!--      --><?php //} ?>
+      <div class="scjpc-navigation-buttons d-flex">
+        <a id="go-back" class="btn" style="color: black; margin-right: 10px; display: none;" onclick="window.history.back()">Go Back</a>
+        <a id="go-forward" class="btn" style="color: black; display: none;" onclick="window.history.forward()">Go Forward</a>
+      </div>
     </div>
 
     <form id="data_export" action="<?php echo get_permalink(get_the_ID()); ?>" method="get"

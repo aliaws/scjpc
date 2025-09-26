@@ -6,7 +6,7 @@ require_once SCJPC_PLUGIN_ADMIN_BASE . 'pole_contacts.php';
 require_once SCJPC_PLUGIN_ADMIN_BASE . 'create_users.php';
 require_once SCJPC_PLUGIN_ADMIN_BASE . 'api.php';
 require_once SCJPC_PLUGIN_ADMIN_BASE . 'functions.php';
-require_once SCJPC_PLUGIN_ADMIN_BASE . 'actions/ajax.php';
+require_once SCJPC_PLUGIN_ADMIN_BASE . 'actions/index.php';
 
 
 // add_action('init', 'scjpc_register_post_type_migration_logs');
@@ -314,7 +314,6 @@ function scjpc_toggle_status(): void {
 
 
 function ajax_jpa_search_update_pdf(): void {
-//  echo "<pre>GET=" . count($_GET) . "==POST=" . count($_POST) . "==FILES=" . count($_FILES) . "==REQUEST=" . count($_REQUEST) . print_r($_GET, true) . print_r($_POST, true) . print_r($_FILES, true) . print_r($_REQUEST, true) . "</pre>";
   $s3_key = $_REQUEST['s3_key'];
   $client = getS3Client();
   $result = $client->putObject([
@@ -332,9 +331,8 @@ add_action('wp_ajax_jpa_search_update_pdf', 'ajax_jpa_search_update_pdf');
 add_action('wp_ajax_nopriv_jpa_search_update_pdf', 'ajax_jpa_search_update_pdf');
 
 function flush_cache() {
-  $api_url = rtrim(get_option('scjpc_es_host'), '/') . "/" . $_REQUEST['apiAction'];
+  $api_url = rtrim(get_option('scjpc_es_host'), '/') . "/" . API_NAMESPACE . "/" . $_REQUEST['apiAction'];
   $headers = ["Content-Type: application/json", "security_key: " . get_option('scjpc_client_auth_key')];
-
   $request_method = !empty($_REQUEST["method"]) ? $_REQUEST["method"] : "DELETE";
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $api_url);
@@ -344,12 +342,12 @@ function flush_cache() {
   if (!empty($_REQUEST['key'])) {
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(["keys" => [$_REQUEST['key']]])); // Set the request body
   }
-  if (!empty($_REQUEST['elastic_search_re_index'])) {
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(["elastic_search_re_index" => $_REQUEST['key']])); // Set the request body
+
+  if(!empty($_REQUEST["postKey"])) {
+      if (!empty($_REQUEST[$_REQUEST["postKey"]])) {
+          curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([$_REQUEST["postKey"] => $_REQUEST['key']])); // Set the request body
+      }
   }
- if (!empty($_REQUEST['remove_deleted_data'])) {
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(["remove_deleted_data" => $_REQUEST['key']])); // Set the request body
- }
 
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 

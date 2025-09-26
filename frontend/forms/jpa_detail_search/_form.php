@@ -13,8 +13,8 @@
   <input type="hidden" id="sort_key" name="sort_key" value="<?php echo $_POST['sort_key'] ?? 'unique_id'; ?>"/>
   <input type="hidden" id="sort_order" name="sort_order" value="<?php echo $_POST['sort_order'] ?? 'asc'; ?>"/>
 
-  <?php $query_id = empty ( $_REQUEST['query_id'] ) ? time() : $_REQUEST['query_id']; ?>
-  <input type="hidden" id="query_id" name="query_id" value="<?php echo $query_id; ?>"/>
+<!--  --><?php //$query_id = empty ( $_REQUEST['query_id'] ) ? time() : $_REQUEST['query_id']; ?>
+<!--  <input type="hidden" id="query_id" name="query_id" value="--><?php //echo $query_id; ?><!--"/>-->
   <?php if ( ! empty ( $_REQUEST['go_back'] ) ) { ?>
     <input type="hidden" id="go_back" name="go_back" value="<?php echo $_REQUEST['go_back']; ?>"/>
   <?php } ?>
@@ -22,7 +22,15 @@
 
 </form>
 <?php include_once SCJPC_PLUGIN_FRONTEND_BASE . "table/spinner.php"; ?>
-<div class="response-table"></div>
+<!--<div class="response-table"></div>-->
+
+<div class="response-table">
+  <?php if ( ! empty ( $_REQUEST ) && ! empty ( $_REQUEST['jpa_number'] ) ) {
+    $_REQUEST['action'] = 'jpa_detail_search';
+    include_once SCJPC_PLUGIN_FRONTEND_BASE . "results/pole_results.php";
+  } ?>
+</div>
+
 <div class="database-update-information alert alert-primary mt-4">
     <?php echo scjpc_database_update_information(); ?>
 </div>
