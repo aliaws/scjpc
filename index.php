@@ -145,14 +145,3 @@ add_action('wp_enqueue_scripts', function () {
 }, 10);
 
 
-function redirect_to_login_with_redirect_to() {
-  if (!is_user_logged_in() && is_singular('member')) {
-    global $wp;
-    $current_url = esc_url(home_url(add_query_arg($_GET, $wp->request)));
-    $redirect_url = "/login?redirect_to=" . urlencode($current_url);
-    wp_redirect($redirect_url);
-    exit;
-  }
-}
-
-add_action('template_redirect', 'redirect_to_login_with_redirect_to');
