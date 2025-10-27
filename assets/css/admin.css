@@ -8,8 +8,8 @@
 }
 
 .btn.btn-primary {
-    --bs-btn-bg: var(--e-global-color-secondary) !important;
-    --bs-btn-border-color: var(--e-global-color-secondary) !important;
+    background-color: #198754 !important;
+    border-color: #198754 !important;;
 }
 
 div.modal-footer .btn.btn-primary {
