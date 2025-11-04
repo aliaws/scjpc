@@ -2,7 +2,7 @@ jQuery(document).ready(function () {
     fetchEsProgress();
     [
         'clear-export', 'clear-pdf', 'clear-redis', 're-index',
-        'es_settings', 'remove-deleted-data', 'clean-es-orphans',
+        'es_settings', 'remove-deleted-data', 'clean-es-orphans', 'index-es-nodata',
         'remove_all_processed_exports', 'remove_pending_exports', 'remove_processing_exports'
     ].forEach(button => {
         jQuery(`button#${button}`).on('click', () => {

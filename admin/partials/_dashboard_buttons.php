@@ -63,4 +63,15 @@
         title="Remove ES records not found in DB">
         <i class="bi bi-database-x"></i> ES Orphaned Records
     </button>
+    <button
+            id="index-es-nodata"
+            type="button"
+            class="btn btn-primary clear-cache"
+            data-method="POST"
+            data-api-action="index-es-nodata"
+            data-post-key="index_es_nodata"
+            data-index_es_nodata="yes"
+            title="Index this  ES records after Migration in DB">
+        <i class="bi bi-database-x"></i> ES No Index Data
+    </button>
 </div>
