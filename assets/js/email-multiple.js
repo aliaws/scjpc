@@ -4,84 +4,64 @@
 
         const defaults = {
             reset: false,
-            fill: false,
             data: null
         };
 
-
         const settings = $.extend(defaults, options);
-        console.log(settings);
-        let emailList = [];
+        let valueList = [];
 
         return this.each(function() {
             const $orig = $(this);
 
-            // Clear and set up the input structure
-            $orig.after(
-                `<div class="all-mail"></div>
-                <input type="text" name="email" class="enter-mail-id" placeholder="Enter Email ..." />`
-            );
+            if ($orig.siblings('.all-mail').length === 0) {
+                $orig.after(
+                    `<div class="all-mail"></div>
+                     <input type="text" name="email" class="enter-mail-id" placeholder="Enter value..." />`
+                );
+            }
 
             const $element = $orig.siblings('.enter-mail-id');
-            const $emailContainer = $orig.siblings('.all-mail');
+            const $container = $orig.siblings('.all-mail');
 
-            const addEmail = (email) => {
-                if (emailList.includes(email)) return; // Avoid duplicates
-
-                emailList.push(email);
-                $emailContainer.append(
-                    `<span class="email-ids">${email}<span class="cancel-email">x</span></span>`
-                );
-                updateOriginalInput();
+            const addValue = (val) => {
+                const trimmed = String(val).trim();
+                if (!trimmed || valueList.includes(trimmed)) return;
+                valueList.push(trimmed);
+                $container.append(`<span class="email-ids">${trimmed}<span class="cancel-email">x</span></span>`);
+                $orig.val(valueList.join(','));
             };
 
-            const removeEmail = (email) => {
-                emailList = emailList.filter(e => e !== email);
-                updateOriginalInput();
+            const removeValue = (val) => {
+                const trimmed = String(val).trim();
+                valueList = valueList.filter(e => e !== trimmed);
+                $orig.val(valueList.join(','));
             };
 
-            const updateOriginalInput = () => {
-                $orig.val(emailList.join(','));
-            };
-
-            $element.keydown(function(e) {
-                if (e.keyCode === 13) { // Enter key
+            $element.off('keydown.emailMultiple').on('keydown.emailMultiple', function(e){
+                if (e.keyCode === 13 || e.keyCode === 32) {
                     e.preventDefault();
-                }
-                $element.css('border', '');
-
-                if (e.keyCode === 13 || e.keyCode === 32) { // Enter or Space
-                    const getValue = $element.val().trim();
-                    if (/^[a-z0-9._-]+@[a-z0-9._-]+\.[a-z]{2,6}$/.test(getValue)) {
-                        addEmail(getValue);
-                        $element.val('');
-                    } else {
-                        $element.css('border', '1px solid red');
-                    }
+                    const val = $element.val().trim();
+                    addValue(val);
+                    $element.val('');
                 }
             });
 
-            $emailContainer.on('click', '.cancel-email', function() {
-                const email = $(this).parent().text().slice(0, -1); // Remove the "x"
-                $(this).parent().remove();
-                removeEmail(email);
+            $container.off('click.emailMultiple').on('click.emailMultiple', '.cancel-email', function(){
+                const $token = $(this).parent();
+                const text = $token.clone().children().remove().end().text().trim();
+                $token.remove();
+                removeValue(text);
             });
 
-            if (settings.data) {
-                const emails = typeof settings.data === 'string' ? settings.data.split(',') : settings.data;
-                emails.forEach(email => {
-                    if (/^[a-z0-9._-]+@[a-z0-9._-]+\.[a-z]{2,6}$/.test(email.trim())) {
-                        addEmail(email.trim());
-                    } else {
-                        $element.css('border', '1px solid red');
-                    }
-                });
+            if (settings.data != null) {
+                const initialValues = Array.isArray(settings.data) ? settings.data : String(settings.data).split(',');
+                initialValues.forEach(addValue);
             }
 
             if (settings.reset) {
-                emailList = [];
-                $emailContainer.empty();
-                updateOriginalInput();
+                valueList = [];
+                $container.empty();
+                $orig.val('');
             }
 
             $orig.hide();
