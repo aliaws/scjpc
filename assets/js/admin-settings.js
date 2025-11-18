@@ -107,6 +107,7 @@ jQuery(document).ready(function($) {
             api_url
         }, function(response) {
             if (response.success) {
+                console.log(response)
                 showMessage(`Setting ${method === 'POST' ? 'created' : 'updated'} successfully!`, 'success');
                 $('#settings-form')[0].reset();
                 $('#setting-key').prop('disabled', false);
