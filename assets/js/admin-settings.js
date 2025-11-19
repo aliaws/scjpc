@@ -81,17 +81,15 @@ jQuery(document).ready(function($) {
 
     $('#settings-form').submit(function(e) {
         e.preventDefault();
-
-        let method = $('#form-method').val();
+        const method = $('#form-method').val();
         const key = $('#setting-key').val().trim();
-        let value = $('#setting-value').val().trim();
+        const value = $('#setting-value').val().trim();
 
         if (method === 'POST' && !value) {
             showMessage('The value field is required!', 'danger');
             return;
         }
-
-        if (method === 'PUT' && !value) {  // If in edit mode and value is empty
+        if (method === 'PUT' && !value) {
             showMessage('At least one email is required!', 'danger');
             return;
         }
@@ -101,33 +99,37 @@ jQuery(document).ready(function($) {
             ? SCJPC_SETTINGS.API_URL_SETTING
             : `${SCJPC_SETTINGS.API_URL_SETTING}?key=${key}`;
 
-        $.post(SCJPC_SETTINGS.AJAX_URL, {
-            action,
-            body: JSON.stringify({ key, value }),
-            api_url
-        }, function(response) {
-            if (response.success) {
-                console.log(response)
+        $.post(SCJPC_SETTINGS.AJAX_URL, { action, body: JSON.stringify({ key, value }), api_url })
+            .done(function(response) {
+                if (!response.success) {
+                    showMessage(response.data.message || 'An error occurred.', 'danger');
+                    return;
+                }
+
                 showMessage(`Setting ${method === 'POST' ? 'created' : 'updated'} successfully!`, 'success');
-                $('#settings-form')[0].reset();
-                $('#setting-key').prop('disabled', false);
-                $('#setting-value').siblings('.all-mail, .enter-mail-id').remove();
-                $.post(SCJPC_SETTINGS.AJAX_URL, {
-                    action: 'render_setting_row',
-                    key: key,
-                    value: value
-                }, function(newRow) {
-                    if (method === 'PUT') {
-                        $(`tr[data-key="${key}"]`).replaceWith(newRow);
-                    } else {
-                        $('#settings-table tbody').append(newRow);
-                    }
-                });
-            } else {
-                showMessage(response.data.message || 'An error occurred.', 'danger');
-            }
-        }).fail(xhr => {
-            showMessage(xhr.responseText || 'An unknown error occurred.', 'danger');
-        });
+
+                $.post(SCJPC_SETTINGS.AJAX_URL, { action: 'render_setting_row', key, value })
+                    .done(function(resp) {
+                        if (resp.success) {
+                            if (method === 'PUT') {
+                                $(`tr[data-key="${key}"]`).replaceWith(resp.data);
+                            } else {
+                                $('#settings-table tbody').append(resp.data);
+                            }
+                            $('#settings-form')[0].reset();
+                            $('#setting-key').prop('disabled', false);
+                            $('#setting-value').siblings('.all-mail, .enter-mail-id').remove();
+                        } else {
+                            showMessage(resp.data || 'Failed to render row', 'danger');
+                        }
+                    })
+                    .fail(function(xhr) {
+                        showMessage(xhr.responseText || 'Failed to render row', 'danger');
+                    });
+
+            })
+            .fail(function(xhr) {
+                showMessage(xhr.responseText || 'An unknown error occurred.', 'danger');
+            });
     });
 });

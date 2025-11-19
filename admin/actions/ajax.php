@@ -67,16 +67,20 @@ function delete_email_tag() {
 add_action('wp_ajax_render_setting_row', 'render_setting_row_callback');
 
 function render_setting_row_callback() {
-    if (empty($_POST['key']) || empty($_POST['value'])) {
+    if (empty($_POST['key']) || !isset($_POST['value'])) {
         wp_send_json_error('Missing key or value');
     }
 
     $key = sanitize_text_field($_POST['key']);
     $value = sanitize_text_field($_POST['value']);
 
-    $setting = compact('key', 'value');
+    // pass data to the partial
+    $setting = [
+        'value' => $value,
+        'update_able' => true
+    ];
 
-    $template_path = SCJPC_PLUGIN_ADMIN_BASE . 'partials/_settings/_setting_row.php';
+    $template_path = SCJPC_PLUGIN_ADMIN_BASE . 'partials/_settings/_row.php';
 
     if (!file_exists($template_path)) {
         wp_send_json_error('Template file not found: ' . $template_path);
@@ -86,8 +90,7 @@ function render_setting_row_callback() {
     include $template_path;
     $html = ob_get_clean();
 
-    echo $html;
-    wp_die();
+    wp_send_json_success($html);
 }
 
 function handle_progress() {
