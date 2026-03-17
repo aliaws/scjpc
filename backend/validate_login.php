@@ -70,4 +70,4 @@ function disable_reset_lost_password($user)
     }
     return true;
 }
-add_filter('allow_password_reset', 'disable_reset_lost_password', 25, 1);
+//add_filter('allow_password_reset', 'disable_reset_lost_password', 25, 1);
