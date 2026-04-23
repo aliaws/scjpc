@@ -67,7 +67,10 @@ const fetchEsProgress = () => {
         if(count_db) {
             for(const e_id in count_db) {
                 const count_v = count_db[e_id]
-                jQuery(`#${e_id}`).html(count_v)
+                jQuery(`#${e_id}`).text(count_v);
+                if(count_v == 0) {
+                    jQuery(`#${e_id}`).removeClass("bold-red");
+                }
             }
         }
 
