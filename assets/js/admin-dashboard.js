@@ -56,12 +56,14 @@ const fetchEsProgress = () => {
     url: ajaxurl,
     data: { action: 'progress' },
     success: ({ success, data }) => {
-      const { progress, interval_seconds, count_db} = data;
+        console.log(data);
+      const { progress, interval_seconds, count_db, time_spent} = data;
       if (success && typeof progress !== 'undefined') {
         if (progress > 0 && progress < 100) {
            setTimeout(() => { fetchEsProgress() }, interval_seconds * 1000)
         }
-        updateEsProgress(progress);
+        updateEsProgress(progress, time_spent);
+        console.log(time_spent);
         if(count_db) {
             for(const e_id in count_db) {
                 const count_v = count_db[e_id]
@@ -79,12 +81,13 @@ const fetchEsProgress = () => {
   });
 };
 
-const updateEsProgress = (progress) => {
+const updateEsProgress = (progress, time_spent) => {
   const progressContainer = jQuery('#es-indexing-progress-container');
   const reindexButton = jQuery('#re-index');
 
   jQuery('.es_progress_bar').attr('value', progress);
   jQuery('.es_progress_text').text(progress);
+  jQuery("#es-indexing-time-spent").text(time_spent);
 
   if (progress > 0 && progress < 100) {
     progressContainer.removeClass("hidden");

@@ -102,6 +102,7 @@ function handle_progress() {
     $data = [
         'progress' => $progress,
         'interval_seconds' => $interval_seconds,
+        "time_spent"       => $response['time_spent']
     ];
 
     if(isset($response['count_db'])){

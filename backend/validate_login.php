@@ -52,22 +52,22 @@ function ads_authenticate_username_password($user, $username, $password)
 function disable_reset_lost_password($user)
 {
     if ($_REQUEST["action"] == "lostpassword" && $_REQUEST["user_login"] !== "" ) {
-        $user = get_user_by('email', $_REQUEST["user_login"]);
-        $csvFile = SCJPC_PLUGIN_PATH.'update_pass.csv';
-        $all_users = [];
-        if (($handle = fopen($csvFile, 'r')) !== false) {
-            $header = fgetcsv($handle, 1000, ',');
-
-            // Loop through the file row by row
-            while (($data = fgetcsv($handle, 1000, ',')) !== false) {
-                $all_users[$data[0]] = $data[0];
-            }
-        }
-        fclose($handle);
-        if(!empty($all_users[$user->user_login])) {
-            return false;
-        }
+//        $user = get_user_by('email', $_REQUEST["user_login"]);
+//        $csvFile = SCJPC_PLUGIN_PATH.'update_pass.csv';
+//        $all_users = [];
+//        if (($handle = fopen($csvFile, 'r')) !== false) {
+//            $header = fgetcsv($handle, 1000, ',');
+//
+//            // Loop through the file row by row
+//            while (($data = fgetcsv($handle, 1000, ',')) !== false) {
+//                $all_users[$data[0]] = $data[0];
+//            }
+//        }
+//        fclose($handle);
+//        if(!empty($all_users[$user->user_login])) {
+//            return false;
+//        }
     }
     return true;
 }
-//add_filter('allow_password_reset', 'disable_reset_lost_password', 25, 1);
+add_filter('allow_password_reset', 'disable_reset_lost_password', 25, 1);
