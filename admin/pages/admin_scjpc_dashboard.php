@@ -88,7 +88,7 @@ if (!empty($db_db_counts)) {
                 <div class="d-flex justify-content-first align-items-center">
                     <progress style="width: 80%" id="custom_progress" class="es_progress_bar"
                               value="0" max="100"></progress>
-                    <p class="ms-5" style="margin-top:15px"><span class="fw-bold es_progress_text">0</span> %</p>
+                    <p class="ms-3" style="margin-top:15px"><span class="fw-bold es_progress_text">0</span> %</p>
                     <span id="es-indexing-time-spent" class="badge bg-primary fs-6 ms-2" title="Time Spent">
                         0 min 0 sec
                     </span>
